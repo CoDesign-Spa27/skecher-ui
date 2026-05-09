@@ -1,8 +1,9 @@
-import { badgeVariants } from "@/components/ui/badge";
+import type { ComponentProps, ReactNode } from "react";
+import type { Badge } from "@/components/ui/badge";
 
 interface SidebarBadgeProps {
   label: string;
-  variant: typeof badgeVariants;
+  variant: NonNullable<ComponentProps<typeof Badge>["variant"]>;
   sparkles?: boolean;
 }
 
@@ -10,18 +11,7 @@ interface SidebarItemProps {
   title: string;
   url: string;
   badge?: SidebarBadgeProps;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 }
 
-interface SidebarGroupProps {
-  title: string;
-  url: string;
-  items: SidebarItemProps[];
-}
-
-interface SidebarOptionsProps {
-  gettingStarted: SidebarGroupProps[];
-  components: SidebarGroupProps[];
-}
-
-export type { SidebarBadgeProps, SidebarItemProps, SidebarOptionsProps };
+export type { SidebarBadgeProps, SidebarItemProps };
