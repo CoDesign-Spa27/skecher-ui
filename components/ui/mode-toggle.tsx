@@ -24,7 +24,7 @@ export function ModeToggle() {
 
     // SVG size reduced: width/height to 12px, fitting for a smaller toggle
     return (
-        <Button variant="outline" size="icon" onClick={toggleTheme} className="w-7 h-7 min-w-0 min-h-0 p-0 relative">
+        <Button size="icon" onClick={toggleTheme} className="w-8 h-8 rounded-lg min-w-0 min-h-0 p-0 relative input-shadow">
             <motion.div
                 initial={false}
                 animate={{
