@@ -7,7 +7,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
  
 import { ModeToggle } from "@/components/ui/mode-toggle";
- 
+import { Input } from "@/components/ui/input";
+import { IconMagnifierFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 
 const DocsHeader = () => {
  
@@ -16,20 +17,14 @@ const DocsHeader = () => {
     return (
         <header
             className={cn(
-                "absolute left-1/2 top-5 transform -translate-x-1/2 rounded-xl flex h-12 shrink-0 items-center justify-between gap-2 px-4 bg-sidebar border-0 border-sidebar-border z-50 header-shadow w-[calc(100%-5rem)] max-w-5xl",
+                "absolute left-1/2 top-5 transform -translate-x-1/2 rounded-xl flex h-10 shrink-0 items-center justify-between gap-1 px-1 bg-sidebar border-0 border-sidebar-border z-50 header-shadow w-[calc(100%-5rem)] max-w-5xl",
            
                 isMobile ? "mx-2" : (isCollapsed ? "ml-2" : "mr-2")
             )}
         >
-       
-            <div className="flex items-center gap-2">
-                <ModeToggle />
-                <Link href="https://legions.dev" target="_blank">
-                    <Button variant="outline" className={cn("h-7 cursor-pointer")}>
-                        <span className="text-xs">Creator</span>
-                    </Button>
-                </Link>
-            </div>
+            <Input icon={<IconMagnifierFillDuo18 className="size-4" />} className="input-shadow h-8 w-full border-none bg-[#F1F1F1] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 rounded-lg " placeholder="Search" />
+      
+                <ModeToggle  />
         </header>
     );
 };

@@ -11,12 +11,12 @@ export default function RootLayout({
         <SidebarProvider className="" >
             <DocsSidebar />
             <SidebarInset>
-                {/* Header */}
-                <SidebarTrigger className="absolute top-5 left-5" />
+     
+                <SidebarTrigger className="absolute left-6 top-6  header-shadow p-4" />
                 <DocsHeader />
-                {/* Childrens */}
-                <div className="pt-2 sm:pl-1 pl-3 pr-3 w-full bg-accent" >{children}</div>
-                {/* Request more charts */}
+       
+                <div className="pt-1 pr-1 w-full bg-accent" >{children}</div>
+          
             </SidebarInset>
         </SidebarProvider>
     );

@@ -1,14 +1,11 @@
 "use client";
 
-import * as React from "react";
+import type { ComponentProps } from "react";
 import { usePathname } from "next/navigation";
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -16,14 +13,13 @@ import {
 } from "@/components/ui/sidebar";
 import { SIDEBAR_OPTIONS } from "@/constants/sidebar-options";
 import Link from "next/link";
-import { SidebarOptionsProps } from "@/types/docs/sidebar-types";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import DocsSidebarHeader from "./sidebar-header";
 
 export function DocsSidebar({
     ...props
-}: React.ComponentProps<typeof Sidebar>) {
+}: ComponentProps<typeof Sidebar>) {
     const pathname = usePathname();
     const { isMobile, setOpenMobile } = useSidebar();
 
@@ -33,112 +29,55 @@ export function DocsSidebar({
         }
     };
 
-    const getActiveItem = (items: SidebarOptionsProps) => {
-        return [...items.gettingStarted, ...items.components]
-            .flatMap((group) => group.items)
-            .find((item) => item.url === pathname);
-    };
-
     return (
-        <Sidebar className="z-50" {...props} variant="floating">
+        <Sidebar className="z-50 font-raleway" {...props} variant="floating">
             <DocsSidebarHeader />
             <SidebarContent className="mt-2">
-                {SIDEBAR_OPTIONS.gettingStarted.map((item) => (
-                    <SidebarGroup key={item.title}>
-                        <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {item.items.map((item) => {
-                                    const isActive =
-                                        getActiveItem(SIDEBAR_OPTIONS)?.url === item.url;
+                <SidebarMenu>
+                    {SIDEBAR_OPTIONS.map((item) => {
+                        const isActive = pathname === item.url;
 
-                                    return (
-                                        <SidebarMenuItem key={item.title}>
-                                            <SidebarMenuButton
-                                                asChild
-                                                isActive={isActive}
-                                                className={cn(
-                                                    "border border-transparent",
-                                                    isActive &&
-                                                    "shadow-[inset_0px_0px_0px_1px_#fff] dark:shadow-[inset_0px_0px_0px_1px_#000] border"
-                                                )}
-                                            >
-                                                <Link href={item.url} onClick={handleLinkClick}>
-                                                    {item.icon}
-                                                    <span>{item.title}</span>
-                                                    {item.badge && (
-                                                        <Badge variant={item.badge.variant}>
-                                                            <span
-                                                                className={cn(
-                                                                    item.badge.sparkles && "sparkles-bg"
-                                                                )}
-                                                            >
-                                                                {item.badge.label}
-                                                            </span>
-                                                        </Badge>
-                                                    )}
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    );
-                                })}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                ))}
-                {SIDEBAR_OPTIONS.components.map((item) => (
-                    <SidebarGroup key={item.title}>
-                        <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {item.items.map((item) => {
-                                    const isActive =
-                                        getActiveItem(SIDEBAR_OPTIONS)?.url === item.url;
-
-                                    return (
-                                        <SidebarMenuItem key={item.title}>
-                                            <SidebarMenuButton
-                                                asChild
-                                                isActive={isActive}
-                                                className={cn(
-                                                    "border border-transparent",
-                                                    isActive &&
-                                                    "shadow-[inset_0px_0px_0px_1px_#fff] dark:shadow-[inset_0px_0px_0px_1px_#000] border"
-                                                )}
-                                            >
-                                                <Link href={item.url} onClick={handleLinkClick}>
-                                                    {item.icon}
-                                                    <span>{item.title}</span>
-                                                    {item.badge && (
-                                                        <Badge variant={item.badge.variant}>
-                                                            <span className="">{item.badge.label}</span>
-                                                        </Badge>
-                                                    )}
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    );
-                                })}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                ))}
+                        return (
+                            <SidebarMenuItem key={item.title}>
+                                <SidebarMenuButton
+                                    asChild
+                                    isActive={isActive}
+                                    className={cn(
+                                        "border border-transparent",
+                                        isActive &&
+                                            "shadow-[inset_0px_0px_0px_1px_#fff] dark:shadow-[inset_0px_0px_0px_0px_#000] border"
+                                    )}
+                                > 
+                                    <Link href={item.url} onClick={handleLinkClick}>
+                                        <hr className="absolute left-0 -translate-y-1/2 my-2 border-t border-highlight w-10" />
+                                        <div className="absolute left-0 top-0 w-2 h-2 bg-highlight ml-8 mt-3" />
+                                        <div className="flex flex-col items-center pl-10">
+                                            <span className="font-semibold text-center">{item.title}</span>
+                                            {item.badge && (
+                                                <Badge variant={item.badge.variant}>
+                                                    <span
+                                                        className={cn(
+                                                            item.badge.sparkles && "sparkles-bg"
+                                                        )}
+                                                    >
+                                                        {item.badge.label}
+                                                    </span>
+                                                </Badge>
+                                            )}
+                                        </div>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        );
+                    })}
+                </SidebarMenu>
             </SidebarContent>
-            <SidebarFooter>
+            {/* <SidebarFooter>
                 <SidebarMenuButton
                     variant="outline"
                     className="border border-dashed flex justify-center text-xs"
-                    asChild
-                >
-                    <Link
-                        href="https://x.com/legionsdev"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        + Request Chart
-                    </Link>
-                </SidebarMenuButton>
-            </SidebarFooter>
+                />
+            </SidebarFooter> */}
         </Sidebar>
     );
 }
