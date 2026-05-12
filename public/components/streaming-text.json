@@ -1,0 +1,23 @@
+{
+  "name": "streaming-text",
+  "type": "registry:ui",
+  "registryDependencies": [
+    "motion"
+  ],
+  "dependencies": [
+    "motion"
+  ],
+  "devDependencies": [],
+  "tailwind": {},
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "files": [
+    {
+      "path": "streaming-text.tsx",
+      "content": "'use client'\nimport { motion } from 'motion/react'\nimport type React from 'react'\ntype BlurredTextProps = {\n    text: string;\n    className?: string;\n    wordClassName?: string;\n    staggerChildren?: number;\n    delayChildren?: number;\n    blurFrom?: string;\n    blurTo?: string;\n    duration?: number;\n    as?: React.ElementType;\n};\n\nexport const BlurredText: React.FC<BlurredTextProps> = ({\n    text,\n    className = \"font-satoshi text-sm text-muted-foreground/80 leading-relaxed mt-2\",\n    wordClassName = \"\",\n    staggerChildren = 0.06,\n    delayChildren = 0.1,\n    blurFrom = \"8px\",\n    blurTo = \"0px\",\n    duration = 0.25,\n    as: Tag = \"p\",\n}) => {\n    const MotionTag = motion(Tag as unknown as React.ElementType);\n    // Support empty strings gracefully\n    const words = typeof text === \"string\" ? text.split(\" \") : [];\n\n    return (\n        <MotionTag\n            className={className}\n            initial=\"hidden\"\n            animate=\"visible\"\n            exit=\"hidden\"\n            variants={{\n                visible: {\n                    transition: {\n                        staggerChildren,\n                        delayChildren,\n                    },\n                },\n                hidden: {},\n            }}\n            style={{ display: \"flex\", flexWrap: \"wrap\" }}\n        // Renders as the specified element (e.g., \"p\") via 'as' prop in Framer Motion\n        >\n            {words.map((word, i) => (\n                <motion.span\n                    key={word}\n                    className={wordClassName}\n                    variants={{\n                        hidden: { y: 0, filter: `blur(${blurFrom})`, opacity: 0 },\n                        visible: { y: 0, filter: `blur(${blurTo})`, opacity: 1 },\n                    }}\n                    transition={{ duration }}\n                    style={{ display: \"inline-block\", whiteSpace: \"pre\" }}\n                >\n                    {word + (i < words.length - 1 ? \" \" : \"\")}\n                </motion.span>\n            ))}\n        </MotionTag>\n    );\n};",
+      "type": "registry:ui"
+    }
+  ]
+}

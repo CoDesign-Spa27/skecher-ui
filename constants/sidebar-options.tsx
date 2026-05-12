@@ -3,13 +3,25 @@ import { LucideBarChart2 } from "lucide-react";
 
 export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
   {
-    title: "Button",
-    url: "/docs/bar-charts",
-    icon: <LucideBarChart2 size={16} />,
+    title: "Home",
+    url: "/docs",
   },
   {
-    title: "Input",
-    url: "/docs/animated-bar-charts",
-    icon: <LucideBarChart2 size={16} />,
+    title: "Streaming Text",
+    url: "/docs/streaming-text",
   },
+  {
+    title: "Showcase Project",
+    url: "/docs/project-showcase",
+  },
+  {
+    title: "Animated Bar Charts",
+    url: "/docs/showcase",
+  }, {
+    title: "Animated Book",
+    url: "/docs/showcase",
+  }, {
+    title: "Animated Keys",
+    url: "/docs/showcase",
+  } 
 ];

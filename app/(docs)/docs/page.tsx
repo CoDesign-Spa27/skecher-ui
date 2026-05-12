@@ -18,7 +18,7 @@ import React from "react";
 
 const Page = () => {
     return (
-        <div className="h-screen rounded-xl border-[0.5px] border-sidebar-border bg-sidebar shadow-sm pt-20">
+  
             <div className="flex flex-col items-center justify-center  h-full">
             <DLogo className="w-80 mx-auto hidden dark:block" />
             <LLogo className="w-80 mx-auto block dark:hidden" />
@@ -33,7 +33,7 @@ const Page = () => {
                     <Button variant={"secondary"} className="mx-auto w-fit">Learn More</Button>
              </div>
             </div>
-        </div>
+     
     );
 };
 export default Page;

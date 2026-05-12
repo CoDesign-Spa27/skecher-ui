@@ -1,6 +1,7 @@
 import { DocsSidebar } from "@/components/docs/layout/sidebar/docs-sidebar";
 import DocsHeader from "@/components/docs/layout/header/docs-header";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { PageWrapper } from "@/components/docs/ui/page-wrapper";
 
 export default function RootLayout({
     children,
@@ -15,7 +16,11 @@ export default function RootLayout({
                 <SidebarTrigger className="absolute left-6 top-6  header-shadow p-4" />
                 <DocsHeader />
        
-                <div className="pt-1 pr-1 w-full bg-accent" >{children}</div>
+                <div className="pt-1 pr-1 w-full bg-accent" >
+                    <PageWrapper>
+                        {children}
+                    </PageWrapper>
+                    </div>
           
             </SidebarInset>
         </SidebarProvider>
