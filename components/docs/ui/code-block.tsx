@@ -16,8 +16,9 @@ export async function CodeBlock({ filePath }: { filePath: string }) {
         defaultColor: false,
     });
     const nodes = toJsxRuntime(hast, { Fragment, jsx, jsxs });
+
     return (
-        <div className="text-sm overflow-auto rounded-lg h-full [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:h-full">
+        <div className="no-scrollbar h-full overflow-auto text-sm [&_code]:font-mono [&_pre]:min-h-full [&_pre]:overflow-x-auto [&_pre]:bg-transparent! [&_pre]:p-4 sm:[&_pre]:p-5">
             {nodes}
         </div>
     );
