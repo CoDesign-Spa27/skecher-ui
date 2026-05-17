@@ -9,7 +9,7 @@ export function ComponentDocPage({
 }) {
   return (
     <article className="page flex h-full flex-col px-5 py-8 sm:px-8 lg:px-10">
-      <header className="mx-auto mb-8 w-full max-w-5xl space-y-3">
+      <header className="mx-auto w-full max-w-5xl space-y-3">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
           {page.eyebrow}
         </p>

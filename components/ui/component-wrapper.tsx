@@ -74,7 +74,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     const handleMouseUp = () => { };
 
     return (
-        <section className={cn("my-6 w-full", className)} {...props}>
+        <section className={cn("w-full", className)} {...props}>
             <div className="rounded-lg bg-muted/60 p-1 header-shadow dark:bg-sidebar/80">
                 <div className="flex flex-col gap-3 px-2 py-1 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 items-center gap-2 text-muted-foreground">
