@@ -3,10 +3,10 @@
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import { IconEyeOpenFillDuo18, IconBookBookmarkFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
-import { CodeIcon } from "@/public/app-icons/code";
+import { IconEyeOpenFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
+import { CodeIcon } from "@/assets/app-icons/code";
 import CopyButton from "../docs/ui/copy-button";
-type ComponentWrapperTab = "preview" | "code" | "doc";
+type ComponentWrapperTab = "preview" | "code";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
     action?: "replay" | "toggle" | string;
@@ -24,10 +24,9 @@ const TABS: Array<{
     label: string;
     icon: React.ReactNode;
 }> = [
-        { key: "preview", label: "Preview", icon: <IconEyeOpenFillDuo18 className="size-3.5" /> },
-        { key: "code", label: "Code", icon: <CodeIcon className="size-5" /> },
-        { key: "doc", label: "Docs", icon: <IconBookBookmarkFillDuo18 className="size-3.5" /> },
-    ];
+    { key: "preview", label: "Preview", icon: <IconEyeOpenFillDuo18 className="size-3.5" /> },
+    { key: "code", label: "Code", icon: <CodeIcon className="size-5" /> },
+];
 
 function EmptyPanel({ label }: { label: string }) {
     return (
@@ -71,7 +70,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     const handleFocus = (tab: ComponentWrapperTab) => setShowTab(tab);
 
     const handleClick = (tab: ComponentWrapperTab) => setShowTab(tab);
-    const handleMouseDown = (_tab: ComponentWrapperTab) => { };
+    const handleMouseDown = () => { };
     const handleMouseUp = () => { };
 
     return (
@@ -101,7 +100,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                                     key={tab.key}
                                     onFocus={() => handleFocus(tab.key)}
                                     onClick={() => handleClick(tab.key)}
-                                    onMouseDown={() => handleMouseDown(tab.key)}
+                                    onMouseDown={handleMouseDown}
                                     onMouseUp={handleMouseUp}
                                     style={{ outline: "none" }}
                                 >
@@ -141,18 +140,17 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
 
                     {showTab === "code" && (
                         <div className="h-full overflow-hidden relative">
-                            {codeString && <CopyButton code={codeString} className="absolute top-2 right-2 z-10"/>}
+                            {codeString && <CopyButton code={codeString} className="absolute top-2 right-2 z-10" />}
                             {code ? code : <EmptyPanel label="No source added for this example." />}
-                        </div>
-                    )}
-
-                    {showTab === "doc" && (
-                        <div className="h-full overflow-auto px-4 py-5 sm:px-6">
-                            {doc ? doc : <EmptyPanel label="No documentation added for this example." />}
                         </div>
                     )}
                 </div>
             </div>
+            {doc ? (
+                <div className="mt-8">
+                    {doc}
+                </div>
+            ) : null}
         </section>
     );
 };

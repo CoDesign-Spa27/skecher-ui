@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,

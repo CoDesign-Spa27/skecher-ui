@@ -19,12 +19,12 @@ export async function getRegistryItem(name: string) {
 
   // Convert all file paths to object.
   // TODO: remove when we migrate to new registry.
-  item.files = item.files.map((file: unknown) =>
-    typeof file === "string" ? { path: file } : file,
-  );
-
-  // Type assertion for now - TODO: implement proper validation
-  const typedItem = item as RegistryItem;
+  const typedItem = {
+    ...item,
+    files: (item.files ?? []).map((file) =>
+      typeof file === "string" ? { path: file, type: "registry:component" } : file,
+    ),
+  } as RegistryItem;
 
   const files = typedItem.files || [];
   const processedFiles = [];

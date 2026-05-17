@@ -16,7 +16,7 @@ export default function RootLayout({
                 <SidebarTrigger className="absolute left-6 top-6  header-shadow p-4" />
                 <DocsHeader />
        
-                <div className="pt-1 pr-1 w-full bg-accent" >
+                <div className="pt-1 pr-1 w-full  bg-accent" >
                     <PageWrapper>
                         {children}
                     </PageWrapper>

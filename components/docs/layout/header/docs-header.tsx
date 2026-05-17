@@ -3,9 +3,6 @@
 import React from "react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
- 
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Input } from "@/components/ui/input";
 import { IconMagnifierFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';

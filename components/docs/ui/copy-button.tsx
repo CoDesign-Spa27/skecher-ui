@@ -1,7 +1,7 @@
 "use client";
 
+import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { useClipboard } from "@mantine/hooks";
 import { cn } from "@/lib/utils";
 import { IconTasks2FillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 import { IconFiles2FillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
@@ -39,7 +39,29 @@ const CopyButton = ({
     withBlurBg?: boolean;
     className?: string;
 }) => {
-    const { copied, copy } = useClipboard({ timeout: 1000 });
+    const [copied, setCopied] = React.useState(false);
+    const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    React.useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
+
+    const copy = React.useCallback(async () => {
+        await navigator.clipboard.writeText(code);
+        setCopied(true);
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            setCopied(false);
+        }, 1000);
+    }, [code]);
 
     return (
         <Button
@@ -50,7 +72,7 @@ const CopyButton = ({
             )}
             variant="ghost"
             size="icon"
-            onClick={() => copy(code)}
+            onClick={copy}
         >
             <AnimatedIcon copied={copied} />
         </Button>
