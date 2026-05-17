@@ -1,14 +1,14 @@
+import { COMPONENT_DOCS } from "@/lib/docs-content";
 import type { SidebarItemProps } from "@/types/docs/sidebar-types";
-import { COMPONENT_NAV_ITEMS, DOCS_PAGES } from "@/lib/docs-content";
 
 export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
   {
-    title: "Home",
-    url: "/docs",
+    title: "Components",
+    type: "section",
   },
-  ...DOCS_PAGES.map((page) => ({
+  ...COMPONENT_DOCS.map((page) => ({
     title: page.title,
     url: `/docs/${page.slug}`,
   })),
-  ...COMPONENT_NAV_ITEMS,
 ];
+

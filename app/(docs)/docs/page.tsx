@@ -19,10 +19,10 @@ const Page = () => {
 
             <div className="flex flex-row items-center gap-2">
                 <Button asChild className="mx-auto w-fit">
-                    <Link href="/docs/overview">Get Started</Link>
+                    <Link href="/docs/streaming-text">Get Started</Link>
                 </Button>
                 <Button asChild variant="secondary" className="mx-auto w-fit">
-                    <Link href="/docs/component-pages">Learn More</Link>
+                    <Link href="/docs/streaming-text">View Components</Link>
                 </Button>
             </div>
         </div>

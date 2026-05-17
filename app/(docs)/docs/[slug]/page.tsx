@@ -1,25 +1,35 @@
-import { StructuredDocPage } from "@/components/docs/content/structured-doc-page";
-import { DOCS_PAGES, getDocsPage } from "@/lib/docs-content";
+import { ComponentDocPage } from "@/components/docs/content/component-doc-page";
+import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
+import { COMPONENT_DOCS, getComponentDoc } from "@/lib/docs-content";
 import { notFound } from "next/navigation";
 
+const COMPONENT_RENDERERS = {
+  "streaming-text": StreamingTextDoc,
+} satisfies Record<string, () => Promise<React.ReactNode>>;
+
 export function generateStaticParams() {
-  return DOCS_PAGES.map((page) => ({
+  return COMPONENT_DOCS.map((page) => ({
     slug: page.slug,
   }));
 }
 
-export default async function DocsStructuredPage({
+export default async function ComponentDocsPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const page = getDocsPage(slug);
+  const page = getComponentDoc(slug);
+  const ComponentDoc = COMPONENT_RENDERERS[slug as keyof typeof COMPONENT_RENDERERS];
 
-  if (!page) {
+  if (!page || !ComponentDoc) {
     notFound();
   }
 
-  return <StructuredDocPage page={page} />;
+  return (
+    <ComponentDocPage page={page}>
+      <ComponentDoc />
+    </ComponentDocPage>
+  );
 }
 

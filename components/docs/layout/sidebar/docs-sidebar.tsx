@@ -46,6 +46,16 @@ export function DocsSidebar({
             <SidebarContent className="mt-2">
                 <SidebarMenu>
                     {SIDEBAR_OPTIONS.map((item, idx) => {
+                        if (item.type === "section") {
+                            return (
+                                <SidebarMenuItem key={item.title}>
+                                    <div className="px-3 pb-2 pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                                        {item.title}
+                                    </div>
+                                </SidebarMenuItem>
+                            );
+                        }
+
                         const isActive = pathname === item.url;
                         const isHovered = hoveredIdx === idx;
 
@@ -66,7 +76,7 @@ export function DocsSidebar({
                                         "border border-transparent relative",
                                     )}
                                 >
-                                    <Link href={item.url} onClick={handleLinkClick} className="relative flex items-center">
+                                    <Link href={item.url ?? "#"} onClick={handleLinkClick} className="relative flex items-center">
                                         {/* The animated horizontal line */}
                                         <motion.hr
                                             key={item.title}

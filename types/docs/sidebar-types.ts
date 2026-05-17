@@ -9,9 +9,10 @@ interface SidebarBadgeProps {
 
 interface SidebarItemProps {
   title: string;
-  url: string;
+  url?: string;
   badge?: SidebarBadgeProps;
   icon?: ReactNode;
+  type?: "link" | "section";
 }
 
 export type { SidebarBadgeProps, SidebarItemProps };
