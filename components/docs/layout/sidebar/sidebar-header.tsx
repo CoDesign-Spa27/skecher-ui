@@ -6,7 +6,7 @@ import { LightLogo } from "@/public/icon/light-logo-full";
 
 const DocsSidebarHeader = () => {
     return (
-        <SidebarHeader className="border-b h-14 justify-center px-2">
+        <SidebarHeader className="h-14 justify-center px-2">
             <Link href="/">
                 <div className="flex items-center gap-2 px-2">
                     <span className="doto text-2xl font-black tracking-tighter">

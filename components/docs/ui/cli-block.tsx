@@ -29,19 +29,19 @@ function CliBlock({ commands }: CliBlockProps) {
             value={packageManager}
             onValueChange={(value) => setConfig({ packageManager: value as PackageManager })}
         >
-            <div className="dark:bg-primary-foreground group mt-2 flex flex-col rounded-[8px] bg-[#F5F5F5] p-1">
-                <div className="flex flex-row items-center justify-between pr-1 pl-2">
+            <div className="dark:bg-primary-foreground group flex flex-col rounded-[8px] bg-[#F5F5F5] p-1">
+                <div className="flex flex-row items-center justify-between pr-1 pb-1">
                     <TabsList
-                        variant="underline"
+                        className={"header-shadow  rounded-sm"}
                         indicatorClassName={cn(
-                            packageManager === "npm" && "bg-[#C3292F]!",
-                            packageManager === "yarn" && "bg-[#3592BD]!",
-                            packageManager === "bun" && "bg-primary!",
-                            packageManager === "pnpm" && "bg-[#FAAF18]!",
+                            packageManager === "npm" && "rounded-sm border border-[#C3292F]!",
+                            packageManager === "yarn" && "rounded-sm border border-[#3592BD]!",
+                            packageManager === "bun" && "rounded-sm border border-primary!",
+                            packageManager === "pnpm" && "rounded-sm border border-[#FAAF18]!",
                         )}
                     >
                         <TabsTab
-                            className="h-5! gap-2 px-1.5 hover:bg-transparent! data-active:text-[#C3292F]"
+                            className="h-5! gap-2 px-1.5 hover:bg-transparent! data-active:text-[#C3292F] data-active:header-shadow" 
                             value="npm"
                         >
                             <NpmIcon className="size-3" />

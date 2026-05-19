@@ -223,3 +223,57 @@ box-shadow: 0px 1.09724px 0.877793px rgba(0, 0, 0, 0.1197), 0px 1.18953px 1.1895
 }
  
  
+ 
+@supports (animation-timeline: scroll()) {
+  @property --ft {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+
+  @property --fb {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 40px;
+  }
+
+  .scroll-fade-y,
+  [data-slot="scroll-area-viewport"] {
+    --ft: 0px;
+    --fb: 40px;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      #000 var(--ft),
+      #000 calc(100% - var(--fb)),
+      transparent 100%
+    );
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    animation:
+      fadeTop 1 linear both,
+      fadeBottom 1 linear both;
+    animation-timeline: scroll(self), scroll(self);
+    animation-range:
+      0% 12%,
+      88% 100%;
+  }
+
+  @keyframes fadeTop {
+    from {
+      --ft: 0px;
+    }
+    to {
+      --ft: 40px;
+    }
+  }
+
+  @keyframes fadeBottom {
+    from {
+      --fb: 40px;
+    }
+    to {
+      --fb: 0px;
+    }
+  }
+}

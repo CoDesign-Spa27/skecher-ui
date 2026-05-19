@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 const COMPONENT_RENDERERS = {
   "streaming-text": StreamingTextDoc,
-} satisfies Record<string, () => Promise<React.ReactNode>>;
+} satisfies Record<string, (props: { page: NonNullable<ReturnType<typeof getComponentDoc>> }) => Promise<React.ReactNode>>;
 
 export function generateStaticParams() {
   return COMPONENT_DOCS.map((page) => ({
@@ -28,8 +28,7 @@ export default async function ComponentDocsPage({
 
   return (
     <ComponentDocPage page={page}>
-      <ComponentDoc />
+      <ComponentDoc page={page} />
     </ComponentDocPage>
   );
 }
-

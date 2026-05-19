@@ -24,7 +24,7 @@ function InstallationTabs({
             value={installationType}
             onValueChange={(value) => setConfig({ installationType: value as "cli" | "manual" })}
         >
-            <TabsList className="mb-2">
+            <TabsList variant="underline" className="mb-2">
                 <TabsTab value="cli">CLI</TabsTab>
                 <TabsTab value="manual">Manual</TabsTab>
             </TabsList>
