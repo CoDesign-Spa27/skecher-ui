@@ -18,10 +18,12 @@ type ComponentProps = Partial<
 export const components: ComponentProps[] = [
   {
     name: "streaming-text",
-    path: path.join(
-      __dirname,
-      "../components/ui-components/streaming-text"
-    ),
+    path: path.join(__dirname, "../components/ui-components/streaming-text"),
     dependencies: ["motion"],
   },
+  {
+    name: "text-morphing",
+    path: path.join(__dirname, "../components/ui-components/text-morphing"),
+    dependencies: ["motion"],
+  }
 ];

@@ -50,33 +50,25 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
   },
    {
-    title: "Animated Slider",
-    slug: "animated-slider",
+    title: "Morphing Text",
+    slug: "text-morphing",
     eyebrow: "Components",
     description:
-      "A soft word-by-word text reveal for hero copy, onboarding moments, empty states, and editorial interfaces that need a polished animated entrance.",
+      "A text morphing effect for hero copy, onboarding moments, empty states, and editorial interfaces that need a polished animated entrance.",
     details: [
-      {
-        title: "Animated by word",
-        body: "Each word fades in with a configurable blur reveal and staggered timing.",
-      },
-      {
-        title: "Composable element",
-        body: "Render the text as a paragraph, heading, or any other element through the as prop.",
-      },
-      {
-        title: "Style friendly",
-        body: "Pass wrapper and word classes to match the component to your layout and type system.",
-      },
+      // {
+      //   title: "Animated by character",
+      //   body: "Each character fades in with a configurable blur reveal and staggered timing.",
+      // },
     ],
     dependencies: ["react","motion" ],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/streaming-text.json",
-    importName: "BlurredText",
+    cliCommand: "https://skecher-ui.vercel.app/r/text-morphing.json",
+    importName: "MorphingText",
     files: [
       {
-        path: "components/ui-components/streaming-text.tsx",
-        description: "Animated text component",
+        path: "components/ui-components/text-morphing.tsx",
+        description: "Morphing text component",
       },
     ],
   },

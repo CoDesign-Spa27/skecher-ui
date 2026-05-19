@@ -1,11 +1,7 @@
 import { ComponentDocPage } from "@/components/docs/content/component-doc-page";
-import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
+import { DOC_RENDERERS } from "@/components/docs/content/generated-doc-renderers";
 import { COMPONENT_DOCS, getComponentDoc } from "@/lib/docs-content";
 import { notFound } from "next/navigation";
-
-const COMPONENT_RENDERERS = {
-  "streaming-text": StreamingTextDoc,
-} satisfies Record<string, (props: { page: NonNullable<ReturnType<typeof getComponentDoc>> }) => Promise<React.ReactNode>>;
 
 export function generateStaticParams() {
   return COMPONENT_DOCS.map((page) => ({
@@ -20,7 +16,7 @@ export default async function ComponentDocsPage({
 }) {
   const { slug } = await params;
   const page = getComponentDoc(slug);
-  const ComponentDoc = COMPONENT_RENDERERS[slug as keyof typeof COMPONENT_RENDERERS];
+  const ComponentDoc = DOC_RENDERERS[slug as keyof typeof DOC_RENDERERS];
 
   if (!page || !ComponentDoc) {
     notFound();
