@@ -11,6 +11,10 @@ export type ComponentDoc = {
   installDependencies?: string[];
   cliCommand: string;
   importName: string;
+  usage: {
+    imports: string;
+    code: string;
+  };
   files: {
     path: string;
     description?: string;
@@ -42,6 +46,13 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/streaming-text.json",
     importName: "BlurredText",
+    usage: {
+      imports: `import { BlurredText } from "@/components/ui/streaming-text";`,
+      code: `<BlurredText
+  text="Stop acting as if life is a rehearsal."
+  className="text-4xl font-medium"
+/>`,
+    },
     files: [
       {
         path: "components/ui-components/streaming-text.tsx",
@@ -65,6 +76,17 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/text-morphing.json",
     importName: "MorphingText",
+    usage: {
+      imports: `import { MorphingText } from "@/components/ui/text-morphing";`,
+      code: `<MorphingText
+  texts={[
+    "AI begins analyzing your data...",
+    "Processing information and finding patterns...",
+    "Generating intelligent responses...",
+  ]}
+  className="text-4xl font-medium"
+/>`,
+    },
     files: [
       {
         path: "components/ui-components/text-morphing.tsx",

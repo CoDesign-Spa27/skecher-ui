@@ -1,6 +1,12 @@
 import Image from "next/image";
+import { codeToHast } from "shiki";
+import { toJsxRuntime } from "hast-util-to-jsx-runtime";
+import { Fragment } from "react";
+import { jsx, jsxs } from "react/jsx-runtime";
 import { CodeBlock } from "@/components/docs/ui/code-block";
 import { InstallationTabs } from "@/components/docs/ui/installation-tabs";
+import CopyButton from "@/components/docs/ui/copy-button";
+import { cn } from "@/lib/utils";
 import type { ComponentDoc } from "@/lib/docs-content";
 
 type DependencyIcon = {
@@ -145,6 +151,50 @@ function ComponentInstallation({
   );
 }
 
+async function InlineCodeBlock({
+  code,
+  title,
+  className,
+}: {
+  code: string;
+  title: string;
+  className?: string;
+}) {
+  const hast = await codeToHast(code, {
+    lang: "tsx",
+    themes: {
+      dark: "github-dark",
+      light: "github-light",
+    },
+    defaultColor: false,
+  });
+  const nodes = toJsxRuntime(hast, { Fragment, jsx, jsxs });
+
+  return (
+    <div className={cn("overflow-hidden rounded-md border bg-background", className)}>
+      <div className="flex items-center justify-between gap-3 border-b bg-muted/30 px-3 py-2">
+        <span className="font-mono text-xs text-foreground">{title}</span>
+        <CopyButton className="-my-1" code={code} />
+      </div>
+      <div className="no-scrollbar max-h-96 overflow-auto text-sm [&_code]:font-mono [&_pre]:overflow-x-auto [&_pre]:bg-transparent! [&_pre]:p-4">
+        {nodes}
+      </div>
+    </div>
+  );
+}
+
+async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
+  return (
+    <section className="space-y-3">
+      <h3 className="text-base font-medium text-foreground">Usage</h3>
+      <div className="space-y-4">
+        <InlineCodeBlock code={usage.imports} title="Import" />
+        <InlineCodeBlock code={usage.code} title="Usage" />
+      </div>
+    </section>
+  );
+}
+
 export function ComponentDocSections({ page }: { page: ComponentDoc }) {
   return (
     <div className="w-full space-y-8 text-sm leading-6 text-muted-foreground">
@@ -157,6 +207,7 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
         files={page.files}
         importName={page.importName}
       />
+      <ComponentUsage usage={page.usage} />
     </div>
   );
 }

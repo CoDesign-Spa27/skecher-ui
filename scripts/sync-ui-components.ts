@@ -152,6 +152,10 @@ function createDocEntry(component: ComponentInfo) {
     installDependencies: ["motion"],
     cliCommand: "${deployedRegistryUrl}/${component.slug}.json",
     importName: "${component.importName}",
+    usage: {
+      imports: \`import { ${component.importName} } from "@/components/ui/${component.slug}";\`,
+      code: \`<${component.importName} />\`,
+    },
     files: [
       {
         path: "components/ui-components/${component.slug}.tsx",
