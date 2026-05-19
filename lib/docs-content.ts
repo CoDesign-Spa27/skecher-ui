@@ -9,6 +9,10 @@ export type ComponentDoc = {
   }[];
   dependencies: string[];
   installDependencies?: string[];
+  registry?: {
+    namespace: string;
+    url: string;
+  };
   cliCommand: string;
   importName: string;
   files: {
@@ -40,7 +44,11 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
     dependencies: ["react","motion" ],
     installDependencies: ["motion"],
-    cliCommand: "skecher-ui/streaming-text",
+    registry: {
+      namespace: "@skecher-ui",
+      url: "https://ui.sandeepsingh.dev/r/{name}.json",
+    },
+    cliCommand: "@skecher-ui/streaming-text",
     importName: "BlurredText",
     files: [
       {
@@ -71,7 +79,11 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
     dependencies: ["react","motion" ],
     installDependencies: ["motion"],
-    cliCommand: "skecher-ui/streaming-text",
+    registry: {
+      namespace: "@skecher-ui",
+      url: "https://ui.sandeepsingh.dev/r/{name}.json",
+    },
+    cliCommand: "@skecher-ui/streaming-text",
     importName: "BlurredText",
     files: [
       {

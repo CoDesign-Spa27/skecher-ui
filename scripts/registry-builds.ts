@@ -4,10 +4,10 @@ import type { Schema } from "./registry-schema";
 import { components } from "./registry-components";
 
 const registryComponents = path.join(__dirname, "../public/components");
+const registryItems = path.join(__dirname, "../public/r");
 
-if (!fs.existsSync(registryComponents)) {
-  fs.mkdirSync(registryComponents);
-}
+fs.mkdirSync(registryComponents, { recursive: true });
+fs.mkdirSync(registryItems, { recursive: true });
 
 for (const component of components) {
   const content = fs.readFileSync(`${component.path}.tsx`, "utf8");
@@ -31,8 +31,8 @@ for (const component of components) {
     ],
   } satisfies Schema;
 
-  fs.writeFileSync(
-    path.join(registryComponents, `${component.name}.json`),
-    JSON.stringify(schema, null, 2)
-  );
+  const json = JSON.stringify(schema, null, 2);
+
+  fs.writeFileSync(path.join(registryComponents, `${component.name}.json`), json);
+  fs.writeFileSync(path.join(registryItems, `${component.name}.json`), json);
 }

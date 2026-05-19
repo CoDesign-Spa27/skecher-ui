@@ -40,7 +40,7 @@ function updateRegistryComponents() {
   const newComponents: {
     name: string;
     path: string;
-    registryDependencies: string[];
+    registryDependencies?: string[];
     dependencies: string[];
   }[] = [];
 
@@ -57,7 +57,6 @@ function updateRegistryComponents() {
       newComponents.push({
         name,
         path: componentPath,
-        registryDependencies: ["motion"],
         dependencies: ["motion"],
       });
     }
@@ -84,7 +83,7 @@ function updateRegistryComponents() {
   const newComponentsString = newComponents
     .map(
       (comp) =>
-        `  {\n    name: "${comp.name}",\n    path: path.join(__dirname, "../components/ui-components/${comp.path}"),\n    registryDependencies: ["motion"],\n    dependencies: ["motion"],\n  }`
+        `  {\n    name: "${comp.name}",\n    path: path.join(__dirname, "../components/ui-components/${comp.path}"),\n    dependencies: ["motion"],\n  }`
     )
     .join(",\n");
 

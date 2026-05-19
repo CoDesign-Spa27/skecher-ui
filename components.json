@@ -19,6 +19,6 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@soundcn": "https://soundcn.xyz/r/{name}.json"
+    "@skecher-ui": "https://ui.sandeepsingh.dev/r/{name}.json"
   }
 }

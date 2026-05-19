@@ -22,7 +22,6 @@ export const components: ComponentProps[] = [
       __dirname,
       "../components/ui-components/streaming-text"
     ),
-    registryDependencies: ["motion"],
     dependencies: ["motion"],
   },
 ];

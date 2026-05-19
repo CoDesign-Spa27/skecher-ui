@@ -120,20 +120,32 @@ function ComponentInstallation({
   cliCommand,
   dependencies,
   installDependencies,
+  registry,
   files,
   importName,
 }: Pick<
   ComponentDoc,
-  "cliCommand" | "dependencies" | "installDependencies" | "files" | "importName"
+  "cliCommand" | "dependencies" | "installDependencies" | "registry" | "files" | "importName"
 >) {
   const manualDependencies =
     installDependencies ?? dependencies.filter((dependency) => dependency !== "react");
+  const registryConfig = registry
+    ? JSON.stringify({ registries: { [registry.namespace]: registry.url } }, null, 2)
+    : null;
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <div className="rounded-md border-0 bg-background p-4 md:col-span-2">
         <h3 className="font-medium text-foreground">Installation</h3>
-        <div className="mt-3">
+        <div className="mt-3 space-y-4">
+          {registryConfig ? (
+            <div className="space-y-2">
+              <p>Add the registry to your shadcn app first.</p>
+              <pre className="overflow-x-auto rounded-md border bg-muted/30 p-3 font-mono text-xs text-foreground">
+                <code>{registryConfig}</code>
+              </pre>
+            </div>
+          ) : null}
           <InstallationTabs
             cliCommands={[cliCommand]}
             dependencies={manualDependencies}
@@ -154,6 +166,7 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
         cliCommand={page.cliCommand}
         dependencies={page.dependencies}
         installDependencies={page.installDependencies}
+        registry={page.registry}
         files={page.files}
         importName={page.importName}
       />
