@@ -17,8 +17,5 @@
     "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
-  },
-  "registries": {
-    "@skecher-ui": "https://ui.sandeepsingh.dev/r/{name}.json"
   }
 }
