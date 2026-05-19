@@ -4,8 +4,10 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { IconEyeOpenFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
+import { IconRefresh2FillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import { CodeIcon } from "@/assets/app-icons/code";
 import CopyButton from "../docs/ui/copy-button";
+import { Button } from "@/components/ui/button";
 type ComponentWrapperTab = "preview" | "code";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
@@ -66,10 +68,15 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     ...props
 }) => {
     const [showTab, setShowTab] = React.useState<ComponentWrapperTab>("preview");
+    const [previewKey, setPreviewKey] = React.useState(0);
     // Keyboard & pointer event helpers for tab switching accessibility & usability
     const handleFocus = (tab: ComponentWrapperTab) => setShowTab(tab);
 
     const handleClick = (tab: ComponentWrapperTab) => setShowTab(tab);
+    const replayPreview = () => {
+        setShowTab("preview");
+        setPreviewKey((key) => key + 1);
+    };
     const handleMouseDown = () => { };
     const handleMouseUp = () => { };
 
@@ -83,40 +90,60 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                         </div>
                         <span className="truncate font-mono text-xs">{title}</span>
                     </div>
-                    <ul className="flex space-x-2 rounded-lg mb-1 w-fit p-0.5 header-shadow">
-                        {TABS.map((tab) => {
-                            const isActive = showTab === tab.key;
-                            const TabIcon = tab.icon;
-                            return (
-                                <motion.li
-                                    layout
-                                    className={cn(
-                                        "relative cursor-pointer px-2 py-1 text-sm outline-hidden transition-colors flex items-center gap-1.5 rounded-md",
-                                        isActive
-                                            ? "text-foreground"
-                                            : "text-muted-foreground"
-                                    )}
-                                    tabIndex={0}
-                                    key={tab.key}
-                                    onFocus={() => handleFocus(tab.key)}
-                                    onClick={() => handleClick(tab.key)}
-                                    onMouseDown={handleMouseDown}
-                                    onMouseUp={handleMouseUp}
-                                    style={{ outline: "none" }}
-                                >
-                                    {isActive ? (
-                                        <motion.div
-                                            layoutId="tab-indicator"
-                                            className="absolute inset-0 rounded-md bg-black/5 dark:bg-white/10 header-shadow"
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                        />
-                                    ) : null}
-                                    {TabIcon}
-                                    <span className="relative z-10 text-inherit">{tab.label}</span>
-                                </motion.li>
-                            );
-                        })}
-                    </ul>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            aria-label="Replay preview"
+                            className="mb-1 size-8 rounded-md text-muted-foreground hover:text-foreground"
+                            onClick={replayPreview}
+                            size="icon"
+                            type="button"
+                            variant="ghost"
+                        >
+                            <motion.span
+                                key={previewKey}
+                                animate={{ rotate: 360 }}
+                                className="flex items-center justify-center"
+                                initial={{ rotate: 0 }}
+                                transition={{ duration: 0.35, ease: "easeOut" }}
+                            >
+                                <IconRefresh2FillDuo18 className="size-4" />
+                            </motion.span>
+                        </Button>
+                        <ul className="flex space-x-2 rounded-lg mb-1 w-fit p-0.5 header-shadow">
+                            {TABS.map((tab) => {
+                                const isActive = showTab === tab.key;
+                                const TabIcon = tab.icon;
+                                return (
+                                    <motion.li
+                                        layout
+                                        className={cn(
+                                            "relative cursor-pointer px-2 py-1 text-sm outline-hidden transition-colors flex items-center gap-1.5 rounded-md",
+                                            isActive
+                                                ? "text-foreground"
+                                                : "text-muted-foreground"
+                                        )}
+                                        tabIndex={0}
+                                        key={tab.key}
+                                        onFocus={() => handleFocus(tab.key)}
+                                        onClick={() => handleClick(tab.key)}
+                                        onMouseDown={handleMouseDown}
+                                        onMouseUp={handleMouseUp}
+                                        style={{ outline: "none" }}
+                                    >
+                                        {isActive ? (
+                                            <motion.div
+                                                layoutId="tab-indicator"
+                                                className="absolute inset-0 rounded-md bg-black/5 dark:bg-white/10 header-shadow"
+                                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                            />
+                                        ) : null}
+                                        {TabIcon}
+                                        <span className="relative z-10 text-inherit">{tab.label}</span>
+                                    </motion.li>
+                                );
+                            })}
+                        </ul>
+                    </div>
                 </div>
 
                 <div className="h-80 overflow-hidden rounded-md border border-border/80 bg-background sm:h-[calc(100vh-300px)]">
@@ -131,7 +158,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                                     previewClassName,
                                 )}
                             >
-                                <div className="flex h-full w-full items-center justify-center">
+                                <div key={previewKey} className="flex h-full w-full items-center justify-center">
                                     {children}
                                 </div>
                             </div>
