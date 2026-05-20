@@ -26,7 +26,7 @@ export async function TextMorphingDoc({ page }: { page: ComponentDoc }) {
                     "Learning and adapting to improve results...",
                     "AI process complete: ready for your next command..."
                 ]}
-                className="mx-auto p-2 text-center font-raleway text-4xl font-medium"
+                className="mx-auto p-2 text-center font-raleway font-medium"
             />
         </ComponentWrapper>
     );

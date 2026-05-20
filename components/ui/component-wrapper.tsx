@@ -90,7 +90,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                         </div>
                         <span className="truncate font-mono text-xs">{title}</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex justify-between items-center gap-2">
                         <Button
                             aria-label="Replay preview"
                             className="mb-1 size-8 rounded-md text-muted-foreground hover:text-foreground"
