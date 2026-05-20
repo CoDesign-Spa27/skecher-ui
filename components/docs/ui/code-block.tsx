@@ -27,7 +27,7 @@ export async function CodeBlock({
     return (
         <div
             className={cn(
-                "no-scrollbar h-full overflow-auto text-sm [&_code]:font-mono [&_pre]:min-h-full [&_pre]:overflow-x-auto [&_pre]:bg-transparent! [&_pre]:p-4 sm:[&_pre]:p-5",
+                "no-scrollbar h-full w-full min-w-0 max-w-full overflow-auto text-sm [&_code]:font-mono [&_pre]:max-w-full [&_pre]:min-h-full [&_pre]:overflow-x-auto [&_pre]:bg-transparent! [&_pre]:p-4 sm:[&_pre]:p-5",
                 className,
             )}
         >

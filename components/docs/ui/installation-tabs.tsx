@@ -21,6 +21,7 @@ function InstallationTabs({
 
     return (
         <Tabs
+            className="min-w-0 w-full max-w-full"
             value={installationType}
             onValueChange={(value) => setConfig({ installationType: value as "cli" | "manual" })}
         >
@@ -28,13 +29,13 @@ function InstallationTabs({
                 <TabsTab value="cli">CLI</TabsTab>
                 <TabsTab value="manual">Manual</TabsTab>
             </TabsList>
-            <TabsPanel value="cli">
+            <TabsPanel className="min-w-0 w-full max-w-full" value="cli">
                 <CliBlock commands={cliCommands} />
             </TabsPanel>
-            <TabsPanel value="manual">
-                <ol className="space-y-5">
+            <TabsPanel className="min-w-0 w-full max-w-full" value="manual">
+                <ol className="min-w-0 space-y-5">
                     {dependencies.length > 0 ? (
-                        <li className="space-y-2">
+                        <li className="min-w-0 space-y-2">
                             <h4 className="text-sm font-medium text-foreground">
                                 <span className="mr-2 text-muted-foreground">1.</span>
                                 Install dependencies
@@ -43,7 +44,7 @@ function InstallationTabs({
                         </li>
                     ) : null}
                     {manualSteps ? (
-                        <li className="space-y-2">
+                        <li className="min-w-0 space-y-2">
                             <h4 className="text-sm font-medium text-foreground">
                                 <span className="mr-2 text-muted-foreground">
                                     {dependencies.length > 0 ? "2." : "1."}

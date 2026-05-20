@@ -4,6 +4,7 @@ import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { Fragment } from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
 import { CodeBlock } from "@/components/docs/ui/code-block";
+import { CodeCollapsibleWrapper } from "@/components/docs/ui/code-collapsible-wrapper";
 import { InstallationTabs } from "@/components/docs/ui/installation-tabs";
 import CopyButton from "@/components/docs/ui/copy-button";
 import { cn } from "@/lib/utils";
@@ -94,27 +95,33 @@ function ComponentDependencies({ dependencies }: Pick<ComponentDoc, "dependencie
 
 function ComponentFileBlocks({ files, importName }: Pick<ComponentDoc, "files" | "importName">) {
   return (
-    <div className="space-y-3">
+    <div className="min-w-0 max-w-full space-y-3">
       <p>
         Create the required file{files.length > 1 ? "s" : ""} below, then import{" "}
         <code className="font-mono text-foreground">{importName}</code> wherever you want to use
         the component.
       </p>
       {files.map((file) => (
-        <details className="group rounded-md border bg-muted/30" key={file.path} open>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs text-foreground">
-            <span>
+        <details
+          className="group min-w-0 max-w-full overflow-hidden rounded-md border bg-muted/30"
+          key={file.path}
+          open
+        >
+          <summary className="flex min-w-0 cursor-pointer list-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs text-foreground">
+            <span className="min-w-0 flex-1 truncate">
               {file.path}
               {file.description ? (
-                <span className="ml-2 font-sans text-muted-foreground">{file.description}</span>
+                <span className="ml-2 hidden font-sans text-muted-foreground sm:inline">
+                  {file.description}
+                </span>
               ) : null}
             </span>
-            <span className="text-muted-foreground transition-transform group-open:rotate-180">
-              v
-            </span>
+           
           </summary>
-          <div className="max-h-96 overflow-hidden border-t bg-background">
-            <CodeBlock className="max-h-96" filePath={file.path} />
+          <div className="min-w-0 overflow-x-auto no-scrollbar border-t bg-background">
+            <CodeCollapsibleWrapper>
+              <CodeBlock filePath={file.path} />
+            </CodeCollapsibleWrapper>
           </div>
         </details>
       ))}
@@ -137,9 +144,9 @@ function ComponentInstallation({
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="rounded-md border-0 bg-background p-4 md:col-span-2">
+      <div className="min-w-0 rounded-md border-0 bg-background p-4 md:col-span-2">
         <h3 className="font-medium text-foreground">Installation</h3>
-        <div className="mt-3">
+        <div className="mt-3 min-w-0">
           <InstallationTabs
             cliCommands={[cliCommand]}
             dependencies={manualDependencies}

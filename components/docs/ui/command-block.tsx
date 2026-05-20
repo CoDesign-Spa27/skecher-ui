@@ -29,8 +29,9 @@ function CommandBlock({ commands }: CommandBlockProps) {
             value={packageManager}
             onValueChange={(value) => setConfig({ packageManager: value as PackageManager })}
         >
-            <div className="dark:bg-primary-foreground group flex flex-col rounded-[8px] bg-[#F5F5F5] p-1">
-                <div className="flex flex-row items-center justify-between pr-1 pb-1">
+            <div className="dark:bg-primary-foreground group flex min-w-0 max-w-full flex-col rounded-[8px] bg-[#F5F5F5] p-1">
+                <div className="flex min-w-0 flex-row items-center justify-between gap-2 pr-1 pb-1">
+                    <div className="no-scrollbar min-w-0 flex-1 overflow-x-auto">
                     <TabsList
                         className={"header-shadow  rounded-sm"}
                         indicatorClassName={cn(
@@ -69,11 +70,12 @@ function CommandBlock({ commands }: CommandBlockProps) {
                             pnpm
                         </TabsTab>
                     </TabsList>
-                    <CopyButton className="-mt-1" code={command} />
+                    </div>
+                    <CopyButton className="-mt-1 shrink-0" code={command} />
                 </div>
-                <div className="bg-background text-muted-foreground rounded-[5px] border p-3 text-[13px]">
+                <div className="overflow-x-auto break-all bg-background text-muted-foreground rounded-[5px] border p-3 text-[13px]">
                     {(Object.keys(packageCommands) as PackageManager[]).map((manager) => (
-                        <TabsPanel className="font-mono" key={manager} value={manager}>
+                        <TabsPanel className="font-mono text-xs" key={manager} value={manager}>
                             {packageCommands[manager]} {commands.join(" ")}
                         </TabsPanel>
                     ))}

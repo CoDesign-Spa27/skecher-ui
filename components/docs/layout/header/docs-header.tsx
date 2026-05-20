@@ -14,7 +14,7 @@ const DocsHeader = () => {
     return (
         <header
             className={cn(
-                "absolute left-1/2 top-5 transform -translate-x-1/2 rounded-xl flex h-10 shrink-0 items-center justify-between gap-1 px-1 bg-sidebar border-0 border-sidebar-border z-50 header-shadow w-[calc(100%-5rem)] max-w-2xl",
+                "absolute left-1/2 top-5 transform -translate-x-1/2 rounded-xl flex h-10 shrink-0 items-center justify-between gap-1 px-1 bg-sidebar border-0 border-sidebar-border z-50 header-shadow w-[calc(100%-7rem)] max-w-xl",
            
                 isMobile ? "mx-2" : (isCollapsed ? "ml-2" : "mr-2")
             )}
