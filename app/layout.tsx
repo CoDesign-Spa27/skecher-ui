@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Raleway } from "next/font/google";
+import { Geist, Geist_Mono, Raleway, Inspiration } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 
@@ -11,6 +11,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const inspiration = Inspiration({
+  variable: "--font-inspiration",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 const raleway = Raleway({
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} antialiased bg-accent`}
+        className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${inspiration.variable} antialiased bg-accent`}
 
       >
         <ThemeProvider
