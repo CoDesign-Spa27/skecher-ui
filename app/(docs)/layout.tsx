@@ -1,6 +1,10 @@
 import { DocsSidebar } from "@/components/docs/layout/sidebar/docs-sidebar";
 import DocsHeader from "@/components/docs/layout/header/docs-header";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+    DocsSidebarTriggerInInset,
+    DocsSidebarTriggerLayoutGroup,
+} from "@/components/docs/layout/docs-sidebar-trigger";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { PageWrapper } from "@/components/docs/ui/page-wrapper";
 
 export default function RootLayout({
@@ -9,20 +13,18 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <SidebarProvider className="bg-background" >
-            <DocsSidebar />
-            <SidebarInset className="bg-background">
-        
-                <SidebarTrigger className="absolute left-6 top-6 header-shadow p-4" />
-                <DocsHeader />
-       
-                <div className="pt-1 pr-1 pl-1 w-full bg-background " >
-                    <PageWrapper>
-                        {children}
-                    </PageWrapper>
+        <SidebarProvider className="bg-background">
+            <DocsSidebarTriggerLayoutGroup>
+                <DocsSidebar />
+                <SidebarInset className="bg-background">
+                    <DocsSidebarTriggerInInset />
+                    <DocsHeader />
+
+                    <div className="w-full bg-background pt-1 pr-1 pl-1">
+                        <PageWrapper>{children}</PageWrapper>
                     </div>
-          
-            </SidebarInset>
+                </SidebarInset>
+            </DocsSidebarTriggerLayoutGroup>
         </SidebarProvider>
     );
 }

@@ -43,6 +43,7 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --ease-sidebar: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 :root {
@@ -200,7 +201,7 @@ box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25), 0px 0.5px 1px rgba(255, 255, 255, 0
  
 background: linear-gradient(255.97deg, #FF8F5F 1.94%, #FF4C00 79.02%);
  
-box-shadow: 0px 51px 100px rgba(114, 68, 0, 0.23), 0px 11.3915px 22.3363px rgba(114, 68, 0, 0.137105), 0px 3.39155px 6.6501px rgba(114, 68, 0, 0.0928953), inset 0px -3px 1px #C02600, inset 0px 3px 0px rgba(255, 255, 255, 0.55);
+box-shadow: 0px 11.3915px 12.3363px rgba(114, 68, 0, 0.137105), 0px 3.39155px 6.6501px rgba(114, 68, 0, 0.0928953), inset 0px -3px 1px #C02600, inset 0px 3px 0px rgba(255, 255, 255, 0.55);
 line-height: 19px;
  
 color: #FFFFFF;
