@@ -5,7 +5,7 @@ import { GemSmoke } from '@paper-design/shaders-react';
 
 export const Hero = () => {
     return (
-        <div className="relative w-full h-screen">
+        <div className="dark relative w-full h-screen">
             <div className="absolute inset-0 z-0">
                 <GemSmoke
                     style={{ width: '100%', height: '100%' }}
@@ -40,7 +40,7 @@ export const Hero = () => {
                 <div className="absolute inset-0 z-20 bg-gradient-to-tl from-transparent via-background/40 to-background" />
             </div>
             <div className="z-10 flex flex-col items-center justify-center h-full relative gap-2">
-                <div className="relative">
+                <div className="relative text-white">
                     <h1 className="sm:text-8xl text-4xl font-raleway font-bold">
                         Sketch The <span className="font-inspiration">Art</span>
                     </h1>
@@ -50,12 +50,12 @@ export const Hero = () => {
                     </p>
                 </div>
                 <div className="flex flex-row gap-2 z-30">
-                <Link href="/docs">
-                <Button variant="default" className="cursor-pointer">Browse Components</Button>
-                </Link>
-                <Link href="https://github.com/sketch-the-art/sketch-the-art" >
-                <Button variant="secondary">Github</Button>
-                </Link>
+                    <Link href="/docs">
+                        <Button variant="default" className="cursor-pointer">Browse Components</Button>
+                    </Link>
+                    <Link href="https://github.com/sketch-the-art/sketch-the-art" >
+                        <Button variant="secondary">Github</Button>
+                    </Link>
                 </div>
             </div>
             {/* <div className="absolute bottom-0 right-0 z-0 w-full">
