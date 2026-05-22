@@ -1,13 +1,46 @@
+"use client"
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Cursor } from "./assets/cursor";
 import { GemSmoke } from '@paper-design/shaders-react';
-
+import {motion} from "motion/react"
 export const Hero = () => {
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.5,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: {
+            opacity: 0,
+            y: -20,
+            filter: "blur(10px)",
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: {
+                duration: 1,
+                ease: [0.22, 1, 0.36, 1] as const, // Custom easing for smooth animation
+            },
+        },
+    };
     return (
-        <div className="dark relative w-full h-screen">
-            <div className="absolute inset-0 z-0">
+        <div className="dark relative w-full h-screen bg-black">
+            <motion.div 
+                initial={{ opacity: 0, y: 0, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute inset-0 z-0">
                 <GemSmoke
+                    
                     style={{ width: '100%', height: '100%' }}
                     colors={["#fe5b16", "#f7ff61", "#ffffff"]}
                     colorBack="#0F0F0F"
@@ -38,26 +71,28 @@ export const Hero = () => {
                     }}
                 />
                 <div className="absolute inset-0 z-20 bg-gradient-to-tl from-transparent via-background/40 to-background" />
-            </div>
-            <div className="z-10 flex flex-col items-center justify-center h-full relative gap-2">
-                <div className="relative text-white">
-                    <h1 className="sm:text-8xl text-4xl font-raleway font-bold">
+            </motion.div>
+            <motion.div className="z-10 flex flex-col items-center justify-center h-full relative gap-2" variants={containerVariants} initial="hidden" animate="visible">
+                <motion.div className="relative text-white"  >
+                    <motion.h1 className="sm:text-8xl text-4xl font-raleway font-bold" variants={itemVariants}>
                         Sketch The <span className="font-inspiration">Art</span>
-                    </h1>
-                    <Cursor className="absolute sm:top-12 top-8 sm:right-1/2 right-1/4 sm:w-10 w-8 sm:h-10 h-8" />
-                    <p className="sm:text-2xl text-sm font-light py-4 font-mono text-center">
+                    </motion.h1>
+                    <motion.div className="absolute sm:top-16 top-8 sm:right-2/4 right-1/4" variants={itemVariants}>
+                    <Cursor className=" sm:w-10 w-8 sm:h-10 h-8" />
+                    </motion.div>
+                    <motion.p className="sm:text-2xl text-sm font-light py-4 font-mono text-center" variants={itemVariants}>
                         Component Which Contains Life
-                    </p>
-                </div>
-                <div className="flex flex-row gap-2 z-30">
+                    </motion.p>
+                </motion.div>
+                <motion.div className="flex flex-row gap-2 z-30" variants={itemVariants}>
                     <Link href="/docs">
                         <Button variant="default" className="cursor-pointer">Browse Components</Button>
                     </Link>
                     <Link href="https://github.com/sketch-the-art/sketch-the-art" >
                         <Button variant="secondary">Github</Button>
                     </Link>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
             {/* <div className="absolute bottom-0 right-0 z-0 w-full">
                 <div className="absolute inset-0 z-10 bg-gradient-to-r from-background/80 to-background/80 blur-xl" />
             <GemSmoke
