@@ -1,3 +1,4 @@
+import { LiquidGlassSocialDoc } from "@/components/docs/content/liquid-glass-social-doc";
 import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
 import { TextMorphingDoc } from "@/components/docs/content/text-morphing-doc";
 import type { getComponentDoc } from "@/lib/docs-content";
@@ -7,6 +8,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
+  "liquid-glass-social": LiquidGlassSocialDoc,
   "streaming-text": StreamingTextDoc,
   "text-morphing": TextMorphingDoc
 } satisfies Record<string, ComponentDocPage>;

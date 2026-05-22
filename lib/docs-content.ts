@@ -1,4 +1,5 @@
 export type ComponentDoc = {
+  id: string;
   title: string;
   slug: string;
   eyebrow: string;
@@ -23,6 +24,7 @@ export type ComponentDoc = {
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
   {
+    id: "streaming-text",
     title: "Streaming Text",
     slug: "streaming-text",
     eyebrow: "Components",
@@ -61,6 +63,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
   },
    {
+    id: "text-morphing",
     title: "Morphing Text",
     slug: "text-morphing",
     eyebrow: "Components",
@@ -94,6 +97,29 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
   },
+  {
+    id: "liquid-glass-social",
+    title: "Liquid Glass Social",
+    slug: "liquid-glass-social",
+    eyebrow: "Components",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
+    details: [],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/liquid-glass-social.json",
+    importName: "Social",
+    usage: {
+      imports: `import { Social } from "@/components/ui/liquid-glass-social";`,
+      code: `<Social />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/liquid-glass-social.tsx",
+        description: "Liquid Glass Social component",
+      },
+    ],
+  }
 ];
 
 export function getComponentDoc(slug: string) {

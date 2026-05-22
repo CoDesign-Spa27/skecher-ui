@@ -46,9 +46,9 @@ export function DocsSidebar({
             <SidebarContent className="mt-2">
                 <SidebarMenu>
                     {SIDEBAR_OPTIONS.map((item, idx) => {
-                        if (item.type === "section") {
+                        if (item?.type === "section") {
                             return (
-                                <SidebarMenuItem key={item.title}>
+                                <SidebarMenuItem key={item?.title}>
                                     <div className="px-3 pb-2 pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                                         {item.title}
                                     </div>
@@ -56,7 +56,7 @@ export function DocsSidebar({
                             );
                         }
 
-                        const isActive = pathname === item.url;
+                        const isActive = pathname === item?.url;
                         const isHovered = hoveredIdx === idx;
 
                         // Wrap sound play on mouse enter
@@ -66,7 +66,7 @@ export function DocsSidebar({
                         };
 
                         return (
-                            <SidebarMenuItem key={item.title}>
+                            <SidebarMenuItem key={item?.title}>
                                 <SidebarMenuButton
                                     asChild
                                     onMouseEnter={handleMouseEnter}
@@ -76,10 +76,10 @@ export function DocsSidebar({
                                         "border border-transparent relative",
                                     )}
                                 >
-                                    <Link href={item.url ?? "#"} onClick={handleLinkClick} className="relative flex items-center">
+                                    <Link href={item?.url ?? "#"} onClick={handleLinkClick} className="relative flex items-center">
                                         {/* The animated horizontal line */}
                                         <motion.hr
-                                            key={item.title}
+                                            key={item?.title}
                                             initial={{ width: 0 }}
                                             animate={{ width: isHovered ? 45 : 32 }}  
                                             transition={FAST_SPRING as Transition}
@@ -92,7 +92,7 @@ export function DocsSidebar({
 
                                         {/* The indicator dot - optional, kept for visual */}
                                         <motion.div
-                                            key={item.title}
+                                            key={item?.title}
                                             initial={{ x: 0 }}
                                             animate={{ x: isHovered ? 13 : 0 }}
                                             transition={FAST_SPRING as Transition}
@@ -111,15 +111,15 @@ export function DocsSidebar({
                                             }}
                                             transition={FAST_SPRING as Transition}
                                         >
-                                            <span className="font-semibold text-center">{item.title}</span>
-                                            {item.badge && (
-                                                <Badge variant={item.badge.variant}>
+                                            <span className="font-semibold text-center">{item?.title}</span>
+                                            {item?.badge && (
+                                                <Badge variant={item?.badge?.variant}>
                                                     <span
                                                         className={cn(
-                                                            item.badge.sparkles && "sparkles-bg"
+                                                            item?.badge?.sparkles && "sparkles-bg"
                                                         )}
                                                     >
-                                                        {item.badge.label}
+                                                        {item?.badge?.label}
                                                     </span>
                                                 </Badge>
                                             )}
