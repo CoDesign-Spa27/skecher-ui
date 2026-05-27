@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/docs/ui/code-block";
 import { ComponentDocSections } from "@/components/docs/content/component-doc-sections";
+import { getComponentPreview } from "@/components/docs/content/component-previews";
 import { ComponentWrapper } from "@/components/ui/component-wrapper";
-import { BlurredText } from "@/components/ui-components/streaming-text";
 import type { ComponentDoc } from "@/lib/docs-content";
 import { promises as fs } from "node:fs";
 import path from "node:path";
@@ -16,12 +16,10 @@ export async function StreamingTextDoc({ page }: { page: ComponentDoc }) {
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
+      previewHref={`/preview/${page.slug}`}
       title="streaming-text.tsx"
     >
-      <BlurredText
-        text="Stop acting as if life is a rehearsal."
-        className="mx-auto p-2 text-center font-raleway text-4xl font-medium"
-      />
+      {getComponentPreview(page.slug)}
     </ComponentWrapper>
   );
 }

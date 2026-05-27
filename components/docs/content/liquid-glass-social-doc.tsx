@@ -1,10 +1,10 @@
 import { CodeBlock } from "@/components/docs/ui/code-block";
 import { ComponentDocSections } from "@/components/docs/content/component-doc-sections";
+import { getComponentPreview } from "@/components/docs/content/component-previews";
 import { ComponentWrapper } from "@/components/ui/component-wrapper";
 import type { ComponentDoc } from "@/lib/docs-content";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { Social } from "@/components/ui-components/liquid-glass-social";
 const FILE_PATH = "components/ui-components/liquid-glass-social.tsx";
 
 export async function LiquidGlassSocialDoc({ page }: { page: ComponentDoc }) {
@@ -15,9 +15,10 @@ export async function LiquidGlassSocialDoc({ page }: { page: ComponentDoc }) {
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
+      previewHref={`/preview/${page.slug}`}
       title="liquid-glass-social.tsx"
     >
-      <Social />
+      {getComponentPreview(page.slug)}
     </ComponentWrapper>
   );
 }

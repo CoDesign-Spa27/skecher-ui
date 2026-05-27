@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { IconEyeOpenFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 import { IconRefresh2FillDuo18 } from "nucleo-ui-essential-fill-duo-18";
+import { IconWindowExpandBottomRightFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import { CodeIcon } from "@/assets/app-icons/code";
 import CopyButton from "../docs/ui/copy-button";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "c
     codeString?: string;
     doc?: React.ReactNode;
     previewClassName?: string;
+    previewHref?: string;
     title?: string;
 }
 
@@ -64,6 +66,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     codeString,
     doc,
     previewClassName,
+    previewHref,
     title = "Component example",
     ...props
 }) => {
@@ -91,9 +94,22 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                         <span className="truncate font-mono text-xs">{title}</span>
                     </div>
                     <div className="flex justify-between items-center gap-2">
+                        {previewHref ? (
+                            <Button
+                                aria-label="Open isolated preview"
+                                asChild
+                                className="mb-1 size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
+                                size="icon"
+                                variant="ghost"
+                            >
+                                <a href={previewHref} rel="noreferrer" target="_blank">
+                                    <IconWindowExpandBottomRightFillDuo18 className="size-4" />
+                                </a>
+                            </Button>
+                        ) : null}
                         <Button
                             aria-label="Replay preview"
-                            className="mb-1 size-8 rounded-md text-muted-foreground hover:text-foreground"
+                            className="mb-1 size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
                             onClick={replayPreview}
                             size="icon"
                             type="button"

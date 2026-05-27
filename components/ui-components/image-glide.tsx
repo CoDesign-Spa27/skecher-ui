@@ -223,7 +223,7 @@ export function ImageGlide({
               >
                 <img
                   alt={activeImage.alt}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover rounded-lg"
                   decoding="async"
                   draggable={false}
                   src={activeImage.src}
@@ -283,7 +283,7 @@ export function ImageGlide({
             <div className="absolute inset-0 z-[4] bg-[linear-gradient(180deg,transparent_48%,rgb(0_0_0/0.72)_100%)]" />
             <motion.div
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 z-[5] size-56 rounded-full bg-white/20 blur-2xl"
+              className="pointer-events-none absolute left-0 top-0 z-[5] size-56 rounded-full bg-white/10 blur-2xl"
               style={{
                 opacity: smoothGlowOpacity,
                 transform: shouldReduceMotion ? "translate3d(0, 0, 0)" : glowTransform,
