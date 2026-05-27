@@ -76,7 +76,7 @@ function CommandBlock({ commands }: CommandBlockProps) {
                 <div className="overflow-x-auto break-all bg-background text-muted-foreground rounded-[5px] border p-3 text-[13px]">
                     {(Object.keys(packageCommands) as PackageManager[]).map((manager) => (
                         <TabsPanel className="font-mono text-xs" key={manager} value={manager}>
-                            {packageCommands[manager]} {commands.join(" ")}
+                            <span className="text-highlight">{packageCommands[manager]}</span> {commands.join(" ")}
                         </TabsPanel>
                     ))}
                 </div>

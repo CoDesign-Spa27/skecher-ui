@@ -204,7 +204,7 @@ async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
 
 export function ComponentDocSections({ page }: { page: ComponentDoc }) {
   return (
-    <div className="w-full space-y-8 text-sm leading-6 text-muted-foreground">
+    <div className="w-full space-y-8 text-sm leading-6 text-muted-foreground pb-10">
       <ComponentDetails details={page.details} />
       <ComponentDependencies dependencies={page.dependencies} />
       <ComponentInstallation

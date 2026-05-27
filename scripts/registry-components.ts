@@ -17,6 +17,11 @@ type ComponentProps = Partial<
 
 export const components: ComponentProps[] = [
   {
+    name: "gooey-toolbar",
+    path: path.join(__dirname, "../components/ui-components/gooey-toolbar"),
+    dependencies: ["motion"],
+  },
+  {
     name: "liquid-glass-social",
     path: path.join(__dirname, "../components/ui-components/liquid-glass-social"),
     dependencies: ["motion"],

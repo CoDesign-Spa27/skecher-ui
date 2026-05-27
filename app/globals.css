@@ -178,7 +178,7 @@ html.dark [data-rehype-pretty-code-figure] code span,
     0px 2px 4px 0px rgba(0, 0, 0, 0.12),
     0px 6px 12px -2px rgba(0, 0, 0, 0.06),
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.11),
-    0px 1.18953px 1.18953px rgba(0, 0, 0, 0.08);
+    0px 10.18953px 10.18953px rgba(0, 0, 0, 0.08);
  
 }
 
@@ -189,7 +189,7 @@ html.dark [data-rehype-pretty-code-figure] code span,
     0px 2px 4px 0px rgba(0, 0, 0, 0.15),
     0px 6px 12px -2px rgba(0, 0, 0, 0.13),
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.19),
-    0px 1.18953px 1.18953px rgba(0, 0, 0, 0.17),
+    0px 10.18953px 10.18953px rgba(0, 0, 0, 0.17),
     inset 0px 0.398254px 0.796509px rgba(255, 255, 255, 0.14);
  
 }

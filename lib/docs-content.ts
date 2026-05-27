@@ -119,6 +119,29 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
         description: "Liquid Glass Social component",
       },
     ],
+  },
+  {
+    id: "gooey-toolbar",
+    title: "Gooey Toolbar",
+    slug: "gooey-toolbar",
+    eyebrow: "Components",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
+    details: [],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion","nucleo-ui-essential-fill-duo-18","tailwind-merge","clsx"],
+    cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
+    importName: "AmoebaFab",
+    usage: {
+      imports: `import { AmoebaFab } from "@/components/ui/gooey-toolbar";`,
+      code: `<AmoebaFab />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/gooey-toolbar.tsx",
+        description: "Gooey Toolbar component",
+      },
+    ],
   }
 ];
 

@@ -20,7 +20,7 @@ export default function RootLayout({
                     <DocsSidebarTriggerInInset />
                     <DocsHeader />
 
-                    <div className="w-full bg-background pt-1 pr-1 pl-1">
+                    <div className="w-full bg-background pt-1 pr-1 pl-1 scroll-fade-y">
                         <PageWrapper>{children}</PageWrapper>
                     </div>
                 </SidebarInset>

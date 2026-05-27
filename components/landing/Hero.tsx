@@ -37,7 +37,7 @@ export const Hero = () => {
             <motion.div 
                 initial={{ opacity: 0, y: 0, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 1, ease: "easeInOut" }}
+                transition={{ duration: 1, ease: "easeInOut", delay: 1 }}
             className="absolute inset-0 z-0">
                 <GemSmoke
                     
@@ -56,6 +56,9 @@ export const Hero = () => {
                     speed={0.2}
                     scale={1}
                 />
+            </motion.div>
+            <motion.div className="absolute inset-0 z-20" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, ease: "easeInOut", delay: 0 }}>
+
                 <div className="absolute inset-0 z-20 bg-gradient-to-br from-transparent to-background/70 " />
                 <div
                     className="absolute inset-0 z-10"
@@ -69,10 +72,11 @@ export const Hero = () => {
                         maskImage: 'repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px), repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px), radial-gradient(ellipse 80% 80% at 0% 0%, #000 50%, transparent 90%)',
                         opacity: '0.5'
                     }}
-                />
+                    />
                 <div className="absolute inset-0 z-20 bg-gradient-to-tl from-transparent via-background/40 to-background" />
-            </motion.div>
-            <motion.div className="z-10 flex flex-col items-center justify-center h-full relative gap-2" variants={containerVariants} initial="hidden" animate="visible">
+                    </motion.div>
+           
+            <motion.div className="z-20 flex flex-col items-center justify-center h-full relative gap-2" variants={containerVariants} initial="hidden" animate="visible">
                 <motion.div className="relative text-white"  >
                     <motion.h1 className="sm:text-8xl text-4xl font-raleway font-bold" variants={itemVariants}>
                         Sketch The <span className="font-inspiration">Art</span>
