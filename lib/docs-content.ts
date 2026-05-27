@@ -121,6 +121,42 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
   },
   {
+    id: "image-glide",
+    title: "Image Glide",
+    slug: "image-glide",
+    eyebrow: "Components",
+    description:
+      "A clean image interaction component with pointer depth, soft image transitions, and a compact thumbnail rail.",
+    details: [
+      {
+        title: "Pointer depth",
+        body: "The preview surface tilts and pans the active image with direct transform updates for a responsive, decorative interaction.",
+      },
+      {
+        title: "Soft switching",
+        body: "Image changes use short opacity and blur transitions so the selection feels polished without slowing the user down.",
+      },
+      {
+        title: "Motion aware",
+        body: "The component respects reduced motion by removing pointer movement while keeping a gentle opacity transition.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/image-glide.json",
+    importName: "ImageGlide",
+    usage: {
+      imports: `import { ImageGlide } from "@/components/ui/image-glide";`,
+      code: `<ImageGlide />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/image-glide.tsx",
+        description: "Image Glide component",
+      },
+    ],
+  },
+  {
     id: "gooey-toolbar",
     title: "Gooey Toolbar",
     slug: "gooey-toolbar",

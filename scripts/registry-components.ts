@@ -22,6 +22,11 @@ export const components: ComponentProps[] = [
     dependencies: ["motion"],
   },
   {
+    name: "image-glide",
+    path: path.join(__dirname, "../components/ui-components/image-glide"),
+    dependencies: ["motion"],
+  },
+  {
     name: "liquid-glass-social",
     path: path.join(__dirname, "../components/ui-components/liquid-glass-social"),
     dependencies: ["motion"],
