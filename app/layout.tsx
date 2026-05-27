@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Raleway, Inspiration } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${inspiration.variable} antialiased bg-accent`}
 
       >
+        <TooltipProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -50,6 +52,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        </TooltipProvider>
       </body>
     </html>
   );

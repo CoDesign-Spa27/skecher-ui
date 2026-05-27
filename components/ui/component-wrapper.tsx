@@ -5,10 +5,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { IconEyeOpenFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 import { IconRefresh2FillDuo18 } from "nucleo-ui-essential-fill-duo-18";
-import { IconWindowExpandBottomRightFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
+import { IconWindowPointerFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import { CodeIcon } from "@/assets/app-icons/code";
 import CopyButton from "../docs/ui/copy-button";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
+
 type ComponentWrapperTab = "preview" | "code";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
@@ -28,9 +31,9 @@ const TABS: Array<{
     label: string;
     icon: React.ReactNode;
 }> = [
-    { key: "preview", label: "Preview", icon: <IconEyeOpenFillDuo18 className="size-3.5" /> },
-    { key: "code", label: "Code", icon: <CodeIcon className="size-5" /> },
-];
+        { key: "preview", label: "Preview", icon: <IconEyeOpenFillDuo18 className="size-3.5" /> },
+        { key: "code", label: "Code", icon: <CodeIcon className="size-5" /> },
+    ];
 
 function EmptyPanel({ label }: { label: string }) {
     return (
@@ -72,6 +75,10 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
 }) => {
     const [showTab, setShowTab] = React.useState<ComponentWrapperTab>("preview");
     const [previewKey, setPreviewKey] = React.useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+    const prefersFineHover = usePrefersFineHover();
+    const moreVisible = (prefersFineHover ? isHovered : true);
+
     // Keyboard & pointer event helpers for tab switching accessibility & usability
     const handleFocus = (tab: ComponentWrapperTab) => setShowTab(tab);
 
@@ -84,7 +91,10 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     const handleMouseUp = () => { };
 
     return (
-        <section className={cn("w-full", className)} {...props}>
+        <motion.section 
+            onHoverStart={() => setIsHovered(true)}
+            onHoverEnd={() => setIsHovered(false)}
+        className={cn("w-full", className)} {...props}>
             <div className="rounded-lg bg-muted/60 p-1 header-shadow dark:bg-sidebar/80">
                 <div className="flex flex-col gap-3 px-2 py-1 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 items-center gap-2 text-muted-foreground">
@@ -94,38 +104,8 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                         <span className="truncate font-mono text-xs">{title}</span>
                     </div>
                     <div className="flex justify-between items-center gap-2">
-                        {previewHref ? (
-                            <Button
-                                aria-label="Open isolated preview"
-                                asChild
-                                className="mb-1 size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
-                                size="icon"
-                                variant="ghost"
-                            >
-                                <a href={previewHref} rel="noreferrer" target="_blank">
-                                    <IconWindowExpandBottomRightFillDuo18 className="size-4" />
-                                </a>
-                            </Button>
-                        ) : null}
-                        <Button
-                            aria-label="Replay preview"
-                            className="mb-1 size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
-                            onClick={replayPreview}
-                            size="icon"
-                            type="button"
-                            variant="ghost"
-                        >
-                            <motion.span
-                                key={previewKey}
-                                animate={{ rotate: 360 }}
-                                className="flex items-center justify-center"
-                                initial={{ rotate: 0 }}
-                                transition={{ duration: 0.35, ease: "easeOut" }}
-                            >
-                                <IconRefresh2FillDuo18 className="size-4" />
-                            </motion.span>
-                        </Button>
-                        <ul className="flex space-x-2 rounded-lg mb-1 w-fit p-0.5 header-shadow">
+
+                        <ul className="mb-1 flex space-x-2 rounded-lg w-fit p-0.5 header-shadow">
                             {TABS.map((tab) => {
                                 const isActive = showTab === tab.key;
                                 const TabIcon = tab.icon;
@@ -159,12 +139,71 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                                 );
                             })}
                         </ul>
+
                     </div>
                 </div>
 
-                <div className="h-80 overflow-hidden rounded-md border border-border/80 bg-background sm:h-[calc(100vh-300px)]">
+                <div className="relative h-80 overflow-hidden rounded-md border border-border/80 bg-background sm:h-[calc(100vh-300px)]">
                     {showTab === "preview" && (
                         <div className="h-full">
+                            <AnimatePresence initial={false}>
+                            { moreVisible && (
+
+                                <motion.div
+                                    initial={{ opacity: 0, y: -12,x:12, filter: "blur(6px)" }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0,
+                                        x: 0,
+                                        filter: "blur(0px)",
+                                        transition: {
+                                            duration: 0.22,
+                                            ease: "easeOut",
+                                        },
+                                    }}
+                                    exit={{ opacity: 0, y: -12,x:12, filter: "blur(6px)", transition: { duration: 0.18, ease: "easeOut" } }}
+                                    className="absolute right-2 top-2 mb-1 border rounded-lg items-center">
+                                    {previewHref ? (
+
+                                        <Button
+                                            tooltip="Open isolated preview"
+                                            aria-label="Open isolated preview"
+                                            asChild
+                                            className="size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
+                                            size="icon"
+                                            variant="ghost"
+                                        >
+                                            <a href={previewHref} rel="noreferrer" target="_blank">
+                                                <IconWindowPointerFillDuo18 className="size-5" />
+                                            </a>
+                                        </Button>
+
+                                    ) : null}
+
+                                    <Button
+                                        aria-label="Replay preview"
+                                        className="size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
+                                        onClick={replayPreview}
+                                        size="icon"
+                                        type="button"
+                                        tooltip="Replay preview"
+                                        variant="ghost"
+                                    >
+
+                                        <motion.span
+                                            key={previewKey}
+                                            animate={{ rotate: 360 }}
+                                            className="flex items-center justify-center"
+                                            initial={{ rotate: 0 }}
+                                            transition={{ duration: 0.35, ease: "easeOut" }}
+                                        >
+                                            <IconRefresh2FillDuo18 className="size-5" />
+                                        </motion.span>
+                                    </Button>
+
+                                </motion.div>
+                            )}
+                     </AnimatePresence>
                             <div
                                 className={cn(
                                     "flex h-full w-full overflow-auto px-4 py-6 sm:px-6",
@@ -194,6 +233,6 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                     {doc}
                 </div>
             ) : null}
-        </section>
+        </motion.section>
     );
 };
