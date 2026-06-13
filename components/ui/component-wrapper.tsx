@@ -94,7 +94,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         <motion.section 
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
-        className={cn("w-full", className)} {...props}>
+        className={cn("w-full h-full", className)} {...props}>
             <div className="rounded-lg bg-muted/60 p-1 header-shadow dark:bg-sidebar/80">
                 <div className="flex flex-col gap-3 px-2 py-1 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 items-center gap-2 text-muted-foreground">
@@ -143,14 +143,14 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                     </div>
                 </div>
 
-                <div className="relative h-80 overflow-hidden rounded-md border border-border/80 bg-background sm:h-[calc(100vh-300px)]">
+                <div className="relative mx-auto overflow-hidden rounded-md border border-border/80 bg-background flex flex-col min-h-[calc(100vh-300px)]">
                     {showTab === "preview" && (
-                        <div className="h-full">
+                        <div className="flex flex-col flex-1">
                             <AnimatePresence initial={false}>
                             { moreVisible && (
 
                                 <motion.div
-                                    initial={{ opacity: 0, y: -12,x:12, filter: "blur(6px)" }}
+                                    initial={{ opacity: 0, y: 12,x:12, filter: "blur(6px)" }}
                                     animate={{
                                         opacity: 1,
                                         y: 0,
@@ -162,7 +162,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                                         },
                                     }}
                                     exit={{ opacity: 0, y: -12,x:12, filter: "blur(6px)", transition: { duration: 0.18, ease: "easeOut" } }}
-                                    className="absolute right-2 top-2 mb-1 border rounded-lg items-center">
+                                    className="absolute right-[45%] -translate-x-1/2 top-2 mb-1 border rounded-lg items-center bg-background">
                                     {previewHref ? (
 
                                         <Button
@@ -206,14 +206,14 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                      </AnimatePresence>
                             <div
                                 className={cn(
-                                    "flex h-full w-full overflow-auto px-4 py-6 sm:px-6",
+                                    "flex flex-1 w-full overflow-auto px-4 py-6 sm:px-6",
                                     align === "center" && "items-center justify-center",
                                     align === "start" && "items-start justify-start",
                                     align === "end" && "items-end justify-end",
                                     previewClassName,
                                 )}
                             >
-                                <div key={previewKey} className="flex h-full w-full items-center justify-center">
+                                <div key={previewKey} className="flex flex-1 w-full items-center justify-center">
                                     {children}
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
                     )}
 
                     {showTab === "code" && (
-                        <div className="h-full overflow-hidden relative">
+                        <div className="flex-1 overflow-hidden relative">
                             {codeString && <CopyButton code={codeString} className="absolute top-2 right-2 z-10" />}
                             {code ? code : <EmptyPanel label="No source added for this example." />}
                         </div>

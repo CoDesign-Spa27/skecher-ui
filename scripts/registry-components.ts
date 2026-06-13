@@ -27,9 +27,19 @@ export const components: ComponentProps[] = [
     dependencies: ["motion"],
   },
   {
+    name: "image-density-grid",
+    path: path.join(__dirname, "../components/ui-components/image-density-grid"),
+    dependencies: ["motion"],
+  },
+  {
     name: "liquid-glass-social",
     path: path.join(__dirname, "../components/ui-components/liquid-glass-social"),
     dependencies: ["motion"],
+  },
+  {
+    name: "morphing-action-dock",
+    path: path.join(__dirname, "../components/ui-components/morphing-action-dock"),
+    dependencies: ["motion", "lucide-react"],
   },
   {
     name: "streaming-text",

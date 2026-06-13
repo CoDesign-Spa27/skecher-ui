@@ -157,6 +157,56 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
   },
   {
+    id: "image-density-grid",
+    title: "Image Density Grid",
+    slug: "image-density-grid",
+    eyebrow: "Components",
+    description:
+      "A percentage-controlled image grid that reflows every frame into a denser or sparser layout with layout motion, soft blur, and a temporary glow during density changes.",
+    details: [
+     
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/image-density-grid.json",
+    importName: "ImageDensityGrid",
+    usage: {
+      imports: `import { ImageDensityGrid } from "@/components/ui/image-density-grid";`,
+      code: `<ImageDensityGrid />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/image-density-grid.tsx",
+        description: "Image Density Grid component",
+      },
+    ],
+  },
+  {
+    id: "morphing-action-dock",
+    title: "Morphing Action Dock",
+    slug: "morphing-action-dock",
+    eyebrow: "Components",
+    description:
+      "A floating action dock that merges into one compact surface and splits into contextual actions on hover, focus, or pin.",
+    details: [
+    
+    ],
+    dependencies: ["react", "motion", "lucide-react"],
+    installDependencies: ["motion", "lucide-react"],
+    cliCommand: "https://skecher-ui.vercel.app/r/morphing-action-dock.json",
+    importName: "MorphingActionDock",
+    usage: {
+      imports: `import { MorphingActionDock } from "@/components/ui/morphing-action-dock";`,
+      code: `<MorphingActionDock />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/morphing-action-dock.tsx",
+        description: "Morphing Action Dock component",
+      },
+    ],
+  },
+  {
     id: "gooey-toolbar",
     title: "Gooey Toolbar",
     slug: "gooey-toolbar",

@@ -167,7 +167,7 @@ export const MorphingText = ({
 
         <TextMorph
             className={cn(
-                'inline-flex min-h-[1em] items-center justify-center xl:text-4xl md:text-3xl text-lg',
+                'inline-flex min-h-[1em] items-center justify-center xl:text-4xl md:text-3xl text-lg ',
                 className
             )}
         >
