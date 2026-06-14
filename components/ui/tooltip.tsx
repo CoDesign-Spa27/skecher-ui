@@ -395,6 +395,7 @@ function TooltipContent({ children, arrow = true }: TooltipContentProps) {
 }
 
 type TooltipTriggerProps = {
+  asChild?: boolean
   children: React.ReactElement
 }
 

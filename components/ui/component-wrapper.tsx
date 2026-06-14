@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
+import type { HTMLMotionProps } from "motion/react";
 import { cn } from "@/lib/utils";
 import { IconEyeOpenFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 import { IconRefresh2FillDuo18 } from "nucleo-ui-essential-fill-duo-18";
@@ -14,7 +15,7 @@ import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
 
 type ComponentWrapperTab = "preview" | "code";
 
-interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
+interface ComponentWrapperProps extends Omit<HTMLMotionProps<"section">, "children"> {
     action?: "replay" | "toggle" | string;
     align?: "center" | "start" | "end";
     children: React.ReactNode;
