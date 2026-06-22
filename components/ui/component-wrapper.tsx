@@ -95,7 +95,7 @@ function CodeDrawer({
 }
 
 export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
-  align = "end",
+ 
   action,
   children,
   className,

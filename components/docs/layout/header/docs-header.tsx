@@ -3,8 +3,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import { Input } from "@/components/ui/input";
-import { IconMagnifierFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
+
 
 const DocsHeader = () => {
     return (
