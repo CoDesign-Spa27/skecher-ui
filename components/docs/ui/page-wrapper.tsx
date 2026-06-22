@@ -7,7 +7,7 @@ export const PageWrapper = ({ children }: { children: React.ReactNode }) => {
             <div className="no-scrollbar h-full overflow-auto pb-10 pt-16 sm:overscroll-none">
                 {children}
             </div>
-            <ProgressiveBlur height="10%" position="bottom" />
+            <ProgressiveBlur height="7%" position="bottom" />
         </div>
     )
 }

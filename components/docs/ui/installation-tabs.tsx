@@ -21,7 +21,7 @@ function InstallationTabs({
 
     return (
         <Tabs
-            className="min-w-0 w-full max-w-full"
+            className="min-w-0 w-full max-w-full "
             value={installationType}
             onValueChange={(value) => setConfig({ installationType: value as "cli" | "manual" })}
         >

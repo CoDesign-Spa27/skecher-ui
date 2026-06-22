@@ -95,7 +95,7 @@ function CodeDrawer({
 }
 
 export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
-  align = "center",
+  align = "end",
   action,
   children,
   className,
@@ -163,21 +163,19 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         {actions}
       </div>
 
-      <div className="relative min-h-[calc(100vh-300px)] w-full">
+      <div className="relative max-h-[calc(100vh-300px)] w-full bg-background mx-auto h-full flex items-center justify-center rounded-xl component-preview-css ">
         <div
           className={cn(
-            "flex min-h-[calc(100vh-300px)] w-full overflow-auto px-4 py-8 sm:px-6",
-            align === "center" && "items-center justify-center",
-            align === "start" && "items-start justify-start",
-            align === "end" && "items-end justify-end",
+            "flex min-h-[calc(100vh-300px)] w-full overflow-auto px-4 py-8 sm:px-6 items-center justify-center",
             previewClassName,
           )}
         >
-          <div key={previewKey} className="flex min-h-full w-full items-center justify-center">
+          <div key={previewKey} className="flex min-h-full w-full items-center justify-center h-full">
             {children}
           </div>
         </div>
       </div>
+ 
 
       {doc ? <div className="mt-8">{doc}</div> : null}
     </section>

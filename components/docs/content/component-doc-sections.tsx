@@ -143,8 +143,8 @@ function ComponentInstallation({
     installDependencies ?? dependencies.filter((dependency) => dependency !== "react");
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <div className="min-w-0 rounded-md border-0 bg-background p-4 md:col-span-2">
+    <div className="grid gap-4 md:grid-cols-2 ">
+      <div className="min-w-0 rounded-md border-0 component-preview-css bg-background p-4 md:col-span-2">
         <h3 className="font-medium text-foreground">Installation</h3>
         <div className="mt-3 min-w-0">
           <InstallationTabs
@@ -204,7 +204,7 @@ async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
 
 export function ComponentDocSections({ page }: { page: ComponentDoc }) {
   return (
-    <div className="w-full space-y-8 text-sm leading-6 text-muted-foreground pb-10">
+    <div className="w-full space-y-4 text-sm leading-6 text-muted-foreground pb-10">
       <header className="w-full space-y-3">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
           {page.eyebrow}
