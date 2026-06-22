@@ -20,7 +20,7 @@ export default function RootLayout({
                     <DocsSidebarTriggerInInset />
                     <DocsHeader />
 
-                    <div className="w-full bg-background pt-2 pr-2 pl-2 ">
+                    <div className="relative h-svh w-full overflow-hidden bg-background px-2 pt-2">
                         <PageWrapper>{children}</PageWrapper>
                     </div>
                 </SidebarInset>

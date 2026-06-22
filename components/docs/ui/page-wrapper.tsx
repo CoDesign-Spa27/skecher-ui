@@ -1,7 +1,13 @@
+import { ProgressiveBlur } from "@/components/ui/progressive-blur";
+
 export const PageWrapper = ({ children }: { children: React.ReactNode }) => {
     return (
-        <div className="h-full rounded-xl border-none border-sidebar-border bg-sidebar shadow-sm pt-16 pb-10 no-scrollbar  overflow-scroll sm:h-[calc(100vh-0.5rem)] sm:overscroll-none sm:border ">
-            {children}
+        <div className="relative h-full overflow-hidden rounded-xl border-none border-sidebar-border bg-sidebar shadow-sm sm:h-[calc(100vh-0.5rem)] sm:border">
+            <ProgressiveBlur height="10%" position="top" />
+            <div className="no-scrollbar h-full overflow-auto pb-10 pt-16 sm:overscroll-none">
+                {children}
+            </div>
+            <ProgressiveBlur height="10%" position="bottom" />
         </div>
     )
 }
