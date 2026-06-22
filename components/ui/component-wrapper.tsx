@@ -157,7 +157,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
     <section className={cn("w-full h-full", className)} {...props}>
       <div
         aria-label="Component actions"
-        className="fixed left-1/2 top-[4.25rem] z-50 flex h-10 max-w-2xl shrink-0 -translate-x-1/2 items-center justify-between gap-1 rounded-xl bg-sidebar px-1 header-shadow md:top-5 md:translate-x-1"
+        className="fixed right-[4.5rem] top-5 z-50 flex h-10 max-w-2xl shrink-0 items-center justify-between gap-1 rounded-xl bg-sidebar px-1 header-shadow"
         role="toolbar"
       >
         {actions}

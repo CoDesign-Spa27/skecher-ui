@@ -203,11 +203,11 @@ export function ImageDensityGrid({
   return (
     <div
       className={cn(
-        "mx-auto flex  w-full max-w-6xl flex-col overflow-hidden",
+        "mx-auto flex h-[clamp(20rem,calc(100svh-23rem),40rem)] max-h-full min-h-0 min-w-0 w-full max-w-6xl flex-col overflow-hidden",
         className
       )}
     >
-      <div className="flex shrink-0 items-center justify-between gap-4">
+      <div className="flex shrink-0 items-center justify-center gap-4">
         {/* <div className="min-w-0">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/38">
             Image Density
@@ -261,7 +261,7 @@ export function ImageDensityGrid({
         </div>
       </div>
 
-      <div className="no-scrollbar relative isolate min-h-0 flex-1 overflow-auto overscroll-contain px-1 py-8">
+      <div className="no-scrollbar relative isolate min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain px-1 py-8">
         <motion.div
           className="relative grid overflow-visible"
           layout

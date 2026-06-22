@@ -16,7 +16,7 @@ export async function ImageGlideDoc({ page }: { page: ComponentDoc }) {
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
-      previewClassName="bg-background"
+      previewClassName=""
       previewHref={`/preview/${page.slug}`}
       title="image-glide.tsx"
     >
