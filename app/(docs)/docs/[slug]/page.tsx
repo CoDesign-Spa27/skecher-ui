@@ -23,7 +23,7 @@ export default async function ComponentDocsPage({
   }
 
   return (
-    <ComponentDocPage page={page}>
+    <ComponentDocPage>
       <ComponentDoc page={page} />
     </ComponentDocPage>
   );

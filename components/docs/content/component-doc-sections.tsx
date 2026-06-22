@@ -205,6 +205,17 @@ async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
 export function ComponentDocSections({ page }: { page: ComponentDoc }) {
   return (
     <div className="w-full space-y-8 text-sm leading-6 text-muted-foreground pb-10">
+      <header className="w-full space-y-3">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          {page.eyebrow}
+        </p>
+        <h1 className="font-raleway text-4xl font-light tracking-normal text-foreground">
+          {page.title}
+        </h1>
+        <p className="max-w-3xl text-base leading-7 text-muted-foreground">
+          {page.description}
+        </p>
+      </header>
       <ComponentDetails details={page.details} />
       <ComponentDependencies dependencies={page.dependencies} />
       <ComponentInstallation
