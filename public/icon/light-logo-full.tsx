@@ -2,7 +2,7 @@ export const LightLogo = ({ className }: { className: string }) => {
 
     return ( <svg className={className} width="435" height="55" viewBox="0 0 435 55" fill="none" xmlns="http://www.w3.org/2000/svg" >
         <title>Light Logo</title>
-        <g clip-path="url(#clip0_0_1)">
+        <g clipPath="url(#clip0_0_1)">
             <rect x="3.5" y="4" width="48" height="48" fill="white" />
             <path d="M51.4998 51.1069L51.6003 20.1071L42.5258 43.0778L18.4999 50.9999L51.4998 51.1069Z" fill="black" />
             <path d="M6.5 7H37.5L14.5 16L6.5 40V7Z" fill="black" />

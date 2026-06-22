@@ -79,7 +79,6 @@ export function DocsSidebar({
                                     <Link href={item?.url ?? "#"} onClick={handleLinkClick} className="relative flex items-center">
                                         {/* The animated horizontal line */}
                                         <motion.hr
-                                            key={item?.title}
                                             initial={{ width: 0 }}
                                             animate={{ width: isHovered ? 45 : 32 }}  
                                             transition={FAST_SPRING as Transition}
@@ -92,7 +91,6 @@ export function DocsSidebar({
 
                                         {/* The indicator dot - optional, kept for visual */}
                                         <motion.div
-                                            key={item?.title}
                                             initial={{ x: 0 }}
                                             animate={{ x: isHovered ? 13 : 0 }}
                                             transition={FAST_SPRING as Transition}
