@@ -335,7 +335,7 @@ export function GooeyToolbar({
         <div className={cn('relative w-full items-center justify-center flex h-full', className)}>
             <GooeyFilter />
             {showVariantToggle ? (
-                <div className="absolute top-0 right-0 mb-4 flex justify-center">
+                <div className="absolute -top-20 right-1/3 mb-4 flex justify-center">
                     <VariantToggle value={currentVariant} onValueChange={setSelectedVariant} />
                 </div>
             ) : null}

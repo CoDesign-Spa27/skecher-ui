@@ -3,6 +3,10 @@ import type { SidebarItemProps } from "@/types/docs/sidebar-types";
 
 export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
   {
+    title: "Intro",
+    url: "/docs",
+  },
+  {
     title: "Components",
     type: "section",
   },
@@ -11,4 +15,3 @@ export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
     url: `/docs/${page.slug}`,
   })),
 ];
-
