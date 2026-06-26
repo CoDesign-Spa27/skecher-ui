@@ -12,7 +12,7 @@ import Link from "next/link";
  
 
 const VIDEO_BASE_URL =
-    "https://skecher-ui.com/skecher-components/edit-video-projects";
+    "https://assets.skecher-ui.com/skecher-components/edit-video-projects";
 
 const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component, index) => ({
     ...component,
