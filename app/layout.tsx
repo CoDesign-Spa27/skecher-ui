@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Raleway, Inspiration } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-
+import { Analytics } from "@vercel/analytics/next"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -51,6 +51,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
         </ThemeProvider>
         </TooltipProvider>
       </body>
