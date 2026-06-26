@@ -23,47 +23,7 @@ export type ComponentDoc = {
 };
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
-  {
-    id: "dock",
-    title: "Dock",
-    slug: "dock",
-    eyebrow: "Components",
-    description:
-      "A macOS-style magnifying dock powered by shared motion values and spring-smoothed icon sizing.",
-    details: [
-      {
-        title: "Shared cursor signal",
-        body: "A single mouseX motion value is passed to every item so icon sizing is derived without React re-rendering on pointer movement.",
-      },
-      {
-        title: "Spring magnification",
-        body: "Each item maps cursor distance into a target size and smooths the result through a compact spring for continuous, interruptible motion.",
-      },
-      {
-        title: "Motion aware",
-        body: "Reduced-motion users keep the resting item size while preserving focus and tooltip feedback.",
-      },
-    ],
-    dependencies: ["react", "motion"],
-    installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/dock.json",
-    importName: "Dock",
-    usage: {
-      imports: `import { Dock } from "@/components/ui/dock";`,
-      code: `<Dock
-  items={[
-    { id: "home", label: "Home", icon: <HomeIcon /> },
-    { id: "search", label: "Search", icon: <SearchIcon /> },
-  ]}
-/>`,
-    },
-    files: [
-      {
-        path: "components/ui-components/dock.tsx",
-        description: "Magnifying dock component",
-      },
-    ],
-  },
+
   {
     id: "streaming-text",
     title: "Streaming Text",
@@ -269,7 +229,48 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
         description: "Gooey Toolbar component",
       },
     ],
-  }
+  },
+    {
+    id: "dock",
+    title: "Dock",
+    slug: "dock",
+    eyebrow: "Components",
+    description:
+      "A macOS-style magnifying dock powered by shared motion values and spring-smoothed icon sizing.",
+    details: [
+      {
+        title: "Shared cursor signal",
+        body: "A single mouseX motion value is passed to every item so icon sizing is derived without React re-rendering on pointer movement.",
+      },
+      {
+        title: "Spring magnification",
+        body: "Each item maps cursor distance into a target size and smooths the result through a compact spring for continuous, interruptible motion.",
+      },
+      {
+        title: "Motion aware",
+        body: "Reduced-motion users keep the resting item size while preserving focus and tooltip feedback.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/dock.json",
+    importName: "Dock",
+    usage: {
+      imports: `import { Dock } from "@/components/ui/dock";`,
+      code: `<Dock
+  items={[
+    { id: "home", label: "Home", icon: <HomeIcon /> },
+    { id: "search", label: "Search", icon: <SearchIcon /> },
+  ]}
+/>`,
+    },
+    files: [
+      {
+        path: "components/ui-components/dock.tsx",
+        description: "Magnifying dock component",
+      },
+    ],
+  },
 ];
 
 export function getComponentDoc(slug: string) {

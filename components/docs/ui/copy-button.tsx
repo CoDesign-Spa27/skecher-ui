@@ -65,6 +65,8 @@ const CopyButton = ({
 
     return (
         <Button
+            tooltip={copied ? "Copied" : "Copy"}
+
             className={cn(
                 "h-8 w-8 rounded active:scale-90 dark:hover:bg-[#232323]!",
                 withBlurBg && "bg-background",

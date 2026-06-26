@@ -8,7 +8,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
+ 
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import {
   IconRefresh2FillDuo18,
   IconWindowPointerFillDuo18,
-  IconXmarkFillDuo18,
+  IconSquareMinusFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
@@ -63,13 +63,10 @@ function CodeDrawer({
           <CodeIcon className="size-4" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-lg border-x bg-background p-0">
-        <div className="flex items-center justify-between gap-3 border-b px-4 py-3 sm:px-5">
+      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-background p-0">
+        <div className="flex items-center justify-between gap-3 border-b px-4 py-1 sm:px-5">
           <div className="min-w-0">
-            <DrawerTitle className="truncate font-mono text-sm font-medium">{title}</DrawerTitle>
-            <DrawerDescription className="mt-0.5 text-xs">
-              Source code
-            </DrawerDescription>
+            <DrawerTitle className="truncate font-raleway text-sm font-medium bg-highlight px-2 rounded-sm py-0.5 ">{title}</DrawerTitle>
           </div>
           <div className="flex shrink-0 items-center gap-1">
             {codeString ? <CopyButton code={codeString} className="size-8 rounded-md" /> : null}
@@ -81,12 +78,12 @@ function CodeDrawer({
                 tooltip="Close"
                 variant="ghost"
               >
-                <IconXmarkFillDuo18 className="size-5" />
+                <IconSquareMinusFillDuo18 className="size-5" />
               </Button>
             </DrawerClose>
           </div>
         </div>
-        <div className="min-h-0 flex-1 overflow-hidden bg-muted/20">
+        <div className="min-h-0 flex-1 overflow-hidden bg-muted/20 scroll-fade-y ">
           {code ? code : <EmptyPanel label="No source added for this example." />}
         </div>
       </DrawerContent>
