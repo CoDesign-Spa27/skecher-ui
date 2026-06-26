@@ -1,28 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+ 
 
 import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
 import { COMPONENT_DOCS } from "@/lib/docs-content";
-import { ArrowRight, PlayCircle } from "lucide-react";
+import { PlayCircle } from "lucide-react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 
-const DOC_STEPS = [
-    {
-        title: "Pick a component",
-        body: "Start with a motion primitive that matches the moment you are building.",
-    },
-    {
-        title: "Install only what it needs",
-        body: "Each page lists its command, dependencies, source file, and usage example.",
-    },
-    {
-        title: "Shape it in your UI",
-        body: "The components are made to inherit your layout, type scale, and interaction style.",
-    },
-];
+ 
 
 const VIDEO_BASE_URL =
     "https://skecher-ui.com/skecher-components/edit-video-projects";
