@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
- 
+
 import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
 import { COMPONENT_DOCS } from "@/lib/docs-content";
 import { ArrowRight, PlayCircle } from "lucide-react";
@@ -205,45 +205,45 @@ function VideoCard({ component }: { component: ComponentVideo }) {
                                         style={{ borderRadius: 999 }}
                                         className=" relative max-w-[calc(100%-2rem)] overflow-hidden bg-sidebar/90 px-4 py-1.5 backdrop-blur-sm"
                                     >
-                                
-                                            <motion.p
-                                                key="title"
-                                                initial={{
-                                                    transition: {
-                                                        duration: 0.22,
-                                                        ease: "easeOut",
-                                                    },
-                                                    opacity: 0,
-                                                    y: shouldReduceMotion ? 0 : 12,
-                                                    filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
-                                                }}
-                                                animate={{
-                                                    transition: {
-                                                        duration: 0.22,
-                                                        ease: "easeOut",
-                                                    },
-                                                    opacity: 1,
-                                                    y: 0,
-                                                    filter: "blur(0px)",
-                                                }}
-                                                exit={{
-                                                    transition: {
-                                                        duration: 0.22,
-                                                        ease: "easeOut",
-                                                    },
-                                                    opacity: 0,
-                                                    y: shouldReduceMotion ? 0 : 12,
-                                                    filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
-                                                }}
-                                            
-                                                style={{
-                                                    willChange: "opacity, transform, filter",
-                                                }}
-                                                className="relative z-20 truncate text-sm font-medium text-foreground"
-                                            >
-                                                {component.title}
-                                            </motion.p>
-                               
+
+                                        <motion.p
+                                            key="title"
+                                            initial={{
+                                                transition: {
+                                                    duration: 0.22,
+                                                    ease: "easeOut",
+                                                },
+                                                opacity: 0,
+                                                y: shouldReduceMotion ? 0 : 12,
+                                                filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
+                                            }}
+                                            animate={{
+                                                transition: {
+                                                    duration: 0.22,
+                                                    ease: "easeOut",
+                                                },
+                                                opacity: 1,
+                                                y: 0,
+                                                filter: "blur(0px)",
+                                            }}
+                                            exit={{
+                                                transition: {
+                                                    duration: 0.22,
+                                                    ease: "easeOut",
+                                                },
+                                                opacity: 0,
+                                                y: shouldReduceMotion ? 0 : 12,
+                                                filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
+                                            }}
+
+                                            style={{
+                                                willChange: "opacity, transform, filter",
+                                            }}
+                                            className="relative z-20 truncate text-sm font-medium text-foreground"
+                                        >
+                                            {component.title}
+                                        </motion.p>
+
                                     </motion.div>
                                 ) : (
                                     <motion.div
@@ -276,79 +276,12 @@ function VideoCard({ component }: { component: ComponentVideo }) {
 export default function Page() {
     return (
         <main className="page mx-auto flex min-h-full w-full max-w-5xl flex-col px-5 py-8 sm:px-8 lg:px-10">
-            <header className="max-w-3xl border-b border-border pb-10 pt-4">
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    Skecher UI Docs
-                </p>
-
-                <h1 className="mt-4 font-raleway text-4xl font-light tracking-normal text-foreground sm:text-5xl">
-                    Animated React components built to stay out of your way.
-                </h1>
-
-                <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                    Explore focused motion components, copy the source into your project,
-                    and keep full control over the final interface.
-                </p>
-
-                <div className="mt-7 flex flex-wrap items-center gap-3">
-                    <Button asChild>
-                        <Link href="/docs/streaming-text">
-                            Start with Streaming Text
-                            <ArrowRight />
-                        </Link>
-                    </Button>
-
-                    <Button asChild variant="ghost">
-                        <Link href="#components">Browse components</Link>
-                    </Button>
-                </div>
-            </header>
-
-            <section
-                aria-labelledby="docs-flow-title"
-                className="grid gap-8 border-b border-border py-10 md:grid-cols-[minmax(0,1fr)_minmax(18rem,1fr)]"
-            >
-                <div>
-                    <h2
-                        id="docs-flow-title"
-                        className="font-raleway text-2xl font-light tracking-normal text-foreground"
-                    >
-                        A short path from demo to product.
-                    </h2>
-
-                    <p className="mt-3 max-w-xl leading-7 text-muted-foreground">
-                        These docs keep the workflow close to the code: preview the
-                        component, install its small dependency set, then adapt the source to
-                        your system.
-                    </p>
-                </div>
-
-                <ol className="divide-y divide-border border-y border-border">
-                    {DOC_STEPS.map((step, index) => (
-                        <li key={step.title} className="grid grid-cols-[2rem_1fr] gap-4 py-4">
-                            <span className="text-sm tabular-nums text-muted-foreground">
-                                {String(index + 1).padStart(2, "0")}
-                            </span>
-
-                            <div>
-                                <h3 className="text-sm font-medium text-foreground">
-                                    {step.title}
-                                </h3>
-
-                                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                                    {step.body}
-                                </p>
-                            </div>
-                        </li>
-                    ))}
-                </ol>
-            </section>
 
             <section id="components" aria-labelledby="components-title" className="py-10">
                 <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
                     <div>
                         <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                            Component videos
+                            Skechers
                         </p>
 
                         <h2
@@ -358,11 +291,6 @@ export default function Page() {
                             Watch the pieces in motion.
                         </h2>
                     </div>
-
-                    <p className="max-w-md text-sm leading-6 text-muted-foreground">
-                        Each card uses the Cloudflare-hosted Skecher video series and links
-                        back to the matching component docs.
-                    </p>
                 </div>
 
                 <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

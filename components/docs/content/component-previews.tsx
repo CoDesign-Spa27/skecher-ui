@@ -1,3 +1,4 @@
+import { Dock } from "@/components/ui-components/dock";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
@@ -5,8 +6,24 @@ import { Social } from "@/components/ui-components/liquid-glass-social";
 import { MorphingActionDock } from "@/components/ui-components/morphing-action-dock";
 import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
+ 
+import { IconWindow2, IconFileDownload, IconSquareKanban, IconDocFolder, IconHouse, IconSquareGrid } from 'nucleo-glass';
+
+const iconClassName = "size-full";
 
 export const COMPONENT_PREVIEWS = {
+  "dock": (
+    <Dock
+      items={[
+        { id: "home", label: "Home", icon: <IconWindow2 className={iconClassName} /> },
+        { id: "search", label: "Search", icon: <IconFileDownload className={iconClassName} /> },
+        { id: "sparkles", label: "Create", icon: <IconSquareKanban className={iconClassName} /> },
+        { id: "updates", label: "Updates", icon: <IconDocFolder className={iconClassName} /> },
+        { id: "profile", label: "Profile", icon: <IconHouse className={iconClassName} /> },
+        { id: "settings", label: "Settings", icon: <IconSquareGrid className={iconClassName} /> },
+      ]}
+    />
+  ),
   "gooey-toolbar": <GooeyToolbar />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,

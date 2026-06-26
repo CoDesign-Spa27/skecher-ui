@@ -1,0 +1,21 @@
+{
+  "name": "dock",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "dependencies": [
+    "motion"
+  ],
+  "devDependencies": [],
+  "tailwind": {},
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "files": [
+    {
+      "path": "dock.tsx",
+      "content": "\"use client\";\n\nimport type { ReactNode } from \"react\";\nimport { useRef } from \"react\";\nimport {\n  motion,\n  useMotionValue,\n  useReducedMotion,\n  useSpring,\n  useTransform,\n  type MotionValue,\n} from \"motion/react\";\n\nexport interface DockItem {\n  id: string;\n  label: string;\n  icon: ReactNode;\n  onClick?: () => void;\n}\n\nexport interface DockProps {\n  items: DockItem[];\n  baseSize?: number;\n  maxSize?: number;\n  influence?: number;\n  className?: string;\n}\n\nconst SPRING = { mass: 0.1, stiffness: 170, damping: 14 } as const;\n\nexport function Dock({\n  items,\n  baseSize = 44,\n  maxSize = 80,\n  influence = 140,\n  className = \"\",\n}: DockProps) {\n  const mouseX = useMotionValue(Infinity);\n\n  return (\n    <div\n      className={`mx-auto flex h-20 items-end gap-3 rounded-2xl border border-white/10 bg-zinc-900/70 px-3 pb-3 shadow-2xl shadow-black/40 backdrop-blur-md ${className}`}\n      role=\"toolbar\"\n      aria-label=\"Dock\"\n      onMouseMove={(event) => mouseX.set(event.clientX)}\n      onMouseLeave={() => mouseX.set(Infinity)}\n    >\n      {items.map((item) => (\n        <DockButton\n          key={item.id}\n          item={item}\n          mouseX={mouseX}\n          baseSize={baseSize}\n          maxSize={maxSize}\n          influence={influence}\n        />\n      ))}\n    </div>\n  );\n}\n\nfunction DockButton({\n  item,\n  mouseX,\n  baseSize,\n  maxSize,\n  influence,\n}: {\n  item: DockItem;\n  mouseX: MotionValue<number>;\n  baseSize: number;\n  maxSize: number;\n  influence: number;\n}) {\n  const ref = useRef<HTMLButtonElement>(null);\n  const reduceMotion = useReducedMotion();\n  const hovered = useMotionValue(0);\n  const restingSize = useMotionValue(baseSize);\n\n  const distance = useTransform(mouseX, (x) => {\n    const bounds = ref.current?.getBoundingClientRect();\n\n    if (!bounds) {\n      return influence + 1;\n    }\n\n    return x - (bounds.x + bounds.width / 2);\n  });\n\n  const targetSize = useTransform(\n    distance,\n    [-influence, 0, influence],\n    [baseSize, maxSize, baseSize],\n    { clamp: true },\n  );\n\n  const size = useSpring(reduceMotion ? restingSize : targetSize, SPRING);\n\n  return (\n    <motion.button\n      ref={ref}\n      type=\"button\"\n      style={{ width: size, height: size }}\n      onClick={item.onClick}\n      onHoverStart={() => hovered.set(1)}\n      onHoverEnd={() => hovered.set(0)}\n      onFocus={() => hovered.set(1)}\n      onBlur={() => hovered.set(0)}\n      whileTap={{ scale: 0.88 }}\n      className=\"group relative grid place-items-center rounded-xl bg-zinc-800 text-zinc-200 outline-none ring-cyan-400/70 transition-colors hover:bg-zinc-700 focus-visible:ring-2\"\n      aria-label={item.label}\n    >\n      <span className=\"pointer-events-none flex size-[55%] items-center justify-center\">\n        {item.icon}\n      </span>\n\n      <Tooltip hovered={hovered} label={item.label} />\n    </motion.button>\n  );\n}\n\nfunction Tooltip({\n  hovered,\n  label,\n}: {\n  hovered: MotionValue<number>;\n  label: string;\n}) {\n  const opacity = useTransform(hovered, [0, 1], [0, 1]);\n  const y = useTransform(hovered, [0, 1], [4, 0]);\n\n  return (\n    <motion.span\n      style={{ opacity, y }}\n      className=\"pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-900 shadow-lg\"\n      aria-hidden\n    >\n      {label}\n    </motion.span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

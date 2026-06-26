@@ -1,3 +1,4 @@
+import { DockDoc } from "@/components/docs/content/dock-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
 import { ImageGlideDoc } from "@/components/docs/content/image-glide-doc";
@@ -12,6 +13,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
+  "dock": DockDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,

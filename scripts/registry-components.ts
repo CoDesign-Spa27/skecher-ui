@@ -17,18 +17,23 @@ type ComponentProps = Partial<
 
 export const components: ComponentProps[] = [
   {
+    name: "dock",
+    path: path.join(__dirname, "../components/ui-components/dock"),
+    dependencies: ["motion"],
+  },
+  {
     name: "gooey-toolbar",
     path: path.join(__dirname, "../components/ui-components/gooey-toolbar"),
     dependencies: ["motion"],
   },
   {
-    name: "image-glide",
-    path: path.join(__dirname, "../components/ui-components/image-glide"),
+    name: "image-density-grid",
+    path: path.join(__dirname, "../components/ui-components/image-density-grid"),
     dependencies: ["motion"],
   },
   {
-    name: "image-density-grid",
-    path: path.join(__dirname, "../components/ui-components/image-density-grid"),
+    name: "image-glide",
+    path: path.join(__dirname, "../components/ui-components/image-glide"),
     dependencies: ["motion"],
   },
   {
@@ -39,7 +44,7 @@ export const components: ComponentProps[] = [
   {
     name: "morphing-action-dock",
     path: path.join(__dirname, "../components/ui-components/morphing-action-dock"),
-    dependencies: ["motion", "lucide-react"],
+    dependencies: ["motion"],
   },
   {
     name: "streaming-text",
