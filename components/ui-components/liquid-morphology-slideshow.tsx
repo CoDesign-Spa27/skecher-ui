@@ -642,7 +642,7 @@ export function LiquidMorphologySlideshow({
   const onSlideChangeRef = useRef(onSlideChange);
 
   const [activeIndex, setActiveIndex] = useState(safeInitialIndex);
-  const [progress, setProgress] = useState(0);
+  // const [progress, setProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [hasWebGLError, setHasWebGLError] = useState(false);
 
@@ -654,7 +654,7 @@ export function LiquidMorphologySlideshow({
 
   const resetProgressIndicator = useCallback(() => {
     progressStartedAtRef.current = performance.now();
-    setProgress(0);
+    // setProgress(0);
   }, []);
 
   const cancelProgressLoop = useCallback(() => {
@@ -694,7 +694,7 @@ export function LiquidMorphologySlideshow({
     activeIndexRef.current = targetIndex;
     progressStartedAtRef.current = performance.now();
     setActiveIndex(targetIndex);
-    setProgress(0);
+    // setProgress(0);
     onSlideChangeRef.current?.(targetIndex);
   }, []);
 
@@ -787,12 +787,12 @@ export function LiquidMorphologySlideshow({
 
       const startedAt = progressStartedAtRef.current || timestamp;
       const nextProgress = Math.min(((timestamp - startedAt) / durationMs) * 100, 100);
-      setProgress(nextProgress);
+      // setProgress(nextProgress);
 
       if (nextProgress >= 100) {
         progressStartedAtRef.current = timestamp;
         goNext();
-        setProgress(0);
+        // setProgress(0);
       }
 
       progressFrameRef.current = window.requestAnimationFrame(tick);
@@ -982,7 +982,7 @@ export function LiquidMorphologySlideshow({
   }
 
   const activeSlide = safeSlides[activeIndex] ?? safeSlides[0];
-  const displayTotal = formatSlideNumber(safeSlides.length - 1);
+  // const displayTotal = formatSlideNumber(safeSlides.length - 1);
   const profileImage = profileCard.image ?? activeSlide?.src ?? DEFAULT_PROFILE_CARD.image;
 
   return (
@@ -1032,7 +1032,7 @@ export function LiquidMorphologySlideshow({
             aria-label={`${brandName} home`}
             className="pointer-events-auto flex w-fit items-center gap-2 text-sm font-black tracking-[-0.02em] text-white outline-none transition-opacity duration-200 hover:opacity-80 focus-visible:ring-2 focus-visible:ring-white/80"
             data-liquid-morphology-nav
-            href="#"
+            href="#brand"
           >
             <span className="grid size-4 grid-cols-2 gap-1" aria-hidden="true">
               <span className="bg-white" />

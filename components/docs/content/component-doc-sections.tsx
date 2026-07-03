@@ -43,18 +43,18 @@ function getDependencyIcon(dependency: string) {
   return DEPENDENCY_ICONS[dependency.toLowerCase()];
 }
 
-function ComponentDetails({ details }: Pick<ComponentDoc, "details">) {
-  return (
-    <div className="grid gap-4 md:grid-cols-3">
-      {details.map((detail) => (
-        <div className="rounded-md border bg-background p-4" key={detail.title}>
-          <h3 className="font-medium text-foreground">{detail.title}</h3>
-          <p className="mt-2">{detail.body}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
+// function ComponentDetails({ details }: Pick<ComponentDoc, "details">) {
+//   return (
+//     <div className="grid gap-4 md:grid-cols-3">
+//       {details.map((detail) => (
+//         <div className="rounded-md border bg-background p-4" key={detail.title}>
+//           <h3 className="font-medium text-foreground">{detail.title}</h3>
+//           <p className="mt-2">{detail.body}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
 
 function ComponentDependencies({ dependencies }: Pick<ComponentDoc, "dependencies">) {
   if (!dependencies.length) {
@@ -190,17 +190,17 @@ async function InlineCodeBlock({
   );
 }
 
-async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
-  return (
-    <section className="space-y-3">
-      <h3 className="text-base font-medium text-foreground">Usage</h3>
-      <div className="space-y-4">
-        <InlineCodeBlock code={usage.imports} title="Import" />
-        <InlineCodeBlock code={usage.code} title="Usage" />
-      </div>
-    </section>
-  );
-}
+// async function ComponentUsage({ usage }: Pick<ComponentDoc, "usage">) {
+//   return (
+//     <section className="space-y-3">
+//       <h3 className="text-base font-medium text-foreground">Usage</h3>
+//       <div className="space-y-4">
+//         <InlineCodeBlock code={usage.imports} title="Import" />
+//         <InlineCodeBlock code={usage.code} title="Usage" />
+//       </div>
+//     </section>
+//   );
+// }
 
 export function ComponentDocSections({ page }: { page: ComponentDoc }) {
   return (
