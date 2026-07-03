@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "format": "biome format --write",
     "registry:build": "shadcn build",
     "gen-cli": "tsx scripts/sync-ui-components.ts && tsx scripts/registry-builds.ts",
     "sync-components": "tsx scripts/sync-ui-components.ts && tsx scripts/registry-builds.ts"
@@ -53,14 +55,12 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
+    "@biomejs/biome": "2.5.2",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20.19.9",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
     "@types/three": "^0.185.0",
-    "eslint": "^9.32.0",
-    "eslint-config-next": "15.3.1",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   },

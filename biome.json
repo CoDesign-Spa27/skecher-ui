@@ -1,0 +1,82 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"includes": [
+			"**/*.{js,jsx,ts,tsx,json,md,mdx,css,scss}",
+			"!node_modules",
+			"!.next",
+			"!.source"
+		]
+	},
+	"formatter": {
+		"indentStyle": "space",
+		"formatWithErrors": true,
+		"lineWidth": 100,
+		"indentWidth": 2
+	},
+	"linter": {
+		"domains": {
+			"next": "recommended",
+			"react": "recommended"
+		},
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedVariables": "error",
+				"noUnusedImports": "error"
+			},
+			"style": {
+				"useConst": "error",
+				"noUselessElse": "warn"
+			},
+			"suspicious": {
+				"noDuplicateObjectKeys": "error"
+			},
+			"a11y": {
+				"recommended": true,
+				"noSvgWithoutTitle": "off",
+				"noLabelWithoutControl": "off",
+				"useKeyWithClickEvents": "off"
+			},
+			"complexity": {
+				"recommended": true
+			},
+			"performance": {
+				"recommended": true
+			},
+			"security": {
+				"recommended": true
+			}
+		}
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[":BUN:", ":NODE:"],
+							":BLANK_LINE:",
+							[":PACKAGE:", "!@components/**", "!@/**", "!@public/**"],
+							":BLANK_LINE:",
+							["@components/**", "@/**", "@public/**"],
+							":BLANK_LINE:",
+							[":ALIAS:", ":PATH:"]
+						]
+					}
+				}
+			}
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	}
+}
