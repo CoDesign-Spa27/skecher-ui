@@ -216,7 +216,7 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
           {page.description}
         </p>
       </header>
-      <ComponentDetails details={page.details} />
+      {/* <ComponentDetails details={page.details} /> */}
       <ComponentDependencies dependencies={page.dependencies} />
       <ComponentInstallation
         cliCommand={page.cliCommand}
@@ -225,7 +225,7 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
         files={page.files}
         importName={page.importName}
       />
-      <ComponentUsage usage={page.usage} />
+      {/* <ComponentUsage usage={page.usage} /> */}
     </div>
   );
 }

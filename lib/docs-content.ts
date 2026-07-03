@@ -103,46 +103,6 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     ],
   },
   {
-    id: "liquid-morphology-slideshow",
-    title: "Liquid Morphology Slideshow",
-    slug: "liquid-morphology-slideshow",
-    eyebrow: "Components",
-    description:
-      "A WebGL image slideshow for landing-page backgrounds with liquid glass, frost, ripple, plasma, and timeshift shader transitions.",
-    details: [
-      {
-        title: "Shader transitions",
-        body: "The component lazy-loads Three.js on the client and drives texture transitions through a scoped WebGL canvas.",
-      },
-      {
-        title: "Background ready",
-        body: "Counters, slide navigation, click advance, keyboard controls, and help text can be toggled for full-bleed hero use or quiet decorative backgrounds.",
-      },
-      {
-        title: "Motion aware",
-        body: "Reduced-motion users get static image changes and autoplay is disabled to avoid continuous background movement.",
-      },
-    ],
-    dependencies: ["react", "three"],
-    installDependencies: ["three"],
-    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
-    importName: "LiquidMorphologySlideshow",
-    usage: {
-      imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
-      code: `<LiquidMorphologySlideshow
-  className="absolute inset-0 h-full rounded-none"
-  showNavigation={false}
-  showCounters={false}
-/>`,
-    },
-    files: [
-      {
-        path: "components/ui-components/liquid-morphology-slideshow.tsx",
-        description: "Liquid Morphology Slideshow component",
-      },
-    ],
-  },
-  {
     id: "image-glide",
     title: "Image Glide",
     slug: "image-glide",
@@ -290,6 +250,45 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       {
         path: "components/ui-components/dock.tsx",
         description: "Magnifying dock component",
+      },
+    ],
+  },
+    {
+    id: "liquid-morphology-slideshow",
+    title: "Liquid Morphology",
+    slug: "liquid-morphology-slideshow",
+    eyebrow: "Components",
+    description:
+      "A WebGL image slideshow for landing-page backgrounds with liquid glass, frost, ripple, plasma, and timeshift shader transitions.",
+    details: [
+      {
+        title: "Shader transitions",
+        body: "The component lazy-loads Three.js on the client and drives texture transitions through a scoped WebGL canvas.",
+      },
+      {
+        title: "Background ready",
+        body: "Counters, slide navigation, click advance, keyboard controls, and help text can be toggled for full-bleed hero use or quiet decorative backgrounds.",
+      },
+      {
+        title: "Motion aware",
+        body: "Reduced-motion users get static image changes and autoplay is disabled to avoid continuous background movement.",
+      },
+    ],
+    dependencies: ["react"],
+    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
+    importName: "LiquidMorphologySlideshow",
+    usage: {
+      imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
+      code: `<LiquidMorphologySlideshow
+  className="absolute inset-0 h-full rounded-none"
+  showNavigation={false}
+  showCounters={false}
+/>`,
+    },
+    files: [
+      {
+        path: "components/ui-components/liquid-morphology-slideshow.tsx",
+        description: "Liquid Morphology Slideshow component",
       },
     ],
   },
