@@ -26,8 +26,21 @@ type MagazineScrollerProps = {
     className?: string;
 };
 
-const DEFAULT_IMAGES: Poster[] = Array.from({ length: 18 }, (_, index) => ({
-    src: `https://picsum.photos/seed/magazine-picsum-${index + 1}/700/1050`,
+const DEFAULT_IMAGES: Poster[] = [
+    "image.jpeg",
+    "image1.jpeg",
+    "image2.jpg",
+    "image3.jpg",
+    "image4.jpeg",
+    "image5.jpeg",
+    "image6.jpeg",
+    "image7.jpeg",
+    "image8.jpeg",
+    "image9.jpeg",
+    "image10.jpeg",
+    "image11.jpeg",
+].map((file, index) => ({
+    src: `/images/magazine-scroller/${file}`,
     alt: `Magazine poster ${index + 1}`,
 }));
 
