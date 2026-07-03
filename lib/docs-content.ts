@@ -23,7 +23,6 @@ export type ComponentDoc = {
 };
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
-
   {
     id: "streaming-text",
     title: "Streaming Text",
@@ -31,21 +30,8 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     eyebrow: "Components",
     description:
       "A soft word-by-word text reveal for hero copy, onboarding moments, empty states, and editorial interfaces that need a polished animated entrance.",
-    details: [
-      // {
-      //   title: "Animated by word",
-      //   body: "Each word fades in with a configurable blur reveal and staggered timing.",
-      // },
-      // {
-      //   title: "Composable element",
-      //   body: "Render the text as a paragraph, heading, or any other element through the as prop.",
-      // },
-      // {
-      //   title: "Style friendly",
-      //   body: "Pass wrapper and word classes to match the component to your layout and type system.",
-      // },
-    ],
-    dependencies: ["react","motion" ],
+    details: [],
+    dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/streaming-text.json",
     importName: "BlurredText",
@@ -63,20 +49,15 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
   },
-   {
+  {
     id: "text-morphing",
     title: "Morphing Text",
     slug: "text-morphing",
     eyebrow: "Components",
     description:
       "A text morphing effect for hero copy, onboarding moments, empty states, and editorial interfaces that need a polished animated entrance.",
-    details: [
-      // {
-      //   title: "Animated by character",
-      //   body: "Each character fades in with a configurable blur reveal and staggered timing.",
-      // },
-    ],
-    dependencies: ["react","motion" ],
+    details: [],
+    dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/text-morphing.json",
     importName: "MorphingText",
@@ -118,6 +99,46 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       {
         path: "components/ui-components/liquid-glass-social.tsx",
         description: "Liquid Glass Social component",
+      },
+    ],
+  },
+  {
+    id: "liquid-morphology-slideshow",
+    title: "Liquid Morphology Slideshow",
+    slug: "liquid-morphology-slideshow",
+    eyebrow: "Components",
+    description:
+      "A WebGL image slideshow for landing-page backgrounds with liquid glass, frost, ripple, plasma, and timeshift shader transitions.",
+    details: [
+      {
+        title: "Shader transitions",
+        body: "The component lazy-loads Three.js on the client and drives texture transitions through a scoped WebGL canvas.",
+      },
+      {
+        title: "Background ready",
+        body: "Counters, slide navigation, click advance, keyboard controls, and help text can be toggled for full-bleed hero use or quiet decorative backgrounds.",
+      },
+      {
+        title: "Motion aware",
+        body: "Reduced-motion users get static image changes and autoplay is disabled to avoid continuous background movement.",
+      },
+    ],
+    dependencies: ["react", "three"],
+    installDependencies: ["three"],
+    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
+    importName: "LiquidMorphologySlideshow",
+    usage: {
+      imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
+      code: `<LiquidMorphologySlideshow
+  className="absolute inset-0 h-full rounded-none"
+  showNavigation={false}
+  showCounters={false}
+/>`,
+    },
+    files: [
+      {
+        path: "components/ui-components/liquid-morphology-slideshow.tsx",
+        description: "Liquid Morphology Slideshow component",
       },
     ],
   },
@@ -164,9 +185,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     eyebrow: "Components",
     description:
       "A percentage-controlled image grid that reflows every frame into a denser or sparser layout with layout motion, soft blur, and a temporary glow during density changes.",
-    details: [
-     
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/image-density-grid.json",
@@ -189,9 +208,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     eyebrow: "Components",
     description:
       "A floating action dock that merges into one compact surface and splits into contextual actions on hover, focus, or pin.",
-    details: [
-    
-    ],
+    details: [],
     dependencies: ["react", "motion", "lucide-react"],
     installDependencies: ["motion", "lucide-react"],
     cliCommand: "https://skecher-ui.vercel.app/r/morphing-action-dock.json",
@@ -216,7 +233,12 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
-    installDependencies: ["motion","nucleo-ui-essential-fill-duo-18","tailwind-merge","clsx"],
+    installDependencies: [
+      "motion",
+      "nucleo-ui-essential-fill-duo-18",
+      "tailwind-merge",
+      "clsx",
+    ],
     cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
     importName: "AmoebaFab",
     usage: {
@@ -230,7 +252,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
   },
-    {
+  {
     id: "dock",
     title: "Dock",
     slug: "dock",
@@ -268,6 +290,29 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       {
         path: "components/ui-components/dock.tsx",
         description: "Magnifying dock component",
+      },
+    ],
+  },
+  {
+    id: "magazine-scroller",
+    title: "Magazine Scroller",
+    slug: "magazine-scroller",
+    eyebrow: "Components",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
+    details: [],
+    dependencies: ["react","motion"],
+    installDependencies: [],
+    cliCommand: "https://skecher-ui.vercel.app/r/magazine-scroller.json",
+    importName: "MagazineScroller",
+    usage: {
+      imports: `import { MagazineScroller } from "@/components/ui/magazine-scroller";`,
+      code: `<MagazineScroller />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/magazine-scroller.tsx",
+        description: "Magazine Scroller component",
       },
     ],
   },

@@ -3,7 +3,9 @@
   "type": "registry:ui",
   "registryDependencies": [],
   "dependencies": [
-    "motion"
+    "motion",
+    "nucleo-social-media",
+    "nucleo-ui-essential-fill-18"
   ],
   "devDependencies": [],
   "tailwind": {},

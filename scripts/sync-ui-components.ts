@@ -16,7 +16,96 @@ type ComponentInfo = {
   docPath: string;
   docExportName: string | null;
   importName: string;
+  dependencies: string[];
+  devDependencies: string[];
+  registryDependencies: string[];
+  installDependencies: string[];
 };
+
+// Packages every shadcn/React consumer already has — never emit as a dependency.
+const IGNORED_PACKAGES = new Set(["react", "react-dom"]);
+
+// @types/* packages installed at the repo root, used to auto-pair type deps
+// (e.g. detecting `three` adds `@types/three` when it's available here).
+const availableTypePackages = new Set(
+  (() => {
+    const pkg = JSON.parse(readText(path.join(root, "package.json")) || "{}");
+    return Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(
+      (name) => name.startsWith("@types/")
+    );
+  })()
+);
+
+// Turn an import specifier into its installable package name, or null for
+// internal/relative imports. "motion/react" -> "motion",
+// "@radix-ui/react-slot" -> "@radix-ui/react-slot", "@/lib/utils" -> null.
+function getPackageName(specifier: string): string | null {
+  if (specifier.startsWith("@/") || specifier.startsWith(".")) return null;
+  if (specifier.startsWith("@")) {
+    const [scope, name] = specifier.split("/");
+    return name ? `${scope}/${name}` : scope;
+  }
+  return specifier.split("/")[0];
+}
+
+// The @types package name for a runtime dependency, per the @types convention:
+// "three" -> "@types/three", "@scope/pkg" -> "@types/scope__pkg".
+function getTypesPackageName(pkg: string): string {
+  return pkg.startsWith("@")
+    ? `@types/${pkg.slice(1).replace("/", "__")}`
+    : `@types/${pkg}`;
+}
+
+// Collect every module specifier a file imports: static imports/re-exports,
+// side-effect imports, and dynamic/type `import("x")` (how `three` is loaded).
+function getImportSpecifiers(content: string): string[] {
+  const specifiers = new Set<string>();
+  const patterns = [
+    /(?:import|export)\s+[^"';]*?\s+from\s+["']([^"']+)["']/g,
+    /import\s+["']([^"']+)["']/g,
+    /import\s*\(\s*["']([^"']+)["']\s*\)/g,
+    /require\s*\(\s*["']([^"']+)["']\s*\)/g,
+  ];
+  for (const pattern of patterns) {
+    for (const match of content.matchAll(pattern)) {
+      specifiers.add(match[1]);
+    }
+  }
+  return [...specifiers];
+}
+
+// Derive a component's dependencies directly from its source, so the registry
+// output can never drift from what the file actually imports.
+function detectDependencies(content: string) {
+  const dependencies = new Set<string>();
+  const devDependencies = new Set<string>();
+  const registryDependencies = new Set<string>();
+
+  for (const specifier of getImportSpecifiers(content)) {
+    // Internal shadcn ui primitive (`@/components/ui/x` or `../ui/x`) -> a
+    // registry dependency the CLI resolves, not an npm install.
+    const uiMatch = specifier.match(
+      /(?:^@\/components\/ui\/|(?:\.\.?\/)+ui\/)([\w-]+)$/
+    );
+    if (uiMatch) {
+      registryDependencies.add(uiMatch[1]);
+      continue;
+    }
+
+    const pkg = getPackageName(specifier);
+    if (!pkg || IGNORED_PACKAGES.has(pkg)) continue;
+
+    dependencies.add(pkg);
+    const typesPkg = getTypesPackageName(pkg);
+    if (availableTypePackages.has(typesPkg)) devDependencies.add(typesPkg);
+  }
+
+  return {
+    dependencies: [...dependencies].sort(),
+    devDependencies: [...devDependencies].sort(),
+    registryDependencies: [...registryDependencies].sort(),
+  };
+}
 
 function toTitle(slug: string) {
   return slug
@@ -92,6 +181,8 @@ function getComponents() {
       }
 
       const docContent = readText(docPath);
+      const { dependencies, devDependencies, registryDependencies } =
+        detectDependencies(componentContent);
 
       return {
         slug,
@@ -100,6 +191,10 @@ function getComponents() {
         docPath,
         docExportName: getExportedDocName(docContent),
         importName,
+        dependencies,
+        devDependencies,
+        registryDependencies,
+        installDependencies: dependencies,
       };
     });
 }
@@ -110,7 +205,9 @@ function syncRegistryComponents(components: ComponentInfo[]) {
       (component) => `  {
     name: "${component.slug}",
     path: path.join(__dirname, "../components/ui-components/${component.slug}"),
-    dependencies: ["motion"],
+    dependencies: ${JSON.stringify(component.dependencies)},
+    devDependencies: ${JSON.stringify(component.devDependencies)},
+    registryDependencies: ${JSON.stringify(component.registryDependencies)},
   }`
     )
     .join(",\n");
@@ -148,8 +245,8 @@ function createDocEntry(component: ComponentInfo) {
     description:
       "A polished animated UI primitive for expressive product interfaces.",
     details: [],
-    dependencies: ["react", "motion"],
-    installDependencies: ["motion"],
+    dependencies: ${JSON.stringify(["react", ...component.dependencies])},
+    installDependencies: ${JSON.stringify(component.installDependencies)},
     cliCommand: "${deployedRegistryUrl}/${component.slug}.json",
     importName: "${component.importName}",
     usage: {

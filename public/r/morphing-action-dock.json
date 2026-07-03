@@ -3,6 +3,7 @@
   "type": "registry:ui",
   "registryDependencies": [],
   "dependencies": [
+    "lucide-react",
     "motion"
   ],
   "devDependencies": [],

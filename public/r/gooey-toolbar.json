@@ -3,7 +3,10 @@
   "type": "registry:ui",
   "registryDependencies": [],
   "dependencies": [
-    "motion"
+    "clsx",
+    "motion",
+    "nucleo-ui-essential-fill-duo-18",
+    "tailwind-merge"
   ],
   "devDependencies": [],
   "tailwind": {},
