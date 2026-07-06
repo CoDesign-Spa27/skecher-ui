@@ -1,8 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useRef } from "react";
 import {
+  type MotionValue,
   motion,
   useAnimationFrame,
   useMotionValue,
@@ -10,8 +9,9 @@ import {
   useSpring,
   useTransform,
   useVelocity,
-  type MotionValue,
 } from "motion/react";
+import type { ReactNode } from "react";
+import { useRef } from "react";
 
 export interface DockItem {
   id: string;
@@ -54,20 +54,19 @@ export function Dock({
   const activeRef = useRef<HTMLButtonElement | null>(null);
 
   const mouseX = useMotionValue(Infinity);
- 
+
   const targetX = useMotionValue(0);
   const targetY = useMotionValue(0);
   const targetW = useMotionValue(baseSize);
   const targetH = useMotionValue(baseSize);
   const targetOpacity = useMotionValue(0);
 
- 
   const xSpring = useSpring(targetX, HIGHLIGHT_SPRING);
   const ySpring = useSpring(targetY, HIGHLIGHT_SPRING);
   const wSpring = useSpring(targetW, HIGHLIGHT_SPRING);
   const hSpring = useSpring(targetH, HIGHLIGHT_SPRING);
   const opacitySpring = useSpring(targetOpacity, { stiffness: 200, damping: 25 });
- 
+
   const x = reduceMotion ? targetX : xSpring;
   const y = reduceMotion ? targetY : ySpring;
   const width = reduceMotion ? targetW : wSpring;
@@ -162,7 +161,7 @@ function DockButton({
     distance,
     [-influence, 0, influence],
     [baseSize, maxSize, baseSize],
-    { clamp: true }
+    { clamp: true },
   );
 
   // Size is owned solely by this spring — nothing competes with it.
@@ -173,12 +172,12 @@ function DockButton({
   const iconScaleX = useTransform(
     sizeVelocity,
     [-500, 0, 500],
-    reduceMotion ? [1, 1, 1] : [0.92, 1, 1.08]
+    reduceMotion ? [1, 1, 1] : [0.92, 1, 1.08],
   );
   const iconScaleY = useTransform(
     sizeVelocity,
     [-500, 0, 500],
-    reduceMotion ? [1, 1, 1] : [1.06, 1, 0.96]
+    reduceMotion ? [1, 1, 1] : [1.06, 1, 0.96],
   );
 
   return (

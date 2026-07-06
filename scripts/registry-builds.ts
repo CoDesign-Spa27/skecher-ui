@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
-import type { Schema } from "./registry-schema";
+
 import { components } from "./registry-components";
+import type { Schema } from "./registry-schema";
 
 const registryComponents = path.join(__dirname, "../public/components");
 const registryItems = path.join(__dirname, "../public/r");

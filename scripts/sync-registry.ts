@@ -4,6 +4,7 @@
 
 import * as fs from "fs";
 import * as path from "path";
+
 import { components } from "./registry-components";
 
 function getChartFiles(dir: string, baseDir: string): string[] {
@@ -17,11 +18,7 @@ function getChartFiles(dir: string, baseDir: string): string[] {
         if (entry.name !== "utils") {
           files = files.concat(getChartFiles(fullPath, baseDir));
         }
-      } else if (
-        entry.isFile() &&
-        entry.name.endsWith(".tsx") &&
-        entry.name !== "index.ts"
-      ) {
+      } else if (entry.isFile() && entry.name.endsWith(".tsx") && entry.name !== "index.ts") {
         files.push(path.relative(baseDir, fullPath));
       }
     }
@@ -34,7 +31,7 @@ function getChartFiles(dir: string, baseDir: string): string[] {
 function updateRegistryComponents() {
   const chartsDir = path.join(process.cwd(), "charts");
   const existingComponents = new Set(
-    components.map((c) => path.relative(chartsDir, c.path) + ".tsx")
+    components.map((c) => path.relative(chartsDir, c.path) + ".tsx"),
   );
 
   const newComponents: {
@@ -75,7 +72,7 @@ function updateRegistryComponents() {
 
   if (closingBracketIndex === -1) {
     console.error(
-      "Could not find the closing bracket of the components array in registry-components.ts"
+      "Could not find the closing bracket of the components array in registry-components.ts",
     );
     return;
   }
@@ -83,17 +80,14 @@ function updateRegistryComponents() {
   const newComponentsString = newComponents
     .map(
       (comp) =>
-        `  {\n    name: "${comp.name}",\n    path: path.join(__dirname, "../components/ui-components/${comp.path}"),\n    dependencies: ["motion"],\n  }`
+        `  {\n    name: "${comp.name}",\n    path: path.join(__dirname, "../components/ui-components/${comp.path}"),\n    dependencies: ["motion"],\n  }`,
     )
     .join(",\n");
 
   const prefix = lastComponentIndex > 0 ? ",\n" : "";
 
   const updatedContent =
-    content.slice(0, closingBracketIndex) +
-    prefix +
-    newComponentsString +
-    "\n];";
+    content.slice(0, closingBracketIndex) + prefix + newComponentsString + "\n];";
 
   fs.writeFileSync(registryPath, updatedContent);
 

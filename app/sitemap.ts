@@ -1,6 +1,7 @@
+import type { MetadataRoute } from "next";
+
 import { COMPONENT_DOCS } from "@/lib/docs-content";
 import { absoluteUrl } from "@/lib/seo";
-import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

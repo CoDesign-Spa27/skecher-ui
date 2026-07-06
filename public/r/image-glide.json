@@ -2,9 +2,7 @@
   "name": "image-glide",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

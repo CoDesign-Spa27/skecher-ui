@@ -3,19 +3,14 @@
 /* eslint-disable @next/next/no-img-element */
 
 import {
-  useMotionTemplate,
-  useMotionValue,
   AnimatePresence,
   motion,
+  useMotionTemplate,
+  useMotionValue,
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import {
-  useEffect,
-  useRef,
-  useState,
-  type PointerEvent,
-} from "react";
+import { type PointerEvent, useEffect, useRef, useState } from "react";
 
 type ImageGlideItem = {
   src: string;
@@ -166,9 +161,12 @@ export function ImageGlide({
       return;
     }
 
-    const timer = window.setTimeout(() => {
-      setPreviousImage(null);
-    }, shouldReduceMotion ? 180 : sweepMs);
+    const timer = window.setTimeout(
+      () => {
+        setPreviousImage(null);
+      },
+      shouldReduceMotion ? 180 : sweepMs,
+    );
 
     return () => window.clearTimeout(timer);
   }, [previousImage, shouldReduceMotion]);
@@ -322,7 +320,7 @@ export function ImageGlide({
                   " ",
                   isActive
                     ? " opacity-100"
-                    : "opacity-44 [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-85"
+                    : "opacity-44 [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-85",
                 )}
                 key={image.src}
                 onClick={() => selectImage(index)}

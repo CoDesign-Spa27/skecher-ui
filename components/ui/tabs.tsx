@@ -80,4 +80,4 @@ function TabsPanel({ className, ...props }: TabsPrimitive.Panel.Props) {
   );
 }
 
-export { Tabs, TabsList, TabsTab, TabsTab as TabsTrigger, TabsPanel, TabsPanel as TabsContent };
+export { Tabs, TabsList, TabsPanel, TabsPanel as TabsContent, TabsTab, TabsTab as TabsTrigger };

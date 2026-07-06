@@ -1,10 +1,11 @@
-import { CodeBlock } from "@/components/docs/ui/code-block";
-import { ComponentDocSections } from "@/components/docs/content/component-doc-sections";
-import { getComponentPreview } from "@/components/docs/content/component-previews";
-import { ComponentWrapper } from "@/components/ui/component-wrapper";
-import type { ComponentDoc } from "@/lib/docs-content";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+
+import { ComponentDocSections } from "@/components/docs/content/component-doc-sections";
+import { getComponentPreview } from "@/components/docs/content/component-previews";
+import { CodeBlock } from "@/components/docs/ui/code-block";
+import { ComponentWrapper } from "@/components/ui/component-wrapper";
+import type { ComponentDoc } from "@/lib/docs-content";
 
 const FILE_PATH = "components/ui-components/magazine-scroller.tsx";
 

@@ -2,10 +2,7 @@
   "name": "morphing-action-dock",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "lucide-react",
-    "motion"
-  ],
+  "dependencies": ["lucide-react", "motion"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

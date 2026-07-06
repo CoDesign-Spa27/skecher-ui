@@ -1,20 +1,27 @@
+import {
+  IconDocFolder,
+  IconFileDownload,
+  IconHouse,
+  IconSquareGrid,
+  IconSquareKanban,
+  IconWindow2,
+} from "nucleo-glass";
+
+import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { Dock } from "@/components/ui-components/dock";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
 import { Social } from "@/components/ui-components/liquid-glass-social";
-import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
 import { MorphingActionDock } from "@/components/ui-components/morphing-action-dock";
 import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
- 
-import { IconWindow2, IconFileDownload, IconSquareKanban, IconDocFolder, IconHouse, IconSquareGrid } from 'nucleo-glass';
 
 const iconClassName = "size-full";
 
 export const COMPONENT_PREVIEWS = {
-  "dock": (
+  dock: (
     <Dock
       items={[
         { id: "home", label: "Home", icon: <IconWindow2 className={iconClassName} /> },

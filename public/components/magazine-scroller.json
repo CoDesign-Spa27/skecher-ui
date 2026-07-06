@@ -1,12 +1,8 @@
 {
   "name": "magazine-scroller",
   "type": "registry:ui",
-  "registryDependencies": [
-    "progressive-blur"
-  ],
-  "dependencies": [
-    "motion"
-  ],
+  "registryDependencies": ["progressive-blur"],
+  "dependencies": ["motion"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

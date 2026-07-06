@@ -174,53 +174,66 @@ html.dark [data-rehype-pretty-code-figure] code span,
 .header-shadow {
   /* Highlight header as if it has a border, for both modes */
   box-shadow:
-    0 0 0 1px var(--sidebar-border, rgba(0,0,0,0.12)), /* visible border highlight */
+    0 0 0 1px var(--sidebar-border, rgba(0, 0, 0, 0.12)), /* visible border highlight */
     0px 2px 4px 0px rgba(0, 0, 0, 0.12),
     0px 6px 12px -2px rgba(0, 0, 0, 0.06),
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.11),
     0px 10.18953px 10.18953px rgba(0, 0, 0, 0.08);
- 
 }
 
 .dark .header-shadow {
   /* Highlight header as if it has a border, for dark mode */
   box-shadow:
-    0 0 0 1px var(--sidebar-border, rgba(255,255,255,0.13)), /* visible border highlight */
+    0 0 0 1px var(--sidebar-border, rgba(255, 255, 255, 0.13)), /* visible border highlight */
     0px 2px 4px 0px rgba(0, 0, 0, 0.15),
     0px 6px 12px -2px rgba(0, 0, 0, 0.13),
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.19),
     0px 10.18953px 10.18953px rgba(0, 0, 0, 0.17),
     inset 0px 0.398254px 0.796509px rgba(255, 255, 255, 0.14);
- 
 }
 
 .sidebar-shadow {
-box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.25), 0px 0.5px 1px rgba(255, 255, 255, 0.25), inset 0px 0.5px 1px rgba(255, 255, 255, 0.25), inset 0px 0px 0px rgba(0, 0, 0, 0.25), inset 0px -0.2px 0.5px rgba(0, 0, 0, 0.25), inset 0px 0px 2px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0px 0px 1px rgba(0, 0, 0, 0.25),
+    0px 0.5px 1px rgba(255, 255, 255, 0.25),
+    inset 0px 0.5px 1px rgba(255, 255, 255, 0.25),
+    inset 0px 0px 0px rgba(0, 0, 0, 0.25),
+    inset 0px -0.2px 0.5px rgba(0, 0, 0, 0.25),
+    inset 0px 0px 2px rgba(0, 0, 0, 0.25);
 }
 
 .button-primary {
-background: linear-gradient(255.97deg, #FF8F5F 1.94%, #FF4C00 79.02%);
-box-shadow: 0px 11.3915px 12.3363px rgba(114, 68, 0, 0.137105), 0px 3.39155px 6.6501px rgba(114, 68, 0, 0.0928953), inset 0px -3px 1px #C02600, inset 0px 3px 0px rgba(255, 255, 255, 0.55);
-color: #FFFFFF;
+  background: linear-gradient(255.97deg, #ff8f5f 1.94%, #ff4c00 79.02%);
+  box-shadow:
+    0px 11.3915px 12.3363px rgba(114, 68, 0, 0.137105),
+    0px 3.39155px 6.6501px rgba(114, 68, 0, 0.0928953),
+    inset 0px -3px 1px #c02600,
+    inset 0px 3px 0px rgba(255, 255, 255, 0.55);
+  color: #ffffff;
 }
- 
 
- 
-.input-shadow{
- 
-box-shadow: 0px 32px 64px -12px rgba(0, 0, 0, 0.075), 0px 2.15px 0.5px -2px rgba(0, 0, 0, 0.25), 0px 24px 24px -16px rgba(8, 8, 8, 0.04), 0px 6px 13px rgba(8, 8, 8, 0.03), 0px 6px 4px -4px rgba(8, 8, 8, 0.05), 0px 5px 1.5px -4px rgba(8, 8, 8, 0.05), inset 0px 0px 1px rgba(255, 255, 255, 0.1), inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
- 
-} 
-
-.dark .input-shadow { 
- 
-background: #1e1d1d;
-box-shadow: 0px 1.09724px 0.877793px rgba(0, 0, 0, 0.1197), 0px 1.18953px 1.18953px rgba(0, 0, 0, 0.14), 0px 16.5652px 13.2521px rgba(0, 0, 0, 0.1503),     inset 0px 0px 1px rgba(255, 255, 255, 0.1), inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
- 
+.input-shadow {
+  box-shadow:
+    0px 32px 64px -12px rgba(0, 0, 0, 0.075),
+    0px 2.15px 0.5px -2px rgba(0, 0, 0, 0.25),
+    0px 24px 24px -16px rgba(8, 8, 8, 0.04),
+    0px 6px 13px rgba(8, 8, 8, 0.03),
+    0px 6px 4px -4px rgba(8, 8, 8, 0.05),
+    0px 5px 1.5px -4px rgba(8, 8, 8, 0.05),
+    inset 0px 0px 1px rgba(255, 255, 255, 0.1),
+    inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
 }
- 
- 
- 
+
+.dark .input-shadow {
+  background: #1e1d1d;
+  box-shadow:
+    0px 1.09724px 0.877793px rgba(0, 0, 0, 0.1197),
+    0px 1.18953px 1.18953px rgba(0, 0, 0, 0.14),
+    0px 16.5652px 13.2521px rgba(0, 0, 0, 0.1503),
+    inset 0px 0px 1px rgba(255, 255, 255, 0.1),
+    inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
+}
+
 @supports (animation-timeline: scroll()) {
   @property --ft {
     syntax: "<length>";
@@ -275,16 +288,10 @@ box-shadow: 0px 1.09724px 0.877793px rgba(0, 0, 0, 0.1197), 0px 1.18953px 1.1895
   }
 }
 
-
 .component-preview-css {
- 
-box-shadow: 0px 0.5px 2px rgba(0, 0, 0, 0.25);
- 
-
+  box-shadow: 0px 0.5px 2px rgba(0, 0, 0, 0.25);
 }
 
 .dark .component-preview-css {
- 
-box-shadow: 0px 0.5px 2px rgba(255, 255, 255, 0.25);
- 
+  box-shadow: 0px 0.5px 2px rgba(255, 255, 255, 0.25);
 }

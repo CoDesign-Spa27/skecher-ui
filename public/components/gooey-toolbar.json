@@ -2,12 +2,7 @@
   "name": "gooey-toolbar",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "clsx",
-    "motion",
-    "nucleo-ui-essential-fill-duo-18",
-    "tailwind-merge"
-  ],
+  "dependencies": ["clsx", "motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

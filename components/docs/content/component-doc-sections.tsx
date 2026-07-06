@@ -1,14 +1,15 @@
-import Image from "next/image";
-import { codeToHast } from "shiki";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
+import Image from "next/image";
 import { Fragment } from "react";
 import { jsx, jsxs } from "react/jsx-runtime";
+import { codeToHast } from "shiki";
+
 import { CodeBlock } from "@/components/docs/ui/code-block";
 import { CodeCollapsibleWrapper } from "@/components/docs/ui/code-collapsible-wrapper";
-import { InstallationTabs } from "@/components/docs/ui/installation-tabs";
 import CopyButton from "@/components/docs/ui/copy-button";
-import { cn } from "@/lib/utils";
+import { InstallationTabs } from "@/components/docs/ui/installation-tabs";
 import type { ComponentDoc } from "@/lib/docs-content";
+import { cn } from "@/lib/utils";
 
 type DependencyIcon = {
   src: string;
@@ -98,8 +99,8 @@ function ComponentFileBlocks({ files, importName }: Pick<ComponentDoc, "files" |
     <div className="min-w-0 max-w-full space-y-3">
       <p>
         Create the required file{files.length > 1 ? "s" : ""} below, then import{" "}
-        <code className="font-mono text-foreground">{importName}</code> wherever you want to use
-        the component.
+        <code className="font-mono text-foreground">{importName}</code> wherever you want to use the
+        component.
       </p>
       {files.map((file) => (
         <details
@@ -116,7 +117,6 @@ function ComponentFileBlocks({ files, importName }: Pick<ComponentDoc, "files" |
                 </span>
               ) : null}
             </span>
-           
           </summary>
           <div className="min-w-0 overflow-x-auto no-scrollbar border-t bg-background">
             <CodeCollapsibleWrapper>
@@ -212,9 +212,7 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
         <h1 className="font-raleway text-4xl font-light tracking-normal text-foreground">
           {page.title}
         </h1>
-        <p className="max-w-3xl text-base leading-7 text-muted-foreground">
-          {page.description}
-        </p>
+        <p className="max-w-3xl text-base leading-7 text-muted-foreground">{page.description}</p>
       </header>
       {/* <ComponentDetails details={page.details} /> */}
       <ComponentDependencies dependencies={page.dependencies} />

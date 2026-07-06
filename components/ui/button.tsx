@@ -1,9 +1,9 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+import type * as React from "react";
 
-import { cn } from "@/lib/utils"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
@@ -15,11 +15,10 @@ const buttonVariants = cva(
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
         outline:
           "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        dark:"bg-gray-12 dark-button-border dark-button-shadow hover:bg-gray-11 border text-gray-1 disabled:cursor-not-allowed disabled:text-gray-10 disabled:bg-gray-7 disabled:border-gray-8",
+        dark: "bg-gray-12 dark-button-border dark-button-shadow hover:bg-gray-11 border text-gray-1 disabled:cursor-not-allowed disabled:text-gray-10 disabled:bg-gray-7 disabled:border-gray-8",
         secondary:
           "bg-gradient-to-t button-gradient-border from-[#0f0f0f] to-[#404040] shadow-[0_0_0_1px] hover:brightness-110 shadow-[#383838] text-gray-50 hover:bg-[#383838] disabled:bg-[#383838] border-transparent",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
@@ -37,16 +36,16 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
-)
+  },
+);
 
 type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-    tooltip?: React.ReactNode
-    tooltipSide?: "top" | "right" | "bottom" | "left"
-    tooltipAlign?: "center" | "start" | "end"
-    tooltipDisabled?: boolean
+    asChild?: boolean;
+    tooltip?: React.ReactNode;
+    tooltipSide?: "top" | "right" | "bottom" | "left";
+    tooltipAlign?: "center" | "start" | "end";
+    tooltipDisabled?: boolean;
   };
 
 function Button({
@@ -60,7 +59,7 @@ function Button({
   tooltipDisabled = false,
   ...props
 }: ButtonProps) {
-  const Comp = asChild ? Slot.Root : "button"
+  const Comp = asChild ? Slot.Root : "button";
 
   const buttonEl = (
     <Comp
@@ -70,23 +69,19 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
-  )
+  );
 
   // If tooltip is provided and not disabled, wrap the button in Tooltip
   if (tooltip && !tooltipDisabled) {
     return (
       <Tooltip side={tooltipSide} align={tooltipAlign}>
-        <TooltipTrigger>
-          {buttonEl}
-        </TooltipTrigger>
-        <TooltipContent>
-          {tooltip}
-        </TooltipContent>
+        <TooltipTrigger>{buttonEl}</TooltipTrigger>
+        <TooltipContent>{tooltip}</TooltipContent>
       </Tooltip>
-    )
+    );
   }
 
-  return buttonEl
+  return buttonEl;
 }
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };

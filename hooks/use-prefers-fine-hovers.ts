@@ -12,6 +12,6 @@ export function usePrefersFineHover() {
       return () => mq.removeEventListener("change", onStoreChange);
     },
     () => window.matchMedia(QUERY).matches,
-    () => true
+    () => true,
   );
 }

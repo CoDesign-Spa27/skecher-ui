@@ -4,12 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
-export type LiquidMorphologyEffect =
-  | "glass"
-  | "frost"
-  | "ripple"
-  | "plasma"
-  | "timeshift";
+export type LiquidMorphologyEffect = "glass" | "frost" | "ripple" | "plasma" | "timeshift";
 
 export type LiquidMorphologySlide = {
   title: string;
@@ -500,9 +495,7 @@ function clampIndex(index: number, length: number) {
 }
 
 function easeInOutCubic(value: number) {
-  return value < 0.5
-    ? 4 * value * value * value
-    : 1 - Math.pow(-2 * value + 2, 3) / 2;
+  return value < 0.5 ? 4 * value * value * value : 1 - (-2 * value + 2) ** 3 / 2;
 }
 
 function isNavigationTarget(target: EventTarget | null) {
@@ -566,11 +559,7 @@ function createUniforms(THREE: ThreeModule, effect: LiquidMorphologyEffect): Sha
   };
 }
 
-async function loadTexture(
-  THREE: ThreeModule,
-  loader: import("three").TextureLoader,
-  src: string
-) {
+async function loadTexture(THREE: ThreeModule, loader: import("three").TextureLoader, src: string) {
   return new Promise<TextureWithSize>((resolve, reject) => {
     const timeout = window.setTimeout(() => reject(new Error(`Timed out loading ${src}`)), 10000);
 
@@ -585,7 +574,7 @@ async function loadTexture(
         texture.wrapT = THREE.ClampToEdgeWrapping;
         texture.userData.size = new THREE.Vector2(
           texture.image?.width || 1,
-          texture.image?.height || 1
+          texture.image?.height || 1,
         );
         resolve(texture as TextureWithSize);
       },
@@ -593,7 +582,7 @@ async function loadTexture(
       (error) => {
         window.clearTimeout(timeout);
         reject(error);
-      }
+      },
     );
   });
 }
@@ -605,7 +594,7 @@ export function LiquidMorphologySlideshow({
   autoPlay = true,
   interval = 1000,
   transitionDuration = 2.5,
- 
+
   showHelp = false,
   clickToAdvance = true,
   keyboardControls = true,
@@ -617,16 +606,13 @@ export function LiquidMorphologySlideshow({
   ctaLabel = "See the magic",
   ctaHref = "#",
   profileCard = DEFAULT_PROFILE_CARD,
- 
+
   className,
   overlayClassName,
   onSlideChange,
 }: LiquidMorphologySlideshowProps) {
   const shouldReduceMotion = useReducedMotionPreference();
-  const safeSlides = useMemo(
-    () => (slides.length > 0 ? slides : DEFAULT_SLIDES),
-    [slides]
-  );
+  const safeSlides = useMemo(() => (slides.length > 0 ? slides : DEFAULT_SLIDES), [slides]);
   const safeInitialIndex = clampIndex(initialIndex, safeSlides.length);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -747,7 +733,7 @@ export function LiquidMorphologySlideshow({
 
       transitionFrameRef.current = window.requestAnimationFrame(animateTransition);
     },
-    [applyTexturePair, canAnimate, completeSlideChange, resetProgressIndicator, transitionDuration]
+    [applyTexturePair, canAnimate, completeSlideChange, resetProgressIndicator, transitionDuration],
   );
 
   const goNext = useCallback(() => {
@@ -838,7 +824,7 @@ export function LiquidMorphologySlideshow({
         const loader = new THREE.TextureLoader();
         loader.setCrossOrigin("anonymous");
         const loadedTextures = await Promise.allSettled(
-          safeSlides.map((slide) => loadTexture(THREE, loader, slide.src))
+          safeSlides.map((slide) => loadTexture(THREE, loader, slide.src)),
         );
 
         if (!isMounted) {
@@ -849,7 +835,10 @@ export function LiquidMorphologySlideshow({
         }
 
         const textures = loadedTextures
-          .filter((result): result is PromiseFulfilledResult<TextureWithSize> => result.status === "fulfilled")
+          .filter(
+            (result): result is PromiseFulfilledResult<TextureWithSize> =>
+              result.status === "fulfilled",
+          )
           .map((result) => result.value);
 
         if (!textures.length) {
@@ -991,9 +980,9 @@ export function LiquidMorphologySlideshow({
       ref={rootRef}
       aria-label="Liquid morphology landing slideshow"
       className={cn(
-        "group/liquid-morphology relative isolate h-auto w-full overflow-hidden rounded-lg bg-black text-white outline-none",
+        "group/liquid-morphology relative isolate h-auto w-full max-w-7xl overflow-hidden rounded-lg bg-black text-white outline-none",
         clickToAdvance && "cursor-pointer",
-        className
+        className,
       )}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
@@ -1007,7 +996,7 @@ export function LiquidMorphologySlideshow({
         aria-label={activeSlide?.alt ?? activeSlide?.title ?? "Liquid slideshow image"}
         className={cn(
           "block h-full w-full transition-opacity duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
-          isReady ? "opacity-100" : "opacity-0"
+          isReady ? "opacity-100" : "opacity-0",
         )}
       />
 
@@ -1024,7 +1013,7 @@ export function LiquidMorphologySlideshow({
       <div
         className={cn(
           "pointer-events-none absolute inset-0 z-10 flex min-h-full flex-col justify-between overflow-hidden px-4 py-4 text-white sm:px-6 sm:py-6 lg:px-8 lg:py-7",
-          overlayClassName
+          overlayClassName,
         )}
       >
         <header className="grid items-start gap-5 sm:grid-cols-[1fr_auto_1fr]">
@@ -1143,8 +1132,6 @@ export function LiquidMorphologySlideshow({
               </p>
             </div>
           </section>
-
-    
         </main>
 
         <div
@@ -1153,7 +1140,6 @@ export function LiquidMorphologySlideshow({
         >
           {brandName}
         </div>
- 
       </div>
     </div>
   );

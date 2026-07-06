@@ -2,12 +2,8 @@
   "name": "liquid-morphology-slideshow",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "three"
-  ],
-  "devDependencies": [
-    "@types/three"
-  ],
+  "dependencies": ["three"],
+  "devDependencies": ["@types/three"],
   "tailwind": {},
   "cssVars": {
     "light": {},

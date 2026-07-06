@@ -30,10 +30,10 @@ const IGNORED_PACKAGES = new Set(["react", "react-dom"]);
 const availableTypePackages = new Set(
   (() => {
     const pkg = JSON.parse(readText(path.join(root, "package.json")) || "{}");
-    return Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter(
-      (name) => name.startsWith("@types/")
+    return Object.keys({ ...pkg.dependencies, ...pkg.devDependencies }).filter((name) =>
+      name.startsWith("@types/"),
     );
-  })()
+  })(),
 );
 
 // Turn an import specifier into its installable package name, or null for
@@ -51,9 +51,7 @@ function getPackageName(specifier: string): string | null {
 // The @types package name for a runtime dependency, per the @types convention:
 // "three" -> "@types/three", "@scope/pkg" -> "@types/scope__pkg".
 function getTypesPackageName(pkg: string): string {
-  return pkg.startsWith("@")
-    ? `@types/${pkg.slice(1).replace("/", "__")}`
-    : `@types/${pkg}`;
+  return pkg.startsWith("@") ? `@types/${pkg.slice(1).replace("/", "__")}` : `@types/${pkg}`;
 }
 
 // Collect every module specifier a file imports: static imports/re-exports,
@@ -84,9 +82,7 @@ function detectDependencies(content: string) {
   for (const specifier of getImportSpecifiers(content)) {
     // Internal shadcn ui primitive (`@/components/ui/x` or `../ui/x`) -> a
     // registry dependency the CLI resolves, not an npm install.
-    const uiMatch = specifier.match(
-      /(?:^@\/components\/ui\/|(?:\.\.?\/)+ui\/)([\w-]+)$/
-    );
+    const uiMatch = specifier.match(/(?:^@\/components\/ui\/|(?:\.\.?\/)+ui\/)([\w-]+)$/);
     if (uiMatch) {
       registryDependencies.add(uiMatch[1]);
       continue;
@@ -131,7 +127,7 @@ function getExportedDocName(content: string) {
 
 function getExportedComponentName(content: string, slug: string) {
   const exports = Array.from(content.matchAll(/export\s+const\s+([A-Za-z0-9_]+)/g)).map(
-    (match) => match[1]
+    (match) => match[1],
   );
   return exports.at(-1) ?? toPascalCase(slug);
 }
@@ -208,7 +204,7 @@ function syncRegistryComponents(components: ComponentInfo[]) {
     dependencies: ${JSON.stringify(component.dependencies)},
     devDependencies: ${JSON.stringify(component.devDependencies)},
     registryDependencies: ${JSON.stringify(component.registryDependencies)},
-  }`
+  }`,
     )
     .join(",\n");
 
@@ -265,7 +261,7 @@ function createDocEntry(component: ComponentInfo) {
 function syncDocsContent(components: ComponentInfo[]) {
   let content = fs.readFileSync(docsContentPath, "utf8");
   const existingSlugs = new Set(
-    Array.from(content.matchAll(/slug:\s*"([^"]+)"/g)).map((match) => match[1])
+    Array.from(content.matchAll(/slug:\s*"([^"]+)"/g)).map((match) => match[1]),
   );
   const missingEntries = components
     .filter((component) => !existingSlugs.has(component.slug))
@@ -277,7 +273,7 @@ function syncDocsContent(components: ComponentInfo[]) {
 
   content = content.replace(
     /\n\];\n\nexport function getComponentDoc/,
-    `,\n${missingEntries.join(",\n")}\n];\n\nexport function getComponentDoc`
+    `,\n${missingEntries.join(",\n")}\n];\n\nexport function getComponentDoc`,
   );
   fs.writeFileSync(docsContentPath, content);
 }
@@ -287,7 +283,7 @@ function syncDocRenderers(components: ComponentInfo[]) {
   const imports = documentedComponents
     .map(
       (component) =>
-        `import { ${component.docExportName} } from "@/components/docs/content/${component.slug}-doc";`
+        `import { ${component.docExportName} } from "@/components/docs/content/${component.slug}-doc";`,
     )
     .join("\n");
   const entries = documentedComponents

@@ -15,7 +15,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
-  "dock": DockDoc,
+  dock: DockDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
@@ -24,5 +24,5 @@ export const DOC_RENDERERS = {
   "magazine-scroller": MagazineScrollerDoc,
   "morphing-action-dock": MorphingActionDockDoc,
   "streaming-text": StreamingTextDoc,
-  "text-morphing": TextMorphingDoc
+  "text-morphing": TextMorphingDoc,
 } satisfies Record<string, ComponentDocPage>;

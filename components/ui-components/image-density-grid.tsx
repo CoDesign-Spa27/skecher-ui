@@ -11,13 +11,7 @@ import {
   useTransform,
   useVelocity,
 } from "motion/react";
-import {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 type DensityPercent = 20 | 40 | 80 | 120;
 
@@ -60,8 +54,7 @@ const overlayTransition = { duration: 0.3, ease: overlayEase };
 const transitionMs = 620;
 const layoutStaggerDelay = 0.012;
 
-const densityLayout: Record<DensityPercent, { columns: number; gap: string }> =
-{
+const densityLayout: Record<DensityPercent, { columns: number; gap: string }> = {
   20: { columns: 4, gap: "1.25rem" },
   40: { columns: 5, gap: "1rem" },
   80: { columns: 8, gap: "0.625rem" },
@@ -81,10 +74,7 @@ function getDensityLayout(percent: DensityPercent, imageCount: number) {
   };
 }
 
-function getTileTransition(
-  index: number,
-  shouldReduceMotion: boolean | null
-) {
+function getTileTransition(index: number, shouldReduceMotion: boolean | null) {
   if (shouldReduceMotion) {
     return { duration: 0.3, ease: tileEase };
   }
@@ -110,18 +100,14 @@ export function ImageDensityGrid({
   const safeOptions = options.length > 0 ? options : DEFAULT_OPTIONS;
 
   const [activePercent, setActivePercent] = useState<DensityPercent>(
-    safeOptions.includes(initialPercent)
-      ? initialPercent
-      : safeOptions[0] ?? 40
+    safeOptions.includes(initialPercent) ? initialPercent : (safeOptions[0] ?? 40),
   );
 
   const [isRearranging, setIsRearranging] = useState(false);
 
   const controlsRef = useRef<HTMLDivElement | null>(null);
 
-  const optionRefs = useRef<
-    Partial<Record<DensityPercent, HTMLButtonElement | null>>
-  >({});
+  const optionRefs = useRef<Partial<Record<DensityPercent, HTMLButtonElement | null>>>({});
 
   const targetX = useMotionValue(0);
   const targetWidth = useMotionValue(0);
@@ -140,11 +126,7 @@ export function ImageDensityGrid({
 
   const velocity = useVelocity(x);
 
-  const scaleX = useTransform(
-    velocity,
-    [-1200, 0, 1200],
-    [1.45, 1, 1.45]
-  );
+  const scaleX = useTransform(velocity, [-1200, 0, 1200], [1.45, 1, 1.45]);
 
   const blur = useTransform(velocity, [-1200, 0, 1200], [3, 0, 3]);
 
@@ -152,7 +134,7 @@ export function ImageDensityGrid({
 
   const { columnCount, gap } = useMemo(
     () => getDensityLayout(activePercent, safeImages.length),
-    [activePercent, safeImages.length]
+    [activePercent, safeImages.length],
   );
 
   useLayoutEffect(() => {
@@ -185,7 +167,7 @@ export function ImageDensityGrid({
 
     const timeout = window.setTimeout(
       () => setIsRearranging(false),
-      shouldReduceMotion ? 180 : transitionMs + staggerSpanMs
+      shouldReduceMotion ? 180 : transitionMs + staggerSpanMs,
     );
 
     return () => window.clearTimeout(timeout);
@@ -203,8 +185,8 @@ export function ImageDensityGrid({
   return (
     <div
       className={cn(
-        "mx-auto flex h-[clamp(20rem,calc(100svh-23rem),40rem)] max-h-full min-h-0 min-w-0 w-full max-w-6xl flex-col overflow-hidden",
-        className
+        "flex h-screen min-h-0 min-w-0 w-full max-w-7xl flex-col overflow-hidden",
+        className,
       )}
     >
       <div className="flex shrink-0 items-center justify-center gap-4">
@@ -249,7 +231,7 @@ export function ImageDensityGrid({
                   "relative z-10 min-w-11 rounded-md border px-2.5 py-1.5 text-xs font-medium outline-none transition-[color,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/50",
                   isActive
                     ? "text-neutral-950"
-                    : "text-foreground [@media(hover:hover)_and_(pointer:fine)]:hover:text-neutral-400"
+                    : "text-foreground [@media(hover:hover)_and_(pointer:fine)]:hover:text-neutral-400",
                 )}
                 onClick={() => selectPercent(percent)}
                 type="button"
@@ -294,11 +276,7 @@ export function ImageDensityGrid({
                     opacity: isRearranging && !shouldReduceMotion ? 0.8 : 0,
                   }}
                   className="absolute -inset-2 rounded-xl blur-xl"
-                  transition={
-                    shouldReduceMotion
-                      ? { duration: 0 }
-                      : overlayTransition
-                  }
+                  transition={shouldReduceMotion ? { duration: 0 } : overlayTransition}
                 />
 
                 <div className="relative overflow-hidden rounded-md border border-white/8 bg-white/[0.04]">
@@ -313,8 +291,6 @@ export function ImageDensityGrid({
                     width={520}
                   />
                 </div>
-
-                
               </motion.div>
             </motion.figure>
           ))}

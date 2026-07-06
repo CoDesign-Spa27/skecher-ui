@@ -86,4 +86,3 @@ export const Index: Record<string, RegistryIndexItem> = {
     ],
   },
 };
-

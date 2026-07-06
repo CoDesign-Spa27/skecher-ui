@@ -84,8 +84,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Liquid Glass Social",
     slug: "liquid-glass-social",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -189,16 +188,10 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Gooey Toolbar",
     slug: "gooey-toolbar",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
-    installDependencies: [
-      "motion",
-      "nucleo-ui-essential-fill-duo-18",
-      "tailwind-merge",
-      "clsx",
-    ],
+    installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
     cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
     importName: "AmoebaFab",
     usage: {
@@ -253,7 +246,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
   },
-    {
+  {
     id: "liquid-morphology-slideshow",
     title: "Liquid Morphology",
     slug: "liquid-morphology-slideshow",
@@ -297,10 +290,9 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Magazine Scroller",
     slug: "magazine-scroller",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
-    dependencies: ["react","motion"],
+    dependencies: ["react", "motion"],
     installDependencies: [],
     cliCommand: "https://skecher-ui.vercel.app/r/magazine-scroller.json",
     importName: "MagazineScroller",

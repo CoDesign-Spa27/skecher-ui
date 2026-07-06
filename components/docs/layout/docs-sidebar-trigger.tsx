@@ -1,7 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { LayoutGroup, motion, type Transition } from "motion/react";
+import type { ReactNode } from "react";
+
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -46,12 +47,6 @@ export function DocsSidebarTriggerInInset() {
   return <AnimatedSidebarTrigger className="absolute left-6 top-6" />;
 }
 
-export function DocsSidebarTriggerLayoutGroup({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  return (
-    <LayoutGroup id="docs-sidebar-trigger">{children}</LayoutGroup>
-  );
+export function DocsSidebarTriggerLayoutGroup({ children }: { children: ReactNode }) {
+  return <LayoutGroup id="docs-sidebar-trigger">{children}</LayoutGroup>;
 }

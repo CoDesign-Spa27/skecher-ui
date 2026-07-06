@@ -2,11 +2,7 @@
   "name": "liquid-glass-social",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "motion",
-    "nucleo-social-media",
-    "nucleo-ui-essential-fill-18"
-  ],
+  "dependencies": ["motion", "nucleo-social-media", "nucleo-ui-essential-fill-18"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

@@ -1,13 +1,10 @@
 "use client";
 
+import { IconWindowExpandBottomRightFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import type { ComponentProps } from "react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { IconWindowExpandBottomRightFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
 
 export function CodeCollapsibleWrapper({
   className,

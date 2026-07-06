@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from "react";
+
 import type { Badge } from "@/components/ui/badge";
 
 interface SidebarBadgeProps {

@@ -2,9 +2,7 @@
   "name": "text-morphing",
   "type": "registry:ui",
   "registryDependencies": [],
-  "dependencies": [
-    "motion"
-  ],
+  "dependencies": ["motion"],
   "devDependencies": [],
   "tailwind": {},
   "cssVars": {

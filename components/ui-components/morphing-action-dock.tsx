@@ -1,21 +1,10 @@
 "use client";
 
-import { bgShadow } from "@/lib/utils";
-import {
-  Compass,
-  Feather,
-  FlameKindling,
-  Moon,
-  type LucideIcon,
-} from "lucide-react";
-import {
-  AnimatePresence,
-  LayoutGroup,
-  MotionConfig,
-  motion,
-  useReducedMotion,
-} from "motion/react";
+import { Compass, Feather, FlameKindling, type LucideIcon, Moon } from "lucide-react";
+import { AnimatePresence, LayoutGroup, MotionConfig, motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
+
+import { bgShadow } from "@/lib/utils";
 
 type DockDirection = -1 | 0 | 1;
 
@@ -124,7 +113,7 @@ export function MorphingActionDock({
   const activeItem = items.find((item) => item.id === activeId) ?? items[0];
   const activeIndex = Math.max(
     0,
-    items.findIndex((item) => item.id === activeItem?.id)
+    items.findIndex((item) => item.id === activeItem?.id),
   );
 
   function setActiveById(id: string, source: "pointer" | "keyboard" | "press") {
@@ -172,16 +161,10 @@ export function MorphingActionDock({
     <MotionConfig transition={contentSpring}>
       <LayoutGroup>
         <div
-          className={cn(
-            "relative flex h-fit w-fit items-center justify-center",
-            className
-          )}
+          className={cn("relative flex h-fit w-fit items-center justify-center", className)}
           onFocusCapture={() => setIsDockOpen(true)}
           onBlurCapture={(event) => {
-            if (
-              !event.currentTarget.contains(event.relatedTarget) &&
-              !pinnedId
-            ) {
+            if (!event.currentTarget.contains(event.relatedTarget) && !pinnedId) {
               clearPointerActive();
             }
           }}
@@ -220,17 +203,10 @@ export function MorphingActionDock({
                 >
                   <motion.div
                     aria-hidden="true"
-                    className={cn(
-                      "absolute inset-0 rounded-lg bg-background opacity-18 blur-xl",
-                  
-                    )}
+                    className={cn("absolute inset-0 rounded-lg bg-background opacity-18 blur-xl")}
                     layoutId="morphing-action-dock-glow"
                   />
-                  <AnimatePresence
-                    custom={contentDirection}
-                    initial={false}
-                    mode="popLayout"
-                  >
+                  <AnimatePresence custom={contentDirection} initial={false} mode="popLayout">
                     <motion.div
                       animate="center"
                       className="relative w-80 p-3 will-change-transform"
@@ -239,13 +215,10 @@ export function MorphingActionDock({
                       initial="enter"
                       key={activeItem.id}
                       transition={
-                        shouldReduceMotion
-                          ? { duration: 0.12, ease: fastOut }
-                          : contentSpring
+                        shouldReduceMotion ? { duration: 0.12, ease: fastOut } : contentSpring
                       }
                       variants={contentVariants}
                     >
-                    
                       <motion.p
                         animate={{ opacity: 1, y: 0 }}
                         className="text-balance text-sm leading-6 text-foreground/75"
@@ -261,20 +234,26 @@ export function MorphingActionDock({
                       >
                         {activeItem.paragraph}
                       </motion.p>
-                     
                     </motion.div>
                   </AnimatePresence>
                 </motion.div>
               ) : null}
             </AnimatePresence>
 
-            <div className={cn("relative rounded-xl border border-border/70  p-1 shadow-[0_24px_80px_-48px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.08)] backdrop-blur-xl")}>
+            <div
+              className={cn(
+                "relative rounded-xl border border-border/70  p-1 shadow-[0_24px_80px_-48px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.08)] backdrop-blur-xl",
+              )}
+            >
               <motion.div
                 aria-hidden="true"
                 animate={{
                   transform: `translate3d(${activeIndex * 42}px, 0, 0)`,
                 }}
-                className={cn("absolute top-1 bottom-1 rounded-lg  shadow-[0_12px_36px_-18px_rgb(0_0_0/0.8)]", bgShadow)}
+                className={cn(
+                  "absolute top-1 bottom-1 rounded-lg  shadow-[0_12px_36px_-18px_rgb(0_0_0/0.8)]",
+                  bgShadow,
+                )}
                 style={{ left: 4, width: 38, willChange: "transform" }}
                 transition={shouldReduceMotion ? { duration: 0 } : spring}
               />
@@ -286,15 +265,13 @@ export function MorphingActionDock({
 
                   return (
                     <button
-                      aria-label={`Show ${item.label} paragraph${
-                        isItemPinned ? ", pinned" : ""
-                      }`}
+                      aria-label={`Show ${item.label} paragraph${isItemPinned ? ", pinned" : ""}`}
                       aria-pressed={isItemPinned}
                       className={cn(
                         "relative z-10 flex size-[38px] items-center justify-center rounded-lg outline-none transition-[color,transform,opacity] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background border border-border/50",
                         isActive
                           ? `text-foreground `
-                          : "text-muted-foreground hover:text-foreground"
+                          : "text-muted-foreground hover:text-foreground",
                       )}
                       key={item.id}
                       onClick={() => togglePinned(item.id)}
