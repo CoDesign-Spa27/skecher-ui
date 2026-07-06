@@ -78,14 +78,14 @@ export const Hero = () => {
            
             <motion.div className="z-20 flex flex-col items-center justify-center h-full relative gap-2" variants={containerVariants} initial="hidden" animate="visible">
                 <motion.div className="relative text-white"  >
-                    <motion.h1 className="sm:text-8xl text-4xl font-raleway font-bold" variants={itemVariants}>
-                        Sketch The <span className="font-inspiration">Art</span>
+                    <motion.h1 className="sm:text-8xl text-4xl font-raleway font-bold text-center" variants={itemVariants}>
+                        Sketch the <span className="font-inspiration">Art</span>
                     </motion.h1>
                     <motion.div className="absolute sm:top-16 top-8 sm:right-2/4 right-1/4" variants={itemVariants}>
                     <Cursor className=" sm:w-10 w-8 sm:h-10 h-8" />
                     </motion.div>
                     <motion.p className="sm:text-2xl text-sm font-light py-4 font-mono text-center" variants={itemVariants}>
-                        Component Which Contains Life
+                        Motion-rich React components you can install with the shadcn CLI
                     </motion.p>
                 </motion.div>
                 <motion.div className="flex flex-row gap-2 z-30" variants={itemVariants}>
@@ -93,7 +93,7 @@ export const Hero = () => {
                         <Button variant="default" className="cursor-pointer">Browse Components</Button>
                     </Link>
                     <Link href="https://github.com/sketch-the-art/sketch-the-art" >
-                        <Button variant="secondary">Github</Button>
+                        <Button variant="secondary">GitHub</Button>
                     </Link>
                 </motion.div>
             </motion.div>

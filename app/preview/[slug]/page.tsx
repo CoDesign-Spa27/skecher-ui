@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { getComponentPreview } from "@/components/docs/content/component-previews";
 import { COMPONENT_DOCS, getComponentDoc } from "@/lib/docs-content";
-import { notFound } from "next/navigation";
+import { createMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return COMPONENT_DOCS.map((page) => ({
@@ -12,13 +15,18 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const page = getComponentDoc(slug);
 
-  return {
+  return createMetadata({
     title: page ? `${page.title} Preview` : "Component Preview",
-  };
+    description: page
+      ? `Isolated preview for the ${page.title} React motion component.`
+      : "Isolated component preview.",
+    path: `/preview/${slug}`,
+    noIndex: true,
+  });
 }
 
 export default async function ComponentPreviewPage({

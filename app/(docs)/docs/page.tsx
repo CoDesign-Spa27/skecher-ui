@@ -271,12 +271,12 @@ export default function Page() {
                             Skechers
                         </p>
 
-                        <h2
+                        <h1
                             id="components-title"
                             className="mt-3 font-raleway text-2xl font-light tracking-normal text-foreground"
                         >
-                            Watch the pieces in motion.
-                        </h2>
+                            React motion components for shadcn projects
+                        </h1>
                     </div>
                 </div>
 

@@ -1,9 +1,7 @@
 import { SidebarHeader } from "@/components/ui/sidebar";
 import Link from "next/link";
-import React from "react";
-import { DarkLogo } from "@/public/icon/dark-logo-full";
-import { LightLogo } from "@/public/icon/light-logo-full";
 import { DocsSidebarTriggerInSidebar } from "@/components/docs/layout/docs-sidebar-trigger";
+import Image from "next/image";
 
 const DocsSidebarHeader = () => {
     return (
@@ -11,8 +9,8 @@ const DocsSidebarHeader = () => {
             <div className="flex items-center px-1">
                 <Link href="/" className="min-w-0 flex-1">
                     <span className="doto block text-2xl font-black tracking-tighter">
-                        <DarkLogo className="hidden w-44 dark:block" />
-                        <LightLogo className="block w-44 dark:hidden" />
+                        <Image src="/icon/dark-full-logo.svg" alt="Dark Logo" className="hidden dark:block" unoptimized width={150} height={80} />
+                        <Image src="/icon/ligh-full-logo.svg" alt="Light Logo" className="dark:hidden block" unoptimized width={150} height={80} />
                     </span>
                 </Link>
                 <DocsSidebarTriggerInSidebar />
@@ -22,4 +20,3 @@ const DocsSidebarHeader = () => {
 };
 
 export default DocsSidebarHeader;
- 

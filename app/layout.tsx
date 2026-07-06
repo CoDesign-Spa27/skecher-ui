@@ -1,9 +1,13 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Raleway, Inspiration } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Inspiration, Raleway } from "next/font/google";
 import "./globals.css";
+
+import { Analytics } from "@vercel/analytics/next";
+
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Analytics } from "@vercel/analytics/next"
+import { createMetadata, createSoftwareSourceCodeJsonLd, createWebsiteJsonLd } from "@/lib/seo";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,36 +28,41 @@ const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
 });
-export const metadata: Metadata = {
-  title: "Skecher UI",
-  description:
-    "An animated React UI component library powered by Motion and shadcn-compatible registry tooling.",
- 
-};
+export const metadata: Metadata = createMetadata();
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = [createWebsiteJsonLd(), createSoftwareSourceCodeJsonLd()];
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${inspiration.variable} antialiased bg-background`}
-
       >
         <TooltipProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Analytics />
-        </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Analytics />
+          </ThemeProvider>
         </TooltipProvider>
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </body>
     </html>
   );
