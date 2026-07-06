@@ -1,6 +1,12 @@
 "use client";
 
+import {
+  IconRefresh2FillDuo18,
+  IconSquareMinusFillDuo18,
+  IconWindowPointerFillDuo18,
+} from "nucleo-ui-essential-fill-duo-18";
 import * as React from "react";
+
 import { CodeIcon } from "@/assets/app-icons/code";
 import CopyButton from "@/components/docs/ui/copy-button";
 import { Button } from "@/components/ui/button";
@@ -8,16 +14,10 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
- 
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
-import {
-  IconRefresh2FillDuo18,
-  IconWindowPointerFillDuo18,
-  IconSquareMinusFillDuo18,
-} from "nucleo-ui-essential-fill-duo-18";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
   action?: "replay" | "toggle" | string;
@@ -55,7 +55,6 @@ function CodeDrawer({
           aria-label="View source code"
           className="size-7 rounded-md text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
           tooltipSide="bottom"
-
           size="icon"
           tooltip="View source"
           variant="ghost"
@@ -66,7 +65,9 @@ function CodeDrawer({
       <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-background p-0">
         <div className="flex items-center justify-between gap-3 border-b px-4 py-1 sm:px-5">
           <div className="min-w-0">
-            <DrawerTitle className="truncate font-raleway text-sm font-medium bg-highlight px-2 rounded-sm py-0.5 ">{title}</DrawerTitle>
+            <DrawerTitle className="truncate font-raleway text-sm font-medium bg-highlight px-2 rounded-sm py-0.5 ">
+              {title}
+            </DrawerTitle>
           </div>
           <div className="flex shrink-0 items-center gap-1">
             {codeString ? <CopyButton code={codeString} className="size-8 rounded-md" /> : null}
@@ -92,7 +93,6 @@ function CodeDrawer({
 }
 
 export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
- 
   action,
   children,
   className,
@@ -137,7 +137,6 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         aria-label="Replay preview"
         className="size-7 rounded-md text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
         tooltipSide="bottom"
-
         onClick={replayPreview}
         size="icon"
         tooltip="Replay preview"
@@ -151,7 +150,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
   );
 
   return (
-    <section className={cn("w-full h-full", className)} {...props}>
+    <section className={cn("w-full", className)} {...props}>
       <div
         aria-label="Component actions"
         className="fixed right-[4.5rem] top-5 z-50 flex h-10 max-w-2xl shrink-0 items-center justify-between gap-1 rounded-xl bg-sidebar px-1 header-shadow"
@@ -160,21 +159,22 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         {actions}
       </div>
 
-      <div className="relative max-h-[calc(100vh-300px)] w-full bg-background mx-auto h-full flex items-center justify-center rounded-xl component-preview-css ">
+      <div className="relative flex h-svh w-full items-stretch justify-stretch bg-background">
         <div
           className={cn(
-            "flex min-h-[calc(100vh-300px)] w-full overflow-auto px-4 py-8 sm:px-6 items-center justify-center",
+            "flex min-h-svh w-full items-stretch justify-stretch overflow-hidden",
             previewClassName,
           )}
         >
-          <div key={previewKey} className="flex min-h-full w-full items-center justify-center h-full">
+          <div key={previewKey} className="flex min-h-full w-full items-center justify-center">
             {children}
           </div>
         </div>
       </div>
- 
 
-      {doc ? <div className="mt-8">{doc}</div> : null}
+      {doc ? (
+        <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 lg:px-10">{doc}</div>
+      ) : null}
     </section>
   );
 };

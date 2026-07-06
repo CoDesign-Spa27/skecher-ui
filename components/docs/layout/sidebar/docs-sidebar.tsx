@@ -69,6 +69,7 @@ export function DocsSidebar({
                             <SidebarMenuItem key={item?.title}>
                                 <SidebarMenuButton
                                     asChild
+                                     
                                     onMouseEnter={handleMouseEnter}
                                     onMouseLeave={() => setHoveredIdx(null)}
                                     isActive={isActive}
@@ -77,10 +78,10 @@ export function DocsSidebar({
                                     )}
                                 >
                                     <Link href={item?.url ?? "#"} onClick={handleLinkClick} className="relative flex items-center">
-                                        {/* The animated horizontal line */}
+                          
                                         <motion.hr
                                             initial={{ width: 0 }}
-                                            animate={{ width: isHovered ? 45 : 32 }}  
+                                            animate={{ width: isHovered || isActive ? 45 : 32 }}  
                                             transition={FAST_SPRING as Transition}
                                             className="absolute left-0 top-1/2 -translate-y-1/2 border-t-2 border-highlight"
                                             style={{
@@ -88,24 +89,23 @@ export function DocsSidebar({
                                                 borderColor: "var(--color-highlight, #FF773B)",
                                             }}
                                         />
-
-                                        {/* The indicator dot - optional, kept for visual */}
+ 
                                         <motion.div
                                             initial={{ x: 0 }}
-                                            animate={{ x: isHovered ? 13 : 0 }}
+                                            animate={{ x: isHovered || isActive ? 13 : 0 }}
                                             transition={FAST_SPRING as Transition}
                                             className="absolute left-0 top-0 w-1.5 h-1.5 bg-highlight ml-8 mt-[12px]"
                                         />
-
-                                        {/* Animated shifting label */}
+                                  
+ 
                                         <motion.div
-                                            className="flex flex-col items-center"
+                                            className="flex flex-col items-center active:scale-[0.97]"
                                             style={{
-                                                paddingLeft: isHovered ? 53 : 40,
+                                                paddingLeft: isHovered || isActive ? 53 : 40,
                                                 transition: "padding-left 0.1s",
                                             }}
                                             animate={{
-                                                paddingLeft: isHovered ? 53 : 40
+                                                paddingLeft: isHovered || isActive ? 53 : 40
                                             }}
                                             transition={FAST_SPRING as Transition}
                                         >
@@ -122,6 +122,7 @@ export function DocsSidebar({
                                                 </Badge>
                                             )}
                                         </motion.div>
+                                   
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
