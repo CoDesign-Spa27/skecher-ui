@@ -148,10 +148,12 @@ function CommandIsland({
   commands,
   kind,
   className,
+  connected = false,
 }: {
   commands: string[];
   kind: CommandKind;
   className?: string;
+  connected?: boolean;
 }) {
   const { packageManager, setConfig } = useConfig();
   const command = getCommand(kind, packageManager, commands);
@@ -163,7 +165,9 @@ function CommandIsland({
   return (
     <div
       className={cn(
-        "header-shadow flex h-10 w-full min-w-0 items-center gap-1 rounded-xl bg-sidebar px-1",
+        connected
+          ? "flex h-10 w-full min-w-0 items-center gap-1 rounded-xl bg-transparent px-1"
+          : "header-shadow flex h-10 w-full min-w-0 items-center gap-1 rounded-xl bg-sidebar px-1",
         className,
       )}
     >
@@ -204,10 +208,12 @@ function ModeSwitch({
   manualOpen,
   onCliSelect,
   onManualOpen,
+  connected = false,
 }: {
   manualOpen: boolean;
   onCliSelect: () => void;
   onManualOpen: () => void;
+  connected?: boolean;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const activeMode = manualOpen ? "manual" : "cli";
@@ -217,13 +223,23 @@ function ModeSwitch({
   const textTransition = { duration: shouldReduceMotion ? 0.08 : 0.16 };
 
   return (
-    <div className="input-shadow relative flex h-[34px] w-[156px] shrink-0 items-center rounded-lg border border-sidebar-border  p-1 font-raleway text-base font-semibold text-foreground dark:bg-input/30">
+    <div
+      className={cn(
+        "relative flex h-[34px] shrink-0 items-center p-1 font-raleway text-base font-semibold text-foreground",
+        connected
+          ? "w-[210px] justify-center rounded-[10px] bg-transparent"
+          : "input-shadow w-[156px] rounded-lg border border-sidebar-border dark:bg-input/30",
+      )}
+    >
       {modeOptions.map((mode) => {
         const isActive = activeMode === mode.value;
         const button = (
           <button
             aria-pressed={isActive}
-            className="relative isolate flex h-[26px] w-[74px] shrink-0 items-center justify-center rounded-[8px] outline-none transition-transform duration-150 ease-sidebar active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/70 text-sm text-foreground "
+            className={cn(
+              "relative isolate flex h-[26px] shrink-0 items-center justify-center rounded-[7px] text-sm text-foreground outline-none transition-transform duration-150 ease-sidebar active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/70",
+              connected ? "w-[70px]" : "w-[74px]",
+            )}
             key={mode.value}
             onClick={mode.value === "manual" ? onManualOpen : onCliSelect}
             style={{ transformStyle: "preserve-3d" }}
@@ -232,7 +248,12 @@ function ModeSwitch({
             {isActive ? (
               <motion.span
                 aria-hidden="true"
-                className="header-shadow absolute top-0 left-1/2 h-[26px] w-[75px] -translate-x-1/2 rounded-[8px] bg-[#F1F1F1] dark:bg-input/30 will-change-transform"
+                className={cn(
+                  "absolute bottom-0.5 left-1/2 h-[26px] -translate-x-1/2 rounded-[7px] will-change-transform",
+                  connected
+                    ? "w-[30px] h-2 border border-sidebar-border/80 bg-background/10 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.2)] dark:bg-background/5"
+                    : " h-2header-shadow w-[75px] bg-[#F1F1F1] dark:bg-input/30",
+                )}
                 layoutId="super-island-mode-pill"
                 transition={pillTransition}
               />
@@ -243,7 +264,7 @@ function ModeSwitch({
                 scale: isActive && !shouldReduceMotion ? 1 : 0.98,
                 y: isActive && !shouldReduceMotion ? -0.5 : 0,
               }}
-              className="relative z-10 block leading-none"
+              className="relative z-10 block leading-none mb-3"
               transition={textTransition}
             >
               {mode.label}
@@ -410,6 +431,47 @@ function ManualDrawer({
   );
 }
 
+function ConnectedIslandFrame({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("relative mx-auto h-[78px] w-full max-w-[511px]", className)}>
+      <svg
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+        preserveAspectRatio="none"
+        viewBox="0 0 511 78"
+      >
+        <path
+          d="M12.5 1H498.5C504.9 1 510 6.1 510 12.5V27.5C510 33.9 504.9 39 498.5 39H367C354.2 39 348.8 45.1 344.1 55.7L341.1 63.6C338.3 72.2 331.6 77 322 77H189C179.4 77 172.7 72.2 169.9 63.6L166.9 55.7C162.2 45.1 156.8 39 144 39H12.5C6.1 39 1 33.9 1 27.5V12.5C1 6.1 6.1 1 12.5 1Z"
+          fill="var(--sidebar)"
+          stroke="var(--sidebar-border)"
+          strokeWidth="0"
+          style={{
+            filter:
+              "drop-shadow(0 2px 2px rgb(0 0 0 / 0.15)) drop-shadow(0 4px 8px rgb(0 0 0 / 0.12))",
+          }}
+          vectorEffect="non-scaling-stroke"
+        />
+        <path
+          d="M12.5 1H498.5C504.9 1 510 6.1 510 12.5V27.5C510 33.9 504.9 39 498.5 39H367C354.2 39 348.8 45.1 344.1 55.7L341.1 63.6C338.3 72.2 331.6 77 322 77H189C179.4 77 172.7 72.2 169.9 63.6L166.9 55.7C162.2 45.1 156.8 39 144 39H12.5C6.1 39 1 33.9 1 27.5V12.5C1 6.1 6.1 1 12.5 1Z"
+          fill="none"
+          opacity="0.55"
+          stroke="rgb(255 255 255 / 0.12)"
+          strokeWidth="1"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+
+      <div className="relative z-10 flex h-full flex-col items-center">{children}</div>
+    </div>
+  );
+}
+
 function SuperIsland({
   cliCommands,
   dependencies = [],
@@ -424,19 +486,17 @@ function SuperIsland({
 
   return (
     <Sheet open={manualOpen} onOpenChange={setManualOpen}>
-      <div
-        className={cn(
-          "mx-auto flex w-full max-w-[511px] flex-col items-center gap-[5px]",
-          className,
-        )}
-      >
-        <CommandIsland commands={cliCommands} kind="cli" />
-        <ModeSwitch
-          manualOpen={manualOpen}
-          onCliSelect={() => setManualOpen(false)}
-          onManualOpen={() => setManualOpen(true)}
-        />
-      </div>
+      <ConnectedIslandFrame className={className}>
+        <CommandIsland commands={cliCommands} connected kind="cli" />
+        <div className="-mt-px flex h-[39px] w-full items-start justify-center pt-[3px]">
+          <ModeSwitch
+            connected
+            manualOpen={manualOpen}
+            onCliSelect={() => setManualOpen(false)}
+            onManualOpen={() => setManualOpen(true)}
+          />
+        </div>
+      </ConnectedIslandFrame>
       <ManualDrawer
         componentDescription={componentDescription}
         componentName={componentName}
