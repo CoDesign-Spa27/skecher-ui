@@ -67,42 +67,32 @@ function createLayerMask(index: number, total: number, edge: BlurEdge) {
 function ProgressiveBlurStack({ edge, height, blurLevels, className }: ProgressiveBlurStackProps) {
   const normalizedBlurLevels = blurLevels.length ? blurLevels : [0];
   const totalLayers = normalizedBlurLevels.length;
-  const firstBlur = normalizedBlurLevels[0] ?? 0;
-  const lastBlur = normalizedBlurLevels[totalLayers - 1] ?? firstBlur;
-  const middleBlurLevels = normalizedBlurLevels.slice(1, -1);
 
   return (
     <div
       aria-hidden="true"
       data-edge={edge}
       className={cn("progressive-blur-stack", className)}
-      style={
-        {
-          "--progressive-blur-height": height,
-          "--progressive-blur-start-value": `${firstBlur}px`,
-          "--progressive-blur-start-mask": createLayerMask(0, totalLayers, edge),
-          "--progressive-blur-end-value": `${lastBlur}px`,
-          "--progressive-blur-end-mask": createLayerMask(totalLayers - 1, totalLayers, edge),
-        } as CSSVariables
-      }
+      style={{ "--progressive-blur-height": height } as CSSVariables}
     >
-      {middleBlurLevels.map((blur, index) => {
-        const blurIndex = index + 1;
-
-        return (
-          <div
-            key={`${edge}-${blurIndex}-${blur}`}
-            className="progressive-blur-layer"
-            style={
-              {
-                "--progressive-blur-value": `${blur}px`,
-                "--progressive-blur-mask": createLayerMask(blurIndex, totalLayers, edge),
-                "--progressive-blur-index": blurIndex + 1,
-              } as CSSVariables
-            }
-          />
-        );
-      })}
+      {/*
+       * Every blur level is rendered as its own backdrop-filter layer with an
+       * overlapping mask band. Rendering all layers (including the strongest
+       * edge layer) is what makes the progressive falloff actually visible.
+       */}
+      {normalizedBlurLevels.map((blur, index) => (
+        <div
+          key={`${edge}-${index}-${blur}`}
+          className="progressive-blur-layer"
+          style={
+            {
+              "--progressive-blur-value": `${blur}px`,
+              "--progressive-blur-mask": createLayerMask(index, totalLayers, edge),
+              "--progressive-blur-index": index + 1,
+            } as CSSVariables
+          }
+        />
+      ))}
     </div>
   );
 }

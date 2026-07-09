@@ -19,9 +19,9 @@ function ComponentFileBlocks({ files, importName }: Pick<ComponentDoc, "files" |
         >
           <summary className="flex min-w-0 cursor-pointer list-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs text-foreground">
             <span className="min-w-0 flex-1 truncate">
-              {file.path}
+              {/*{file.path}*/}
               {file.description ? (
-                <span className="ml-2 hidden font-sans text-muted-foreground sm:inline">
+                <span className="ml-2 hidden sm:inline">
                   {file.description}
                 </span>
               ) : null}

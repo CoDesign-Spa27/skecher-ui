@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import * as React from "react";
 
 import { BunIcon, NpmIcon, PnpmIcon, YarnIcon } from "@/assets/code-block/icons";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { useConfig } from "@/hooks/use-config";
 import { cn } from "@/lib/utils";
+
 import { ProgressiveScrollArea } from "../ui/ProgressiveBlueWithCss";
 
 type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
@@ -72,6 +74,10 @@ const modeOptions = [
   { label: "CLI", value: "cli" },
   { label: "Manual", value: "manual" },
 ] as const;
+
+const dependencyIcons: Record<string, string> = {
+  motion: "/dependecies/motion.webp",
+};
 
 const packageCommands: Record<CommandKind, Record<PackageManager, string>> = {
   cli: {
@@ -263,7 +269,7 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
   }
 
   return (
-    <div className="grid gap-1 rounded-md border bg-muted/30 p-3">
+    <div className="grid gap-1 rounded-md bg-muted/30 p-3">
       <dt className="text-xs font-medium text-muted-foreground">{label}</dt>
       <dd className="min-w-0 text-sm font-medium text-foreground">{value}</dd>
     </div>
@@ -271,18 +277,32 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
 }
 
 function DependencyList({ dependencies }: { dependencies: string[] }) {
-  if (!dependencies.length) {
+  const iconDependencies = dependencies
+    .map((dependency) => ({
+      name: dependency,
+      icon: dependencyIcons[dependency],
+    }))
+    .filter((dependency): dependency is { name: string; icon: string } => Boolean(dependency.icon));
+
+  if (!iconDependencies.length) {
     return <span className="text-muted-foreground">No extra packages</span>;
   }
 
   return (
-    <div className="flex flex-wrap gap-1.5">
-      {dependencies.map((dependency) => (
+    <div className="flex flex-wrap gap-2">
+      {iconDependencies.map((dependency) => (
         <span
-          className="rounded-md border bg-background px-2 py-1 font-mono text-xs text-foreground"
-          key={dependency}
+          className="input-shadow flex size-11 items-center justify-center rounded-xl bg-background/80 p-2 dark:bg-input/30"
+          key={dependency.name}
+          title={dependency.name}
         >
-          {dependency}
+          <Image
+            alt={dependency.name}
+            className="size-full object-contain"
+            height={28}
+            src={dependency.icon}
+            width={28}
+          />
         </span>
       ))}
     </div>
@@ -299,42 +319,42 @@ function ManualDrawer({
 }: Omit<SuperIslandProps, "cliCommands" | "className"> & {
   dependencies: string[];
 }) {
+  const hasDependencyIcons = dependencies.some((dependency) => dependencyIcons[dependency]);
+
+  void componentName;
+  void importName;
+  void files;
+
   return (
     <SheetContent
       side="right"
       className="flex h-dvh !w-full flex-col overflow-hidden p-0 sm:!w-[min(50vw,720px)] sm:!max-w-none"
     >
       <SheetHeader className="shrink-0 border-b px-5 py-5 text-left">
-        <SheetTitle className="font-raleway text-sm font-medium">
-          Manual installation
-        </SheetTitle>
-    
+        <SheetTitle className="font-raleway text-sm font-medium">Manual installation</SheetTitle>
+
         <SheetDescription className="text-lg">
-          Install the required packages, copy the source files, then import the
-          component into your app.
+          Install the required packages, copy the source files, then import the component into your
+          app.
         </SheetDescription>
       </SheetHeader>
- 
-          <ProgressiveScrollArea
-            className="no-scrollbar h-full space-y-12 overflow-y-auto px-5  relative min-h-0 flex-1 overflow-hidden"
-            blurHeight="140px"
-             blurLevels={[1, 2, 4, 8, 16, 24, 40, 64]}
-          >
-            
+
+      <ProgressiveScrollArea
+        className="no-scrollbar h-full overflow-y-auto px-5  relative min-h-0 flex-1 overflow-hidden"
+        blurHeight="320px"
+        blurLevels={[0.5, 1, 2, 4, 8, 16, 32, 64]}
+      >
+        <div className="space-y-8 px-1">
           <section className="space-y-3">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Component details
-            </h3>
-    
+            <h3 className="text-sm font-medium text-muted-foreground">Component details</h3>
+
             {componentDescription ? (
-              <p className="text-lg leading-6 text-foreground">
-                {componentDescription}
-              </p>
+              <p className="text-lg leading-6 text-foreground">{componentDescription}</p>
             ) : null}
           </section>
-    
+
           <dl className="grid gap-2">
-            <DetailRow label="Component" value={componentName} />
+            {/*<DetailRow label="Component" value={componentName} />
     
             <DetailRow
               label="Import"
@@ -356,43 +376,36 @@ function ManualDrawer({
                   </span>
                 ) : null
               }
-            />
-    
+            />*/}
+
             <DetailRow
               label="Dependencies"
-              value={<DependencyList dependencies={dependencies} />}
+              value={hasDependencyIcons ? <DependencyList dependencies={dependencies} /> : null}
             />
           </dl>
-    
+
           {dependencies.length ? (
             <section className="space-y-3">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-sm font-medium text-foreground">
-                  Install dependencies
-                </h3>
-    
-                <span className="text-xs text-muted-foreground">
-                  Click the package icon to switch
-                </span>
+                <h3 className="text-sm font-medium text-foreground">Install dependencies</h3>
               </div>
-    
-              <CommandIsland commands={dependencies} kind="dependencies" />
+              <CommandIsland
+                commands={dependencies}
+                kind="dependencies"
+                className="w-full max-w-xl"
+              />
             </section>
           ) : null}
-    
+
           {manualSteps ? (
             <section className="space-y-3">
-              <h3 className="text-sm font-medium text-foreground">
-                Add component code
-              </h3>
-    
-              <div className="text-sm leading-6 text-muted-foreground">
-                {manualSteps}
-              </div>
+              <h3 className="text-sm font-medium text-foreground">Add component code</h3>
+
+              <div className="text-sm leading-6 text-muted-foreground">{manualSteps}</div>
             </section>
           ) : null}
-          </ProgressiveScrollArea>
-          
+        </div>
+      </ProgressiveScrollArea>
     </SheetContent>
   );
 }
