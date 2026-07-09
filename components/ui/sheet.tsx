@@ -3,7 +3,8 @@
 import { XIcon } from "lucide-react";
 import { Dialog as SheetPrimitive } from "radix-ui";
 import type * as React from "react";
-
+import {Button} from "@/components/ui/button";
+import { IconSquareMinusFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import { cn } from "@/lib/utils";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -70,7 +71,16 @@ function SheetContent({
         {children}
         {showCloseButton && (
           <SheetPrimitive.Close className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary">
-            <XIcon className="size-4" />
+            <Button
+              aria-label="Close source drawer"
+              className="size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
+              size="icon"
+              tooltipSide="bottom"
+              tooltip="Close"
+              variant="ghost"
+            >
+              <IconSquareMinusFillDuo18 className="size-5" />
+            </Button>
             <span className="sr-only">Close</span>
           </SheetPrimitive.Close>
         )}
@@ -103,7 +113,7 @@ function SheetTitle({ className, ...props }: React.ComponentProps<typeof SheetPr
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
-      className={cn("font-semibold text-foreground", className)}
+      className={cn("font-semibold text-muted-foreground", className)}
       {...props}
     />
   );
@@ -116,7 +126,7 @@ function SheetDescription({
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm", className)}
       {...props}
     />
   );

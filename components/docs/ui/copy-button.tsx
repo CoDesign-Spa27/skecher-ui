@@ -64,6 +64,7 @@ const CopyButton = ({
 
   return (
     <Button
+      aria-label={copied ? "Copied" : "Copy"}
       tooltip={copied ? "Copied" : "Copy"}
       className={cn(
         "h-8 w-8 rounded active:scale-90 dark:hover:bg-[#232323]!",

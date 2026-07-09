@@ -172,9 +172,7 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         </div>
       </div>
 
-      {doc ? (
-        <div className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 lg:px-10">{doc}</div>
-      ) : null}
+      {doc}
     </section>
   );
 };
