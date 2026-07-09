@@ -172,13 +172,13 @@ html.dark [data-rehype-pretty-code-figure] code span,
 }
 
 .header-shadow {
-  /* Highlight header as if it has a border, for both modes */
+    
   box-shadow:
     0 0 0 1px var(--sidebar-border, rgba(0, 0, 0, 0.12)), /* visible border highlight */
     0px 2px 4px 0px rgba(0, 0, 0, 0.12),
-    0px 6px 12px -2px rgba(0, 0, 0, 0.06),
+    
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.11),
-    0px 10.18953px 10.18953px rgba(0, 0, 0, 0.08);
+    0px 1.18953px 1.18953px rgba(0, 0, 0, 0.11);
 }
 
 .dark .header-shadow {
@@ -190,6 +190,42 @@ html.dark [data-rehype-pretty-code-figure] code span,
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.19),
     0px 10.18953px 10.18953px rgba(0, 0, 0, 0.17),
     inset 0px 0.398254px 0.796509px rgba(255, 255, 255, 0.14);
+}
+
+.super-island-shadow {
+  box-shadow:
+    inset 0 1px 1px rgba(115, 115, 115, 0.25),
+    inset 0 -1px 1px rgba(115, 115, 115, 0.25),
+    inset -1px 0 1px rgba(115, 115, 115, 0.25),
+    inset 1px 0 1px rgba(115, 115, 115, 0.25),
+    0 2px 1px #000000,
+    0 -2px 1px #000000,
+    2px 0 1px #000000,
+    -2px 0 1px #000000;
+}
+
+.super-island-raised {
+  box-shadow:
+    inset 0 0.5px 2px rgba(115, 115, 115, 0.25),
+    inset 0 -0.5px 2px rgba(115, 115, 115, 0.25),
+    inset -0.5px 0 2px rgba(115, 115, 115, 0.25),
+    inset 0.5px 0 2px rgba(115, 115, 115, 0.25),
+    0 1px 2px #ffffff,
+    0 -1px 2px #ffffff,
+    1px 0 2px #ffffff,
+    -1px 0 2px #ffffff;
+}
+
+.dark .super-island-raised {
+  box-shadow:
+    inset 0 1px 1px rgba(115, 115, 115, 0.25),
+    inset 0 -1px 1px rgba(115, 115, 115, 0.25),
+    inset -1px 0 1px rgba(115, 115, 115, 0.25),
+    inset 1px 0 1px rgba(115, 115, 115, 0.25),
+    0 2px 1px #000000,
+    0 -2px 1px #000000,
+    2px 0 1px #000000,
+    -2px 0 1px #000000;
 }
 
 .sidebar-shadow {
@@ -233,61 +269,126 @@ html.dark [data-rehype-pretty-code-figure] code span,
     inset 0px 0px 1px rgba(255, 255, 255, 0.1),
     inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
 }
+.progressive-scroll-area {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+
+  /*
+   * Allows the blur stacks to consume the scroll timeline
+   * created by the viewport inside this component.
+   */
+  timeline-scope: --progressive-scroll-timeline;
+}
+
+.progressive-scroll-viewport {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  scroll-timeline-name: --progressive-scroll-timeline;
+  scroll-timeline-axis: block;
+}
+
+/* Blur stack */
+
+.progressive-blur-stack {
+  position: absolute;
+  z-index: 20;
+  inset-inline: 0;
+  height: var(--progressive-blur-height);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.progressive-blur-stack[data-edge="top"] {
+  top: 0;
+  --progressive-fade-direction: to top;
+}
+
+.progressive-blur-stack[data-edge="bottom"] {
+  bottom: 0;
+  --progressive-fade-direction: to bottom;
+}
+
+.progressive-blur-layer {
+  position: absolute;
+  z-index: var(--progressive-blur-index);
+  inset: 0;
+
+  backdrop-filter: blur(var(--progressive-blur-value));
+  -webkit-backdrop-filter: blur(var(--progressive-blur-value));
+
+  mask-image: var(--progressive-blur-mask);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+
+  -webkit-mask-image: var(--progressive-blur-mask);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+}
+
+/*
+ * Optional dark edge fade.
+ * This sits above the blur layers and produces the look
+ * shown in your screenshots.
+ */
+.progressive-blur-stack::after {
+  content: "";
+  position: absolute;
+  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    var(--progressive-fade-direction),
+    transparent 0%,
+    color-mix(in srgb, var(--background) 16%, transparent) 45%,
+    color-mix(in srgb, var(--background) 72%, transparent) 100%
+  );
+}
+
+/* Scroll-aware top and bottom visibility */
 
 @supports (animation-timeline: scroll()) {
-  @property --ft {
-    syntax: "<length>";
-    inherits: false;
-    initial-value: 0px;
+  .progressive-blur-stack[data-edge="top"] {
+    opacity: 0;
+
+    animation: progressive-blur-show-top 1s linear both;
+    animation-timeline: --progressive-scroll-timeline;
+    animation-range: 0% 8%;
   }
 
-  @property --fb {
-    syntax: "<length>";
-    inherits: false;
-    initial-value: 40px;
-  }
+  .progressive-blur-stack[data-edge="bottom"] {
+    opacity: 1;
 
-  .scroll-fade-y,
-  [data-slot="scroll-area-viewport"] {
-    --ft: 0px;
-    --fb: 40px;
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0,
-      #000 var(--ft),
-      #000 calc(100% - var(--fb)),
-      transparent 100%
-    );
-    mask-size: 100% 100%;
-    mask-repeat: no-repeat;
-    animation:
-      fadeTop 1 linear both,
-      fadeBottom 1 linear both;
-    animation-timeline: scroll(self), scroll(self);
-    animation-range:
-      0% 12%,
-      88% 100%;
-  }
-
-  @keyframes fadeTop {
-    from {
-      --ft: 0px;
-    }
-    to {
-      --ft: 40px;
-    }
-  }
-
-  @keyframes fadeBottom {
-    from {
-      --fb: 40px;
-    }
-    to {
-      --fb: 0px;
-    }
+    animation: progressive-blur-hide-bottom 1s linear both;
+    animation-timeline: --progressive-scroll-timeline;
+    animation-range: 92% 100%;
   }
 }
 
+@keyframes progressive-blur-show-top {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes progressive-blur-hide-bottom {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
 .component-preview-css {
   box-shadow: 0px 0.5px 2px rgba(0, 0, 0, 0.25);
 }
