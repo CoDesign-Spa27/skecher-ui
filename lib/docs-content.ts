@@ -84,7 +84,8 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Liquid Glass Social",
     slug: "liquid-glass-social",
     eyebrow: "Components",
-    description: "A polished animated UI primitive for expressive product interfaces.",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -188,10 +189,16 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Gooey Toolbar",
     slug: "gooey-toolbar",
     eyebrow: "Components",
-    description: "A polished animated UI primitive for expressive product interfaces.",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
-    installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
+    installDependencies: [
+      "motion",
+      "nucleo-ui-essential-fill-duo-18",
+      "tailwind-merge",
+      "clsx",
+    ],
     cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
     importName: "AmoebaFab",
     usage: {
@@ -268,7 +275,8 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
     dependencies: ["react"],
-    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
+    cliCommand:
+      "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
     importName: "LiquidMorphologySlideshow",
     usage: {
       imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
@@ -290,7 +298,8 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Magazine Scroller",
     slug: "magazine-scroller",
     eyebrow: "Components",
-    description: "A polished animated UI primitive for expressive product interfaces.",
+    description:
+      "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: [],
@@ -304,6 +313,45 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       {
         path: "components/ui-components/magazine-scroller.tsx",
         description: "Magazine Scroller component",
+      },
+    ],
+  },
+  {
+    id: "ai-chat-box",
+    title: "Ai Chat Box",
+    slug: "ai-chat-box",
+    eyebrow: "Components",
+    description:
+      "A morphing AI chat composer with configurable models, actions, messages, labels, and controlled state hooks.",
+    details: [
+      {
+        title: "Controlled or standalone",
+        body: "Use the defaults for a self-contained chat, or control the input, selected model, and message collection from application state.",
+      },
+      {
+        title: "Composable content",
+        body: "Customize model metadata, composer actions, the empty state, localized labels, and message rendering without changing the component source.",
+      },
+      {
+        title: "Accessible motion",
+        body: "The model picker supports keyboard navigation and the shared-layout transitions respect the user's reduced-motion preference.",
+      },
+    ],
+    dependencies: ["react", "lucide-react", "motion"],
+    installDependencies: ["lucide-react", "motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/ai-chat-box.json",
+    importName: "AiChatBox",
+    usage: {
+      imports: `import { AiChatBox } from "@/components/ui/ai-chat-box";`,
+      code: `<AiChatBox
+  models={models}
+  onSend={(message, model) => sendMessage(message.text, model?.id)}
+/>`,
+    },
+    files: [
+      {
+        path: "components/ui-components/ai-chat-box.tsx",
+        description: "Ai Chat Box component",
       },
     ],
   },

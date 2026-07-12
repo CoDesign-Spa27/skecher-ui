@@ -249,10 +249,10 @@ function ModeSwitch({
               <motion.span
                 aria-hidden="true"
                 className={cn(
-                  "absolute bottom-0.5 left-1/2 h-[26px] -translate-x-1/2 rounded-[7px] will-change-transform",
+                  "absolute bottom-0.5 left-1/2 h-[10px] -translate-x-1/2 rounded-[7px] will-change-transform",
                   connected
-                    ? "w-[30px] h-2 border border-sidebar-border/80 bg-background/10 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.2)] dark:bg-background/5"
-                    : " h-2header-shadow w-[75px] bg-[#F1F1F1] dark:bg-input/30",
+                    ? "w-[30px] h-1 bg-muted-foreground/50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.2)] dark:bg-background/5"
+                    : " h-2 header-shadow w-[75px] bg-[#F1F1F1] dark:bg-input/30",
                 )}
                 layoutId="super-island-mode-pill"
                 transition={pillTransition}
@@ -351,7 +351,7 @@ function ManualDrawer({
       side="right"
       className="flex h-dvh !w-full flex-col overflow-hidden p-0 sm:!w-[min(50vw,720px)] sm:!max-w-none"
     >
-      <SheetHeader className="shrink-0 border-b px-5 py-5 text-left">
+      <SheetHeader className="shrink-0 border-b px-6 py-5 text-left">
         <SheetTitle className="font-raleway text-sm font-medium">Manual installation</SheetTitle>
 
         <SheetDescription className="text-lg">

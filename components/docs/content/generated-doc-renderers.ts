@@ -1,3 +1,4 @@
+import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
@@ -15,6 +16,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
+  "ai-chat-box": AiChatBoxDoc,
   dock: DockDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,

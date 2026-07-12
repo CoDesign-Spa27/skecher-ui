@@ -1,15 +1,28 @@
 import * as path from "path";
-
 import type { Schema } from "./registry-schema";
 
 type ComponentProps = Partial<
-  Pick<Schema, "dependencies" | "devDependencies" | "registryDependencies" | "cssVars" | "tailwind">
+  Pick<
+    Schema,
+    | "dependencies"
+    | "devDependencies"
+    | "registryDependencies"
+    | "cssVars"
+    | "tailwind"
+  >
 > & {
   name: string;
   path: string;
 };
 
 export const components: ComponentProps[] = [
+  {
+    name: "ai-chat-box",
+    path: path.join(__dirname, "../components/ui-components/ai-chat-box"),
+    dependencies: ["lucide-react", "motion"],
+    devDependencies: [],
+    registryDependencies: [],
+  },
   {
     name: "dock",
     path: path.join(__dirname, "../components/ui-components/dock"),
@@ -20,13 +33,21 @@ export const components: ComponentProps[] = [
   {
     name: "gooey-toolbar",
     path: path.join(__dirname, "../components/ui-components/gooey-toolbar"),
-    dependencies: ["clsx", "motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge"],
+    dependencies: [
+      "clsx",
+      "motion",
+      "nucleo-ui-essential-fill-duo-18",
+      "tailwind-merge",
+    ],
     devDependencies: [],
     registryDependencies: [],
   },
   {
     name: "image-density-grid",
-    path: path.join(__dirname, "../components/ui-components/image-density-grid"),
+    path: path.join(
+      __dirname,
+      "../components/ui-components/image-density-grid",
+    ),
     dependencies: ["motion"],
     devDependencies: [],
     registryDependencies: [],
@@ -40,14 +61,24 @@ export const components: ComponentProps[] = [
   },
   {
     name: "liquid-glass-social",
-    path: path.join(__dirname, "../components/ui-components/liquid-glass-social"),
-    dependencies: ["motion", "nucleo-social-media", "nucleo-ui-essential-fill-18"],
+    path: path.join(
+      __dirname,
+      "../components/ui-components/liquid-glass-social",
+    ),
+    dependencies: [
+      "motion",
+      "nucleo-social-media",
+      "nucleo-ui-essential-fill-18",
+    ],
     devDependencies: [],
     registryDependencies: [],
   },
   {
     name: "liquid-morphology-slideshow",
-    path: path.join(__dirname, "../components/ui-components/liquid-morphology-slideshow"),
+    path: path.join(
+      __dirname,
+      "../components/ui-components/liquid-morphology-slideshow",
+    ),
     dependencies: ["three"],
     devDependencies: ["@types/three"],
     registryDependencies: [],
@@ -61,7 +92,10 @@ export const components: ComponentProps[] = [
   },
   {
     name: "morphing-action-dock",
-    path: path.join(__dirname, "../components/ui-components/morphing-action-dock"),
+    path: path.join(
+      __dirname,
+      "../components/ui-components/morphing-action-dock",
+    ),
     dependencies: ["lucide-react", "motion"],
     devDependencies: [],
     registryDependencies: [],

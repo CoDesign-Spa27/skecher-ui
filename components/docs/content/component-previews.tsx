@@ -8,6 +8,7 @@ import {
 } from "nucleo-glass";
 
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
+import { AiChatBox } from "@/components/ui-components/ai-chat-box";
 import { Dock } from "@/components/ui-components/dock";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
@@ -21,15 +22,40 @@ import { MorphingText } from "@/components/ui-components/text-morphing";
 const iconClassName = "size-full";
 
 export const COMPONENT_PREVIEWS = {
+  "ai-chat-box": <AiChatBox />,
   dock: (
     <Dock
       items={[
-        { id: "home", label: "Home", icon: <IconWindow2 className={iconClassName} /> },
-        { id: "search", label: "Search", icon: <IconFileDownload className={iconClassName} /> },
-        { id: "sparkles", label: "Create", icon: <IconSquareKanban className={iconClassName} /> },
-        { id: "updates", label: "Updates", icon: <IconDocFolder className={iconClassName} /> },
-        { id: "profile", label: "Profile", icon: <IconHouse className={iconClassName} /> },
-        { id: "settings", label: "Settings", icon: <IconSquareGrid className={iconClassName} /> },
+        {
+          id: "home",
+          label: "Home",
+          icon: <IconWindow2 className={iconClassName} />,
+        },
+        {
+          id: "search",
+          label: "Search",
+          icon: <IconFileDownload className={iconClassName} />,
+        },
+        {
+          id: "sparkles",
+          label: "Create",
+          icon: <IconSquareKanban className={iconClassName} />,
+        },
+        {
+          id: "updates",
+          label: "Updates",
+          icon: <IconDocFolder className={iconClassName} />,
+        },
+        {
+          id: "profile",
+          label: "Profile",
+          icon: <IconHouse className={iconClassName} />,
+        },
+        {
+          id: "settings",
+          label: "Settings",
+          icon: <IconSquareGrid className={iconClassName} />,
+        },
       ]}
     />
   ),
