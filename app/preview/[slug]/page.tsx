@@ -55,7 +55,7 @@ export default async function ComponentPreviewPage({
   }
 
   return (
-    <main className="flex min-h-svh w-full items-center justify-center overflow-auto bg-background p-6">
+    <main className="flex min-h-screen h-full w-full items-center justify-center overflow-auto bg-background dark:bg-[#070707]  p-6">
       <div className="flex min-h-[min(42rem,calc(100svh-3rem))] w-full items-center justify-center">
         {preview}
       </div>

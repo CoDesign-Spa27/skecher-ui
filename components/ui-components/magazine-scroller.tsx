@@ -85,7 +85,7 @@ export function MagazineScroller({
   cardHeight = 250,
   gap = 34,
   slices = 9,
-  height = "56vh",
+  height = "70vh",
   wheelSpeed = 1.15,
   dragSpeed = 1.15,
   autoSpeed = 0,

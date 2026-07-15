@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  ArrowUp,
-  Check,
-  ChevronDown,
-  type LucideIcon,
-  MoreHorizontal,
-  
-} from "lucide-react";
+import { ArrowUp, Check, ChevronDown, type LucideIcon, MoreHorizontal } from "lucide-react";
 import { AnimatePresence, LayoutGroup, MotionConfig, motion } from "motion/react";
+import { IconEarthFillDuo18, IconLinkFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import {
   type FormEvent,
   type KeyboardEvent,
@@ -21,8 +15,8 @@ import {
   useState,
 } from "react";
 
-import { cn } from "@/lib/utils"; 
-import { IconEarthFillDuo18, IconLinkFillDuo18 } from 'nucleo-ui-essential-fill-duo-18';
+import { cn } from "@/lib/utils";
+
 const getMessageSurfaceLayoutId = (id: string) => `chat-message-surface-${id}`;
 
 const sharedLayoutTransition = {
@@ -47,13 +41,13 @@ const DEFAULT_MODELS: AiChatModel[] = [
     id: "nova",
     name: "Nova",
     description: "Balanced for everyday ideas",
-    capability: "Balanced", 
+    capability: "Balanced",
   },
   {
     id: "atlas",
     name: "Atlas",
     description: "Plans and complex reasoning",
-    capability: "Reasoning", 
+    capability: "Reasoning",
   },
   {
     id: "swift",
@@ -407,6 +401,7 @@ export function AiChatBox({
   const messageIdRef = useRef(1);
   const modelKeyboardToggleRef = useRef(false);
   const modelTriggerRef = useRef<HTMLButtonElement>(null);
+  const previousMessageCountRef = useRef(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const shouldStickToBottomRef = useRef(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -479,9 +474,10 @@ export function AiChatBox({
 
   const scrollToBottom = useCallback(() => {
     const el = scrollRef.current;
-    if (el && shouldStickToBottomRef.current) {
-      el.scrollTop = el.scrollHeight;
-    }
+    if (!el) return;
+
+    shouldStickToBottomRef.current = true;
+    el.scrollTop = el.scrollHeight;
   }, []);
 
   const handleMessagesScroll = useCallback(() => {
@@ -493,11 +489,13 @@ export function AiChatBox({
   }, []);
 
   useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (el && shouldStickToBottomRef.current) {
-      el.scrollTop = messages.length === 0 ? 0 : el.scrollHeight;
+    const messageCount = messages.length;
+
+    if (messageCount !== previousMessageCountRef.current) {
+      scrollToBottom();
+      previousMessageCountRef.current = messageCount;
     }
-  }, [messages.length]);
+  }, [messages.length, scrollToBottom]);
 
   const resizeTextarea = useCallback(() => {
     const textarea = textareaRef.current;
@@ -515,6 +513,8 @@ export function AiChatBox({
     (text: string) => {
       const trimmed = text.trim();
       if (!trimmed) return;
+
+      scrollToBottom();
 
       const id = composerSurfaceId ?? nextComposerMessageId();
       const nextSurfaceId = nextComposerMessageId();
@@ -541,6 +541,7 @@ export function AiChatBox({
       nextComposerMessageId,
       onSend,
       resizeTextarea,
+      scrollToBottom,
       selectedModel,
       updateInput,
       updateMessages,
@@ -592,12 +593,11 @@ export function AiChatBox({
                   </motion.h2>
                 </motion.div>
               )}
-            </AnimatePresence>
- 
-            <div className="flex flex-col gap-2">
-              <AnimatePresence initial={false}>
-                  
-                {messages.map((message) => (
+              </AnimatePresence>
+
+              <div className="flex flex-col gap-2">
+                <AnimatePresence initial={false}>
+                  {messages.map((message) => (
                   <MessageBubble
                     key={message.id}
                     id={message.id}
@@ -608,18 +608,17 @@ export function AiChatBox({
                   />
                 ))}
               </AnimatePresence>
+              </div>
             </div>
-            
-          </div>
 
           <div className="shrink-0 px-3 pb-3">
-            <form onSubmit={handleSubmit} className="relative">
+            <form onSubmit={handleSubmit} className="relative bg-none">
               <motion.div
                 layout
                 transition={modelMotionEnabled ? sharedLayoutTransition : { duration: 0 }}
-                className={cn("relative flex flex-col gap-3 overflow-hidden rounded-[1.75rem] p-3")}
+                className={cn("relative flex flex-col gap-3 overflow-hidden rounded-b-[1.75rem] p-3")}
               >
-                <div className="absolute inset-0 rounded-[1.75rem] bg-white shadow-sm dark:bg-neutral-900 dark:shadow-neutral-950/50  " />
+                <div className="absolute inset-0 rounded-b-[1.75rem] bg-white shadow-sm dark:bg-neutral-900 dark:shadow-neutral-950/50  " />
                 <AnimatePresence initial={false}>
                   {departingMessage ? (
                     <MessageSurface

@@ -980,7 +980,7 @@ export function LiquidMorphologySlideshow({
       ref={rootRef}
       aria-label="Liquid morphology landing slideshow"
       className={cn(
-        "group/liquid-morphology relative isolate h-auto w-full max-w-7xl overflow-hidden rounded-lg bg-black text-white outline-none",
+        "group/liquid-morphology relative isolate h-auto w-full max-w-7xl overflow-hidden rounded-xl bg-black text-white outline-none",
         clickToAdvance && "cursor-pointer",
         className,
       )}
@@ -995,24 +995,24 @@ export function LiquidMorphologySlideshow({
         ref={canvasRef}
         aria-label={activeSlide?.alt ?? activeSlide?.title ?? "Liquid slideshow image"}
         className={cn(
-          "block h-full w-full transition-opacity duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          "block h-full w-full transition-opacity duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] rounded-xl",
           isReady ? "opacity-100" : "opacity-0",
         )}
       />
 
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.52)_0%,rgba(0,0,0,0.08)_34%,rgba(0,0,0,0.08)_60%,rgba(0,0,0,0.46)_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(255,255,255,0.13)_0%,transparent_30%),radial-gradient(circle_at_50%_115%,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.2)_38%,transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.52)_0%,rgba(0,0,0,0.08)_34%,rgba(0,0,0,0.08)_60%,rgba(0,0,0,0.46)_100%)] rounded-xl" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(255,255,255,0.13)_0%,transparent_30%),radial-gradient(circle_at_50%_115%,rgba(0,0,0,0.58)_0%,rgba(0,0,0,0.2)_38%,transparent_62%)] rounded-xl" />
 
       {hasWebGLError ? (
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center rounded-xl"
           style={{ backgroundImage: `url(${activeSlide?.src ?? DEFAULT_SLIDES[0].src})` }}
         />
       ) : null}
 
       <div
         className={cn(
-          "pointer-events-none absolute inset-0 z-10 flex min-h-full flex-col justify-between overflow-hidden px-4 py-4 text-white sm:px-6 sm:py-6 lg:px-8 lg:py-7",
+          "pointer-events-none absolute inset-0 z-10 flex min-h-full flex-col justify-between overflow-hidden px-4 py-4 text-white sm:px-6 sm:py-6 lg:px-8 lg:py-7 rounded-xl",
           overlayClassName,
         )}
       >

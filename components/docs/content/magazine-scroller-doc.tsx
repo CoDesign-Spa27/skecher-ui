@@ -19,7 +19,7 @@ export async function MagazineScrollerDoc({ page }: { page: ComponentDoc }) {
       doc={<ComponentDocSections page={page} />}
       previewClassName="overflow-hidden"
       previewHref={`/preview/${page.slug}`}
-      previewInset={false}
+      previewInset={true}
       title="magazine-scroller.tsx"
     >
       {getComponentPreview(page.slug)}

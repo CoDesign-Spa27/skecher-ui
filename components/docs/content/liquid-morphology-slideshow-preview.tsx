@@ -15,6 +15,6 @@ const LiquidMorphologySlideshow = dynamic(
 
 export function LiquidMorphologySlideshowPreview() {
   return (
-    <LiquidMorphologySlideshow className="h-full rounded-none" initialIndex={1} showHelp={false} />
+    <LiquidMorphologySlideshow className="h-full max-h-2/3 rounded-xl" initialIndex={1} showHelp={false} />
   );
 }
