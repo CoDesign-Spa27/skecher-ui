@@ -16,11 +16,14 @@ export type SnapTextSpring = {
 export type SnapTextProps = {
   className?: string;
   colors?: readonly string[];
+  imageClassName?: string;
+  imageFrameClassName?: string;
+  images?: readonly string[];
   indent?: number;
   inactiveColor?: string;
   initialIndex?: number;
   itemHeight?: number;
-  items?: string[];
+  items?: readonly string[];
   onIndexChange?: (index: number) => void;
   prefix?: ReactNode;
   spring?: SnapTextSpring;
@@ -36,14 +39,31 @@ type SnapTextRowProps = {
   progress: MotionValue<number>;
 };
 
+type SnapTextImageProps = {
+  imageClassName?: string;
+  index: number;
+  progress: MotionValue<number>;
+  shouldReduceMotion: boolean;
+  src: string;
+};
+
 const DEFAULT_ITEMS = [
-  "the platform",
-  "the Design System",
-  "the library",
-  "the brand",
-  "the conference",
-  "the experience",
+  "A signal appears.",
+  "The grid wakes up.",
+  "Color breaks free.",
+  "Gravity lets go.",
+  "The impossible forms.",
+  "Everything comes alive.",
 ];
+
+export const DEFAULT_SNAP_TEXT_IMAGES = [
+  "/images/snap-text/i1.jpeg",
+  "/images/snap-text/i2.jpeg",
+  "/images/snap-text/i3.jpeg",
+  "/images/snap-text/i4.jpeg",
+  "/images/snap-text/i5.jpeg",
+  "/images/snap-text/i6.jpeg",
+] as const;
 
 export const DEFAULT_SNAP_TEXT_COLORS = [
   "#8CD7C0",
@@ -64,6 +84,46 @@ function clampIndex(index: number, itemCount: number) {
   return Math.min(Math.max(index, 0), Math.max(itemCount - 1, 0));
 }
 
+function SnapTextImage({
+  imageClassName,
+  index,
+  progress,
+  shouldReduceMotion,
+  src,
+}: SnapTextImageProps) {
+  const opacity = useTransform(progress, (latestIndex) =>
+    Math.max(0, 1 - Math.abs(index - latestIndex)),
+  );
+  const transform = useTransform(progress, (latestIndex) => {
+    if (shouldReduceMotion) {
+      return "translate3d(0px, 0%, 0px) scale3d(1, 1, 1)";
+    }
+
+    const signedDistance = index - latestIndex;
+    const clampedDistance = Math.max(-1, Math.min(1, signedDistance));
+    const scale = 1 - Math.min(Math.abs(signedDistance), 1) * 0.04;
+
+    return `translate3d(0px, ${clampedDistance * 24}%, 0px) scale3d(${scale}, ${scale}, 1)`;
+  });
+
+  return (
+    <motion.div
+      className="absolute inset-0 origin-center will-change-[transform,opacity] [backface-visibility:hidden]"
+      style={{ opacity, transform }}
+    >
+      {/* biome-ignore lint/performance/noImgElement: keeps registry consumers free to use arbitrary local or remote image sources */}
+      <img
+        alt=""
+        className={cn("size-full select-none object-cover", imageClassName)}
+        decoding="async"
+        draggable={false}
+        loading="eager"
+        src={src}
+      />
+    </motion.div>
+  );
+}
+
 function SnapTextRow({
   color,
   indent,
@@ -75,27 +135,41 @@ function SnapTextRow({
 }: SnapTextRowProps) {
   const opacity = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
-    return Math.max(0.15, 1 - distance * 0.82);
+    return Math.max(0.24, 1 - distance * 0.68);
   });
-  const textColor = useTransform(
-    progress,
-    [index - 1, index, index + 1],
-    [inactiveColor, color, inactiveColor],
+  const fillOpacity = useTransform(progress, (latestIndex) =>
+    Math.max(0, 1 - Math.abs(index - latestIndex)),
   );
+  const outlineOpacity = useTransform(fillOpacity, (latestOpacity) => 1 - latestOpacity);
   const transform = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
     const horizontalOffset = Math.min(distance, 3) * indent;
-    const scale = Math.max(0.78, 1 - distance * 0.12);
+    const scale = Math.max(0.8, 1 - distance * 0.1);
+    const stretch = 1 + Math.sin(Math.min(distance, 1) * Math.PI) * 0.1;
 
-    return `translate3d(${horizontalOffset}px, 0px, 0px) scale3d(${scale}, ${scale}, 1)`;
+    return `translate3d(${horizontalOffset}px, 0px, 0px) scale3d(${scale * stretch}, ${scale}, 1)`;
   });
 
   return (
     <motion.li
-      className="flex w-max max-w-full origin-left items-center whitespace-nowrap font-semibold leading-none tracking-[-0.04em]"
-      style={{ color: textColor, height: itemHeight, opacity, transform }}
+      aria-label={item}
+      className="relative flex w-max max-w-full origin-left items-center whitespace-nowrap font-semibold leading-none tracking-[-0.04em] will-change-transform"
+      style={{ height: itemHeight, opacity, transform }}
     >
-      {item}
+      <motion.span
+        aria-hidden="true"
+        className="text-transparent"
+        style={{ opacity: outlineOpacity, WebkitTextStroke: `1px ${inactiveColor}` }}
+      >
+        {item}
+      </motion.span>
+      <motion.span
+        aria-hidden="true"
+        className="absolute inset-0 flex items-center"
+        style={{ color, opacity: fillOpacity }}
+      >
+        {item}
+      </motion.span>
     </motion.li>
   );
 }
@@ -103,7 +177,10 @@ function SnapTextRow({
 export function SnapText({
   className,
   colors = DEFAULT_SNAP_TEXT_COLORS,
-  indent = 48,
+  imageClassName,
+  imageFrameClassName,
+  images = DEFAULT_SNAP_TEXT_IMAGES,
+  indent = 32,
   inactiveColor = "#737373",
   initialIndex = 3,
   itemHeight = 104,
@@ -251,8 +328,13 @@ export function SnapText({
     return null;
   }
 
-  const prefixText = typeof prefix === "string" || typeof prefix === "number" ? `${prefix} ` : "";
-  const hasPrefix = prefix !== undefined && prefix !== null && prefix !== false;
+  const hasImagePrefix = images.length > 0;
+  const hasPrefix = prefix !== undefined && prefix !== null && prefix !== false && prefix !== "";
+  const prefixText =
+    hasPrefix && (typeof prefix === "string" || typeof prefix === "number") ? `${prefix} ` : "";
+  const activeColor = safeColors[activeIndex % safeColors.length] ?? DEFAULT_SNAP_TEXT_COLORS[0];
+  const sequenceNumber = String(activeIndex + 1).padStart(2, "0");
+  const sequenceTotal = String(items.length).padStart(2, "0");
 
   const selectWithKeyboard = (nextIndex: number) => {
     const scrollDriver = scrollRef.current;
@@ -279,13 +361,41 @@ export function SnapText({
     >
       <div
         aria-hidden="true"
+        className="pointer-events-none absolute bottom-6 right-[7%] z-20 font-mono text-[11px] tracking-[0.16em]"
+      >
+        <span style={{ color: activeColor }}>{sequenceNumber}</span>
+        <span className="text-muted-foreground"> / {sequenceTotal}</span>
+      </div>
+
+      <div
+        aria-hidden="true"
         className={cn(
           "pointer-events-none absolute inset-x-[7%] inset-y-0 flex",
-          hasPrefix && "gap-[0.24em]",
+          (hasImagePrefix || hasPrefix) && "gap-[clamp(0.75rem,2vw,2rem)]",
         )}
       >
+        {hasImagePrefix ? (
+          <div
+            className={cn(
+              "relative aspect-[1/2] w-[clamp(4.5rem,10vw,19rem)] shrink-0 self-center overflow-hidden rounded-xl bg-neutral-950",
+              imageFrameClassName,
+            )}
+          >
+            {items.map((item, index) => (
+              <SnapTextImage
+                imageClassName={imageClassName}
+                index={index}
+                key={`${item}-${images[index % images.length]}`}
+                progress={presentedIndex}
+                shouldReduceMotion={Boolean(shouldReduceMotion)}
+                src={images[index % images.length] ?? DEFAULT_SNAP_TEXT_IMAGES[0]}
+              />
+            ))}
+          </div>
+        ) : null}
+
         {hasPrefix ? (
-          <span className="flex shrink-0 items-center font-semibold leading-none tracking-[-0.04em] text-[#f4f4f4]">
+          <span className="flex shrink-0 items-center font-semibold leading-none tracking-[-0.04em] text-foreground">
             {prefix}
           </span>
         ) : null}

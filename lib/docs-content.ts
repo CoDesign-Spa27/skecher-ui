@@ -352,15 +352,15 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     slug: "ai-orb",
     eyebrow: "Components",
     description:
-      "A responsive Three.js energy orb with a folded volumetric shader, atmospheric depth, an orbital glint, and configurable color, intensity, speed, and pointer response.",
+      "A responsive circular Three.js plasma orb with a dark inner surface, ray-marched strands, configurable color and intensity, adjustable speed, and subtle pointer-driven movement.",
     details: [
       {
-        title: "Volumetric energy field",
-        body: "A bounded raymarch samples a softly folded fractal field, then blends two configurable colors through its quiet edges and luminous core.",
+        title: "Ray-marched plasma strands",
+        body: "A compact raymarch traces two bending wave fields, then blends configurable colors through their crossings and luminous edges.",
       },
       {
-        title: "Restrained physical depth",
-        body: "A thin atmospheric shell, orbital glint, and damped fine-pointer response create depth while preserving the orb's circular silhouette.",
+        title: "Responsive plasma depth",
+        body: "Damped fine-pointer input offsets and rotates the field without interrupting its ambient motion or changing the component layout.",
       },
       {
         title: "Responsible ambient motion",
@@ -374,8 +374,8 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     usage: {
       imports: `import { AiOrb } from "@/components/ui/ai-orb";`,
       code: `<AiOrb
-  primaryColor="#00d9ff"
-  secondaryColor="#7c3aed"
+  primaryColor="#A855F7"
+  secondaryColor="#06B6D4"
   intensity={1.25}
   speed={0.45}
 />`,
@@ -429,19 +429,19 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     slug: "snap-text",
     eyebrow: "Components",
     description:
-      "A native scroll-snap text sequence with a separate spring-animated presentation layer.",
+      "A spring-driven scroll-snap narrative with a transitioning portrait prefix, curved outlined rows, and a compact sequence counter.",
     details: [
       {
         title: "Native snap driver",
         body: "An invisible full-height scroller uses mandatory snap sections, so the browser handles wheel, trackpad, and touch landing without JavaScript rounding.",
       },
       {
-        title: "Spring presentation layer",
-        body: "A Motion spring follows continuous internal scroll progress while each row derives its vertical position, indent, scale, and opacity from its distance to center.",
+        title: "Directional image continuity",
+        body: "Each portrait crossfades and travels with the same continuous spring value as the text, so forward and reverse scrolling preserve spatial direction without restarting the transition.",
       },
       {
-        title: "Stable at every size",
-        body: "The prefix stays fixed, keyboard changes are instant, reduced motion removes spring travel, and ResizeObserver keeps snap measurements current.",
+        title: "Curved presentation layer",
+        body: "Outlined inactive rows form a curved stack around the active label, while reduced motion keeps the image change to an opacity-only crossfade.",
       },
     ],
     dependencies: ["react", "motion"],
@@ -450,7 +450,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     importName: "SnapText",
     usage: {
       imports: `import { SnapText } from "@/components/ui/snap-text";`,
-      code: `<SnapText prefix="We Design" />`,
+      code: `<SnapText />`,
     },
     files: [
       {
