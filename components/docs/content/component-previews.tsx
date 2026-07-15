@@ -71,13 +71,13 @@ export const COMPONENT_PREVIEWS = {
   "image-glide": <ImageGlide />,
   "liquid-glass-social": <Social />,
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
-  "magazine-scroller": <MagazineScroller />,
+  "magazine-scroller": <MagazineScroller height="100%" />,
   "morphing-action-dock": <MorphingActionDock />,
   "snap-text": <ControlledSnapTextPreview />,
   "streaming-text": (
     <BlurredText
       text="Stop acting as if life is a rehearsal."
-      className="text-center font-raleway text-4xl font-medium items-center justify-center h-screen"
+      className="max-w-4xl text-center font-raleway text-2xl font-medium sm:text-3xl lg:text-4xl"
     />
   ),
   "text-morphing": (
@@ -89,7 +89,7 @@ export const COMPONENT_PREVIEWS = {
         "Learning and adapting to improve results...",
         "AI process complete: ready for your next command...",
       ]}
-      className="text-center font-raleway text-4xl font-medium items-center justify-center h-screen"
+      className="max-w-4xl whitespace-normal text-center font-raleway text-sm font-medium leading-tight sm:text-2xl md:text-3xl lg:text-4xl"
     />
   ),
 } satisfies Record<string, React.ReactNode>;

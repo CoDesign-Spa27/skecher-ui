@@ -15,7 +15,9 @@ export type SnapTextSpring = {
 
 export type SnapTextProps = {
   className?: string;
+  colors?: readonly string[];
   indent?: number;
+  inactiveColor?: string;
   initialIndex?: number;
   itemHeight?: number;
   items?: string[];
@@ -25,7 +27,9 @@ export type SnapTextProps = {
 };
 
 type SnapTextRowProps = {
+  color: string;
   indent: number;
+  inactiveColor: string;
   index: number;
   item: string;
   itemHeight: number;
@@ -41,6 +45,15 @@ const DEFAULT_ITEMS = [
   "the experience",
 ];
 
+export const DEFAULT_SNAP_TEXT_COLORS = [
+  "#8CD7C0",
+  "#FFD873",
+  "#FF5768",
+  "#6C89C5",
+  "#FF60A8",
+  "#F5B2D3",
+] as const;
+
 const DEFAULT_SPRING = {
   damping: 30,
   mass: 0.8,
@@ -51,11 +64,24 @@ function clampIndex(index: number, itemCount: number) {
   return Math.min(Math.max(index, 0), Math.max(itemCount - 1, 0));
 }
 
-function SnapTextRow({ indent, index, item, itemHeight, progress }: SnapTextRowProps) {
+function SnapTextRow({
+  color,
+  indent,
+  inactiveColor,
+  index,
+  item,
+  itemHeight,
+  progress,
+}: SnapTextRowProps) {
   const opacity = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
     return Math.max(0.15, 1 - distance * 0.82);
   });
+  const textColor = useTransform(
+    progress,
+    [index - 1, index, index + 1],
+    [inactiveColor, color, inactiveColor],
+  );
   const transform = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
     const horizontalOffset = Math.min(distance, 3) * indent;
@@ -66,8 +92,8 @@ function SnapTextRow({ indent, index, item, itemHeight, progress }: SnapTextRowP
 
   return (
     <motion.li
-      className="flex w-max max-w-full origin-left items-center whitespace-nowrap font-semibold leading-none tracking-[-0.04em] text-white"
-      style={{ height: itemHeight, opacity, transform }}
+      className="flex w-max max-w-full origin-left items-center whitespace-nowrap font-semibold leading-none tracking-[-0.04em]"
+      style={{ color: textColor, height: itemHeight, opacity, transform }}
     >
       {item}
     </motion.li>
@@ -76,7 +102,9 @@ function SnapTextRow({ indent, index, item, itemHeight, progress }: SnapTextRowP
 
 export function SnapText({
   className,
+  colors = DEFAULT_SNAP_TEXT_COLORS,
   indent = 48,
+  inactiveColor = "#737373",
   initialIndex = 3,
   itemHeight = 104,
   items = DEFAULT_ITEMS,
@@ -93,6 +121,7 @@ export function SnapText({
   const scrollIndex = useMotionValue(activeIndexRef.current);
   const viewportHeight = useMotionValue(0);
   const visualItemHeight = useMotionValue(itemHeight);
+  const safeColors = colors.length > 0 ? colors : DEFAULT_SNAP_TEXT_COLORS;
   const springConfig = useMemo(
     () => ({
       damping: spring?.damping ?? DEFAULT_SPRING.damping,
@@ -243,7 +272,7 @@ export function SnapText({
   return (
     <div
       className={cn(
-        "relative h-svh min-h-[520px] w-full overflow-hidden bg-[#171717] font-sans text-[clamp(1.75rem,4vw,4.5rem)] text-white",
+        "relative h-svh min-h-[520px] w-full overflow-hidden font-sans text-[clamp(1.75rem,4vw,4.5rem)] text-white",
         className,
       )}
       ref={rootRef}
@@ -268,7 +297,9 @@ export function SnapText({
           >
             {items.map((item, index) => (
               <SnapTextRow
+                color={safeColors[index % safeColors.length] ?? DEFAULT_SNAP_TEXT_COLORS[0]}
                 indent={indent}
+                inactiveColor={inactiveColor}
                 index={index}
                 item={item}
                 itemHeight={itemHeight}

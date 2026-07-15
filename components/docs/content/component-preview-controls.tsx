@@ -380,5 +380,5 @@ export function ControlledSnapTextPreview() {
   const [indent] = usePreviewControl("snap-text.indent", SNAP_DEFAULTS.indent);
   const [itemHeight] = usePreviewControl("snap-text.item-height", SNAP_DEFAULTS.itemHeight);
 
-  return <SnapText indent={indent} itemHeight={itemHeight} prefix={prefix} />;
+  return <SnapText className="h-full" indent={indent} itemHeight={itemHeight} prefix={prefix} />;
 }

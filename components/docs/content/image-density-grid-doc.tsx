@@ -19,6 +19,7 @@ export async function ImageDensityGridDoc({ page }: { page: ComponentDoc }) {
       doc={<ComponentDocSections page={page} />}
       previewClassName=""
       previewHref={`/preview/${page.slug}`}
+      previewInset={false}
       title="image-density-grid.tsx"
     >
       {getComponentPreview(page.slug)}

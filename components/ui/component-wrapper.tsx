@@ -1,6 +1,6 @@
 "use client";
 
-import { Maximize, Minimize, PanelRightClose, PanelRightOpen } from "lucide-react";
+import { Maximize, Minimize } from "lucide-react";
 import { AnimatePresence, motion, type TargetAndTransition, useReducedMotion } from "motion/react";
 import {
   IconRefresh2FillDuo18,
@@ -35,6 +35,7 @@ interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "c
   doc?: React.ReactNode;
   previewClassName?: string;
   previewHref?: string;
+  previewInset?: boolean;
   title?: string;
 }
 
@@ -104,6 +105,7 @@ function CodeDrawer({
 
 const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   action,
+  align = "center",
   children,
   className,
   code,
@@ -111,6 +113,7 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   doc,
   previewClassName,
   previewHref,
+  previewInset = true,
   title = "Component example",
   ...props
 }) => {
@@ -152,68 +155,67 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   }, []);
 
   const actions = (
-  <div className="flex items-center gap-1">
-      
-    <div className="flex min-w-0 items-center gap-1 rounded-lg bg-[#F1F1F1] p-0.5 input-shadow dark:bg-input/30">
-      {previewHref ? (
+    <div className="flex items-center gap-1">
+      <div className="flex min-w-0 items-center gap-1 rounded-lg bg-[#F1F1F1] p-0.5 input-shadow dark:bg-input/30">
+        {previewHref ? (
+          <Button
+            tooltipSide="bottom"
+            aria-label="Open isolated preview"
+            asChild
+            className="size-7 rounded-md text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
+            size="icon"
+            tooltip="Open preview"
+            variant="ghost"
+          >
+            <a href={previewHref} rel="noreferrer" target="_blank">
+              <IconWindowPointerFillDuo18 className="size-4" />
+            </a>
+          </Button>
+        ) : null}
         <Button
-          tooltipSide="bottom"
-          aria-label="Open isolated preview"
-          asChild
+          aria-label="Replay preview"
           className="size-7 rounded-md text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
-          size="icon"
-          tooltip="Open preview"
-          variant="ghost"
-        >
-          <a href={previewHref} rel="noreferrer" target="_blank">
-            <IconWindowPointerFillDuo18 className="size-4" />
-          </a>
-        </Button>
-      ) : null}
-      <Button
-        aria-label="Replay preview"
-        className="size-7 rounded-md text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
-        tooltipSide="bottom"
-        onClick={replayPreview}
-        size="icon"
-        tooltip="Replay preview"
-        type="button"
-        variant="ghost"
-      >
-        <IconRefresh2FillDuo18 className="size-4" />
-      </Button>
-      <CodeDrawer code={code} codeString={codeString} title={title} />
-      {doc ? (
-        <Button
-          aria-expanded={superIslandLayout?.manualOpen ?? false}
-          aria-label={
-            superIslandLayout?.manualOpen ? "Hide component details" : "Show component details"
-          }
-          className="size-7 rounded-md shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
-          onClick={(event) =>
-            superIslandLayout?.setManualOpen(!superIslandLayout.manualOpen, {
-              animated: event.detail !== 0,
-            })
-          }
-          size="icon"
-          tooltip={superIslandLayout?.manualOpen ? "Close" : "Slide"}
           tooltipSide="bottom"
+          onClick={replayPreview}
+          size="icon"
+          tooltip="Replay preview"
           type="button"
           variant="ghost"
         >
-          {superIslandLayout?.manualOpen ? (
-            <Minimize className="size-4 font-extrabold" />
-          ) : (
-            <Maximize className="size-4" />
-          )}
+          <IconRefresh2FillDuo18 className="size-4" />
         </Button>
-      ) : null}
-    </div>
+        <CodeDrawer code={code} codeString={codeString} title={title} />
+        {doc ? (
+          <Button
+            aria-expanded={superIslandLayout?.manualOpen ?? false}
+            aria-label={
+              superIslandLayout?.manualOpen ? "Hide component details" : "Show component details"
+            }
+            className="size-7 rounded-md shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
+            onClick={(event) =>
+              superIslandLayout?.setManualOpen(!superIslandLayout.manualOpen, {
+                animated: event.detail !== 0,
+              })
+            }
+            size="icon"
+            tooltip={superIslandLayout?.manualOpen ? "Close" : "Slide"}
+            tooltipSide="bottom"
+            type="button"
+            variant="ghost"
+          >
+            {superIslandLayout?.manualOpen ? (
+              <Minimize className="size-4 font-extrabold" />
+            ) : (
+              <Maximize className="size-4" />
+            )}
+          </Button>
+        ) : null}
+      </div>
       <ModeToggle
         className="size-8 bg-transparent text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97] border dark:border-neutral-800"
         variant="ghost"
       />
-  </div>
+    </div>
   );
 
   return (
@@ -232,21 +234,27 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
           )}
         >
           <div
+            aria-label="Component actions"
+            className="absolute right-3 top-3 z-30 flex h-10 w-fit max-w-[calc(100%-1.5rem)] shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
+            role="toolbar"
+          >
+            {actions}
+          </div>
+
+          <div
             className="no-scrollbar h-full min-h-0 w-full overflow-x-hidden overflow-y-auto overscroll-contain"
             data-component-preview-scroll
           >
             <div
-              aria-label="Component actions"
-              className="sticky right-3 top-3 z-30 ml-auto flex h-10 w-fit max-w-[calc(100%-1.5rem)] shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
-              role="toolbar"
-            >
-              {actions}
-            </div>
-
-            <div
               key={previewKey}
               data-component-preview-content
-              className="mx-auto w-full max-w-7xl justify-center items-center overflow-hidden"
+              className={cn(
+                "mx-auto flex h-full min-h-full w-full overflow-visible [align-items:safe_center]",
+                align === "center" && "[justify-content:safe_center]",
+                align === "start" && "justify-start",
+                align === "end" && "justify-end",
+                previewInset && "p-4 sm:p-6 lg:p-8",
+              )}
             >
               {children}
             </div>

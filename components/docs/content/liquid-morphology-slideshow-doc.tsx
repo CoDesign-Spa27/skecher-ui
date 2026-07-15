@@ -19,6 +19,7 @@ export async function LiquidMorphologySlideshowDoc({ page }: { page: ComponentDo
       doc={<ComponentDocSections page={page} />}
       previewClassName="overflow-hidden"
       previewHref={`/preview/${page.slug}`}
+      previewInset={false}
       title="liquid-morphology-slideshow.tsx"
     >
       {getComponentPreview(page.slug)}

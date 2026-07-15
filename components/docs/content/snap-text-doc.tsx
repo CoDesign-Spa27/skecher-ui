@@ -19,6 +19,7 @@ export async function SnapTextDoc({ page }: { page: ComponentDoc }) {
       doc={<ComponentDocSections page={page} />}
       previewClassName="bg-[#171717]"
       previewHref={`/preview/${page.slug}`}
+      previewInset={false}
       title="snap-text.tsx"
     >
       {getComponentPreview(page.slug)}

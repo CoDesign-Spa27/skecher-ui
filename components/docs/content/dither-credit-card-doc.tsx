@@ -19,6 +19,7 @@ export async function DitherCreditCardDoc({ page }: { page: ComponentDoc }) {
       doc={<ComponentDocSections page={page} />}
       previewHref={`/preview/${page.slug}`}
       title="dither-credit-card.tsx"
+      className="w-full min-w-0 overflow-hidden rounded-2xl mx-auto"
     >
       {getComponentPreview(page.slug)}
     </ComponentWrapper>
