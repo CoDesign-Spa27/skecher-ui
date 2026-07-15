@@ -1,11 +1,19 @@
 "use client";
 
-import React from "react";
+import { usePathname } from "next/navigation";
 
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { cn } from "@/lib/utils";
 
 const DocsHeader = () => {
+  const pathname = usePathname();
+  const hasWorkbenchActions =
+    pathname.startsWith("/docs/") && pathname !== "/docs/project-showcase";
+
+  if (hasWorkbenchActions) {
+    return null;
+  }
+
   return (
     <header
       className={cn(

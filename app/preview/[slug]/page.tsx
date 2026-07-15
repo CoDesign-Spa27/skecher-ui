@@ -41,8 +41,17 @@ export default async function ComponentPreviewPage({
     notFound();
   }
 
-  if (slug === "liquid-morphology-slideshow") {
-    return <main className="h-svh w-full overflow-hidden bg-black">{preview}</main>;
+  //not using for slug === "liquid-morphology-slideshow" ||  now )
+  if (slug === "snap-text") {
+    return <main className="h-svh w-full overflow-hidden bg-[#171717]">{preview}</main>;
+  }
+
+  if (slug === "ai-orb") {
+    return (
+      <main className="flex min-h-svh w-full items-center justify-center overflow-hidden p-6">
+        {preview}
+      </main>
+    );
   }
 
   return (

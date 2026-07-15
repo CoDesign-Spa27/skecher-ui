@@ -208,7 +208,8 @@ function syncRegistryComponents(components: ComponentInfo[]) {
     )
     .join(",\n");
 
-  const content = `import * as path from "path";
+  const content = `import * as path from "node:path";
+
 import type { Schema } from "./registry-schema";
 
 type ComponentProps = Partial<
@@ -235,6 +236,7 @@ ${entries}
 
 function createDocEntry(component: ComponentInfo) {
   return `  {
+    id: "${component.slug}",
     title: "${component.title}",
     slug: "${component.slug}",
     eyebrow: "Components",
@@ -272,8 +274,8 @@ function syncDocsContent(components: ComponentInfo[]) {
   }
 
   content = content.replace(
-    /\n\];\n\nexport function getComponentDoc/,
-    `,\n${missingEntries.join(",\n")}\n];\n\nexport function getComponentDoc`,
+    /,?\n\];\n\nexport function getComponentDoc/,
+    `,\n${missingEntries.join(",\n")},\n];\n\nexport function getComponentDoc`,
   );
   fs.writeFileSync(docsContentPath, content);
 }

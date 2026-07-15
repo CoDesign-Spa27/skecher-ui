@@ -5,8 +5,15 @@ import { useTheme } from "next-themes";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-export function ModeToggle() {
+export function ModeToggle({
+  className,
+  variant = "default",
+}: {
+  className?: string;
+  variant?: React.ComponentProps<typeof Button>["variant"];
+}) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -25,9 +32,12 @@ export function ModeToggle() {
   // SVG size reduced: width/height to 12px, fitting for a smaller toggle
   return (
     <Button
-      size="icon"
+      aria-label="Toggle theme"
+      className={cn("relative size-8 min-h-0 min-w-0 rounded-lg p-0 input-shadow", className)}
       onClick={toggleTheme}
-      className="w-8 h-8 rounded-lg min-w-0 min-h-0 p-0 relative input-shadow"
+      size="icon"
+      type="button"
+      variant={variant}
     >
       <motion.div
         initial={false}

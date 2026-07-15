@@ -1,3 +1,4 @@
+import { ComponentPreviewControls } from "@/components/docs/content/component-preview-controls";
 import { SuperIsland } from "@/components/docs/super-island";
 import { CodeBlock } from "@/components/docs/ui/code-block";
 import { CodeCollapsibleWrapper } from "@/components/docs/ui/code-collapsible-wrapper";
@@ -21,9 +22,7 @@ function ComponentFileBlocks({ files, importName }: Pick<ComponentDoc, "files" |
             <span className="min-w-0 flex-1 truncate">
               {/*{file.path}*/}
               {file.description ? (
-                <span className="ml-2 hidden sm:inline">
-                  {file.description}
-                </span>
+                <span className="ml-2 hidden sm:inline">{file.description}</span>
               ) : null}
             </span>
           </summary>
@@ -43,16 +42,16 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
     page.installDependencies ?? page.dependencies.filter((dependency) => dependency !== "react");
 
   return (
-    <div className="fixed inset-x-4 bottom-5 z-40 mx-auto w-[min(511px,calc(100vw-2rem))] sm:bottom-7">
-      <SuperIsland
-        cliCommands={[page.cliCommand]}
-        componentDescription={page.description}
-        componentName={page.title}
-        dependencies={manualDependencies}
-        files={page.files}
-        importName={page.importName}
-        manualSteps={<ComponentFileBlocks files={page.files} importName={page.importName} />}
-      />
-    </div>
+    <SuperIsland
+      cliCommands={[page.cliCommand]}
+      componentDescription={page.description}
+      componentName={page.title}
+      dependencies={manualDependencies}
+      docked
+      files={page.files}
+      importName={page.importName}
+      manualSteps={<ComponentFileBlocks files={page.files} importName={page.importName} />}
+      previewControls={<ComponentPreviewControls slug={page.slug} />}
+    />
   );
 }

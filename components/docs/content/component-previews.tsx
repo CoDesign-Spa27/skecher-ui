@@ -7,8 +7,13 @@ import {
   IconWindow2,
 } from "nucleo-glass";
 
+import {
+  ControlledAiChatBoxPreview,
+  ControlledAiOrbPreview,
+  ControlledSnapTextPreview,
+} from "@/components/docs/content/component-preview-controls";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
-import { AiChatBox } from "@/components/ui-components/ai-chat-box";
+import { DitherCreditCard } from "@/components/ui-components/dither-credit-card";
 import { Dock } from "@/components/ui-components/dock";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
@@ -22,7 +27,9 @@ import { MorphingText } from "@/components/ui-components/text-morphing";
 const iconClassName = "size-full";
 
 export const COMPONENT_PREVIEWS = {
-  "ai-chat-box": <AiChatBox />,
+  "ai-chat-box": <ControlledAiChatBoxPreview />,
+  "ai-orb": <ControlledAiOrbPreview />,
+  "dither-credit-card": <DitherCreditCard />,
   dock: (
     <Dock
       items={[
@@ -66,10 +73,11 @@ export const COMPONENT_PREVIEWS = {
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
   "magazine-scroller": <MagazineScroller />,
   "morphing-action-dock": <MorphingActionDock />,
+  "snap-text": <ControlledSnapTextPreview />,
   "streaming-text": (
     <BlurredText
       text="Stop acting as if life is a rehearsal."
-      className="mx-auto p-2 text-center font-raleway text-4xl font-medium"
+      className="text-center font-raleway text-4xl font-medium items-center justify-center h-screen"
     />
   ),
   "text-morphing": (
@@ -81,7 +89,7 @@ export const COMPONENT_PREVIEWS = {
         "Learning and adapting to improve results...",
         "AI process complete: ready for your next command...",
       ]}
-      className="mx-auto p-2 text-center font-raleway font-medium"
+      className="text-center font-raleway text-4xl font-medium items-center justify-center h-screen"
     />
   ),
 } satisfies Record<string, React.ReactNode>;

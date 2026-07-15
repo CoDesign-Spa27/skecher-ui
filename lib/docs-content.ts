@@ -84,8 +84,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Liquid Glass Social",
     slug: "liquid-glass-social",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -189,16 +188,10 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Gooey Toolbar",
     slug: "gooey-toolbar",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
-    installDependencies: [
-      "motion",
-      "nucleo-ui-essential-fill-duo-18",
-      "tailwind-merge",
-      "clsx",
-    ],
+    installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
     cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
     importName: "AmoebaFab",
     usage: {
@@ -275,8 +268,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       },
     ],
     dependencies: ["react"],
-    cliCommand:
-      "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
+    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
     importName: "LiquidMorphologySlideshow",
     usage: {
       imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
@@ -298,8 +290,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     title: "Magazine Scroller",
     slug: "magazine-scroller",
     eyebrow: "Components",
-    description:
-      "A polished animated UI primitive for expressive product interfaces.",
+    description: "A polished animated UI primitive for expressive product interfaces.",
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: [],
@@ -352,6 +343,119 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
       {
         path: "components/ui-components/ai-chat-box.tsx",
         description: "Ai Chat Box component",
+      },
+    ],
+  },
+  {
+    id: "ai-orb",
+    title: "AI Orb",
+    slug: "ai-orb",
+    eyebrow: "Components",
+    description:
+      "A responsive Three.js energy orb with a folded volumetric shader, atmospheric depth, an orbital glint, and configurable color, intensity, speed, and pointer response.",
+    details: [
+      {
+        title: "Volumetric energy field",
+        body: "A bounded raymarch samples a softly folded fractal field, then blends two configurable colors through its quiet edges and luminous core.",
+      },
+      {
+        title: "Restrained physical depth",
+        body: "A thin atmospheric shell, orbital glint, and damped fine-pointer response create depth while preserving the orb's circular silhouette.",
+      },
+      {
+        title: "Responsible ambient motion",
+        body: "Rendering pauses off-screen and in background tabs, while reduced-motion users receive the same material as a still composition.",
+      },
+    ],
+    dependencies: ["react", "three"],
+    installDependencies: ["three"],
+    cliCommand: "https://skecher-ui.vercel.app/r/ai-orb.json",
+    importName: "AiOrb",
+    usage: {
+      imports: `import { AiOrb } from "@/components/ui/ai-orb";`,
+      code: `<AiOrb
+  primaryColor="#00d9ff"
+  secondaryColor="#7c3aed"
+  intensity={1.25}
+  speed={0.45}
+/>`,
+    },
+    files: [
+      {
+        path: "components/ui-components/ai-orb.tsx",
+        description: "AI Orb component",
+      },
+    ],
+  },
+  {
+    id: "dither-credit-card",
+    title: "Dither Credit Card",
+    slug: "dither-credit-card",
+    eyebrow: "Components",
+    description:
+      "A responsive payment card with an animated two-color dither field, compact brand lockup, and carefully scaled card details.",
+    details: [
+      {
+        title: "Shader background",
+        body: "Paper Design's WebGL dithering shader replaces the static card gradient with a crisp animated wave pattern.",
+      },
+      {
+        title: "Responsive proportions",
+        body: "Container-relative sizing preserves the original 605 by 365 composition as the card scales down.",
+      },
+      {
+        title: "Self-contained artwork",
+        body: "The brand and payment marks are inline SVG, so the card does not depend on expiring image assets.",
+      },
+    ],
+    dependencies: ["react", "@paper-design/shaders-react", "motion"],
+    installDependencies: ["@paper-design/shaders-react", "motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/dither-credit-card.json",
+    importName: "DitherCreditCard",
+    usage: {
+      imports: `import { DitherCreditCard } from "@/components/ui/dither-credit-card";`,
+      code: `<DitherCreditCard />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/dither-credit-card.tsx",
+        description: "Dither Credit Card component",
+      },
+    ],
+  },
+  {
+    id: "snap-text",
+    title: "Snap Text",
+    slug: "snap-text",
+    eyebrow: "Components",
+    description:
+      "A native scroll-snap text sequence with a separate spring-animated presentation layer.",
+    details: [
+      {
+        title: "Native snap driver",
+        body: "An invisible full-height scroller uses mandatory snap sections, so the browser handles wheel, trackpad, and touch landing without JavaScript rounding.",
+      },
+      {
+        title: "Spring presentation layer",
+        body: "A Motion spring follows continuous internal scroll progress while each row derives its vertical position, indent, scale, and opacity from its distance to center.",
+      },
+      {
+        title: "Stable at every size",
+        body: "The prefix stays fixed, keyboard changes are instant, reduced motion removes spring travel, and ResizeObserver keeps snap measurements current.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: "https://skecher-ui.vercel.app/r/snap-text.json",
+    importName: "SnapText",
+    usage: {
+      imports: `import { SnapText } from "@/components/ui/snap-text";`,
+      code: `<SnapText prefix="We Design" />`,
+    },
+    files: [
+      {
+        path: "components/ui-components/snap-text.tsx",
+        description: "Snap Text component",
       },
     ],
   },

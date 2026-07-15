@@ -1,5 +1,7 @@
 "use client";
 
+import { Maximize, Minimize, PanelRightClose, PanelRightOpen } from "lucide-react";
+import { AnimatePresence, motion, type TargetAndTransition, useReducedMotion } from "motion/react";
 import {
   IconRefresh2FillDuo18,
   IconSquareMinusFillDuo18,
@@ -8,6 +10,10 @@ import {
 import * as React from "react";
 
 import { CodeIcon } from "@/assets/app-icons/code";
+import {
+  SuperIslandLayoutProvider,
+  useSuperIslandLayout,
+} from "@/components/docs/super-island-layout";
 import CopyButton from "@/components/docs/ui/copy-button";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +23,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { cn } from "@/lib/utils";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
@@ -30,6 +37,9 @@ interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "c
   previewHref?: string;
   title?: string;
 }
+
+const DETAILS_PANEL_MAX_WIDTH = 27 * 16;
+const DETAILS_PANEL_VIEWPORT_RATIO = 0.42;
 
 function EmptyPanel({ label }: { label: string }) {
   return (
@@ -92,7 +102,7 @@ function CodeDrawer({
   );
 }
 
-export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
+const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   action,
   children,
   className,
@@ -105,6 +115,34 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
   ...props
 }) => {
   const [previewKey, setPreviewKey] = React.useState(0);
+  const [detailsPanelWidth, setDetailsPanelWidth] = React.useState(DETAILS_PANEL_MAX_WIDTH);
+  const shouldReduceMotion = useReducedMotion();
+  const superIslandLayout = useSuperIslandLayout();
+  const detailsOpen = Boolean(doc && superIslandLayout?.manualOpen);
+  const layoutTransition =
+    shouldReduceMotion || !superIslandLayout?.animated
+      ? { duration: 0 }
+      : {
+          type: "spring" as const,
+          bounce: 0,
+          duration: superIslandLayout.manualOpen ? 0.34 : 0.28,
+        };
+  const workbenchAnimation = {
+    "--details-gap": detailsOpen ? "12px" : "0px",
+    "--details-width": detailsOpen ? `${detailsPanelWidth}px` : "0px",
+  } as unknown as TargetAndTransition;
+
+  React.useLayoutEffect(() => {
+    const updateDetailsPanelWidth = () => {
+      setDetailsPanelWidth(
+        Math.min(DETAILS_PANEL_MAX_WIDTH, window.innerWidth * DETAILS_PANEL_VIEWPORT_RATIO),
+      );
+    };
+
+    updateDetailsPanelWidth();
+    window.addEventListener("resize", updateDetailsPanelWidth);
+    return () => window.removeEventListener("resize", updateDetailsPanelWidth);
+  }, []);
 
   // Preserve the legacy prop while keeping it off the rendered section.
   void action;
@@ -114,10 +152,9 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
   }, []);
 
   const actions = (
+  <div className="flex items-center gap-1">
+      
     <div className="flex min-w-0 items-center gap-1 rounded-lg bg-[#F1F1F1] p-0.5 input-shadow dark:bg-input/30">
-      <span className="hidden min-w-0 max-w-32 truncate px-2 font-mono text-[11px] text-muted-foreground lg:block">
-        {title}
-      </span>
       {previewHref ? (
         <Button
           tooltipSide="bottom"
@@ -146,33 +183,107 @@ export const ComponentWrapper: React.FC<ComponentWrapperProps> = ({
         <IconRefresh2FillDuo18 className="size-4" />
       </Button>
       <CodeDrawer code={code} codeString={codeString} title={title} />
+      {doc ? (
+        <Button
+          aria-expanded={superIslandLayout?.manualOpen ?? false}
+          aria-label={
+            superIslandLayout?.manualOpen ? "Hide component details" : "Show component details"
+          }
+          className="size-7 rounded-md shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97]"
+          onClick={(event) =>
+            superIslandLayout?.setManualOpen(!superIslandLayout.manualOpen, {
+              animated: event.detail !== 0,
+            })
+          }
+          size="icon"
+          tooltip={superIslandLayout?.manualOpen ? "Close" : "Slide"}
+          tooltipSide="bottom"
+          type="button"
+          variant="ghost"
+        >
+          {superIslandLayout?.manualOpen ? (
+            <Minimize className="size-4 font-extrabold" />
+          ) : (
+            <Maximize className="size-4" />
+          )}
+        </Button>
+      ) : null}
     </div>
+      <ModeToggle
+        className="size-8 bg-transparent text-muted-foreground shadow-none transition-[color,background-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-background/80 hover:text-foreground active:scale-[0.97] border dark:border-neutral-800"
+        variant="ghost"
+      />
+  </div>
   );
 
   return (
-    <section className={cn("w-full", className)} {...props}>
-      <div
-        aria-label="Component actions"
-        className="fixed right-[4.5rem] top-5 z-50 flex h-10 max-w-2xl shrink-0 items-center justify-between gap-1 rounded-xl bg-sidebar px-1 header-shadow"
-        role="toolbar"
+    <section className={cn("h-full min-h-0 w-full", className)} {...props}>
+      <motion.div
+        animate={workbenchAnimation}
+        className="relative grid h-full min-h-0 w-full grid-cols-[minmax(0,1fr)] gap-2 overflow-hidden bg-background px-2 pb-2 md:grid-cols-[minmax(0,1fr)_var(--details-width)] md:gap-x-[var(--details-gap)] md:gap-y-0 md:px-3 md:pb-3"
+        initial={false}
+        transition={layoutTransition}
       >
-        {actions}
-      </div>
-
-      <div className="relative flex h-svh w-full items-stretch justify-stretch bg-background">
         <div
+          data-component-preview
           className={cn(
-            "flex min-h-svh w-full items-stretch justify-stretch overflow-hidden",
+            "relative col-start-1 row-start-1 min-h-0 min-w-0 w-full overflow-hidden rounded-xl bg-neutral-100 dark:bg-accent/50",
             previewClassName,
           )}
         >
-          <div key={previewKey} className="flex min-h-full w-full items-center justify-center">
-            {children}
-          </div>
-        </div>
-      </div>
+          <div
+            className="no-scrollbar h-full min-h-0 w-full overflow-x-hidden overflow-y-auto overscroll-contain"
+            data-component-preview-scroll
+          >
+            <div
+              aria-label="Component actions"
+              className="sticky right-3 top-3 z-30 ml-auto flex h-10 w-fit max-w-[calc(100%-1.5rem)] shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
+              role="toolbar"
+            >
+              {actions}
+            </div>
 
-      {doc}
+            <div
+              key={previewKey}
+              data-component-preview-content
+              className="mx-auto w-full max-w-7xl justify-center items-center overflow-hidden"
+            >
+              {children}
+            </div>
+          </div>
+
+          <div
+            className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-[inherit]"
+            data-component-preview-overlay
+            ref={superIslandLayout?.setPreviewOverlayRoot}
+          />
+        </div>
+
+        <AnimatePresence initial={false}>
+          {superIslandLayout?.manualOpen ? (
+            <motion.button
+              animate={{ opacity: 1 }}
+              aria-label="Dismiss component details"
+              className="absolute inset-0 z-40 bg-background/70 backdrop-blur-[2px] md:hidden"
+              exit={{ opacity: 0 }}
+              initial={{ opacity: shouldReduceMotion ? 1 : 0 }}
+              onClick={(event) =>
+                superIslandLayout.setManualOpen(false, { animated: event.detail !== 0 })
+              }
+              transition={{ duration: shouldReduceMotion ? 0 : 0.16 }}
+              type="button"
+            />
+          ) : null}
+        </AnimatePresence>
+
+        {doc}
+      </motion.div>
     </section>
   );
 };
+
+export const ComponentWrapper: React.FC<ComponentWrapperProps> = (props) => (
+  <SuperIslandLayoutProvider>
+    <ComponentWrapperContent {...props} />
+  </SuperIslandLayoutProvider>
+);

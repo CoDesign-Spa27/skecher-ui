@@ -2,18 +2,14 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import { IconSquareMinusFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import * as React from "react";
+import { createPortal } from "react-dom";
 
 import { BunIcon, NpmIcon, PnpmIcon, YarnIcon } from "@/assets/code-block/icons";
+import { useSuperIslandLayout } from "@/components/docs/super-island-layout";
 import CopyButton from "@/components/docs/ui/copy-button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/use-config";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +31,9 @@ type SuperIslandProps = {
   componentDescription?: string;
   importName?: string;
   files?: ComponentFile[];
+  previewControls?: React.ReactNode;
   className?: string;
+  docked?: boolean;
 };
 
 const packageManagers: PackageManager[] = ["npm", "yarn", "pnpm", "bun"];
@@ -72,7 +70,7 @@ const packageMeta: Record<
 
 const modeOptions = [
   { label: "CLI", value: "cli" },
-  { label: "Manual", value: "manual" },
+  { label: "Details", value: "manual" },
 ] as const;
 
 const dependencyIcons: Record<string, string> = {
@@ -205,22 +203,28 @@ function CommandIsland({
 }
 
 function ModeSwitch({
+  animated,
   manualOpen,
+  manualPanelId,
   onCliSelect,
   onManualOpen,
   connected = false,
 }: {
+  animated: boolean;
   manualOpen: boolean;
-  onCliSelect: () => void;
-  onManualOpen: () => void;
+  manualPanelId: string;
+  onCliSelect: (animated: boolean) => void;
+  onManualOpen: (animated: boolean) => void;
   connected?: boolean;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const activeMode = manualOpen ? "manual" : "cli";
-  const pillTransition = shouldReduceMotion
-    ? { duration: 0.12, ease: [0.23, 1, 0.32, 1] as const }
-    : { type: "spring" as const, bounce: 0.22, duration: 0.36 };
-  const textTransition = { duration: shouldReduceMotion ? 0.08 : 0.16 };
+  const pillTransition = !animated
+    ? { duration: 0 }
+    : shouldReduceMotion
+      ? { duration: 0 }
+      : { type: "spring" as const, bounce: 0, duration: 0.24 };
+  const textTransition = { duration: animated ? (shouldReduceMotion ? 0.08 : 0.16) : 0 };
 
   return (
     <div
@@ -235,13 +239,22 @@ function ModeSwitch({
         const isActive = activeMode === mode.value;
         const button = (
           <button
+            aria-controls={mode.value === "manual" ? manualPanelId : undefined}
+            aria-expanded={mode.value === "manual" ? manualOpen : undefined}
             aria-pressed={isActive}
             className={cn(
-              "relative isolate flex h-[26px] shrink-0 items-center justify-center rounded-[7px] text-sm text-foreground outline-none transition-transform duration-150 ease-sidebar active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/70",
+              "relative isolate flex h-[26px] shrink-0 items-center justify-center rounded-[7px] text-sm text-foreground outline-none transition-transform duration-150 ease-sidebar active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/70 motion-reduce:transition-none motion-reduce:active:scale-100",
               connected ? "w-[70px]" : "w-[74px]",
             )}
             key={mode.value}
-            onClick={mode.value === "manual" ? onManualOpen : onCliSelect}
+            onClick={(event) => {
+              const animated = event.detail !== 0;
+              if (mode.value === "manual") {
+                onManualOpen(animated);
+              } else {
+                onCliSelect(animated);
+              }
+            }}
             style={{ transformStyle: "preserve-3d" }}
             type="button"
           >
@@ -249,7 +262,7 @@ function ModeSwitch({
               <motion.span
                 aria-hidden="true"
                 className={cn(
-                  "absolute bottom-0.5 left-1/2 h-[10px] -translate-x-1/2 rounded-[7px] will-change-transform",
+                  "absolute bottom-0.5 left-1/2 h-[10px] -translate-x-1/2 rounded-[7px]",
                   connected
                     ? "w-[30px] h-1 bg-muted-foreground/50 shadow-[inset_0_0_0_1px_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.2)] dark:bg-background/5"
                     : " h-2 header-shadow w-[75px] bg-[#F1F1F1] dark:bg-input/30",
@@ -261,8 +274,10 @@ function ModeSwitch({
             <motion.span
               animate={{
                 opacity: isActive ? 1 : 0.62,
-                scale: isActive && !shouldReduceMotion ? 1 : 0.98,
-                y: isActive && !shouldReduceMotion ? -0.5 : 0,
+                transform:
+                  isActive && !shouldReduceMotion
+                    ? "translate3d(0px, -0.5px, 0px) scale3d(1, 1, 1)"
+                    : "translate3d(0px, 0px, 0px) scale3d(0.98, 0.98, 1)",
               }}
               className="relative z-10 block leading-none mb-3"
               transition={textTransition}
@@ -272,13 +287,7 @@ function ModeSwitch({
           </button>
         );
 
-        return mode.value === "manual" ? (
-          <SheetTrigger asChild key={mode.value}>
-            {button}
-          </SheetTrigger>
-        ) : (
-          <React.Fragment key={mode.value}>{button}</React.Fragment>
-        );
+        return <React.Fragment key={mode.value}>{button}</React.Fragment>;
       })}
     </div>
   );
@@ -330,47 +339,72 @@ function DependencyList({ dependencies }: { dependencies: string[] }) {
   );
 }
 
-function ManualDrawer({
+function ManualPanelContent({
   dependencies,
   manualSteps,
   componentName,
   componentDescription,
-  importName,
-  files,
+  previewControls,
+  onClose,
+  titleId,
 }: Omit<SuperIslandProps, "cliCommands" | "className"> & {
   dependencies: string[];
+  onClose: (animated: boolean) => void;
+  titleId: string;
 }) {
   const hasDependencyIcons = dependencies.some((dependency) => dependencyIcons[dependency]);
 
-  void componentName;
-  void importName;
-  void files;
-
   return (
-    <SheetContent
-      side="right"
-      className="flex h-dvh !w-full flex-col overflow-hidden p-0 sm:!w-[min(50vw,720px)] sm:!max-w-none"
-    >
-      <SheetHeader className="shrink-0 border-b px-6 py-5 text-left">
-        <SheetTitle className="font-raleway text-sm font-medium">Manual installation</SheetTitle>
-
-        <SheetDescription className="text-lg">
-          Install the required packages, copy the source files, then import the component into your
-          app.
-        </SheetDescription>
-      </SheetHeader>
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+   
 
       <ProgressiveScrollArea
-        className="no-scrollbar h-full overflow-y-auto px-5  relative min-h-0 flex-1 overflow-hidden"
-        blurHeight="320px"
+        className="no-scrollbar relative min-h-0 flex-1 overflow-hidden px-5"
+        blurHeight="160px"
         blurLevels={[0.5, 1, 2, 4, 8, 16, 32, 64]}
       >
-        <div className="space-y-8 px-1">
-          <section className="space-y-3">
-            <h3 className="text-sm font-medium text-muted-foreground">Component details</h3>
+        <div className="flex items-center justify-between space-y-8 pt-[50%]">
+          <div className="min-w-0 space-y-1.5">
+            <h2 className="font-raleway text-base font-semibold text-foreground" id={titleId}>
+              {componentName}
+            </h2>
+            <p className="text-sm leading-5 text-muted-foreground">
+              Preview controls, package details, and installation.
+            </p>
+          </div>
+          <Button
+            aria-label="Close component details"
+            className="size-8 shrink-0 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97] motion-reduce:transition-none motion-reduce:active:scale-100"
+            onClick={(event) => onClose(event.detail !== 0)}
+            size="icon"
+            tooltip="Close"
+            type="button"
+            variant="ghost"
+          >
+            <IconSquareMinusFillDuo18 className="size-5" />
+          </Button>
+        </div>
+          
+        <div className="space-y-8 px-1 pb-8">
+          {previewControls ? (
+            <section className="space-y-4">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium text-foreground">Customize preview</h3>
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Changes are scoped to this component page.
+                </p>
+              </div>
+              {previewControls}
+            </section>
+          ) : null}
+
+          <section className="space-y-1">
+            <h3 className="text-sm font-medium text-foreground">About this component</h3>
 
             {componentDescription ? (
-              <p className="text-lg leading-6 text-foreground">{componentDescription}</p>
+              <p className="max-w-[65ch] text-sm leading-6 text-muted-foreground">
+                {componentDescription}
+              </p>
             ) : null}
           </section>
 
@@ -419,7 +453,7 @@ function ManualDrawer({
           ) : null}
 
           {manualSteps ? (
-            <section className="space-y-3">
+            <section className="space-y-1">
               <h3 className="text-sm font-medium text-foreground">Add component code</h3>
 
               <div className="text-sm leading-6 text-muted-foreground">{manualSteps}</div>
@@ -427,9 +461,50 @@ function ManualDrawer({
           ) : null}
         </div>
       </ProgressiveScrollArea>
-    </SheetContent>
+    </div>
   );
 }
+
+type PanelMotionSettings = {
+  animated: boolean;
+  reduced: boolean;
+};
+
+function getPanelTransition(settings: PanelMotionSettings, closing = false) {
+  if (!settings.animated) {
+    return { duration: 0 };
+  }
+
+  if (settings.reduced) {
+    return { duration: 0 };
+  }
+
+  return {
+    type: "spring" as const,
+    bounce: 0,
+    duration: closing ? 0.28 : 0.34,
+  };
+}
+
+const panelVariants = {
+  initial: (settings: PanelMotionSettings) => ({
+    transform:
+      settings.animated && !settings.reduced
+        ? "translate3d(100%, 0px, 0px)"
+        : "translate3d(0px, 0px, 0px)",
+  }),
+  open: (settings: PanelMotionSettings) => ({
+    transform: "translate3d(0px, 0px, 0px)",
+    transition: getPanelTransition(settings),
+  }),
+  closed: (settings: PanelMotionSettings) => ({
+    transform:
+      settings.animated && !settings.reduced
+        ? "translate3d(100%, 0px, 0px)"
+        : "translate3d(0px, 0px, 0px)",
+    transition: getPanelTransition(settings, true),
+  }),
+};
 
 function ConnectedIslandFrame({
   children,
@@ -439,7 +514,10 @@ function ConnectedIslandFrame({
   className?: string;
 }) {
   return (
-    <div className={cn("relative mx-auto h-[78px] w-full max-w-[511px]", className)}>
+    <div
+      className={cn("relative mx-auto h-[78px] w-full max-w-[511px]", className)}
+      data-super-island
+    >
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
@@ -480,32 +558,114 @@ function SuperIsland({
   componentDescription,
   importName,
   files,
+  previewControls,
   className,
+  docked = false,
 }: SuperIslandProps) {
-  const [manualOpen, setManualOpen] = React.useState(false);
+  const sharedLayout = useSuperIslandLayout();
+  const shouldReduceMotion = useReducedMotion();
+  const [localState, setLocalState] = React.useState({ animated: true, manualOpen: false });
+  const manualOpen = sharedLayout?.manualOpen ?? localState.manualOpen;
+  const animated = sharedLayout?.animated ?? localState.animated;
+  const manualPanelId = React.useId();
+  const panelTitleId = `${manualPanelId}-title`;
+  const motionSettings = React.useMemo(
+    () => ({ animated, reduced: Boolean(shouldReduceMotion) }),
+    [animated, shouldReduceMotion],
+  );
+  const setManualOpen = React.useCallback(
+    (open: boolean, shouldAnimate = true) => {
+      if (sharedLayout) {
+        sharedLayout.setManualOpen(open, { animated: shouldAnimate });
+      } else {
+        setLocalState({ animated: shouldAnimate, manualOpen: open });
+      }
+    },
+    [sharedLayout],
+  );
+
+  React.useEffect(() => {
+    if (!manualOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setManualOpen(false, false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [manualOpen, setManualOpen]);
+
+  const island = (
+    <ConnectedIslandFrame
+      className={cn(
+        docked &&
+          "pointer-events-auto absolute bottom-5 left-1/2 w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-7",
+        className,
+      )}
+    >
+      <CommandIsland commands={cliCommands} connected kind="cli" />
+      <div className="-mt-px flex h-[39px] w-full items-start justify-center pt-[3px]">
+        <ModeSwitch
+          animated={animated}
+          connected
+          manualOpen={manualOpen}
+          manualPanelId={manualPanelId}
+          onCliSelect={(shouldAnimate) => setManualOpen(false, shouldAnimate)}
+          onManualOpen={(shouldAnimate) => setManualOpen(true, shouldAnimate)}
+        />
+      </div>
+    </ConnectedIslandFrame>
+  );
+
+  const renderedIsland = docked
+    ? sharedLayout?.previewOverlayRoot
+      ? createPortal(island, sharedLayout.previewOverlayRoot)
+      : null
+    : island;
 
   return (
-    <Sheet open={manualOpen} onOpenChange={setManualOpen}>
-      <ConnectedIslandFrame className={className}>
-        <CommandIsland commands={cliCommands} connected kind="cli" />
-        <div className="-mt-px flex h-[39px] w-full items-start justify-center pt-[3px]">
-          <ModeSwitch
-            connected
-            manualOpen={manualOpen}
-            onCliSelect={() => setManualOpen(false)}
-            onManualOpen={() => setManualOpen(true)}
-          />
-        </div>
-      </ConnectedIslandFrame>
-      <ManualDrawer
-        componentDescription={componentDescription}
-        componentName={componentName}
-        dependencies={dependencies}
-        files={files}
-        importName={importName}
-        manualSteps={manualSteps}
-      />
-    </Sheet>
+    <>
+      {renderedIsland}
+
+      <AnimatePresence custom={motionSettings} initial={false} mode="popLayout">
+        {manualOpen ? (
+          <motion.aside
+            animate="open"
+            aria-labelledby={panelTitleId}
+            className={cn(
+              "min-h-0 overflow-hidden rounded-xl border-sidebar-border text-sidebar-foreground",
+              docked
+                ? "absolute inset-y-0 right-0 z-50 h-full w-[min(100%,28rem)] md:relative md:col-start-2 md:row-start-1 md:w-[min(27rem,42vw)]"
+                : "mt-4 h-[min(70vh,720px)] w-full max-w-[42rem]",
+            )}
+            custom={motionSettings}
+            data-super-island-panel=""
+            exit="closed"
+            id={manualPanelId}
+            initial="initial"
+            key="manual-panel"
+            variants={panelVariants}
+          >
+            <ManualPanelContent
+              componentDescription={componentDescription}
+              componentName={componentName}
+              dependencies={dependencies}
+              docked={docked}
+              files={files}
+              importName={importName}
+              manualSteps={manualSteps}
+              previewControls={previewControls}
+              onClose={(shouldAnimate) => setManualOpen(false, shouldAnimate)}
+              titleId={panelTitleId}
+            />
+          </motion.aside>
+        ) : null}
+      </AnimatePresence>
+    </>
   );
 }
 

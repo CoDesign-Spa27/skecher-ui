@@ -1,7 +1,7 @@
 export function ComponentDocPage({ children }: { children: React.ReactNode }) {
   return (
-    <article className="flex min-h-full w-full flex-col">
-      <div className="w-full">{children}</div>
+    <article className="flex h-full min-h-0 w-full flex-col">
+      <div className="h-full min-h-0 w-full">{children}</div>
     </article>
   );
 }

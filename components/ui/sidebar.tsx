@@ -87,7 +87,7 @@ function SidebarProvider({
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
     return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
-  }, [isMobile, setOpen, setOpenMobile]);
+  }, [isMobile, setOpen]);
 
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {
@@ -116,7 +116,7 @@ function SidebarProvider({
       setOpenMobile,
       toggleSidebar,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [state, open, setOpen, isMobile, openMobile, toggleSidebar],
   );
 
   return (
@@ -212,7 +212,7 @@ function Sidebar({
         data-slot="sidebar-gap"
         className={cn(
           "relative bg-accent transition-[width] duration-200 ease-sidebar",
-          variant === "floating" ? "w-0" : "w-(--sidebar-width)",
+          "w-(--sidebar-width)",
           "group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           variant === "floating"
@@ -231,7 +231,7 @@ function Sidebar({
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
           // Adjust the padding for floating and inset variants.
           variant === "floating" || variant === "inset"
-            ? "pr-1 pt-1 pb-3 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+            ? "pr-1 pt-2 pb-3 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
           className,
         )}
@@ -240,7 +240,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-accent/30"
+          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-neutral-100 dark:bg-accent/50"
         >
           <ProgressiveBlur
             className="hidden group-data-[variant=floating]:block"
@@ -469,7 +469,7 @@ const sidebarMenuButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-neutral-400 hover:bg-transparent hover:text-highlight",
+        default: "text-neutral-600 dark:text-neutral-400 hover:bg-transparent hover:text-highlight",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
