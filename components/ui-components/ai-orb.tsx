@@ -5,44 +5,45 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export type AiOrbProps = {
-  /** Accessible description for the rendered energy visualization. */
+  /** Accessible description for the rendered plasma visualization. */
   ariaLabel?: string;
   className?: string;
-  /** Controls the density and brightness of the volumetric field. */
+  /** Controls the brightness of the plasma field. */
   intensity?: number;
-  /** Enables subtle pointer-following depth on fine pointers. */
+  /** Enables subtle pointer-following offset and rotation on fine pointers. */
   interactive?: boolean;
-  /** Main energy color. Accepts any valid Three.js color string. */
+  /** Primary plasma strand color. Accepts any valid Three.js color string. */
   primaryColor?: string;
-  /** Supporting color mixed through the quieter parts of the field. */
+  /** Secondary plasma strand color. Accepts any valid Three.js color string. */
   secondaryColor?: string;
-  /** Internal animation speed. Set to 0 for a still orb. */
+  /** Internal animation speed. Set to 0 for a still plasma field. */
   speed?: number;
+  /** Enables the idle squash-and-stretch bounce animation. Disabled automatically under prefers-reduced-motion. */
+  bounce?: boolean;
 };
 
 type ThreeModule = typeof import("three");
-type OrbUniforms = {
-  uAsymmetry: { value: number };
-  uDetail: { value: number };
+
+type PlasmaUniforms = {
+  uBend1: { value: number };
+  uBend2: { value: number };
+  uColor1: { value: import("three").Color };
+  uColor2: { value: import("three").Color };
+  uDir2: { value: number };
+  uFocalLength: { value: number };
   uIntensity: { value: number };
-  uLocalCamera: { value: import("three").Vector3 };
-  uPrimaryColor: { value: import("three").Color };
-  uSecondaryColor: { value: import("three").Color };
+  uOffset: { value: import("three").Vector2 };
+  uResolution: { value: import("three").Vector2 };
+  uRotation: { value: number };
+  uSpeed1: { value: number };
+  uSpeed2: { value: number };
   uTime: { value: number };
 };
 
-type AtmosphereUniforms = {
-  uColor: { value: import("three").Color };
-  uGlow: { value: number };
-};
-
 type OrbRuntime = {
-  atmosphereUniforms: AtmosphereUniforms;
-  orbitMaterial: import("three").MeshBasicMaterial;
-  renderer: import("three").WebGLRenderer;
   render: () => void;
-  
-  uniforms: OrbUniforms;
+  renderer: import("three").WebGLRenderer;
+  uniforms: PlasmaUniforms;
 };
 
 type OrbSettings = Required<
@@ -52,163 +53,142 @@ type OrbSettings = Required<
 const DEFAULT_SETTINGS: OrbSettings = {
   intensity: 1.25,
   interactive: true,
-  primaryColor: "#00d9ff",
-  secondaryColor: "#7c3aed",
+  primaryColor: "#A855F7",
+  secondaryColor: "#06B6D4",
   speed: 0.45,
 };
 
 const VERTEX_SHADER = `
-  varying vec3 vLocalPosition;
-  varying vec3 vNormal;
-  varying vec3 vViewPosition;
-
   void main() {
-    vLocalPosition = position;
-    vNormal = normalize(normalMatrix * normal);
-    vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
-    vViewPosition = -viewPosition.xyz;
-    gl_Position = projectionMatrix * viewPosition;
+    gl_Position = vec4(position.xy, 0.0, 1.0);
   }
 `;
 
+// The plasma is raymarched as a double-helix confined inside an analytic
+// sphere (rather than an unbounded tunnel), so the strands curl around a
+// contained "ball" of light instead of streaking off in one direction.
 const FRAGMENT_SHADER = `
+  precision highp float;
+
   uniform float uTime;
+  uniform vec2 uResolution;
+  uniform vec2 uOffset;
+  uniform float uRotation;
+  uniform float uFocalLength;
+  uniform float uSpeed1;
+  uniform float uSpeed2;
+  uniform float uDir2;
+  uniform float uBend1;
+  uniform float uBend2;
   uniform float uIntensity;
-  uniform float uDetail;
-  uniform float uAsymmetry;
-  uniform vec3 uLocalCamera;
-  uniform vec3 uPrimaryColor;
-  uniform vec3 uSecondaryColor;
+  uniform vec3 uColor1;
+  uniform vec3 uColor2;
 
-  varying vec3 vLocalPosition;
-  varying vec3 vNormal;
-  varying vec3 vViewPosition;
+  const float lineThickness = 0.5;
+  const float sphereRadius = 1.2;
+  const float twistFrequency = 5.0;
+  const float pi = 9.14159;
+  const float pi2 = 6.28318;
+  const float halfPi = 1.5708;
+  #define MAX_STEPS 22
 
-  mat2 rotate2d(float angle) {
-    float sine = sin(angle);
-    float cosine = cos(angle);
-    return mat2(cosine, sine, -sine, cosine);
-  }
+  void renderPlasma(out vec4 outputColor, in vec2 coordinate) {
+    float time = uTime * pi;
 
-  float evaluateStructure(vec3 position) {
-    float accumulatedDensity = 0.0;
-    vec3 anchor = position;
-    mat2 animatedRotation = rotate2d(uTime * 0.42);
-    mat2 asymmetricRotation = rotate2d(0.34 * uAsymmetry);
+    vec3 rayOrigin = vec3(0.0, 0.0, -3.4);
+    vec3 rayDirection = normalize(
+      vec3((coordinate - 0.5 * uResolution) / uResolution.y, uFocalLength)
+    );
 
-    for (int step = 0; step < 8; step++) {
-      if (float(step) >= uDetail) break;
+    // Analytic ray/sphere intersection. Anything outside the sphere is
+    // simply not part of the volume we march through.
+    float b = dot(rayOrigin, rayDirection);
+    float c = dot(rayOrigin, rayOrigin) - sphereRadius * sphereRadius;
+    float h = b * b - c;
+    if (h < 0.0) discard;
+    h = sqrt(h);
+    float tNear = max(-b - h, 0.0);
+    float tFar = -b + h;
+    if (tFar < 0.0) discard;
 
-      position.xy *= animatedRotation;
-      position.yz *= animatedRotation;
-      position.xz *= asymmetricRotation;
-      position += vec3(0.045, -0.018, 0.032) * uAsymmetry;
+    float depth = tNear;
+    float stepDistance = 1.0;
+    vec2 fieldDistance = vec2(1.0);
+    vec3 position = rayOrigin;
 
-      vec3 folded = sqrt(position * position + 0.036);
-      float magnitude = max(dot(folded, folded), 0.0001);
-      position = (0.82 * folded / magnitude) - 0.82;
+    float waveTime1 = time * 0.9;
+    float waveTime2 = time * 0.9;
+    float strandTime1 = time * uSpeed1;
+    float strandTime2 = time * uSpeed2 * uDir2;
 
-      float ySquared = position.y * position.y;
-      float zSquared = position.z * position.z;
-      position.yz = vec2(ySquared - zSquared, 2.0 * position.y * position.z);
-      position = vec3(position.z, position.x, position.y);
+    for (int stepIndex = 0; stepIndex < MAX_STEPS; ++stepIndex) {
+      position = rayOrigin + rayDirection * depth;
 
-      accumulatedDensity += exp(-17.5 * abs(dot(position, anchor)));
+      // Phase driving the twist of the two strands as they wind through
+      // the ball; multiplying by twistFrequency packs several loops into
+      // the sphere's diameter instead of one long straight run.
+      float twistX = position.x * twistFrequency;
+      float wobble1 = uBend1 + sin(waveTime1 + twistX * 0.8) * 0.1;
+      float wobble2 = uBend2 + cos(waveTime2 + twistX * 1.1) * 0.1;
+      vec2 sineOffset = sin(vec2(twistX, twistX + halfPi) + strandTime1) * wobble1;
+      vec2 cosineOffset = cos(vec2(twistX, twistX + halfPi) + strandTime2) * wobble2;
+
+      vec2 yz = position.yz;
+      fieldDistance.x = length(yz - sineOffset) - lineThickness;
+      fieldDistance.y = length(yz - cosineOffset) - lineThickness;
+
+      float currentDistance = min(fieldDistance.x, fieldDistance.y);
+      stepDistance = min(stepDistance, currentDistance);
+
+      if (stepDistance < 0.001 || depth > tFar) break;
+      depth += max(stepDistance, 0.02) * 0.7;
     }
 
-    return accumulatedDensity * 0.55;
-  }
+    float rootDepth = sqrt(max(depth, 0.0));
+    vec3 raw = max(
+      cos(depth * pi2) - stepDistance * rootDepth - vec3(fieldDistance, 0.0),
+      0.0
+    );
+    raw.gb += 0.1;
 
-  vec2 volumeBounds(vec3 origin, vec3 direction, float radius) {
-    float projection = dot(origin, direction);
-    float distanceToSurface = dot(origin, origin) - radius * radius;
-    float discriminant = projection * projection - distanceToSurface;
+    float maximumChannel = max(raw.r, max(raw.g, raw.b));
+    if (maximumChannel < 0.15) discard;
 
-    if (discriminant < 0.0) return vec2(-1.0);
+    raw = raw * 0.4 + raw.brg * 0.6 + raw * raw;
+    float luminance = dot(raw, vec3(0.299, 0.587, 0.114));
+    float strandWeight1 = max(0.0, 1.0 - fieldDistance.x * 2.0);
+    float strandWeight2 = max(0.0, 1.0 - fieldDistance.y * 2.0);
+    float totalWeight = strandWeight1 + strandWeight2 + 0.001;
+    vec3 plasmaColor =
+      (uColor1 * strandWeight1 + uColor2 * strandWeight2) /
+      totalWeight * luminance * 3.5 * uIntensity;
 
-    float root = sqrt(discriminant);
-    return vec2(-projection - root, -projection + root);
-  }
+    // Soft falloff as we approach the sphere's surface so the plasma
+    // dissolves into the container's glow instead of ending with a hard rim.
+    float edgeFade = 1.0 - smoothstep(sphereRadius * 0.72, sphereRadius, length(position));
+    plasmaColor *= edgeFade;
 
-  vec3 traceEnergy(vec3 origin, vec3 direction, vec2 limits) {
-    float depth = limits.x;
-    float field = 0.0;
-    vec3 energy = vec3(0.0);
-
-    for (int sampleIndex = 0; sampleIndex < 48; sampleIndex++) {
-      depth += 0.028 * exp(-1.8 * field);
-      if (depth > limits.y) break;
-
-      vec3 samplePoint = origin + depth * direction;
-      field = evaluateStructure(samplePoint);
-      float core = field * field;
-      float colorMix = smoothstep(0.0, 0.52, field);
-      vec3 gradient = mix(uSecondaryColor, uPrimaryColor, colorMix);
-      vec3 emission = gradient * (field * 1.55 + core * 0.82);
-      energy = energy * 0.985 + (0.07 * uIntensity) * emission;
-    }
-
-    return energy;
+    outputColor = vec4(plasmaColor, edgeFade);
   }
 
   void main() {
-    vec3 rayOrigin = uLocalCamera;
-    vec3 rayDirection = normalize(vLocalPosition - uLocalCamera);
-    mat2 slowTwist = rotate2d(uTime * 0.08);
-    rayOrigin.xz *= slowTwist;
-    rayDirection.xz *= slowTwist;
+    vec2 coordinate = gl_FragCoord.xy + uOffset;
+    coordinate -= 0.5 * uResolution;
 
-    vec2 limits = volumeBounds(rayOrigin, rayDirection, 1.72);
-    if (limits.x < 0.0) discard;
+    float cosine = cos(uRotation);
+    float sine = sin(uRotation);
+    coordinate = mat2(cosine, -sine, sine, cosine) * coordinate;
+    coordinate += 0.5 * uResolution;
 
-    vec3 volumeColor = traceEnergy(rayOrigin, rayDirection, limits);
-    vec3 normal = normalize(vNormal);
-    vec3 viewDirection = normalize(vViewPosition);
-    float facing = max(dot(normal, viewDirection), 0.0);
-    float edgeFade = smoothstep(0.0, 0.08, facing);
-    float fresnel = pow(1.0 - facing, 2.4);
-
-    vec3 finalColor = 0.58 * log(1.0 + volumeColor);
-    finalColor += uPrimaryColor * fresnel * 0.08 * uIntensity;
-    finalColor = clamp(finalColor, 0.0, 1.0) * edgeFade;
-
-    float luminance = max(finalColor.r, max(finalColor.g, finalColor.b));
-    float alpha = clamp(luminance * 1.65, 0.0, 1.0) * edgeFade;
-    gl_FragColor = vec4(finalColor, alpha);
-  }
-`;
-
-const ATMOSPHERE_VERTEX_SHADER = `
-  varying vec3 vNormal;
-  varying vec3 vViewPosition;
-
-  void main() {
-    vNormal = normalize(normalMatrix * normal);
-    vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
-    vViewPosition = -viewPosition.xyz;
-    gl_Position = projectionMatrix * viewPosition;
-  }
-`;
-
-const ATMOSPHERE_FRAGMENT_SHADER = `
-  uniform vec3 uColor;
-  uniform float uGlow;
-  varying vec3 vNormal;
-  varying vec3 vViewPosition;
-
-  void main() {
-    vec3 normal = normalize(vNormal);
-    vec3 viewDirection = normalize(vViewPosition);
-    float facing = max(dot(normal, viewDirection), 0.0);
-    float fresnel = pow(0.8 - facing, 3.1);
-    float edgeFade = smoothstep(0.0, 0.16, facing);
-    float alpha = fresnel * edgeFade * uGlow;
-    gl_FragColor = vec4(uColor, alpha);
+    vec4 color;
+    renderPlasma(color, coordinate);
+    gl_FragColor = color;
   }
 `;
 
 export function AiOrb({
-  ariaLabel = "Animated AI energy orb",
+  ariaLabel = "Animated AI plasma field",
+ 
   className,
   intensity = DEFAULT_SETTINGS.intensity,
   interactive = DEFAULT_SETTINGS.interactive,
@@ -222,7 +202,7 @@ export function AiOrb({
   const [renderState, setRenderState] = React.useState<"loading" | "ready" | "fallback">("loading");
 
   settingsRef.current = {
-    intensity: Math.max(0.25, Math.min(2.5, intensity)),
+    intensity: Math.max(0.25, Math.min(5.5, intensity)),
     interactive,
     primaryColor,
     secondaryColor,
@@ -233,14 +213,9 @@ export function AiOrb({
     const runtime = runtimeRef.current;
     if (!runtime) return;
 
-    const safeIntensity = Math.max(0.25, Math.min(2.5, intensity));
-    runtime.uniforms.uIntensity.value = safeIntensity;
-    runtime.uniforms.uPrimaryColor.value.set(primaryColor);
-    runtime.uniforms.uSecondaryColor.value.set(secondaryColor);
-    runtime.atmosphereUniforms.uColor.value.set(primaryColor);
-    runtime.atmosphereUniforms.uGlow.value = 0.34 + safeIntensity * 0.1;
-    runtime.orbitMaterial.color.set(primaryColor);
-    
+    runtime.uniforms.uIntensity.value = Math.max(0.25, Math.min(2.5, intensity));
+    runtime.uniforms.uColor1.value.set(primaryColor);
+    runtime.uniforms.uColor2.value.set(secondaryColor);
     runtime.render();
   }, [intensity, primaryColor, secondaryColor]);
 
@@ -252,8 +227,8 @@ export function AiOrb({
     let frameId = 0;
     let resizeObserver: ResizeObserver | null = null;
     let intersectionObserver: IntersectionObserver | null = null;
-    let removePointerListeners = () => {};
-    let disposeRuntime = () => {};
+    let removePointerListeners = () => { };
+    let disposeRuntime = () => { };
 
     const setup = async () => {
       try {
@@ -261,111 +236,88 @@ export function AiOrb({
         if (cancelled) return;
 
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-        camera.position.set(0, 0, 6.4);
-
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
         const renderer = new THREE.WebGLRenderer({
           alpha: true,
-          antialias: true,
+          antialias: false,
+          depth: false,
           powerPreference: "high-performance",
+          premultipliedAlpha: false,
+          stencil: false,
         });
         renderer.setClearColor(0x000000, 0);
         renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.08;
+        renderer.toneMapping = THREE.NoToneMapping;
         renderer.domElement.setAttribute("aria-hidden", "true");
         renderer.domElement.className = "absolute inset-0 size-full";
         container.appendChild(renderer.domElement);
 
         const settings = settingsRef.current;
-        const uniforms: OrbUniforms = {
-          uAsymmetry: { value: 0.56 },
-          uDetail: { value: 4 },
+        const uniforms: PlasmaUniforms = {
+          uBend1: { value: 1 },
+          uBend2: { value: 0.5 },
+          uColor1: { value: new THREE.Color(settings.primaryColor) },
+          uColor2: { value: new THREE.Color(settings.secondaryColor) },
+          uDir2: { value: 1 },
+          uFocalLength: { value: 1.5 },
           uIntensity: { value: settings.intensity },
-          uLocalCamera: { value: new THREE.Vector3() },
-          uPrimaryColor: { value: new THREE.Color(settings.primaryColor) },
-          uSecondaryColor: { value: new THREE.Color(settings.secondaryColor) },
+          uOffset: { value: new THREE.Vector2() },
+          uResolution: { value: new THREE.Vector2(1, 1) },
+          uRotation: { value: 0 },
+          uSpeed1: { value: 0.05 },
+          uSpeed2: { value: 0.05 },
           uTime: { value: 0 },
         };
-        const atmosphereUniforms: AtmosphereUniforms = {
-          uColor: { value: new THREE.Color(settings.primaryColor) },
-          uGlow: { value: 0.34 + settings.intensity * 0.1 },
-        };
 
-        const geometry = new THREE.SphereGeometry(1.72, 72, 72);
-        const energyMaterial = new THREE.ShaderMaterial({
-          blending: THREE.AdditiveBlending,
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(new Float32Array([-1, -1, 0, 3, -1, 0, -1, 3, 0]), 3),
+        );
+
+        const material = new THREE.ShaderMaterial({
+          depthTest: false,
           depthWrite: false,
           fragmentShader: FRAGMENT_SHADER,
-          side: THREE.FrontSide,
           transparent: true,
           uniforms,
           vertexShader: VERTEX_SHADER,
         });
-        const atmosphereMaterial = new THREE.ShaderMaterial({
-          blending: THREE.AdditiveBlending,
-          depthWrite: false,
-          fragmentShader: ATMOSPHERE_FRAGMENT_SHADER,
-          side: THREE.FrontSide,
-          transparent: true,
-          uniforms: atmosphereUniforms,
-          vertexShader: ATMOSPHERE_VERTEX_SHADER,
-        });
+        const plasma = new THREE.Mesh(geometry, material);
+        plasma.frustumCulled = false;
+        scene.add(plasma);
 
-        const root = new THREE.Group();
-        const orb = new THREE.Mesh(geometry, energyMaterial);
-        const atmosphere = new THREE.Mesh(geometry, atmosphereMaterial);
-        atmosphere.scale.setScalar(1.055);
-        orb.add(atmosphere);
-        root.add(orb);
-
-        const orbitMaterial = new THREE.MeshBasicMaterial({
-          blending: THREE.AdditiveBlending,
-          color: settings.primaryColor,
-          opacity: 0.2,
-          transparent: true,
-        });
-        
-        const satelliteMaterial = new THREE.MeshBasicMaterial({
-          blending: THREE.AdditiveBlending,
-          color: settings.secondaryColor,
-          transparent: true,
-        });
-        
-        scene.add(root);
-
-        const localCamera = new THREE.Vector3();
         const pointerTarget = new THREE.Vector2();
         const pointerCurrent = new THREE.Vector2();
         let isVisible = true;
         let lastTime = performance.now();
 
-        const render = () => {
-          orb.updateMatrixWorld(true);
-          localCamera.copy(camera.position);
-          orb.worldToLocal(localCamera);
-          uniforms.uLocalCamera.value.copy(localCamera);
-          renderer.render(scene, camera);
-        };
+        const render = () => renderer.render(scene, camera);
 
         const resize = () => {
           const { width, height } = container.getBoundingClientRect();
           const safeWidth = Math.max(1, Math.round(width));
           const safeHeight = Math.max(1, Math.round(height));
-          camera.aspect = safeWidth / safeHeight;
-          camera.updateProjectionMatrix();
           renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
           renderer.setSize(safeWidth, safeHeight, false);
+          renderer.getDrawingBufferSize(uniforms.uResolution.value);
           render();
         };
 
         const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const applyPointerDepth = () => {
+          const resolution = uniforms.uResolution.value;
+          uniforms.uOffset.value.set(
+            pointerCurrent.x * resolution.x * 0.075,
+            -pointerCurrent.y * resolution.y * 0.075,
+          );
+          uniforms.uRotation.value = pointerCurrent.x * 0.1;
+        };
         const resetPointerDepth = () => {
           pointerTarget.set(0, 0);
           pointerCurrent.set(0, 0);
-          root.rotation.x = 0;
-          root.rotation.y = 0;
+          applyPointerDepth();
           render();
         };
         const handlePointerMove = (event: PointerEvent) => {
@@ -380,6 +332,7 @@ export function AiOrb({
           );
         };
         const handlePointerLeave = () => pointerTarget.set(0, 0);
+
         reducedMotion.addEventListener("change", resetPointerDepth);
         container.addEventListener("pointermove", handlePointerMove, { passive: true });
         container.addEventListener("pointerleave", handlePointerLeave);
@@ -403,6 +356,7 @@ export function AiOrb({
           lastTime = now;
           const currentSettings = settingsRef.current;
           if (!currentSettings.interactive) pointerTarget.set(0, 0);
+
           const shouldAnimate =
             isVisible &&
             !document.hidden &&
@@ -412,26 +366,14 @@ export function AiOrb({
           if (shouldAnimate) {
             uniforms.uTime.value += delta * currentSettings.speed;
             pointerCurrent.lerp(pointerTarget, 1 - Math.exp(-delta * 7.5));
-            root.rotation.x = -pointerCurrent.y * 0.11;
-            root.rotation.y = pointerCurrent.x * 0.14;
-            orb.rotation.x += delta * currentSettings.speed * 0.07;
-            orb.rotation.y += delta * currentSettings.speed * 0.11;
-            
+            applyPointerDepth();
             render();
           }
 
           frameId = window.requestAnimationFrame(animate);
         };
 
-        const runtime: OrbRuntime = {
-          atmosphereUniforms,
-          orbitMaterial,
-          renderer,
-          render,
-          
-          uniforms,
-        };
-        runtimeRef.current = runtime;
+        runtimeRef.current = { render, renderer, uniforms };
         resize();
         render();
         setRenderState("ready");
@@ -440,17 +382,8 @@ export function AiOrb({
         disposeRuntime = () => {
           window.cancelAnimationFrame(frameId);
           runtimeRef.current = null;
-          scene.traverse((object) => {
-            if (object instanceof THREE.Mesh) {
-              object.geometry.dispose();
-              const materials = Array.isArray(object.material)
-                ? object.material
-                : [object.material];
-              materials.forEach((material) => {
-                material.dispose();
-              });
-            }
-          });
+          geometry.dispose();
+          material.dispose();
           renderer.dispose();
           renderer.domElement.remove();
         };
@@ -472,24 +405,29 @@ export function AiOrb({
   }, []);
 
   return (
-    <div
-      aria-label={ariaLabel}
-      className={cn(
-        "relative isolate aspect-square w-[min(82vw,28rem)] overflow-visible [contain:layout_paint] ",
-        className,
-      )}
-      data-render-state={renderState}
-      ref={containerRef}
-      role="img"
-    >
+   
       <div
-        aria-hidden="true"
+        aria-label={ariaLabel}
         className={cn(
-          "pointer-events-none absolute inset-[10%] rounded-full transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
-          renderState === "ready" ? "opacity-0" : "opacity-100",
+          "relative isolate aspect-square w-[min(82vw,20rem)] overflow-hidden rounded-full bg-[radial-gradient(circle_at_50%_42%,#171923_0%,#090a0f_58%,#030405_100%)] shadow-[inset_0_1px_0_rgb(255_255_255/0.06),inset_0_-24px_48px_rgb(0_0_0/0.3)] [contain:layout_paint]",
+          className,
         )}
         
-      />
-    </div>
+        data-render-state={renderState}
+        ref={containerRef}
+        role="img"
+      >
+        <div
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute inset-[12%] rounded-full blur-3xl transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            renderState === "ready" ? "opacity-0" : "opacity-70",
+          )}
+          style={{
+            background: `radial-gradient(circle, ${primaryColor}, ${secondaryColor} 52%, transparent 72%)`,
+          }}
+        />
+      </div>
+    
   );
 }

@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider className="bg-background">
+    <SidebarProvider className="bg-background" defaultOpen={false}>
       <DocsSidebarTriggerLayoutGroup>
         <DocsSidebar />
         <SidebarInset className="bg-background">

@@ -17,7 +17,6 @@ export async function AiOrbDoc({ page }: { page: ComponentDoc }) {
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
-      previewClassName="bg-[#050608]"
       previewHref={`/preview/${page.slug}`}
       title="ai-orb.tsx"
     >

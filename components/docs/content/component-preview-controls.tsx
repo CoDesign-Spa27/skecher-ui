@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils";
 const AI_ORB_DEFAULTS = {
   intensity: 1.25,
   interactive: true,
-  primaryColor: "#00d9ff",
-  secondaryColor: "#7c3aed",
+  primaryColor: "#A855F7",
+  secondaryColor: "#06B6D4",
   speed: 0.45,
 };
 
 const AI_ORB_PALETTES = [
-  { label: "Neural", primary: "#00d9ff", secondary: "#7c3aed" },
+  { label: "Plasma", primary: "#A855F7", secondary: "#06B6D4" },
   { label: "Aurora", primary: "#5cffb0", secondary: "#1677ff" },
   { label: "Solar", primary: "#ffbd38", secondary: "#ff3d81" },
   { label: "Infrared", primary: "#ff4f78", secondary: "#7b2cff" },
@@ -36,9 +36,8 @@ const CHAT_DEFAULTS = {
 };
 
 const SNAP_DEFAULTS = {
-  indent: 48,
+  indent: 32,
   itemHeight: 104,
-  prefix: "We Design",
 };
 
 function ControlGroup({
@@ -281,7 +280,6 @@ function ChatBoxControls() {
 }
 
 function SnapTextControls() {
-  const [prefix, setPrefix] = usePreviewControl("snap-text.prefix", SNAP_DEFAULTS.prefix);
   const [indent, setIndent] = usePreviewControl("snap-text.indent", SNAP_DEFAULTS.indent);
   const [itemHeight, setItemHeight] = usePreviewControl(
     "snap-text.item-height",
@@ -289,20 +287,12 @@ function SnapTextControls() {
   );
 
   const reset = () => {
-    setPrefix(SNAP_DEFAULTS.prefix);
     setIndent(SNAP_DEFAULTS.indent);
     setItemHeight(SNAP_DEFAULTS.itemHeight);
   };
 
   return (
     <div className="grid gap-5">
-      <ControlGroup label="Prefix">
-        <Input
-          aria-label="Snap text prefix"
-          onChange={(event) => setPrefix(event.target.value)}
-          value={prefix}
-        />
-      </ControlGroup>
       <ControlGroup description={`${indent}px`} label="Row indent">
         <Slider
           aria-label="Row indent"
@@ -376,9 +366,8 @@ export function ControlledAiChatBoxPreview() {
 }
 
 export function ControlledSnapTextPreview() {
-  const [prefix] = usePreviewControl("snap-text.prefix", SNAP_DEFAULTS.prefix);
   const [indent] = usePreviewControl("snap-text.indent", SNAP_DEFAULTS.indent);
   const [itemHeight] = usePreviewControl("snap-text.item-height", SNAP_DEFAULTS.itemHeight);
 
-  return <SnapText className="h-full" indent={indent} itemHeight={itemHeight} prefix={prefix} />;
+  return <SnapText className="h-full" indent={indent} itemHeight={itemHeight} />;
 }
