@@ -62,6 +62,19 @@
     linear-gradient(90deg, transparent 45%, rgb(23 23 23 / 68%) 70%, #171717 100%);
 }
 
+.heroContent {
+  position: absolute;
+  top: 61%;
+  left: 50%;
+  z-index: 1;
+  width: min(calc(100% - 40px - env(safe-area-inset-left) - env(safe-area-inset-right)), 680px);
+  transform: translate(-50%, -50%);
+}
+
+.heroSubtitle {
+  margin-inline: auto;
+}
+
 .edgeTextureTop,
 .edgeTextureBottom {
   overflow: hidden;
@@ -154,6 +167,52 @@
 
   .brandMark {
     --mark-size: clamp(40px, 12vw, 50px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) and (min-height: 700px) {
+  .rail {
+    --card-width: min(28vw, 240px);
+    top: -2vh;
+    left: -22vw;
+    opacity: 0.66;
+  }
+
+  .heroContent {
+    top: 58%;
+    width: min(calc(100% - 64px - env(safe-area-inset-left) - env(safe-area-inset-right)), 720px);
+  }
+
+  .fadedBackground {
+    background:
+      radial-gradient(
+        circle at 50% 63%,
+        #171717 0%,
+        rgb(23 23 23 / 98%) 27%,
+        rgb(23 23 23 / 76%) 50%,
+        transparent 76%
+      ),
+      linear-gradient(180deg, transparent 0%, rgb(23 23 23 / 78%) 48%, #171717 100%);
+  }
+}
+
+@media (min-width: 1024px), (min-width: 768px) and (max-height: 699px) {
+  .heroContent {
+    top: 45%;
+    width: min(47vw, 860px);
+    max-width: calc(50% - max(20px, env(safe-area-inset-right)));
+    transform: translate(0, -50%);
+  }
+
+  .heroHeadingRow,
+  .heroActions {
+    justify-content: flex-start;
+  }
+
+  .heroSubtitle {
+    max-width: min(42vw, 797px);
+    margin-inline: 0;
+    text-align: left;
   }
 }
 

@@ -124,11 +124,10 @@ export function Hero() {
 
       <div className={styles.fadedBackground} aria-hidden="true" />
 
-      <section
-        className="absolute left-1/2 top-[61%] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 md:top-[45%] md:w-[min(47vw,860px)] md:translate-x-0"
-        aria-labelledby="hero-title"
-      >
-        <div className="flex items-center justify-center gap-2 md:justify-start md:gap-[clamp(10px,0.85vw,16px)]">
+      <section className={styles.heroContent} aria-labelledby="hero-title">
+        <div
+          className={`flex items-center justify-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] ${styles.heroHeadingRow}`}
+        >
           <BrandMark />
           <h1
             id="hero-title"
@@ -138,19 +137,25 @@ export function Hero() {
           </h1>
         </div>
         <p
-          className={`mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:max-w-[min(42vw,797px)] md:text-left md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] ${styles.subtitleEnter}`}
+          className={`mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] ${styles.heroSubtitle} ${styles.subtitleEnter}`}
         >
           Components that contains life.
         </p>
 
         <div
-          className={`mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 md:justify-start ${styles.actionsEnter}`}
+          className={`mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 ${styles.heroActions} ${styles.actionsEnter}`}
         >
-          <Button asChild variant="default" className="cursor-pointer">
+          <Button asChild variant="default" className="min-h-11 cursor-pointer px-5 lg:min-h-10">
             <Link href="/docs">Browse Components</Link>
           </Button>
 
-          <Button asChild variant="secondary" disabled tooltip="soon" className="cursor-pointer">
+          <Button
+            asChild
+            variant="secondary"
+            disabled
+            tooltip="soon"
+            className="min-h-11 cursor-pointer px-5 lg:min-h-10"
+          >
             <Link
               href="https://github.com/sketch-the-art/sketch-the-art"
               target="_blank"
