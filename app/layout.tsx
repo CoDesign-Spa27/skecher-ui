@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Inspiration, Raleway } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Inspiration,
+  Instrument_Serif,
+  Raleway,
+  Urbanist,
+} from "next/font/google";
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
@@ -28,6 +35,17 @@ const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
 });
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const urbanist = Urbanist({
+  variable: "--font-urbanist",
+  subsets: ["latin"],
+});
 export const metadata: Metadata = createMetadata();
 
 export const viewport: Viewport = {
@@ -49,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${inspiration.variable} antialiased bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${raleway.variable} ${inspiration.variable} ${instrumentSerif.variable} ${urbanist.variable} antialiased bg-background`}
       >
         <TooltipProvider>
           <ThemeProvider

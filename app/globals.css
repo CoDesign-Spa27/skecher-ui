@@ -6,6 +6,8 @@
 @theme inline {
   --font-raleway: var(--font-raleway);
   --font-inspiration: var(--font-inspiration);
+  --font-instrument-serif: var(--font-instrument-serif);
+  --font-urbanist: var(--font-urbanist);
   --color-highlight: var(--highlight);
   --color-background: var(--background);
   --color-foreground: var(--foreground);

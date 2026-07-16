@@ -1,0 +1,204 @@
+.rail {
+  --card-width: min(21.25vw, 408px);
+  --rail-gap: max(4px, 0.3vw);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: absolute;
+  top: 6.7vh;
+  left: -17vw;
+  display: flex;
+  width: max-content;
+  flex-direction: column;
+  gap: var(--rail-gap);
+  transform: rotate(-29deg) translateZ(0);
+  transform-origin: center;
+  animation: rail-enter 900ms var(--ease-out) both;
+  will-change: transform, opacity;
+}
+
+.marqueeRow {
+  --card-step: calc(var(--card-width) + var(--rail-gap));
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.marqueeUp {
+  transform: translateX(calc(var(--card-step) * -1));
+  animation: marquee-up 18s linear infinite;
+}
+
+.marqueeDown {
+  --row-offset: calc(var(--card-width) * -0.52);
+  transform: translateX(var(--row-offset));
+  animation: marquee-down 18s linear infinite;
+}
+
+.marqueePaused {
+  animation-play-state: paused;
+}
+
+.videoShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(10 10 10 / 12%), rgb(10 10 10 / 34%)), rgb(23 23 23 / 18%);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+}
+
+.fadedBackground {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 67% 50%,
+      #171717 0%,
+      #171717 18%,
+      rgb(23 23 23 / 97%) 29%,
+      rgb(23 23 23 / 78%) 42%,
+      rgb(23 23 23 / 24%) 60%,
+      transparent 76%
+    ),
+    linear-gradient(90deg, transparent 45%, rgb(23 23 23 / 68%) 70%, #171717 100%);
+}
+
+.edgeTextureTop,
+.edgeTextureBottom {
+  overflow: hidden;
+}
+
+.edgeTextureTop {
+  top: 10.185%;
+  right: 0;
+  width: 22.292%;
+  height: 44.722%;
+}
+
+.edgeTextureTop img {
+  position: absolute;
+  top: -0.62%;
+  left: 0;
+  width: 100%;
+  height: 100.69%;
+}
+
+.edgeTextureBottom {
+  top: 54.907%;
+  right: 0;
+  width: 17.188%;
+  height: 30.278%;
+}
+
+.edgeTextureBottom img {
+  position: absolute;
+  top: -0.92%;
+  left: 0;
+  width: 129.7%;
+  height: 148.72%;
+}
+
+.brandMark {
+  --mark-size: clamp(46px, 4.43vw, 85px);
+  position: relative;
+  display: block;
+  width: var(--mark-size);
+  height: var(--mark-size);
+  flex: 0 0 var(--mark-size);
+  overflow: hidden;
+}
+
+.brandMark img {
+  position: absolute;
+  top: calc(var(--mark-size) * -0.209);
+  left: calc(var(--mark-size) * -0.015625);
+  width: calc(var(--mark-size) * 6.59375);
+  height: calc(var(--mark-size) * 1.421875);
+  max-width: none;
+}
+
+.brandEnter {
+  animation: copy-enter 600ms cubic-bezier(0.23, 1, 0.32, 1) 60ms both;
+}
+
+.titleEnter {
+  animation: copy-enter 680ms cubic-bezier(0.23, 1, 0.32, 1) 100ms both;
+}
+
+.subtitleEnter {
+  animation: copy-enter 680ms cubic-bezier(0.23, 1, 0.32, 1) 150ms both;
+}
+
+.actionsEnter {
+  animation: copy-enter 680ms cubic-bezier(0.23, 1, 0.32, 1) 200ms both;
+}
+
+@media (max-width: 767px) {
+  .rail {
+    --card-width: 220px;
+    top: -4vh;
+    left: -485px;
+    opacity: 0.72;
+  }
+
+  .fadedBackground {
+    background:
+      radial-gradient(
+        circle at 50% 66%,
+        #171717 0%,
+        rgb(23 23 23 / 98%) 28%,
+        rgb(23 23 23 / 72%) 52%,
+        transparent 78%
+      ),
+      linear-gradient(180deg, transparent 0%, rgb(23 23 23 / 84%) 48%, #171717 100%);
+  }
+
+  .brandMark {
+    --mark-size: clamp(40px, 12vw, 50px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail,
+  .marqueeUp,
+  .marqueeDown,
+  .brandEnter,
+  .titleEnter,
+  .subtitleEnter,
+  .actionsEnter {
+    animation: none;
+  }
+}
+
+@keyframes marquee-up {
+  from {
+    transform: translateX(calc(var(--card-step) * -1));
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes marquee-down {
+  from {
+    transform: translateX(var(--row-offset));
+  }
+
+  to {
+    transform: translateX(calc(var(--row-offset) - var(--card-step)));
+  }
+}
+
+@keyframes rail-enter {
+  from {
+    opacity: 0;
+    transform: rotate(-29deg) translate3d(-18px, -10px, 0);
+  }
+}
+
+@keyframes copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
