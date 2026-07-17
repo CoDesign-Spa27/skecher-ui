@@ -1,17 +1,19 @@
 "use client";
 
-import { PlayCircle } from "lucide-react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
 import { COMPONENT_DOCS } from "@/lib/docs-content";
 
+const COVER_BASE_URL = "https://assets.skecher-ui.com/skecher-components/covers";
 const VIDEO_BASE_URL = "https://assets.skecher-ui.com/skecher-components/edit-video-projects";
 
 const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component, index) => ({
   ...component,
+  coverUrl: `${COVER_BASE_URL}/skecher${index + 1}.png`,
   videoUrl: `${VIDEO_BASE_URL}/skecher${index + 1}.mp4`,
 }));
 
@@ -23,146 +25,117 @@ const PILL_TRANSITION = {
   bounce: 0,
 } as const;
 
+// Shared transition for title enter/exit
+const TITLE_TRANSITION = {
+  duration: 0.22,
+  ease: "easeOut",
+} as const;
+
 function VideoCard({ component }: { component: ComponentVideo }) {
-  const cardRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const prefersFineHover = usePrefersFineHover();
   const [shouldMountVideo, setShouldMountVideo] = useState(false);
-  const [hasPreviewFrame, setHasPreviewFrame] = useState(false);
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const shouldReduceMotion = useReducedMotion();
-  const showTitle = prefersFineHover ? isHovered : true;
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Only show the title on hover (isPreviewActive) for fine hover devices
+  // Otherwise (touch/focus), always show the title, but *do not* play video unless it's fineHover+hovering
+  const showTitle = prefersFineHover ? isPreviewActive || isFocused : true;
   const pillLayoutId = `component-video-pill-${component.slug}`;
   const pillTransition = shouldReduceMotion ? { duration: 0.01 } : PILL_TRANSITION;
 
-  /**
-   * Mount video before user hovers when the card is near viewport.
-   * This lets browser fetch metadata / first frame early.
-   */
   useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
+    // Only play video if we are on a fine hover device and user is currently hovering/interacting
+    if (!prefersFineHover || !isPreviewActive || !shouldMountVideo) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        setShouldMountVideo(true);
-        observer.disconnect();
-      },
-      {
-        rootMargin: "500px",
-        threshold: 0.01,
-      },
-    );
-
-    observer.observe(card);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const handlePreviewReady = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    /**
-     * This helps some browsers paint the first frame instead of a blank box.
-     */
-    try {
-      if (video.currentTime === 0) {
-        video.currentTime = 0.001;
-      }
-    } catch {
-      // Some browsers may block tiny seek before full metadata is ready.
-    }
-
-    setHasPreviewFrame(true);
-  };
-
-  const playVideo = async () => {
-    setShouldMountVideo(true);
-
-    requestAnimationFrame(async () => {
-      const video = videoRef.current;
-      if (!video) return;
-
-      try {
-        /**
-         * On hover we allow browser to buffer more.
-         * Before hover, preload stays light.
-         */
-        video.preload = "auto";
-
-        if (video.readyState < 2) {
-          video.load();
-        }
-
-        await video.play();
-        setIsPlaying(true);
-      } catch {
-        setIsPlaying(false);
-      }
+    void video.play().catch(() => {
+      setIsPlaying(false);
     });
-  };
+  }, [isPreviewActive, shouldMountVideo, prefersFineHover]);
 
+  // Do not reset currentTime; pausing is enough for previews
   const stopVideo = () => {
     const video = videoRef.current;
-    if (!video) return;
 
-    video.pause();
-
-    /**
-     * Reset back to preview frame.
-     * Do not remove src, otherwise browser may lose cache benefit.
-     */
-    try {
-      video.currentTime = 0.001;
-    } catch {
-      video.currentTime = 0;
+    if (video) {
+      video.pause();
+      // No longer resetting currentTime for smoother preview interaction.
     }
 
     setIsPlaying(false);
   };
 
-  const handleEnter = () => {
-    setIsHovered(true);
-    void playVideo();
+  // Only activate preview (video) on fine hover devices.
+  const activatePreview = () => {
+    setShouldMountVideo(true);
+    setIsPreviewActive(true);
   };
 
-  const handleExit = () => {
-    setIsHovered(false);
+  const deactivatePreview = () => {
+    setIsPreviewActive(false);
     stopVideo();
+  };
+
+  // Pointer events for hover -- fine hover only
+  const handlePointerEnter = () => {
+    if (!prefersFineHover) return;
+    activatePreview();
+  };
+
+  const handlePointerLeave = () => {
+    if (!prefersFineHover) return;
+    deactivatePreview();
+  };
+
+  // Keyboard focus should only show the title, not video
+  const handleFocus = () => {
+    setIsFocused(true);
+    // On focus, don't start video. We *could* optionally show a static image or do nothing.
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    if (isPreviewActive) {
+      // If you tab away and were previewing video due to hover, also turn it off.
+      deactivatePreview();
+    }
   };
 
   return (
     <Link
       href={`/docs/${component.slug}`}
       className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      onPointerEnter={handleEnter}
-      onPointerLeave={handleExit}
-      onFocus={handleEnter}
-      onBlur={handleExit}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     >
-      <article
-        ref={cardRef}
-        className="component-preview-css overflow-hidden rounded-xl bg-card p-1 text-card-foreground transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]  "
-      >
-        <div className="relative aspect-video overflow-hidden bg-muted rounded-xl">
-          {!hasPreviewFrame ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-muted">
-              <PlayCircle className="size-7 text-muted-foreground/50" />
-            </div>
-          ) : null}
+      <article className="component-preview-css overflow-hidden rounded-xl bg-card p-1 text-card-foreground transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]">
+        <div className="relative aspect-video overflow-hidden rounded-xl bg-muted">
+          <Image
+            src={component.coverUrl}
+            alt={`${component.title} component preview`}
+            fill
+            sizes="(min-width: 1280px) 360px, (min-width: 640px) calc(50vw - 48px), calc(100vw - 48px)"
+            className={[
+              "object-cover transition-opacity duration-200",
+              isPlaying ? "opacity-0" : "opacity-100",
+            ].join(" ")}
+          />
 
-          {shouldMountVideo ? (
+          {shouldMountVideo && prefersFineHover ? (
             <video
               ref={videoRef}
               src={component.videoUrl}
               className={[
-                "absolute inset-0 h-full rounded-xl w-full object-cover transition-opacity duration-200",
-                hasPreviewFrame ? "opacity-100" : "opacity-0",
+                "absolute inset-0 h-full w-full rounded-xl object-cover transition-opacity duration-200",
+                isPlaying ? "opacity-100" : "opacity-0",
               ].join(" ")}
               muted
               loop
@@ -170,8 +143,10 @@ function VideoCard({ component }: { component: ComponentVideo }) {
               preload="metadata"
               aria-label={`${component.title} component video`}
               tabIndex={-1}
-              onLoadedData={handlePreviewReady}
-              onCanPlay={handlePreviewReady}
+              onPlaying={() => setIsPlaying(true)}
+              onError={() => {
+                setIsPlaying(false);
+              }}
             />
           ) : null}
 
@@ -184,41 +159,30 @@ function VideoCard({ component }: { component: ComponentVideo }) {
                     layoutId={pillLayoutId}
                     transition={pillTransition}
                     style={{ borderRadius: 999 }}
-                    className=" relative max-w-[calc(100%-2rem)] overflow-hidden bg-sidebar/90 px-4 py-1.5 backdrop-blur-sm"
+                    className=" relative max-w-[calc(100%_-_2rem)] overflow-hidden bg-[#171717] px-4 py-1.5 backdrop-blur-sm border border-neutral-700"
                   >
                     <motion.p
                       key="title"
                       initial={{
-                        transition: {
-                          duration: 0.22,
-                          ease: "easeOut",
-                        },
                         opacity: 0,
                         y: shouldReduceMotion ? 0 : 12,
                         filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
                       }}
                       animate={{
-                        transition: {
-                          duration: 0.22,
-                          ease: "easeOut",
-                        },
                         opacity: 1,
                         y: 0,
                         filter: "blur(0px)",
                       }}
                       exit={{
-                        transition: {
-                          duration: 0.22,
-                          ease: "easeOut",
-                        },
                         opacity: 0,
                         y: shouldReduceMotion ? 0 : 12,
                         filter: shouldReduceMotion ? "blur(0px)" : "blur(10px)",
                       }}
+                      transition={TITLE_TRANSITION}
                       style={{
                         willChange: "opacity, transform, filter",
                       }}
-                      className="relative z-20 truncate text-sm font-medium text-foreground"
+                      className="relative z-20 truncate text-sm font-medium text-white"
                     >
                       {component.title}
                     </motion.p>
@@ -229,20 +193,12 @@ function VideoCard({ component }: { component: ComponentVideo }) {
                     layoutId={pillLayoutId}
                     transition={pillTransition}
                     style={{ borderRadius: 999 }}
-                    className=" h-2.5 w-16 bg-sidebar/85 backdrop-blur-sm"
+                    className=" h-2.5 w-16 bg-[#171717] backdrop-blur-sm border border-neutral-700"
                   />
                 )}
               </AnimatePresence>
             </div>
           </LayoutGroup>
-
-          {!isPlaying ? (
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-              <div className="rounded-full bg-black/45 p-2 text-white backdrop-blur-sm">
-                <PlayCircle className="size-7" aria-hidden="true" />
-              </div>
-            </div>
-          ) : null}
 
           <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/5" />
         </div>

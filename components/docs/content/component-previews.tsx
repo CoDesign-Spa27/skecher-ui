@@ -71,7 +71,7 @@ export const COMPONENT_PREVIEWS = {
   "image-glide": <ImageGlide />,
   "liquid-glass-social": <Social />,
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
-  "magazine-scroller": <MagazineScroller height="100%" />,
+  "magazine-scroller": <MagazineScroller />,
   "morphing-action-dock": <MorphingActionDock />,
   "snap-text": <ControlledSnapTextPreview />,
   "streaming-text": (
