@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -18,12 +18,101 @@ const BOTTOM_ROW_VIDEOS = [7, 8, 9, 10, 11, 12].map((index) => ({
   index,
 }));
 const VIDEO_VERSION = "2026-07";
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
 
-function BrandMark() {
+const heroSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.46,
+    },
+  },
+};
+
+const reducedHeroSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const contentSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const reducedContentSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+const headingSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const contentEntrance: Variants = {
+  hidden: {
+    opacity: 0,
+    y: -14,
+    filter: "blur(8px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.58,
+      ease: EASE_OUT,
+    },
+  },
+};
+
+const railEntrance: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+    filter: "blur(10px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.78,
+      ease: EASE_OUT,
+    },
+  },
+};
+
+const reducedEntrance: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.18, ease: "easeOut" },
+  },
+};
+
+function BrandMark({ variants }: { variants: Variants }) {
   return (
-    <span className={`${styles.brandMark} ${styles.brandEnter}`} aria-hidden="true">
+    <motion.span className={styles.brandMark} variants={variants} aria-hidden="true">
       <Image src="/icon/ligh-full-logo.svg" alt="" width={422} height={91} priority />
-    </span>
+    </motion.span>
   );
 }
 
@@ -83,6 +172,7 @@ export function Hero() {
   const [topVideos, setTopVideos] = useState(TOP_ROW_VIDEOS);
   const [bottomVideos, setBottomVideos] = useState(BOTTOM_ROW_VIDEOS);
   const isPaused = Boolean(shouldReduceMotion);
+  const entrance = shouldReduceMotion ? reducedEntrance : contentEntrance;
 
   const rotateTopRow = () => {
     setTopVideos((current) => {
@@ -99,51 +189,42 @@ export function Hero() {
   };
 
   return (
-    <main className="relative isolate min-h-svh overflow-hidden bg-[#171717] text-white">
-      <div className="absolute inset-0 -z-30" aria-hidden="true">
-        <div className={styles.rail}>
-          <div
-            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeUp} ${isPaused ? styles.marqueePaused : ""}`}
-            onAnimationIteration={rotateTopRow}
-          >
-            {topVideos.map((video) => (
-              <VideoCard key={video.id} index={video.index} paused={isPaused} />
-            ))}
-          </div>
-
-          <div
-            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeDown} ${isPaused ? styles.marqueePaused : ""}`}
-            onAnimationIteration={rotateBottomRow}
-          >
-            {bottomVideos.map((video) => (
-              <VideoCard key={video.id} index={video.index} paused={isPaused} />
-            ))}
-          </div>
-        </div>
-      </div>
-
+    <motion.main
+      className="relative isolate min-h-svh overflow-hidden bg-[#171717] text-white"
+      variants={shouldReduceMotion ? reducedHeroSequence : heroSequence}
+      initial="hidden"
+      animate="visible"
+    >
       <div className={styles.fadedBackground} aria-hidden="true" />
 
-      <section className={styles.heroContent} aria-labelledby="hero-title">
-        <div
+      <motion.section
+        className={styles.heroContent}
+        aria-labelledby="hero-title"
+        variants={shouldReduceMotion ? reducedContentSequence : contentSequence}
+      >
+        <motion.div
           className={`flex items-center justify-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] ${styles.heroHeadingRow}`}
+          variants={headingSequence}
         >
-          <BrandMark />
-          <h1
+          <BrandMark variants={entrance} />
+          <motion.h1
             id="hero-title"
-            className={`text-balance whitespace-nowrap font-instrument-serif text-[2.85rem] leading-[0.98] font-normal tracking-[-0.035em] min-[421px]:text-[clamp(3rem,14vw,4rem)] md:text-[clamp(4rem,6.67vw,8rem)] ${styles.titleEnter}`}
+            className="text-balance whitespace-nowrap font-instrument-serif text-[2.85rem] leading-[0.98] font-normal tracking-[-0.035em] min-[421px]:text-[clamp(3rem,14vw,4rem)] md:text-[clamp(4rem,6.67vw,8rem)]"
+            variants={entrance}
           >
             Skech the <span className="text-highlight">art</span>
-          </h1>
-        </div>
-        <p
-          className={`mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] ${styles.heroSubtitle} ${styles.subtitleEnter}`}
+          </motion.h1>
+        </motion.div>
+        <motion.p
+          className={`mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] ${styles.heroSubtitle}`}
+          variants={entrance}
         >
           Components that contains life.
-        </p>
+        </motion.p>
 
-        <div
-          className={`mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 ${styles.heroActions} ${styles.actionsEnter}`}
+        <motion.div
+          className={`mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 ${styles.heroActions}`}
+          variants={entrance}
         >
           <Button asChild variant="default" className="min-h-11 cursor-pointer px-5 lg:min-h-10">
             <Link href="/docs">Browse Components</Link>
@@ -164,8 +245,34 @@ export function Hero() {
               GitHub
             </Link>
           </Button>
+        </motion.div>
+      </motion.section>
+
+      <motion.div
+        className="absolute inset-0 -z-30"
+        variants={shouldReduceMotion ? reducedEntrance : railEntrance}
+        aria-hidden="true"
+      >
+        <div className={styles.rail}>
+          <div
+            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeUp} ${isPaused ? styles.marqueePaused : ""}`}
+            onAnimationIteration={rotateTopRow}
+          >
+            {topVideos.map((video) => (
+              <VideoCard key={video.id} index={video.index} paused={isPaused} />
+            ))}
+          </div>
+
+          <div
+            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeDown} ${isPaused ? styles.marqueePaused : ""}`}
+            onAnimationIteration={rotateBottomRow}
+          >
+            {bottomVideos.map((video) => (
+              <VideoCard key={video.id} index={video.index} paused={isPaused} />
+            ))}
+          </div>
         </div>
-      </section>
+      </motion.div>
 
       <div
         className={`pointer-events-none absolute hidden opacity-10 mix-blend-difference lg:block ${styles.edgeTextureTop}`}
@@ -192,6 +299,6 @@ export function Hero() {
           className="max-w-none"
         />
       </div>
-    </main>
+    </motion.main>
   );
 }
