@@ -32,6 +32,7 @@ type SuperIslandProps = {
   importName?: string;
   files?: ComponentFile[];
   previewControls?: React.ReactNode;
+  usageExample?: React.ReactNode;
   className?: string;
   docked?: boolean;
 };
@@ -119,7 +120,7 @@ function PackageButton({
         packageMeta[nextPackageManager].label
       }`}
       className={cn(
-        "input-shadow flex h-8 w-[50px] shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] dark:bg-input/30",
+        "  flex h-8 w-[50px] shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] dark:bg-input/30",
         "transition-[transform,background-color,color] duration-150 ease-sidebar active:scale-[0.98]",
         "focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#131313] focus-visible:outline-none",
         packageMeta[packageManager].color ?? "",
@@ -192,7 +193,7 @@ function CommandIsland({
           </motion.p>
         </AnimatePresence>
       </div>
-      <div className="input-shadow flex h-8 w-14 shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] text-foreground dark:bg-input/30">
+      <div className="flex h-8 w-14 shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] text-foreground dark:bg-input/30 input-shadow">
         <CopyButton
           className="size-full rounded-lg text-current hover:bg-transparent! dark:hover:bg-transparent!"
           code={command}
@@ -345,6 +346,7 @@ function ManualPanelContent({
   componentName,
   componentDescription,
   previewControls,
+  usageExample,
   onClose,
   titleId,
 }: Omit<SuperIslandProps, "cliCommands" | "className"> & {
@@ -356,8 +358,6 @@ function ManualPanelContent({
 
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
-   
-
       <ProgressiveScrollArea
         className="no-scrollbar relative min-h-0 flex-1 overflow-hidden px-5"
         blurHeight="160px"
@@ -384,7 +384,7 @@ function ManualPanelContent({
             <IconSquareMinusFillDuo18 className="size-5" />
           </Button>
         </div>
-          
+
         <div className="space-y-8 px-1 pb-8">
           {previewControls ? (
             <section className="space-y-4">
@@ -449,6 +449,18 @@ function ManualPanelContent({
                 kind="dependencies"
                 className="w-full max-w-xl"
               />
+            </section>
+          ) : null}
+
+          {usageExample ? (
+            <section className="space-y-3">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium text-foreground">Usage</h3>
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Copy this complete example and adjust the values for your project.
+                </p>
+              </div>
+              {usageExample}
             </section>
           ) : null}
 
@@ -559,6 +571,7 @@ function SuperIsland({
   importName,
   files,
   previewControls,
+  usageExample,
   className,
   docked = false,
 }: SuperIslandProps) {
@@ -659,6 +672,7 @@ function SuperIsland({
               importName={importName}
               manualSteps={manualSteps}
               previewControls={previewControls}
+              usageExample={usageExample}
               onClose={(shouldAnimate) => setManualOpen(false, shouldAnimate)}
               titleId={panelTitleId}
             />

@@ -188,9 +188,9 @@ html.dark [data-rehype-pretty-code-figure] code span,
   box-shadow:
     0 0 0 1px var(--sidebar-border, rgba(255, 255, 255, 0.13)), /* visible border highlight */
     0px 2px 4px 0px rgba(0, 0, 0, 0.15),
-    0px 6px 12px -2px rgba(0, 0, 0, 0.13),
+    0px 1px 1px -1px rgba(0, 0, 0, 0.13),
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.19),
-    0px 10.18953px 10.18953px rgba(0, 0, 0, 0.17),
+    0px 0.18953px 10.18953px rgba(0, 0, 0, 0.17),
     inset 0px 0.398254px 0.796509px rgba(255, 255, 255, 0.14);
 }
 
@@ -233,8 +233,8 @@ html.dark [data-rehype-pretty-code-figure] code span,
 .sidebar-shadow {
   box-shadow:
     0px 0px 1px rgba(0, 0, 0, 0.25),
-    0px 0.5px 1px rgba(255, 255, 255, 0.25),
-    inset 0px 0.5px 1px rgba(255, 255, 255, 0.25),
+    0px 0.5px 1px rgba(255, 255, 255, 0.15),
+    inset 0px 0.5px 1px rgba(255, 255, 255, 0.15),
     inset 0px 0px 0px rgba(0, 0, 0, 0.25),
     inset 0px -0.2px 0.5px rgba(0, 0, 0, 0.25),
     inset 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -267,7 +267,7 @@ html.dark [data-rehype-pretty-code-figure] code span,
   box-shadow:
     0px 1.09724px 0.877793px rgba(0, 0, 0, 0.1197),
     0px 1.18953px 1.18953px rgba(0, 0, 0, 0.14),
-    0px 16.5652px 13.2521px rgba(0, 0, 0, 0.1503),
+    0px 10.5652px 13.2521px rgba(0, 0, 0, 0.1503),
     inset 0px 0px 1px rgba(255, 255, 255, 0.1),
     inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
 }
@@ -392,9 +392,9 @@ html.dark [data-rehype-pretty-code-figure] code span,
   }
 }
 .component-preview-css {
-  box-shadow: 0px 0.5px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.65);
 }
 
 .dark .component-preview-css {
-  box-shadow: 0px 0.5px 2px rgba(255, 255, 255, 0.25);
+  box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.65);
 }

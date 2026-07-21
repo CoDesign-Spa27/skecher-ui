@@ -12,10 +12,7 @@ export type ComponentDoc = {
   installDependencies?: string[];
   cliCommand: string;
   importName: string;
-  usage: {
-    imports: string;
-    code: string;
-  };
+  usage: string;
   files: {
     path: string;
     description?: string;
@@ -35,13 +32,21 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/streaming-text.json",
     importName: "BlurredText",
-    usage: {
-      imports: `import { BlurredText } from "@/components/ui/streaming-text";`,
-      code: `<BlurredText
-  text="Stop acting as if life is a rehearsal."
-  className="text-4xl font-medium"
-/>`,
-    },
+    usage: `import { BlurredText } from "@/components/ui/streaming-text";
+
+export default function StreamingTextExample() {
+  return (
+    <BlurredText
+      as="h2"
+      text="Build interfaces that feel as good as they look."
+      className="max-w-3xl text-4xl font-semibold tracking-tight"
+      wordClassName="mr-[0.25em]"
+      staggerChildren={0.05}
+      delayChildren={0.1}
+      duration={0.3}
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/streaming-text.tsx",
@@ -61,17 +66,23 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/text-morphing.json",
     importName: "MorphingText",
-    usage: {
-      imports: `import { MorphingText } from "@/components/ui/text-morphing";`,
-      code: `<MorphingText
-  texts={[
-    "AI begins analyzing your data...",
-    "Processing information and finding patterns...",
-    "Generating intelligent responses...",
-  ]}
-  className="text-4xl font-medium"
-/>`,
-    },
+    usage: `import { MorphingText } from "@/components/ui/text-morphing";
+
+const statusMessages = [
+  "Analyzing your workspace...",
+  "Finding useful patterns...",
+  "Preparing your answer...",
+];
+
+export default function MorphingTextExample() {
+  return (
+    <MorphingText
+      texts={statusMessages}
+      interval={2400}
+      className="text-3xl font-semibold tracking-tight"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/text-morphing.tsx",
@@ -90,10 +101,15 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/liquid-glass-social.json",
     importName: "Social",
-    usage: {
-      imports: `import { Social } from "@/components/ui/liquid-glass-social";`,
-      code: `<Social />`,
-    },
+    usage: `import { Social } from "@/components/ui/liquid-glass-social";
+
+export default function SocialLinksExample() {
+  return (
+    <div className="flex min-h-64 items-center justify-center">
+      <Social />
+    </div>
+  );
+}`,
     files: [
       {
         path: "components/ui-components/liquid-glass-social.tsx",
@@ -126,10 +142,47 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/image-glide.json",
     importName: "ImageGlide",
-    usage: {
-      imports: `import { ImageGlide } from "@/components/ui/image-glide";`,
-      code: `<ImageGlide />`,
-    },
+    usage: `"use client";
+
+import { useState } from "react";
+
+import { ImageGlide } from "@/components/ui/image-glide";
+
+const images = [
+  {
+    src: "/images/gallery/forest.jpg",
+    alt: "Sunlight passing through a green forest",
+    title: "Morning light",
+    description: "A quiet trail at the start of the day.",
+  },
+  {
+    src: "/images/gallery/coast.jpg",
+    alt: "Rocky coastline beside a blue sea",
+    title: "Open coast",
+    description: "Wind and water shaping the shoreline.",
+  },
+  {
+    src: "/images/gallery/desert.jpg",
+    alt: "Soft desert dunes at sunset",
+    title: "Last glow",
+    description: "Warm light settling over the dunes.",
+  },
+];
+
+export default function ImageGlideExample() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  return (
+    <section aria-label="Featured photography">
+      <ImageGlide
+        images={images}
+        initialIndex={activeIndex}
+        onIndexChange={setActiveIndex}
+        className="mx-auto max-w-5xl"
+      />
+    </section>
+  );
+}`,
     files: [
       {
         path: "components/ui-components/image-glide.tsx",
@@ -149,10 +202,29 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/image-density-grid.json",
     importName: "ImageDensityGrid",
-    usage: {
-      imports: `import { ImageDensityGrid } from "@/components/ui/image-density-grid";`,
-      code: `<ImageDensityGrid />`,
-    },
+    usage: `import { ImageDensityGrid } from "@/components/ui/image-density-grid";
+
+const images = [
+  { id: "one", src: "/images/gallery/one.jpg", alt: "Abstract blue artwork" },
+  { id: "two", src: "/images/gallery/two.jpg", alt: "Red architectural detail" },
+  { id: "three", src: "/images/gallery/three.jpg", alt: "Green landscape" },
+  { id: "four", src: "/images/gallery/four.jpg", alt: "Monochrome portrait" },
+];
+
+export default function ImageDensityGridExample() {
+  return (
+    <ImageDensityGrid
+      images={images}
+      options={[20, 40, 80, 120]}
+      initialPercent={40}
+      title="Browse the collection"
+      gridMaxHeight="42rem"
+      showControls
+      padded
+      className="mx-auto max-w-6xl"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/image-density-grid.tsx",
@@ -172,10 +244,51 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion", "lucide-react"],
     cliCommand: "https://skecher-ui.vercel.app/r/morphing-action-dock.json",
     importName: "MorphingActionDock",
-    usage: {
-      imports: `import { MorphingActionDock } from "@/components/ui/morphing-action-dock";`,
-      code: `<MorphingActionDock />`,
-    },
+    usage: `"use client";
+
+import { Compass, Feather, FlameKindling } from "lucide-react";
+
+import { MorphingActionDock } from "@/components/ui/morphing-action-dock";
+
+const actions = [
+  {
+    id: "explore",
+    label: "Explore",
+    icon: Compass,
+    tone: "from-slate-950 via-slate-800 to-slate-700",
+    eyebrow: "Find direction",
+    paragraph: "Move from a broad idea to a clear next step.",
+    cue: "Explore the workspace",
+  },
+  {
+    id: "write",
+    label: "Write",
+    icon: Feather,
+    tone: "from-neutral-950 via-neutral-800 to-stone-700",
+    eyebrow: "Shape the draft",
+    paragraph: "Turn the selected direction into useful copy.",
+    cue: "Start a new draft",
+  },
+  {
+    id: "launch",
+    label: "Launch",
+    icon: FlameKindling,
+    tone: "from-zinc-950 via-zinc-800 to-orange-950",
+    eyebrow: "Ship with confidence",
+    paragraph: "Review the final details and publish your work.",
+    cue: "Prepare the release",
+  },
+];
+
+export default function MorphingActionDockExample() {
+  return (
+    <MorphingActionDock
+      items={actions}
+      defaultActiveId="explore"
+      className="mx-auto max-w-4xl"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/morphing-action-dock.tsx",
@@ -193,11 +306,20 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     dependencies: ["react", "motion"],
     installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
     cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
-    importName: "AmoebaFab",
-    usage: {
-      imports: `import { AmoebaFab } from "@/components/ui/gooey-toolbar";`,
-      code: `<AmoebaFab />`,
-    },
+    importName: "GooeyToolbar",
+    usage: `import { GooeyToolbar } from "@/components/ui/gooey-toolbar";
+
+export default function GooeyToolbarExample() {
+  return (
+    <div className="flex min-h-96 items-center justify-center">
+      <GooeyToolbar
+        defaultVariant="amoeba"
+        showVariantToggle
+        className="w-full max-w-xl"
+      />
+    </div>
+  );
+}`,
     files: [
       {
         path: "components/ui-components/gooey-toolbar.tsx",
@@ -230,15 +352,35 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/dock.json",
     importName: "Dock",
-    usage: {
-      imports: `import { Dock } from "@/components/ui/dock";`,
-      code: `<Dock
-  items={[
-    { id: "home", label: "Home", icon: <HomeIcon /> },
-    { id: "search", label: "Search", icon: <SearchIcon /> },
-  ]}
-/>`,
-    },
+    usage: `"use client";
+
+import { Bell, Home, Search, Settings } from "lucide-react";
+
+import { Dock } from "@/components/ui/dock";
+
+const iconClassName = "size-full";
+
+export default function DockExample() {
+  return (
+    <Dock
+      items={[
+        { id: "home", label: "Home", icon: <Home className={iconClassName} /> },
+        { id: "search", label: "Search", icon: <Search className={iconClassName} /> },
+        {
+          id: "notifications",
+          label: "Notifications",
+          icon: <Bell className={iconClassName} />,
+          onClick: () => window.alert("Notifications opened"),
+        },
+        { id: "settings", label: "Settings", icon: <Settings className={iconClassName} /> },
+      ]}
+      baseSize={44}
+      maxSize={76}
+      influence={130}
+      className="mx-auto"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/dock.tsx",
@@ -270,14 +412,50 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     dependencies: ["react"],
     cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
     importName: "LiquidMorphologySlideshow",
-    usage: {
-      imports: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";`,
-      code: `<LiquidMorphologySlideshow
-  className="absolute inset-0 h-full rounded-none"
-  showNavigation={false}
-  showCounters={false}
-/>`,
-    },
+    usage: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";
+
+const slides = [
+  {
+    title: "Northern light",
+    src: "/images/slides/northern-light.jpg",
+    alt: "Green aurora over a mountain range",
+    category: "Expedition",
+    description: "Field journal",
+  },
+  {
+    title: "Open water",
+    src: "/images/slides/open-water.jpg",
+    alt: "Sunlight reflecting across the ocean",
+    category: "Travel",
+    description: "Coastal study",
+  },
+];
+
+export default function LiquidMorphologyExample() {
+  return (
+    <LiquidMorphologySlideshow
+      slides={slides}
+      effect="ripple"
+      autoPlay
+      interval={5000}
+      transitionDuration={1.8}
+      initialIndex={0}
+      brandName="Northstar"
+      navItems={[
+        { label: "Work", href: "#work" },
+        { label: "About", href: "#about" },
+      ]}
+      kicker="Selected journeys"
+      headline="Stories shaped by light and motion."
+      description="A cinematic collection of landscapes from around the world."
+      ctaLabel="Explore the journal"
+      ctaHref="#journal"
+      clickToAdvance
+      keyboardControls
+      className="h-[42rem]"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/liquid-morphology-slideshow.tsx",
@@ -296,10 +474,33 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: [],
     cliCommand: "https://skecher-ui.vercel.app/r/magazine-scroller.json",
     importName: "MagazineScroller",
-    usage: {
-      imports: `import { MagazineScroller } from "@/components/ui/magazine-scroller";`,
-      code: `<MagazineScroller />`,
-    },
+    usage: `import { MagazineScroller } from "@/components/ui/magazine-scroller";
+
+const covers = [
+  { src: "/images/covers/edition-01.jpg", alt: "Edition 01 magazine cover" },
+  { src: "/images/covers/edition-02.jpg", alt: "Edition 02 magazine cover" },
+  { src: "/images/covers/edition-03.jpg", alt: "Edition 03 magazine cover" },
+  { src: "/images/covers/edition-04.jpg", alt: "Edition 04 magazine cover" },
+];
+
+export default function MagazineScrollerExample() {
+  return (
+    <MagazineScroller
+      images={covers}
+      cardWidth={180}
+      cardHeight={264}
+      gap={32}
+      slices={9}
+      height={640}
+      wheelSpeed={1.1}
+      dragSpeed={1.1}
+      bendStrength={82}
+      maxBend={96}
+      lockWheel={false}
+      className="w-full"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/magazine-scroller.tsx",
@@ -332,13 +533,64 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["lucide-react", "motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/ai-chat-box.json",
     importName: "AiChatBox",
-    usage: {
-      imports: `import { AiChatBox } from "@/components/ui/ai-chat-box";`,
-      code: `<AiChatBox
-  models={models}
-  onSend={(message, model) => sendMessage(message.text, model?.id)}
-/>`,
-    },
+    usage: `"use client";
+
+import { Brain, Sparkles, Zap } from "lucide-react";
+import { useState } from "react";
+
+import {
+  AiChatBox,
+  type AiChatMessage,
+  type AiChatModel,
+} from "@/components/ui/ai-chat-box";
+
+const models: AiChatModel[] = [
+  {
+    id: "balanced",
+    name: "Balanced",
+    description: "Useful for most everyday tasks",
+    capability: "General",
+    icon: Sparkles,
+  },
+  {
+    id: "reasoning",
+    name: "Reasoning",
+    description: "Best for complex planning",
+    capability: "Deep",
+    icon: Brain,
+  },
+  {
+    id: "fast",
+    name: "Fast",
+    description: "Quick drafts and summaries",
+    capability: "Quick",
+    icon: Zap,
+  },
+];
+
+export default function AiChatBoxExample() {
+  const [messages, setMessages] = useState<AiChatMessage[]>([]);
+
+  return (
+    <AiChatBox
+      models={models}
+      messages={messages}
+      onMessagesChange={setMessages}
+      defaultSelectedModelId="balanced"
+      onSend={(message, model) => {
+        console.info("Send", message.text, "with", model?.name);
+      }}
+      labels={{
+        empty: "What can I help you build?",
+        input: "Describe your idea",
+        send: "Send message",
+      }}
+      maxLength={2000}
+      submitOnEnter
+      className="mx-auto max-w-3xl"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/ai-chat-box.tsx",
@@ -371,15 +623,23 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["three"],
     cliCommand: "https://skecher-ui.vercel.app/r/ai-orb.json",
     importName: "AiOrb",
-    usage: {
-      imports: `import { AiOrb } from "@/components/ui/ai-orb";`,
-      code: `<AiOrb
-  primaryColor="#A855F7"
-  secondaryColor="#06B6D4"
-  intensity={1.25}
-  speed={0.45}
-/>`,
-    },
+    usage: `import { AiOrb } from "@/components/ui/ai-orb";
+
+export default function AiOrbExample() {
+  return (
+    <div className="flex min-h-96 items-center justify-center bg-neutral-950 p-8">
+      <AiOrb
+        ariaLabel="Animated purple and cyan AI plasma orb"
+        primaryColor="#A855F7"
+        secondaryColor="#06B6D4"
+        intensity={1.25}
+        speed={0.45}
+        interactive
+        className="w-[min(80vw,22rem)]"
+      />
+    </div>
+  );
+}`,
     files: [
       {
         path: "components/ui-components/ai-orb.tsx",
@@ -412,10 +672,15 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["@paper-design/shaders-react", "motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/dither-credit-card.json",
     importName: "DitherCreditCard",
-    usage: {
-      imports: `import { DitherCreditCard } from "@/components/ui/dither-credit-card";`,
-      code: `<DitherCreditCard />`,
-    },
+    usage: `import { DitherCreditCard } from "@/components/ui/dither-credit-card";
+
+export default function DitherCreditCardExample() {
+  return (
+    <div className="flex min-h-96 items-center justify-center p-6">
+      <DitherCreditCard className="w-full max-w-[605px]" />
+    </div>
+  );
+}`,
     files: [
       {
         path: "components/ui-components/dither-credit-card.tsx",
@@ -448,10 +713,51 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     installDependencies: ["motion"],
     cliCommand: "https://skecher-ui.vercel.app/r/snap-text.json",
     importName: "SnapText",
-    usage: {
-      imports: `import { SnapText } from "@/components/ui/snap-text";`,
-      code: `<SnapText />`,
-    },
+    usage: `"use client";
+
+import { useState } from "react";
+
+import { SnapText } from "@/components/ui/snap-text";
+
+const steps = [
+  "Research the problem.",
+  "Shape the direction.",
+  "Build the system.",
+  "Test every detail.",
+];
+
+const images = [
+  "/images/process/research.jpg",
+  "/images/process/direction.jpg",
+  "/images/process/build.jpg",
+  "/images/process/test.jpg",
+];
+
+const colors = ["#8CD7C0", "#FFD873", "#FF5768", "#6C89C5"];
+
+export default function SnapTextExample() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  return (
+    <SnapText
+      items={steps}
+      images={images}
+      colors={colors}
+      initialIndex={0}
+      onIndexChange={setActiveIndex}
+      prefix={
+        <span className="font-mono text-sm text-neutral-500">
+          {String(activeIndex + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}
+        </span>
+      }
+      itemHeight={96}
+      indent={28}
+      inactiveColor="#737373"
+      spring={{ stiffness: 280, damping: 30, mass: 0.8 }}
+      className="h-[42rem]"
+    />
+  );
+}`,
     files: [
       {
         path: "components/ui-components/snap-text.tsx",
