@@ -7,106 +7,22 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
+import {
+  BOTTOM_ROW_VIDEOS,
+  contentEntrance,
+  contentSequence,
+  getHeroVideoUrl,
+  headingSequence,
+  heroSequence,
+  moveFirstVideoToEnd,
+  moveLastVideoToFront,
+  railEntrance,
+  reducedContentSequence,
+  reducedEntrance,
+  reducedHeroSequence,
+  TOP_ROW_VIDEOS,
+} from "./config";
 import styles from "./hero.module.css";
-
-const TOP_ROW_VIDEOS = [1, 2, 3, 4, 5, 6].map((index) => ({
-  id: `top-${index}`,
-  index,
-}));
-const BOTTOM_ROW_VIDEOS = [7, 8, 9, 10, 11, 12].map((index) => ({
-  id: `bottom-${index}`,
-  index,
-}));
-const VIDEO_VERSION = "2026-07";
-const EASE_OUT = [0.23, 1, 0.32, 1] as const;
-
-const heroSequence: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 0.3,
-      staggerChildren: 0.46,
-    },
-  },
-};
-
-const reducedHeroSequence: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const contentSequence: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const reducedContentSequence: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.04,
-    },
-  },
-};
-
-const headingSequence: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.06,
-    },
-  },
-};
-
-const contentEntrance: Variants = {
-  hidden: {
-    opacity: 0,
-    y: -14,
-    filter: "blur(8px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.58,
-      ease: EASE_OUT,
-    },
-  },
-};
-
-const railEntrance: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 18,
-    filter: "blur(10px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.78,
-      ease: EASE_OUT,
-    },
-  },
-};
-
-const reducedEntrance: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.18, ease: "easeOut" },
-  },
-};
 
 function BrandMark({ variants }: { variants: Variants }) {
   return (
@@ -118,41 +34,67 @@ function BrandMark({ variants }: { variants: Variants }) {
 
 function AmbientVideo({ index, paused }: { index: number; paused: boolean }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isReady, setIsReady] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const syncPlayback = () => {
+    const syncPlayback = async () => {
       if (paused || document.hidden) {
         video.pause();
         return;
       }
 
-      void video.play().catch(() => {
-        // Muted inline video is normally allowed; the static frame is the fallback.
-      });
+      try {
+        await video.play();
+      } catch {
+        // The background remains visible if autoplay is blocked.
+      }
     };
 
-    syncPlayback();
+    void syncPlayback();
+
     document.addEventListener("visibilitychange", syncPlayback);
 
-    return () => document.removeEventListener("visibilitychange", syncPlayback);
+    return () => {
+      document.removeEventListener("visibilitychange", syncPlayback);
+    };
   }, [paused]);
 
   return (
-    <video
-      ref={videoRef}
-      className="block size-full object-cover [transform:scale(1.015)_translateZ(0)]"
-      src={`/api/component-video/${index}?v=${VIDEO_VERSION}`}
-      autoPlay={!paused}
-      muted
-      loop
-      playsInline
-      preload="auto"
-      tabIndex={-1}
-      aria-hidden="true"
-    />
+    <div className="relative size-full overflow-hidden bg-[#171717]">
+      <video
+        ref={videoRef}
+        className={[
+          "block size-full object-cover",
+          "[transform:scale(1.015)_translateZ(0)]",
+          "transition-opacity duration-500",
+          isReady && !hasError ? "opacity-100" : "opacity-0",
+        ].join(" ")}
+        src={getHeroVideoUrl(index)}
+        autoPlay={!paused}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        disablePictureInPicture
+        onCanPlay={() => setIsReady(true)}
+        onLoadedData={() => setIsReady(true)}
+        onError={(event) => {
+          setHasError(true);
+
+          console.error("Hero video failed", {
+            index,
+            mediaError: event.currentTarget.error,
+            src: event.currentTarget.currentSrc,
+          });
+        }}
+        tabIndex={-1}
+        aria-hidden="true"
+      />
+    </div>
   );
 }
 
@@ -175,17 +117,11 @@ export function Hero() {
   const entrance = shouldReduceMotion ? reducedEntrance : contentEntrance;
 
   const rotateTopRow = () => {
-    setTopVideos((current) => {
-      const last = current.at(-1);
-      return last ? [last, ...current.slice(0, -1)] : current;
-    });
+    setTopVideos(moveLastVideoToFront);
   };
 
   const rotateBottomRow = () => {
-    setBottomVideos((current) => {
-      const [first, ...rest] = current;
-      return first ? [...rest, first] : current;
-    });
+    setBottomVideos(moveFirstVideoToEnd);
   };
 
   return (

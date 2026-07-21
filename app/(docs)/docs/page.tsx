@@ -121,10 +121,11 @@ function VideoCard({ component }: { component: ComponentVideo }) {
           <Image
             src={component.coverUrl}
             alt={`${component.title} component preview`}
-            fill
+            fill 
+            unoptimized
             sizes="(min-width: 1280px) 360px, (min-width: 640px) calc(50vw - 48px), calc(100vw - 48px)"
             className={[
-              "object-cover transition-opacity duration-200",
+              "object-cover transition-opacity duration-200 rounded-xl",
               isPlaying ? "opacity-0" : "opacity-100",
             ].join(" ")}
           />
@@ -226,7 +227,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-7 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
           {COMPONENT_VIDEOS.map((component) => (
             <VideoCard key={component.slug} component={component} />
           ))}
