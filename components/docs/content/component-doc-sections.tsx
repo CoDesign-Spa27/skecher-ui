@@ -1,4 +1,3 @@
-import { ComponentPreviewControls } from "@/components/docs/content/component-preview-controls";
 import { SuperIsland } from "@/components/docs/super-island";
 import { CodeSnippet } from "@/components/docs/ui/code-snippet";
 import { UsageCodeBlock } from "@/components/docs/ui/usage-code-block";
@@ -34,7 +33,6 @@ export function ComponentDocSections({ page }: { page: ComponentDoc }) {
       files={page.files}
       importName={page.importName}
       manualSteps={<ComponentFileBlocks files={page.files} />}
-      previewControls={<ComponentPreviewControls slug={page.slug} />}
       usageExample={<UsageCodeBlock code={page.usage} />}
     />
   );

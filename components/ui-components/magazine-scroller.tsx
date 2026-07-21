@@ -19,7 +19,15 @@ type Poster = {
   alt?: string;
 };
 
-type MagazineScrollerProps = {
+export type MagazineScrollerSpringConfig = {
+  stiffness?: number;
+  damping?: number;
+  mass?: number;
+  visualDuration?: number;
+  bounce?: number;
+};
+
+export type MagazineScrollerProps = {
   images?: Poster[];
   cardWidth?: number;
   cardHeight?: number;
@@ -32,6 +40,8 @@ type MagazineScrollerProps = {
   bendStrength?: number;
   maxBend?: number;
   lockWheel?: boolean;
+  positionSpring?: MagazineScrollerSpringConfig;
+  velocitySpring?: MagazineScrollerSpringConfig;
   className?: string;
 };
 
@@ -53,17 +63,17 @@ const DEFAULT_IMAGES: Poster[] = [
   alt: `Magazine poster ${index + 1}`,
 }));
 
-const SPRING = {
+const POSITION_SPRING = {
   mass: 0.28,
   stiffness: 95,
   damping: 24,
-};
+} satisfies MagazineScrollerSpringConfig;
 
 const VELOCITY_SPRING = {
   mass: 0.18,
   stiffness: 80,
   damping: 34,
-};
+} satisfies MagazineScrollerSpringConfig;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -92,6 +102,8 @@ export function MagazineScroller({
   bendStrength = 82,
   maxBend = 100,
   lockWheel = true,
+  positionSpring = POSITION_SPRING,
+  velocitySpring = VELOCITY_SPRING,
   className,
 }: MagazineScrollerProps) {
   const rootRef = useRef<HTMLElement | null>(null);
@@ -103,7 +115,7 @@ export function MagazineScroller({
   const [isDragging, setIsDragging] = useState(false);
 
   const targetX = useMotionValue(0);
-  const x = useSpring(targetX, SPRING);
+  const x = useSpring(targetX, positionSpring);
 
   const safeImages = useMemo(() => {
     return images?.length ? images : DEFAULT_IMAGES;
@@ -119,7 +131,7 @@ export function MagazineScroller({
 
   const velocity = useVelocity(x);
 
-  const smoothVelocity = useSpring(velocity, VELOCITY_SPRING);
+  const smoothVelocity = useSpring(velocity, velocitySpring);
 
   const bend = useTransform(smoothVelocity, (latest) => {
     return clamp(latest / bendStrength, -maxBend, maxBend);
@@ -255,7 +267,7 @@ export function MagazineScroller({
 
             return (
               <PosterCard
-                key={`${copyIndex}-${image.src}-${index}`}
+                key={`${copyIndex}-${image.src}`}
                 image={image}
                 absoluteIndex={absoluteIndex}
                 loopX={loopX}
@@ -383,6 +395,8 @@ function PosterCard({
       >
         {Array.from({ length: slices }).map((_, sliceIndex) => (
           <PosterSlice
+            // The generated slice position is its stable identity within a poster.
+            // biome-ignore lint/suspicious/noArrayIndexKey: Slices do not reorder.
             key={`${image.src}-${sliceIndex}`}
             src={image.src}
             sliceIndex={sliceIndex}

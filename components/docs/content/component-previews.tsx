@@ -8,10 +8,11 @@ import {
 } from "nucleo-glass";
 
 import {
-  ControlledAiChatBoxPreview,
-  ControlledAiOrbPreview,
-  ControlledSnapTextPreview,
-} from "@/components/docs/content/component-preview-controls";
+  DialedAiChatBoxPreview,
+  DialedAiOrbPreview,
+  DialedMagazineScrollerPreview,
+  DialedSnapTextPreview,
+} from "@/components/docs/content/component-preview-dials";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { DitherCreditCard } from "@/components/ui-components/dither-credit-card";
 import { Dock } from "@/components/ui-components/dock";
@@ -19,7 +20,6 @@ import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
 import { Social } from "@/components/ui-components/liquid-glass-social";
-import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
 import { MorphingActionDock } from "@/components/ui-components/morphing-action-dock";
 import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
@@ -27,8 +27,8 @@ import { MorphingText } from "@/components/ui-components/text-morphing";
 const iconClassName = "size-full";
 
 export const COMPONENT_PREVIEWS = {
-  "ai-chat-box": <ControlledAiChatBoxPreview />,
-  "ai-orb": <ControlledAiOrbPreview />,
+  "ai-chat-box": <DialedAiChatBoxPreview />,
+  "ai-orb": <DialedAiOrbPreview />,
   "dither-credit-card": <DitherCreditCard />,
   dock: (
     <Dock
@@ -71,9 +71,9 @@ export const COMPONENT_PREVIEWS = {
   "image-glide": <ImageGlide />,
   "liquid-glass-social": <Social />,
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
-  "magazine-scroller": <MagazineScroller />,
+  "magazine-scroller": <DialedMagazineScrollerPreview />,
   "morphing-action-dock": <MorphingActionDock />,
-  "snap-text": <ControlledSnapTextPreview />,
+  "snap-text": <DialedSnapTextPreview />,
   "streaming-text": (
     <BlurredText
       text="Stop acting as if life is a rehearsal."

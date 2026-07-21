@@ -222,7 +222,7 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
     <section className={cn("h-full min-h-0 w-full", className)} {...props}>
       <motion.div
         animate={workbenchAnimation}
-        className="relative grid h-full min-h-0 w-full grid-cols-[minmax(0,1fr)] gap-2 overflow-hidden bg-background px-2 pb-2 md:grid-cols-[minmax(0,1fr)_var(--details-width)] md:gap-x-[var(--details-gap)] md:gap-y-0 md:px-3 md:pb-3"
+        className="relative grid h-full min-h-0 w-full grid-cols-[minmax(0,1fr)] gap-2 overflow-hidden bg-background px-1   md:grid-cols-[minmax(0,1fr)_var(--details-width)] md:gap-x-[var(--details-gap)] md:gap-y-0 md:pb-3"
         initial={false}
         transition={layoutTransition}
       >
@@ -253,7 +253,7 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
                 align === "center" && "[justify-content:safe_center]",
                 align === "start" && "justify-start",
                 align === "end" && "justify-end",
-                previewInset && "p-4 sm:p-6 lg:p-8",
+         
               )}
             >
               {children}

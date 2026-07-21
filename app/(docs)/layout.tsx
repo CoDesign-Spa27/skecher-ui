@@ -1,3 +1,6 @@
+import { DialRoot } from "dialkit";
+import "dialkit/styles.css";
+
 import {
   DocsSidebarTriggerInInset,
   DocsSidebarTriggerLayoutGroup,
@@ -13,18 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider className="bg-background" defaultOpen={false}>
-      <DocsSidebarTriggerLayoutGroup>
-        <DocsSidebar />
-        <SidebarInset className="bg-background">
-          <DocsSidebarTriggerInInset />
-          <DocsHeader />
+    <>
+      <SidebarProvider className="bg-background" defaultOpen={false}>
+        <DocsSidebarTriggerLayoutGroup>
+          <DocsSidebar />
+          <SidebarInset className="bg-background">
+            <DocsSidebarTriggerInInset />
+            <DocsHeader />
 
-          <div className="relative h-svh w-full overflow-hidden bg-background">
-            <PageWrapper>{children}</PageWrapper>
-          </div>
-        </SidebarInset>
-      </DocsSidebarTriggerLayoutGroup>
-    </SidebarProvider>
+            <div className="relative h-svh w-full overflow-hidden bg-background">
+              <PageWrapper>{children}</PageWrapper>
+            </div>
+          </SidebarInset>
+        </DocsSidebarTriggerLayoutGroup>
+      </SidebarProvider>
+      <DialRoot defaultOpen={false} position="bottom-right" productionEnabled />
+    </>
   );
 }

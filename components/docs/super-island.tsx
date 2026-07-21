@@ -31,7 +31,6 @@ type SuperIslandProps = {
   componentDescription?: string;
   importName?: string;
   files?: ComponentFile[];
-  previewControls?: React.ReactNode;
   usageExample?: React.ReactNode;
   className?: string;
   docked?: boolean;
@@ -345,7 +344,6 @@ function ManualPanelContent({
   manualSteps,
   componentName,
   componentDescription,
-  previewControls,
   usageExample,
   onClose,
   titleId,
@@ -369,7 +367,7 @@ function ManualPanelContent({
               {componentName}
             </h2>
             <p className="text-sm leading-5 text-muted-foreground">
-              Preview controls, package details, and installation.
+              Package details, usage, and installation.
             </p>
           </div>
           <Button
@@ -386,18 +384,6 @@ function ManualPanelContent({
         </div>
 
         <div className="space-y-8 px-1 pb-8">
-          {previewControls ? (
-            <section className="space-y-4">
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium text-foreground">Customize preview</h3>
-                <p className="text-xs leading-5 text-muted-foreground">
-                  Changes are scoped to this component page.
-                </p>
-              </div>
-              {previewControls}
-            </section>
-          ) : null}
-
           <section className="space-y-1">
             <h3 className="text-sm font-medium text-foreground">About this component</h3>
 
@@ -570,7 +556,6 @@ function SuperIsland({
   componentDescription,
   importName,
   files,
-  previewControls,
   usageExample,
   className,
   docked = false,
@@ -671,7 +656,6 @@ function SuperIsland({
               files={files}
               importName={importName}
               manualSteps={manualSteps}
-              previewControls={previewControls}
               usageExample={usageExample}
               onClose={(shouldAnimate) => setManualOpen(false, shouldAnimate)}
               titleId={panelTitleId}
