@@ -23,9 +23,21 @@ import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
 import { SnapText } from "@/components/ui-components/snap-text";
 
 const AI_ORB_DIALS = {
-  intensity: [1.25, 0.5, 2.2, 0.05],
-  speed: [0.45, 0, 1.2, 0.05],
-  interactive: true,
+  colors: {
+    background: { type: "color", default: "#090a0f" },
+    primary: { type: "color", default: "#A855F7" },
+    secondary: { type: "color", default: "#06B6D4" },
+  },
+  appearance: {
+    intensity: [1.25, 0.5, 2.5, 0.05],
+    strandWidth: [0.5, 0.2, 1, 0.02],
+    twist: [5, 1, 10, 0.1],
+  },
+  motion: {
+    speed: [0.45, 0, 1.2, 0.05],
+    pointerStrength: [1, 0, 2, 0.05],
+    interactive: true,
+  },
 } satisfies DialConfig;
 
 const AI_CHAT_BOX_DIALS = {
@@ -240,6 +252,26 @@ type SpringCodeConfig = {
   visualDuration?: number;
 };
 
+function createAiOrbCode(dials: ReturnType<typeof useAiOrbDials>) {
+  return `import { AiOrb } from "@/components/ui/ai-orb";
+
+export function AiOrbDemo() {
+  return (
+    <AiOrb
+      backgroundColor=${JSON.stringify(dials.colors.background)}
+      primaryColor=${JSON.stringify(dials.colors.primary)}
+      secondaryColor=${JSON.stringify(dials.colors.secondary)}
+      intensity={${dials.appearance.intensity}}
+      strandWidth={${dials.appearance.strandWidth}}
+      twist={${dials.appearance.twist}}
+      speed={${dials.motion.speed}}
+      pointerStrength={${dials.motion.pointerStrength}}
+      interactive={${dials.motion.interactive}}
+    />
+  );
+}`;
+}
+
 function formatSpringCode(config: SpringCodeConfig) {
   const properties = [
     ["visualDuration", config.visualDuration],
@@ -421,6 +453,10 @@ function useSnapTextDials() {
   return useDialKit("Snap Text", SNAP_TEXT_DIALS, { id: "preview-snap-text" });
 }
 
+function useAiOrbDials() {
+  return useDialKit("AI Orb", AI_ORB_DIALS, { id: "preview-ai-orb" });
+}
+
 function useDitherCreditCardDials() {
   return useDialKit("Dither Credit Card", DITHER_CREDIT_CARD_DIALS, {
     id: "preview-dither-credit-card",
@@ -490,9 +526,24 @@ function useDialKitCopyOutput(panelName: string, output: string) {
 }
 
 export function DialedAiOrbPreview() {
-  const dials = useDialKit("AI Orb", AI_ORB_DIALS, { id: "preview-ai-orb" });
+  const dials = useAiOrbDials();
+  const componentCode = createAiOrbCode(dials);
 
-  return <AiOrb intensity={dials.intensity} interactive={dials.interactive} speed={dials.speed} />;
+  useDialKitCopyOutput("AI Orb", componentCode);
+
+  return (
+    <AiOrb
+      backgroundColor={dials.colors.background}
+      intensity={dials.appearance.intensity}
+      interactive={dials.motion.interactive}
+      pointerStrength={dials.motion.pointerStrength}
+      primaryColor={dials.colors.primary}
+      secondaryColor={dials.colors.secondary}
+      speed={dials.motion.speed}
+      strandWidth={dials.appearance.strandWidth}
+      twist={dials.appearance.twist}
+    />
+  );
 }
 
 export function DialedAiChatBoxPreview() {

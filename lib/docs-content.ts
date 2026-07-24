@@ -604,15 +604,19 @@ export default function AiChatBoxExample() {
     slug: "ai-orb",
     eyebrow: "Components",
     description:
-      "A responsive circular Three.js plasma orb with a dark inner surface, ray-marched strands, configurable color and intensity, adjustable speed, and subtle pointer-driven movement.",
+      "A responsive circular Three.js plasma orb with a configurable surface, strand shape, motion, and pointer-driven depth.",
     details: [
       {
         title: "Ray-marched plasma strands",
-        body: "A compact raymarch traces two bending wave fields, then blends configurable colors through their crossings and luminous edges.",
+        body: "A compact raymarch traces two bending wave fields, while strand width and twist provide meaningful shape control without exposing shader internals.",
+      },
+      {
+        title: "Configurable surface",
+        body: "The orb background accepts any CSS color and derives its subtle radial depth from that value, so the plasma is not limited to a black surface.",
       },
       {
         title: "Responsive plasma depth",
-        body: "Damped fine-pointer input offsets and rotates the field without interrupting its ambient motion or changing the component layout.",
+        body: "Damped fine-pointer input offsets and rotates the field with adjustable strength, without interrupting ambient motion or changing layout.",
       },
       {
         title: "Responsible ambient motion",
@@ -630,10 +634,14 @@ export default function AiOrbExample() {
     <div className="flex min-h-96 items-center justify-center bg-neutral-950 p-8">
       <AiOrb
         ariaLabel="Animated purple and cyan AI plasma orb"
+        backgroundColor="#090A0F"
         primaryColor="#A855F7"
         secondaryColor="#06B6D4"
         intensity={1.25}
+        strandWidth={0.5}
+        twist={5}
         speed={0.45}
+        pointerStrength={1}
         interactive
         className="w-[min(80vw,22rem)]"
       />

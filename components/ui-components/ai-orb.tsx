@@ -7,19 +7,25 @@ import { cn } from "@/lib/utils";
 export type AiOrbProps = {
   /** Accessible description for the rendered plasma visualization. */
   ariaLabel?: string;
+  /** Surface color behind the plasma strands. Accepts any valid CSS color. */
+  backgroundColor?: string;
   className?: string;
   /** Controls the brightness of the plasma field. */
   intensity?: number;
   /** Enables subtle pointer-following offset and rotation on fine pointers. */
   interactive?: boolean;
+  /** Multiplies the pointer-following depth effect. */
+  pointerStrength?: number;
   /** Primary plasma strand color. Accepts any valid Three.js color string. */
   primaryColor?: string;
   /** Secondary plasma strand color. Accepts any valid Three.js color string. */
   secondaryColor?: string;
   /** Internal animation speed. Set to 0 for a still plasma field. */
   speed?: number;
-  /** Enables the idle squash-and-stretch bounce animation. Disabled automatically under prefers-reduced-motion. */
-  bounce?: boolean;
+  /** Thickness of the ray-marched plasma strands. */
+  strandWidth?: number;
+  /** Number of strand turns packed into the orb. */
+  twist?: number;
 };
 
 type ThreeModule = typeof import("three");
@@ -32,12 +38,14 @@ type PlasmaUniforms = {
   uDir2: { value: number };
   uFocalLength: { value: number };
   uIntensity: { value: number };
+  uLineThickness: { value: number };
   uOffset: { value: import("three").Vector2 };
   uResolution: { value: import("three").Vector2 };
   uRotation: { value: number };
   uSpeed1: { value: number };
   uSpeed2: { value: number };
   uTime: { value: number };
+  uTwist: { value: number };
 };
 
 type OrbRuntime = {
@@ -47,15 +55,29 @@ type OrbRuntime = {
 };
 
 type OrbSettings = Required<
-  Pick<AiOrbProps, "intensity" | "interactive" | "primaryColor" | "secondaryColor" | "speed">
+  Pick<
+    AiOrbProps,
+    | "intensity"
+    | "interactive"
+    | "pointerStrength"
+    | "primaryColor"
+    | "secondaryColor"
+    | "speed"
+    | "strandWidth"
+    | "twist"
+  >
 >;
 
+const DEFAULT_BACKGROUND_COLOR = "#090a0f";
 const DEFAULT_SETTINGS: OrbSettings = {
   intensity: 1.25,
   interactive: true,
+  pointerStrength: 1,
   primaryColor: "#A855F7",
   secondaryColor: "#06B6D4",
   speed: 0.45,
+  strandWidth: 0.5,
+  twist: 5,
 };
 
 const VERTEX_SHADER = `
@@ -81,12 +103,12 @@ const FRAGMENT_SHADER = `
   uniform float uBend1;
   uniform float uBend2;
   uniform float uIntensity;
+  uniform float uLineThickness;
+  uniform float uTwist;
   uniform vec3 uColor1;
   uniform vec3 uColor2;
 
-  const float lineThickness = 0.5;
   const float sphereRadius = 1.2;
-  const float twistFrequency = 5.0;
   const float pi = 9.14159;
   const float pi2 = 6.28318;
   const float halfPi = 1.5708;
@@ -127,15 +149,15 @@ const FRAGMENT_SHADER = `
       // Phase driving the twist of the two strands as they wind through
       // the ball; multiplying by twistFrequency packs several loops into
       // the sphere's diameter instead of one long straight run.
-      float twistX = position.x * twistFrequency;
+      float twistX = position.x * uTwist;
       float wobble1 = uBend1 + sin(waveTime1 + twistX * 0.8) * 0.1;
       float wobble2 = uBend2 + cos(waveTime2 + twistX * 1.1) * 0.1;
       vec2 sineOffset = sin(vec2(twistX, twistX + halfPi) + strandTime1) * wobble1;
       vec2 cosineOffset = cos(vec2(twistX, twistX + halfPi) + strandTime2) * wobble2;
 
       vec2 yz = position.yz;
-      fieldDistance.x = length(yz - sineOffset) - lineThickness;
-      fieldDistance.y = length(yz - cosineOffset) - lineThickness;
+      fieldDistance.x = length(yz - sineOffset) - uLineThickness;
+      fieldDistance.y = length(yz - cosineOffset) - uLineThickness;
 
       float currentDistance = min(fieldDistance.x, fieldDistance.y);
       stepDistance = min(stepDistance, currentDistance);
@@ -188,13 +210,16 @@ const FRAGMENT_SHADER = `
 
 export function AiOrb({
   ariaLabel = "Animated AI plasma field",
- 
+  backgroundColor = DEFAULT_BACKGROUND_COLOR,
   className,
   intensity = DEFAULT_SETTINGS.intensity,
   interactive = DEFAULT_SETTINGS.interactive,
+  pointerStrength = DEFAULT_SETTINGS.pointerStrength,
   primaryColor = DEFAULT_SETTINGS.primaryColor,
   secondaryColor = DEFAULT_SETTINGS.secondaryColor,
   speed = DEFAULT_SETTINGS.speed,
+  strandWidth = DEFAULT_SETTINGS.strandWidth,
+  twist = DEFAULT_SETTINGS.twist,
 }: AiOrbProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const runtimeRef = React.useRef<OrbRuntime | null>(null);
@@ -204,9 +229,12 @@ export function AiOrb({
   settingsRef.current = {
     intensity: Math.max(0.25, Math.min(5.5, intensity)),
     interactive,
+    pointerStrength: Math.max(0, Math.min(2, pointerStrength)),
     primaryColor,
     secondaryColor,
     speed: Math.max(0, Math.min(2, speed)),
+    strandWidth: Math.max(0.2, Math.min(1, strandWidth)),
+    twist: Math.max(1, Math.min(10, twist)),
   };
 
   React.useEffect(() => {
@@ -216,8 +244,10 @@ export function AiOrb({
     runtime.uniforms.uIntensity.value = Math.max(0.25, Math.min(2.5, intensity));
     runtime.uniforms.uColor1.value.set(primaryColor);
     runtime.uniforms.uColor2.value.set(secondaryColor);
+    runtime.uniforms.uLineThickness.value = Math.max(0.2, Math.min(1, strandWidth));
+    runtime.uniforms.uTwist.value = Math.max(1, Math.min(10, twist));
     runtime.render();
-  }, [intensity, primaryColor, secondaryColor]);
+  }, [intensity, primaryColor, secondaryColor, strandWidth, twist]);
 
   React.useEffect(() => {
     const container = containerRef.current;
@@ -227,8 +257,8 @@ export function AiOrb({
     let frameId = 0;
     let resizeObserver: ResizeObserver | null = null;
     let intersectionObserver: IntersectionObserver | null = null;
-    let removePointerListeners = () => { };
-    let disposeRuntime = () => { };
+    let removePointerListeners = () => {};
+    let disposeRuntime = () => {};
 
     const setup = async () => {
       try {
@@ -261,12 +291,14 @@ export function AiOrb({
           uDir2: { value: 1 },
           uFocalLength: { value: 1.5 },
           uIntensity: { value: settings.intensity },
+          uLineThickness: { value: settings.strandWidth },
           uOffset: { value: new THREE.Vector2() },
           uResolution: { value: new THREE.Vector2(1, 1) },
           uRotation: { value: 0 },
           uSpeed1: { value: 0.05 },
           uSpeed2: { value: 0.05 },
           uTime: { value: 0 },
+          uTwist: { value: settings.twist },
         };
 
         const geometry = new THREE.BufferGeometry();
@@ -308,11 +340,12 @@ export function AiOrb({
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
         const applyPointerDepth = () => {
           const resolution = uniforms.uResolution.value;
+          const strength = settingsRef.current.pointerStrength;
           uniforms.uOffset.value.set(
-            pointerCurrent.x * resolution.x * 0.075,
-            -pointerCurrent.y * resolution.y * 0.075,
+            pointerCurrent.x * resolution.x * 0.075 * strength,
+            -pointerCurrent.y * resolution.y * 0.075 * strength,
           );
-          uniforms.uRotation.value = pointerCurrent.x * 0.1;
+          uniforms.uRotation.value = pointerCurrent.x * 0.1 * strength;
         };
         const resetPointerDepth = () => {
           pointerTarget.set(0, 0);
@@ -405,29 +438,29 @@ export function AiOrb({
   }, []);
 
   return (
-   
+    <div
+      aria-label={ariaLabel}
+      className={cn(
+        "relative isolate aspect-square w-[min(82vw,20rem)] overflow-hidden rounded-full shadow-[inset_0_1px_0_rgb(255_255_255/0.06),inset_0_-24px_48px_rgb(0_0_0/0.3)] [contain:layout_paint]",
+        className,
+      )}
+      data-render-state={renderState}
+      ref={containerRef}
+      role="img"
+      style={{
+        background: `radial-gradient(circle at 50% 42%, color-mix(in srgb, ${backgroundColor} 78%, white) 0%, ${backgroundColor} 58%, color-mix(in srgb, ${backgroundColor} 72%, black) 100%)`,
+      }}
+    >
       <div
-        aria-label={ariaLabel}
+        aria-hidden="true"
         className={cn(
-          "relative isolate aspect-square w-[min(82vw,20rem)] overflow-hidden rounded-full bg-[radial-gradient(circle_at_50%_42%,#171923_0%,#090a0f_58%,#030405_100%)] shadow-[inset_0_1px_0_rgb(255_255_255/0.06),inset_0_-24px_48px_rgb(0_0_0/0.3)] [contain:layout_paint]",
-          className,
+          "pointer-events-none absolute inset-[12%] rounded-full blur-3xl transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          renderState === "ready" ? "opacity-0" : "opacity-70",
         )}
-        
-        data-render-state={renderState}
-        ref={containerRef}
-        role="img"
-      >
-        <div
-          aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute inset-[12%] rounded-full blur-3xl transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            renderState === "ready" ? "opacity-0" : "opacity-70",
-          )}
-          style={{
-            background: `radial-gradient(circle, ${primaryColor}, ${secondaryColor} 52%, transparent 72%)`,
-          }}
-        />
-      </div>
-    
+        style={{
+          background: `radial-gradient(circle, ${primaryColor}, ${secondaryColor} 52%, transparent 72%)`,
+        }}
+      />
+    </div>
   );
 }
