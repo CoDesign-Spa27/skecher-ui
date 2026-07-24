@@ -8,16 +8,35 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { cn } from "@/lib/utils";
 
 export type SnapTextSpring = {
+  bounce?: number;
   damping?: number;
   mass?: number;
   stiffness?: number;
+  visualDuration?: number;
+};
+
+export type SnapTextEffects = {
+  imageOffsetPercent?: number;
+  imageScaleFalloff?: number;
+  maxIndentSteps?: number;
+  outlineWidth?: number;
+  rowMinOpacity?: number;
+  rowOpacityFalloff?: number;
+  rowMinScale?: number;
+  rowScaleFalloff?: number;
+  rowStretch?: number;
 };
 
 export type SnapTextProps = {
   className?: string;
   colors?: readonly string[];
+  effects?: SnapTextEffects;
+  fontSize?: number | string;
   imageClassName?: string;
+  imageFrameAspectRatio?: number;
   imageFrameClassName?: string;
+  imageFrameRadius?: number;
+  imageFrameWidth?: number | string;
   images?: readonly string[];
   indent?: number;
   inactiveColor?: string;
@@ -26,11 +45,15 @@ export type SnapTextProps = {
   items?: readonly string[];
   onIndexChange?: (index: number) => void;
   prefix?: ReactNode;
+  showCounter?: boolean;
   spring?: SnapTextSpring;
 };
 
+type ResolvedSnapTextEffects = Required<SnapTextEffects>;
+
 type SnapTextRowProps = {
   color: string;
+  effects: ResolvedSnapTextEffects;
   indent: number;
   inactiveColor: string;
   index: number;
@@ -40,6 +63,7 @@ type SnapTextRowProps = {
 };
 
 type SnapTextImageProps = {
+  effects: ResolvedSnapTextEffects;
   imageClassName?: string;
   index: number;
   progress: MotionValue<number>;
@@ -47,7 +71,7 @@ type SnapTextImageProps = {
   src: string;
 };
 
-const DEFAULT_ITEMS = [
+export const DEFAULT_SNAP_TEXT_ITEMS = [
   "A signal appears.",
   "The grid wakes up.",
   "Color breaks free.",
@@ -80,11 +104,28 @@ const DEFAULT_SPRING = {
   stiffness: 280,
 };
 
+const DEFAULT_EFFECTS = {
+  imageOffsetPercent: 24,
+  imageScaleFalloff: 0.04,
+  maxIndentSteps: 3,
+  outlineWidth: 1,
+  rowMinOpacity: 0.24,
+  rowOpacityFalloff: 0.68,
+  rowMinScale: 0.8,
+  rowScaleFalloff: 0.1,
+  rowStretch: 0.1,
+} satisfies ResolvedSnapTextEffects;
+
+function toCssSize(value: number | string) {
+  return typeof value === "number" ? `${value}px` : value;
+}
+
 function clampIndex(index: number, itemCount: number) {
   return Math.min(Math.max(index, 0), Math.max(itemCount - 1, 0));
 }
 
 function SnapTextImage({
+  effects,
   imageClassName,
   index,
   progress,
@@ -101,9 +142,9 @@ function SnapTextImage({
 
     const signedDistance = index - latestIndex;
     const clampedDistance = Math.max(-1, Math.min(1, signedDistance));
-    const scale = 1 - Math.min(Math.abs(signedDistance), 1) * 0.04;
+    const scale = 1 - Math.min(Math.abs(signedDistance), 1) * effects.imageScaleFalloff;
 
-    return `translate3d(0px, ${clampedDistance * 24}%, 0px) scale3d(${scale}, ${scale}, 1)`;
+    return `translate3d(0px, ${clampedDistance * effects.imageOffsetPercent}%, 0px) scale3d(${scale}, ${scale}, 1)`;
   });
 
   return (
@@ -126,6 +167,7 @@ function SnapTextImage({
 
 function SnapTextRow({
   color,
+  effects,
   indent,
   inactiveColor,
   index,
@@ -135,7 +177,7 @@ function SnapTextRow({
 }: SnapTextRowProps) {
   const opacity = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
-    return Math.max(0.24, 1 - distance * 0.68);
+    return Math.max(effects.rowMinOpacity, 1 - distance * effects.rowOpacityFalloff);
   });
   const fillOpacity = useTransform(progress, (latestIndex) =>
     Math.max(0, 1 - Math.abs(index - latestIndex)),
@@ -143,9 +185,9 @@ function SnapTextRow({
   const outlineOpacity = useTransform(fillOpacity, (latestOpacity) => 1 - latestOpacity);
   const transform = useTransform(progress, (latestIndex) => {
     const distance = Math.abs(index - latestIndex);
-    const horizontalOffset = Math.min(distance, 3) * indent;
-    const scale = Math.max(0.8, 1 - distance * 0.1);
-    const stretch = 1 + Math.sin(Math.min(distance, 1) * Math.PI) * 0.1;
+    const horizontalOffset = Math.min(distance, effects.maxIndentSteps) * indent;
+    const scale = Math.max(effects.rowMinScale, 1 - distance * effects.rowScaleFalloff);
+    const stretch = 1 + Math.sin(Math.min(distance, 1) * Math.PI) * effects.rowStretch;
 
     return `translate3d(${horizontalOffset}px, 0px, 0px) scale3d(${scale * stretch}, ${scale}, 1)`;
   });
@@ -159,7 +201,10 @@ function SnapTextRow({
       <motion.span
         aria-hidden="true"
         className="text-transparent"
-        style={{ opacity: outlineOpacity, WebkitTextStroke: `1px ${inactiveColor}` }}
+        style={{
+          opacity: outlineOpacity,
+          WebkitTextStroke: `${effects.outlineWidth}px ${inactiveColor}`,
+        }}
       >
         {item}
       </motion.span>
@@ -177,16 +222,22 @@ function SnapTextRow({
 export function SnapText({
   className,
   colors = DEFAULT_SNAP_TEXT_COLORS,
+  effects,
+  fontSize = "clamp(1.75rem, 4vw, 4.5rem)",
   imageClassName,
+  imageFrameAspectRatio = 0.5,
   imageFrameClassName,
+  imageFrameRadius = 12,
+  imageFrameWidth = "clamp(4.5rem, 10vw, 19rem)",
   images = DEFAULT_SNAP_TEXT_IMAGES,
   indent = 32,
   inactiveColor = "#737373",
   initialIndex = 3,
   itemHeight = 104,
-  items = DEFAULT_ITEMS,
+  items = DEFAULT_SNAP_TEXT_ITEMS,
   onIndexChange,
   prefix,
+  showCounter = true,
   spring,
 }: SnapTextProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -199,14 +250,21 @@ export function SnapText({
   const viewportHeight = useMotionValue(0);
   const visualItemHeight = useMotionValue(itemHeight);
   const safeColors = colors.length > 0 ? colors : DEFAULT_SNAP_TEXT_COLORS;
-  const springConfig = useMemo(
-    () => ({
+  const resolvedEffects = { ...DEFAULT_EFFECTS, ...effects };
+  const springConfig = useMemo(() => {
+    if (spring?.visualDuration !== undefined || spring?.bounce !== undefined) {
+      return {
+        bounce: spring.bounce ?? 0,
+        visualDuration: spring.visualDuration ?? 0.35,
+      };
+    }
+
+    return {
       damping: spring?.damping ?? DEFAULT_SPRING.damping,
       mass: spring?.mass ?? DEFAULT_SPRING.mass,
       stiffness: spring?.stiffness ?? DEFAULT_SPRING.stiffness,
-    }),
-    [spring?.damping, spring?.mass, spring?.stiffness],
-  );
+    };
+  }, [spring?.bounce, spring?.damping, spring?.mass, spring?.stiffness, spring?.visualDuration]);
   const presentedIndex = useSpring(scrollIndex, springConfig);
   const trackTransform = useTransform(
     [presentedIndex, viewportHeight, visualItemHeight],
@@ -265,7 +323,7 @@ export function SnapText({
 
   useEffect(() => {
     const scrollDriver = scrollRef.current;
-    const clampedIndex = clampIndex(activeIndexRef.current, items.length);
+    const clampedIndex = clampIndex(initialIndex, items.length);
 
     activeIndexRef.current = clampedIndex;
     setActiveIndex(clampedIndex);
@@ -275,7 +333,7 @@ export function SnapText({
     if (scrollDriver && sectionHeightRef.current > 0) {
       scrollDriver.scrollTop = clampedIndex * sectionHeightRef.current;
     }
-  }, [items.length, presentedIndex, scrollIndex]);
+  }, [initialIndex, items.length, presentedIndex, scrollIndex]);
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -354,18 +412,21 @@ export function SnapText({
   return (
     <div
       className={cn(
-        "relative h-svh min-h-[520px] w-full overflow-hidden font-sans text-[clamp(1.75rem,4vw,4.5rem)] text-white",
+        "relative h-svh min-h-[520px] w-full overflow-hidden font-sans text-white",
         className,
       )}
       ref={rootRef}
+      style={{ fontSize: toCssSize(fontSize) }}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-6 right-[7%] z-20 font-mono text-[11px] tracking-[0.16em]"
-      >
-        <span style={{ color: activeColor }}>{sequenceNumber}</span>
-        <span className="text-muted-foreground"> / {sequenceTotal}</span>
-      </div>
+      {showCounter ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-6 right-[7%] z-20 font-mono text-[11px] tracking-[0.16em]"
+        >
+          <span style={{ color: activeColor }}>{sequenceNumber}</span>
+          <span className="text-muted-foreground"> / {sequenceTotal}</span>
+        </div>
+      ) : null}
 
       <div
         aria-hidden="true"
@@ -377,12 +438,18 @@ export function SnapText({
         {hasImagePrefix ? (
           <div
             className={cn(
-              "relative aspect-[1/2] w-[clamp(4.5rem,10vw,19rem)] shrink-0 self-center overflow-hidden rounded-xl bg-neutral-950",
+              "relative shrink-0 self-center overflow-hidden bg-neutral-950",
               imageFrameClassName,
             )}
+            style={{
+              aspectRatio: imageFrameAspectRatio,
+              borderRadius: imageFrameRadius,
+              width: toCssSize(imageFrameWidth),
+            }}
           >
             {items.map((item, index) => (
               <SnapTextImage
+                effects={resolvedEffects}
                 imageClassName={imageClassName}
                 index={index}
                 key={`${item}-${images[index % images.length]}`}
@@ -408,6 +475,7 @@ export function SnapText({
             {items.map((item, index) => (
               <SnapTextRow
                 color={safeColors[index % safeColors.length] ?? DEFAULT_SNAP_TEXT_COLORS[0]}
+                effects={resolvedEffects}
                 indent={indent}
                 inactiveColor={inactiveColor}
                 index={index}

@@ -1,21 +1,12 @@
 import {
-  IconDocFolder,
-  IconFileDownload,
-  IconHouse,
-  IconSquareGrid,
-  IconSquareKanban,
-  IconWindow2,
-} from "nucleo-glass";
-
-import {
   DialedAiChatBoxPreview,
   DialedAiOrbPreview,
+  DialedDitherCreditCardPreview,
+  DialedDockPreview,
   DialedMagazineScrollerPreview,
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
-import { DitherCreditCard } from "@/components/ui-components/dither-credit-card";
-import { Dock } from "@/components/ui-components/dock";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
@@ -24,48 +15,11 @@ import { MorphingActionDock } from "@/components/ui-components/morphing-action-d
 import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
 
-const iconClassName = "size-full";
-
 export const COMPONENT_PREVIEWS = {
   "ai-chat-box": <DialedAiChatBoxPreview />,
   "ai-orb": <DialedAiOrbPreview />,
-  "dither-credit-card": <DitherCreditCard />,
-  dock: (
-    <Dock
-      items={[
-        {
-          id: "home",
-          label: "Home",
-          icon: <IconWindow2 className={iconClassName} />,
-        },
-        {
-          id: "search",
-          label: "Search",
-          icon: <IconFileDownload className={iconClassName} />,
-        },
-        {
-          id: "sparkles",
-          label: "Create",
-          icon: <IconSquareKanban className={iconClassName} />,
-        },
-        {
-          id: "updates",
-          label: "Updates",
-          icon: <IconDocFolder className={iconClassName} />,
-        },
-        {
-          id: "profile",
-          label: "Profile",
-          icon: <IconHouse className={iconClassName} />,
-        },
-        {
-          id: "settings",
-          label: "Settings",
-          icon: <IconSquareGrid className={iconClassName} />,
-        },
-      ]}
-    />
-  ),
+  "dither-credit-card": <DialedDitherCreditCardPreview />,
+  dock: <DialedDockPreview />,
   "gooey-toolbar": <GooeyToolbar />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,

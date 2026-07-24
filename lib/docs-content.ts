@@ -653,11 +653,15 @@ export default function AiOrbExample() {
     slug: "dither-credit-card",
     eyebrow: "Components",
     description:
-      "A responsive payment card with an animated two-color dither field, compact brand lockup, and carefully scaled card details.",
+      "A responsive payment card with an animated two-color dither field, selectable pointer physics, and carefully scaled card details.",
     details: [
       {
         title: "Shader background",
         body: "Paper Design's WebGL dithering shader replaces the static card gradient with a crisp animated wave pattern.",
+      },
+      {
+        title: "Selectable physics",
+        body: "Choose focused tilt, magnetic follow, or zero-gravity response, then tune lift, perspective, glare, and spring behavior without changing the component internals.",
       },
       {
         title: "Responsive proportions",
