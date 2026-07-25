@@ -14,10 +14,10 @@ export async function SnapTextDoc({ page }: { page: ComponentDoc }) {
 
   return (
     <ComponentWrapper
+      breadcrumbTitle={page.title}
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
- 
       previewHref={`/preview/${page.slug}`}
       previewInset={false}
       title="snap-text.tsx"

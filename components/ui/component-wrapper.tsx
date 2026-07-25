@@ -15,6 +15,14 @@ import {
   useSuperIslandLayout,
 } from "@/components/docs/super-island-layout";
 import CopyButton from "@/components/docs/ui/copy-button";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -29,6 +37,7 @@ import { cn } from "@/lib/utils";
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
   action?: "replay" | "toggle" | string;
   align?: "center" | "start" | "end";
+  breadcrumbTitle?: string;
   children: React.ReactNode;
   code?: React.ReactNode;
   codeString?: string;
@@ -41,6 +50,23 @@ interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "c
 
 const DETAILS_PANEL_MAX_WIDTH = 27 * 16;
 const DETAILS_PANEL_VIEWPORT_RATIO = 0.42;
+
+function formatBreadcrumbTitle(title: string) {
+  return title
+    .replace(/\.[jt]sx?$/i, "")
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((word) => {
+      const normalizedWord = word.toLowerCase();
+
+      if (normalizedWord === "ai" || normalizedWord === "ui") {
+        return normalizedWord.toUpperCase();
+      }
+
+      return normalizedWord.charAt(0).toUpperCase() + normalizedWord.slice(1);
+    })
+    .join(" ");
+}
 
 function EmptyPanel({ label }: { label: string }) {
   return (
@@ -106,6 +132,7 @@ function CodeDrawer({
 const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   action,
   align = "center",
+  breadcrumbTitle,
   children,
   className,
   code,
@@ -122,6 +149,7 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   const shouldReduceMotion = useReducedMotion();
   const superIslandLayout = useSuperIslandLayout();
   const detailsOpen = Boolean(doc && superIslandLayout?.manualOpen);
+  const resolvedBreadcrumbTitle = breadcrumbTitle ?? formatBreadcrumbTitle(title);
   const layoutTransition =
     shouldReduceMotion || !superIslandLayout?.animated
       ? { duration: 0 }
@@ -229,20 +257,40 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
         <div
           data-component-preview
           className={cn(
-            "relative col-start-1 row-start-1 min-h-0 min-w-0 w-full overflow-hidden rounded-xl bg-neutral-100 dark:bg-accent/50",
+            "relative col-start-1 row-start-1 flex min-h-0 min-w-0 w-full flex-col overflow-hidden rounded-xl bg-neutral-100 dark:bg-accent/50",
             previewClassName,
           )}
         >
-          <div
-            aria-label="Component actions"
-            className="absolute right-3 top-3 z-30 flex h-10 w-fit max-w-[calc(100%-1.5rem)] shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
-            role="toolbar"
-          >
-            {actions}
-          </div>
+          <header className="relative z-30 flex h-14 shrink-0 items-center justify-between gap-3 rounded-xl bg-none px-3 sm:px-4">
+            <Breadcrumb className="min-w-0">
+              <BreadcrumbList className="flex-nowrap gap-2 text-sm sm:gap-3 sm:text-base">
+                <BreadcrumbItem className="shrink-0">
+                  <BreadcrumbLink className="font-normal text-muted-foreground" href="/docs">
+                    Components
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="shrink-0 text-muted-foreground/70">
+                  /
+                </BreadcrumbSeparator>
+                <BreadcrumbItem className="min-w-0">
+                  <BreadcrumbPage className="truncate font-medium">
+                    {resolvedBreadcrumbTitle}
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+
+            <div
+              aria-label="Component actions"
+              className="flex h-10 w-fit shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
+              role="toolbar"
+            >
+              {actions}
+            </div>
+          </header>
 
           <div
-            className="no-scrollbar h-full min-h-0 w-full overflow-x-hidden overflow-y-auto overscroll-contain"
+            className="no-scrollbar min-h-0 w-full flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
             data-component-preview-scroll
           >
             <div
@@ -253,7 +301,6 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
                 align === "center" && "[justify-content:safe_center]",
                 align === "start" && "justify-start",
                 align === "end" && "justify-end",
-         
               )}
             >
               {children}

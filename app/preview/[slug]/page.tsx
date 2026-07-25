@@ -42,7 +42,7 @@ export default async function ComponentPreviewPage({
   }
 
   //not using for slug === "liquid-morphology-slideshow" ||  now )
-  if (slug === "snap-text") {
+  if (slug === "snap-text" || slug === "scroll-reveal-text") {
     return <main className="h-svh w-full overflow-hidden">{preview}</main>;
   }
 

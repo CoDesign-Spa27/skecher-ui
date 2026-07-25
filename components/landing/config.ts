@@ -104,6 +104,40 @@ export const railEntrance: Variants = {
   },
 };
 
+export const wireEntrance: Variants = {
+  hidden: {
+    clipPath: "inset(0 48% 38% 0)",
+    opacity: 0,
+    scale: 0.985,
+    x: -24,
+    y: -16,
+  },
+  visible: {
+    clipPath: "inset(0 0% 0% 0)",
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    y: 0,
+    transition: {
+      delay: 0.18,
+      duration: 0.82,
+      ease: EASE_OUT,
+    },
+  },
+};
+
+export const reducedWireEntrance: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.08,
+      duration: 0.18,
+      ease: "easeOut",
+    },
+  },
+};
+
 export const reducedEntrance: Variants = {
   hidden: { opacity: 0 },
   visible: {

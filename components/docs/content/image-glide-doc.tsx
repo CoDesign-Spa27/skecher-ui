@@ -14,6 +14,7 @@ export async function ImageGlideDoc({ page }: { page: ComponentDoc }) {
 
   return (
     <ComponentWrapper
+      breadcrumbTitle={page.title}
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}

@@ -20,7 +20,9 @@ import {
   reducedContentSequence,
   reducedEntrance,
   reducedHeroSequence,
+  reducedWireEntrance,
   TOP_ROW_VIDEOS,
+  wireEntrance,
 } from "./config";
 
 function BrandMark({ variants }: { variants: Variants }) {
@@ -156,8 +158,18 @@ export function Hero() {
         className="landing-hero-fade pointer-events-none absolute inset-0 -z-20"
         aria-hidden="true"
       />
-      <div className="pointer-events-none absolute -top-[60px] -left-[110px] z-50 w-[clamp(760px,100vw,1440px)] opacity-[0.36] md:top-[clamp(-120px,-14vw,-120px)] md:left-[clamp(-30px,-4vw,-24px)] md:opacity-[0.52]">
-        <CurvedWires />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-[60px] -left-[110px] z-50 w-[clamp(760px,100vw,1440px)] opacity-[0.36] md:top-[clamp(-120px,-14vw,-120px)] md:left-[clamp(-30px,-4vw,-24px)] md:opacity-[0.52]"
+      >
+        <motion.div
+          animate="visible"
+          className="origin-top-left transform-gpu"
+          initial="hidden"
+          variants={shouldReduceMotion ? reducedWireEntrance : wireEntrance}
+        >
+          <CurvedWires />
+        </motion.div>
       </div>
 
       <motion.section

@@ -14,6 +14,7 @@ export async function LiquidMorphologySlideshowDoc({ page }: { page: ComponentDo
 
   return (
     <ComponentWrapper
+      breadcrumbTitle={page.title}
       code={<CodeBlock filePath={FILE_PATH} />}
       codeString={codeString}
       doc={<ComponentDocSections page={page} />}
