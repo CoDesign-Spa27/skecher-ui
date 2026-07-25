@@ -20,7 +20,12 @@ import {
 } from "@/components/ui-components/dither-credit-card";
 import { Dock, type DockItem } from "@/components/ui-components/dock";
 import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
+import {
+  type ScrollRevealPhysics,
+  ScrollRevealText,
+} from "@/components/ui-components/scroll-reveal-text";
 import { SnapText } from "@/components/ui-components/snap-text";
+import { cn } from "@/lib/utils";
 
 const AI_ORB_DIALS = {
   colors: {
@@ -216,6 +221,63 @@ const SNAP_TEXT_DIALS = {
   },
 } satisfies DialConfig;
 
+const SCROLL_REVEAL_TEXT_DIALS = {
+  content: {
+    line1: { type: "text", default: "Interfaces should not just respond." },
+    line2: { type: "text", default: "They should move with intention." },
+    line3: { type: "text", default: "And make every interaction feel alive." },
+    scrollHint: { type: "text", default: "Scroll to reveal" },
+  },
+  colors: {
+    muted: { type: "color", default: "#404040" },
+    reveal: { type: "color", default: "#ffffff" },
+  },
+  layout: {
+    scrollLength: [240, 140, 420, 10],
+    textSize: {
+      type: "select",
+      options: [
+        { value: "compact", label: "Compact" },
+        { value: "default", label: "Default" },
+        { value: "oversized", label: "Oversized" },
+      ],
+      default: "default",
+    },
+    textWidth: {
+      type: "select",
+      options: [
+        { value: "focused", label: "Focused" },
+        { value: "wide", label: "Wide" },
+        { value: "full", label: "Full" },
+      ],
+      default: "wide",
+    },
+    alignment: {
+      type: "select",
+      options: ["left", "center"],
+      default: "left",
+    },
+  },
+  reveal: {
+    start: [0.08, 0, 0.45, 0.01],
+    end: [0.92, 0.55, 1, 0.01],
+    showHint: true,
+    hintPosition: {
+      type: "select",
+      options: ["top", "bottom"],
+      default: "top",
+    },
+  },
+  physics: {
+    spring: {
+      type: "spring",
+      stiffness: 200,
+      damping: 28,
+      mass: 0.8,
+    },
+  },
+} satisfies DialConfig;
+
 const MAGAZINE_SCROLLER_DIALS = {
   movement: {
     wheelSpeed: [1.15, 0.1, 3, 0.05],
@@ -250,6 +312,18 @@ type SpringCodeConfig = {
   mass?: number;
   stiffness?: number;
   visualDuration?: number;
+};
+
+const SCROLL_REVEAL_TEXT_SIZE_CLASSES: Record<string, string> = {
+  compact: "text-[clamp(1.75rem,4vw,4rem)]",
+  default: "text-[clamp(2rem,6vw,5.5rem)]",
+  oversized: "text-[clamp(2.5rem,8vw,7rem)]",
+};
+
+const SCROLL_REVEAL_TEXT_WIDTH_CLASSES: Record<string, string> = {
+  focused: "max-w-4xl",
+  full: "max-w-none",
+  wide: "max-w-6xl",
 };
 
 function createAiOrbCode(dials: ReturnType<typeof useAiOrbDials>) {
@@ -414,8 +488,49 @@ function getSnapTextItems(dials: ReturnType<typeof useSnapTextDials>) {
   ];
 }
 
+function getScrollRevealTextLines(dials: ReturnType<typeof useScrollRevealTextDials>) {
+  return [dials.content.line1, dials.content.line2, dials.content.line3];
+}
+
+function getScrollRevealTextClassName(dials: ReturnType<typeof useScrollRevealTextDials>) {
+  return cn(
+    SCROLL_REVEAL_TEXT_SIZE_CLASSES[dials.layout.textSize],
+    SCROLL_REVEAL_TEXT_WIDTH_CLASSES[dials.layout.textWidth],
+    dials.layout.alignment === "center" ? "text-center" : "text-left",
+  );
+}
+
 function formatCodeArray(values: string[]) {
   return JSON.stringify(values, null, 2).replaceAll("\n", "\n  ");
+}
+
+function createScrollRevealTextCode(
+  dials: ReturnType<typeof useScrollRevealTextDials>,
+  spring: SpringCodeConfig,
+) {
+  const lines = getScrollRevealTextLines(dials);
+  const textClassName = getScrollRevealTextClassName(dials);
+
+  return `import { ScrollRevealText } from "@/components/ui/scroll-reveal-text";
+
+const lines = ${formatCodeArray(lines)};
+
+export function ScrollRevealTextDemo() {
+  return (
+    <ScrollRevealText
+      lines={lines}
+      mutedColor=${JSON.stringify(dials.colors.muted)}
+      revealColor=${JSON.stringify(dials.colors.reveal)}
+      revealRange={{ start: ${dials.reveal.start}, end: ${dials.reveal.end} }}
+      scrollLength={${dials.layout.scrollLength}}
+      scrollHint=${JSON.stringify(dials.content.scrollHint)}
+      scrollHintPosition=${JSON.stringify(dials.reveal.hintPosition)}
+      showScrollHint={${dials.reveal.showHint}}
+      textClassName=${JSON.stringify(textClassName)}
+      physics={${formatSpringCode(spring)}}
+    />
+  );
+}`;
 }
 
 function createSnapTextCode(dials: ReturnType<typeof useSnapTextDials>, spring: SpringCodeConfig) {
@@ -451,6 +566,12 @@ ${dials.display.showImages ? "" : "      images={[]}\n"}      prefix={${JSON.str
 
 function useSnapTextDials() {
   return useDialKit("Snap Text", SNAP_TEXT_DIALS, { id: "preview-snap-text" });
+}
+
+function useScrollRevealTextDials() {
+  return useDialKit("Scroll Reveal Text", SCROLL_REVEAL_TEXT_DIALS, {
+    id: "preview-scroll-reveal-text",
+  });
 }
 
 function useAiOrbDials() {
@@ -668,6 +789,43 @@ export function DialedSnapTextPreview() {
       showCounter={dials.display.showCounter}
       spring={spring}
     />
+  );
+}
+
+export function DialedScrollRevealTextPreview() {
+  const dials = useScrollRevealTextDials();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const spring = dials.physics.spring.type === "spring" ? dials.physics.spring : undefined;
+  const physics = {
+    bounce: spring?.bounce,
+    damping: spring?.damping,
+    mass: spring?.mass,
+    stiffness: spring?.stiffness,
+    visualDuration: spring?.visualDuration,
+  } satisfies ScrollRevealPhysics;
+  const componentCode = createScrollRevealTextCode(dials, spring ?? {});
+
+  useDialKitCopyOutput("Scroll Reveal Text", componentCode);
+
+  return (
+    <div
+      className="relative h-full min-h-[32rem] w-full overflow-y-auto overscroll-y-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      ref={scrollContainerRef}
+    >
+      <ScrollRevealText
+        lines={getScrollRevealTextLines(dials)}
+        mutedColor={dials.colors.muted}
+        physics={physics}
+        revealColor={dials.colors.reveal}
+        revealRange={{ end: dials.reveal.end, start: dials.reveal.start }}
+        scrollContainerRef={scrollContainerRef}
+        scrollHint={dials.content.scrollHint}
+        scrollHintPosition={dials.reveal.hintPosition as "bottom" | "top"}
+        scrollLength={dials.layout.scrollLength}
+        showScrollHint={dials.reveal.showHint}
+        textClassName={getScrollRevealTextClassName(dials)}
+      />
+    </div>
   );
 }
 

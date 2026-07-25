@@ -783,6 +783,58 @@ export default function SnapTextExample() {
       },
     ],
   },
+  {
+    id: "scroll-reveal-text",
+    title: "Scroll Reveal Text",
+    slug: "scroll-reveal-text",
+    eyebrow: "Components",
+    description:
+      "A sticky scroll narrative that progressively fills muted multiline text with a crisp foreground color using clip-path.",
+    details: [
+      {
+        title: "Native sticky scroll lock",
+        body: "The statement remains pinned with CSS sticky positioning while the document keeps its native wheel, trackpad, touch, and keyboard scrolling behavior.",
+      },
+      {
+        title: "Reading-order reveal",
+        body: "Each line owns a segment of the section's scroll progress, creating a continuous left-to-right fill that advances through the copy in reading order.",
+      },
+      {
+        title: "Accessible motion fallback",
+        body: "The muted text remains the single semantic copy for assistive technology, while reduced-motion users receive the fully revealed foreground without scroll-linked animation.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: registryUrl("scroll-reveal-text"),
+    importName: "ScrollRevealText",
+    usage: `import { ScrollRevealText } from "@/components/ui/scroll-reveal-text";
+
+const lines = [
+  "Design should guide attention.",
+  "Motion should explain change.",
+  "Every detail should feel intentional.",
+];
+
+export default function ScrollRevealTextExample() {
+  return (
+    <ScrollRevealText
+      lines={lines}
+      className="min-h-[260svh]"
+      textClassName="max-w-5xl"
+      mutedClassName="text-neutral-700"
+      revealClassName="text-white"
+      physics={{ stiffness: 180, damping: 24, mass: 0.8 }}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/scroll-reveal-text.tsx",
+        description: "Scroll Reveal Text component",
+      },
+    ],
+  },
 ];
 
 export function getComponentDoc(slug: string) {

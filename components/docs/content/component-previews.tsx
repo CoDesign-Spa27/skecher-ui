@@ -4,6 +4,7 @@ import {
   DialedDitherCreditCardPreview,
   DialedDockPreview,
   DialedMagazineScrollerPreview,
+  DialedScrollRevealTextPreview,
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
@@ -27,6 +28,7 @@ export const COMPONENT_PREVIEWS = {
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
   "magazine-scroller": <DialedMagazineScrollerPreview />,
   "morphing-action-dock": <MorphingActionDock />,
+  "scroll-reveal-text": <DialedScrollRevealTextPreview />,
   "snap-text": <DialedSnapTextPreview />,
   "streaming-text": (
     <BlurredText

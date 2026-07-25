@@ -88,6 +88,13 @@ export const components: ComponentProps[] = [
     registryDependencies: [],
   },
   {
+    name: "scroll-reveal-text",
+    path: path.join(__dirname, "../components/ui-components/scroll-reveal-text"),
+    dependencies: ["motion"],
+    devDependencies: [],
+    registryDependencies: [],
+  },
+  {
     name: "snap-text",
     path: path.join(__dirname, "../components/ui-components/snap-text"),
     dependencies: ["motion"],

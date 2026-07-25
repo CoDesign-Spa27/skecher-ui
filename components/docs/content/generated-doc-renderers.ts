@@ -9,6 +9,7 @@ import { LiquidGlassSocialDoc } from "@/components/docs/content/liquid-glass-soc
 import { LiquidMorphologySlideshowDoc } from "@/components/docs/content/liquid-morphology-slideshow-doc";
 import { MagazineScrollerDoc } from "@/components/docs/content/magazine-scroller-doc";
 import { MorphingActionDockDoc } from "@/components/docs/content/morphing-action-dock-doc";
+import { ScrollRevealTextDoc } from "@/components/docs/content/scroll-reveal-text-doc";
 import { SnapTextDoc } from "@/components/docs/content/snap-text-doc";
 import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
 import { TextMorphingDoc } from "@/components/docs/content/text-morphing-doc";
@@ -30,6 +31,7 @@ export const DOC_RENDERERS = {
   "liquid-morphology-slideshow": LiquidMorphologySlideshowDoc,
   "magazine-scroller": MagazineScrollerDoc,
   "morphing-action-dock": MorphingActionDockDoc,
+  "scroll-reveal-text": ScrollRevealTextDoc,
   "snap-text": SnapTextDoc,
   "streaming-text": StreamingTextDoc,
   "text-morphing": TextMorphingDoc,
