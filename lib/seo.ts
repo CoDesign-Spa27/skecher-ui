@@ -7,7 +7,7 @@ export const siteConfig = {
   url: publicEnv.siteUrl,
   title: "Skecher UI - Motion Components for React",
   description:
-    "Copy polished React motion components into your app with shadcn-compatible registry commands, source code, dependencies, and live previews.",
+    "Copy polished React motion components with live previews, source code, dependencies, and shadcn registry commands.",
   githubUrl: "https://github.com/sketch-the-art/sketch-the-art",
   ogImage: "/og-image.png",
   keywords: [
