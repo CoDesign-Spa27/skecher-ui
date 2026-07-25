@@ -148,7 +148,7 @@ export function Hero() {
   const entrance = shouldReduceMotion ? reducedEntrance : contentEntrance;
 
   return (
-    <motion.main
+    <motion.div
       className="relative isolate min-h-svh overflow-hidden bg-[#171717] text-white"
       variants={shouldReduceMotion ? reducedHeroSequence : heroSequence}
       initial="hidden"
@@ -194,7 +194,7 @@ export function Hero() {
           className="mx-auto mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] lg:mx-0 lg:max-w-[min(42vw,797px)] lg:text-left [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:mx-0 [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:max-w-[min(42vw,797px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:text-left"
           variants={entrance}
         >
-          Components that contains life.
+          Components that contain life.
         </motion.p>
 
         <motion.div
@@ -254,30 +254,14 @@ export function Hero() {
       </motion.div>
 
       <div
-        className="pointer-events-none absolute top-[10.185%] right-0 hidden h-[44.722%] w-[22.292%] overflow-hidden opacity-10 mix-blend-difference lg:block"
+        className="pointer-events-none absolute top-[10.185%] right-0 hidden h-[44.722%] w-[22.292%] overflow-hidden bg-[url('/assets/images/hero-code-texture.png')] bg-no-repeat opacity-10 mix-blend-difference [background-position:left_-0.62%] [background-size:100%_100.69%] lg:block"
         aria-hidden="true"
-      >
-        <Image
-          src="/assets/images/hero-code-texture.png"
-          alt=""
-          width={866}
-          height={984}
-          className="absolute top-[-0.62%] left-0 h-[100.69%] w-full max-w-none"
-        />
-      </div>
+      />
 
       <div
-        className="pointer-events-none absolute top-[54.907%] right-0 hidden h-[30.278%] w-[17.188%] overflow-hidden opacity-10 mix-blend-difference lg:block"
+        className="pointer-events-none absolute top-[54.907%] right-0 hidden h-[30.278%] w-[17.188%] overflow-hidden bg-[url('/assets/images/hero-code-texture.png')] bg-no-repeat opacity-10 mix-blend-difference [background-position:left_-0.92%] [background-size:129.7%_148.72%] lg:block"
         aria-hidden="true"
-      >
-        <Image
-          src="/assets/images/hero-code-texture.png"
-          alt=""
-          width={866}
-          height={984}
-          className="absolute top-[-0.92%] left-0 h-[148.72%] w-[129.7%] max-w-none"
-        />
-      </div>
-    </motion.main>
+      />
+    </motion.div>
   );
 }
