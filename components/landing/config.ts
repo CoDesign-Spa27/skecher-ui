@@ -8,32 +8,18 @@ export type HeroVideo = {
   index: number;
 };
 
-function createVideoRow(row: "top" | "bottom", start: number, end: number): HeroVideo[] {
-  return Array.from({ length: end - start + 1 }, (_, offset) => {
-    const index = start + offset;
-
-    return {
-      id: `${row}-${index}`,
-      index,
-    };
-  });
+function createVideoRow(row: "top" | "bottom", indexes: readonly number[]): HeroVideo[] {
+  return indexes.map((index) => ({
+    id: `${row}-${index}`,
+    index,
+  }));
 }
 
-export const TOP_ROW_VIDEOS = createVideoRow("top", 1, 6);
-export const BOTTOM_ROW_VIDEOS = createVideoRow("bottom", 7, 12);
+export const TOP_ROW_VIDEOS = createVideoRow("top", [8, 7, 6, 3]);
+export const BOTTOM_ROW_VIDEOS = createVideoRow("bottom", [2, 12, 11, 1]);
 
 export function getHeroVideoUrl(index: number) {
   return `${HERO_VIDEO_BASE_URL}/skecher${index}.mp4`;
-}
-
-export function moveLastVideoToFront(videos: HeroVideo[]) {
-  const last = videos.at(-1);
-  return last ? [last, ...videos.slice(0, -1)] : videos;
-}
-
-export function moveFirstVideoToEnd(videos: HeroVideo[]) {
-  const [first, ...rest] = videos;
-  return first ? [...rest, first] : videos;
 }
 
 export const heroSequence: Variants = {

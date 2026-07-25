@@ -6,7 +6,9 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
+import { CurvedWires } from "./assets/curved-wires";
 import {
   BOTTOM_ROW_VIDEOS,
   contentEntrance,
@@ -14,20 +16,28 @@ import {
   getHeroVideoUrl,
   headingSequence,
   heroSequence,
-  moveFirstVideoToEnd,
-  moveLastVideoToFront,
   railEntrance,
   reducedContentSequence,
   reducedEntrance,
   reducedHeroSequence,
   TOP_ROW_VIDEOS,
 } from "./config";
-import styles from "./hero.module.css";
 
 function BrandMark({ variants }: { variants: Variants }) {
   return (
-    <motion.span className={styles.brandMark} variants={variants} aria-hidden="true">
-      <Image src="/icon/ligh-full-logo.svg" alt="" width={422} height={91} priority />
+    <motion.span
+      className="relative block size-[clamp(40px,12vw,50px)] flex-[0_0_clamp(40px,12vw,50px)] overflow-hidden md:size-[clamp(46px,4.43vw,85px)] md:flex-[0_0_clamp(46px,4.43vw,85px)]"
+      variants={variants}
+      aria-hidden="true"
+    >
+      <Image
+        src="/icon/ligh-full-logo.svg"
+        alt=""
+        width={422}
+        height={91}
+        priority
+        className="absolute -top-[20.9%] -left-[1.5625%] h-[142.1875%] w-[659.375%] max-w-none"
+      />
     </motion.span>
   );
 }
@@ -67,12 +77,12 @@ function AmbientVideo({ index, paused }: { index: number; paused: boolean }) {
     <div className="relative size-full overflow-hidden bg-[#171717]">
       <video
         ref={videoRef}
-        className={[
+        className={cn(
           "block size-full object-cover",
           "[transform:scale(1.015)_translateZ(0)]",
           "transition-opacity duration-500",
           isReady && !hasError ? "opacity-100" : "opacity-0",
-        ].join(" ")}
+        )}
         src={getHeroVideoUrl(index)}
         autoPlay={!paused}
         muted
@@ -100,29 +110,40 @@ function AmbientVideo({ index, paused }: { index: number; paused: boolean }) {
 
 function VideoCard({ index, paused }: { index: number; paused: boolean }) {
   return (
-    <div className="aspect-[408/245] w-[var(--card-width)] flex-none overflow-hidden rounded-[min(21px,1.1vw)] border border-white/10 bg-[#262626] p-[3px] shadow-[0_14px_36px_rgb(0_0_0/20%)]">
+    <div className="aspect-[408/245] w-[220px] flex-none overflow-hidden rounded-[min(21px,1.1vw)] border border-white/10 bg-[#262626] p-[3px] shadow-[0_14px_36px_rgb(0_0_0/20%)] md:w-[min(21.25vw,408px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:w-[min(28vw,240px)]">
       <div className="relative size-full overflow-hidden rounded-[min(17px,0.9vw)] bg-[#171717]">
         <AmbientVideo index={index} paused={paused} />
-        <span className={styles.videoShade} aria-hidden="true" />
+        <span
+          className="absolute inset-0 [background:linear-gradient(180deg,rgb(10_10_10/12%),rgb(10_10_10/34%)),rgb(23_23_23/18%)] shadow-[inset_0_0_0_1px_rgb(0_0_0/18%)]"
+          aria-hidden="true"
+        />
       </div>
+    </div>
+  );
+}
+
+function VideoSet({
+  copy,
+  paused,
+  videos,
+}: {
+  copy: "primary" | "duplicate";
+  paused: boolean;
+  videos: typeof TOP_ROW_VIDEOS;
+}) {
+  return (
+    <div className="flex flex-none gap-[max(4px,0.3vw)] pr-[max(4px,0.3vw)]">
+      {videos.map((video) => (
+        <VideoCard key={`${video.id}-${copy}`} index={video.index} paused={paused} />
+      ))}
     </div>
   );
 }
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
-  const [topVideos, setTopVideos] = useState(TOP_ROW_VIDEOS);
-  const [bottomVideos, setBottomVideos] = useState(BOTTOM_ROW_VIDEOS);
   const isPaused = Boolean(shouldReduceMotion);
   const entrance = shouldReduceMotion ? reducedEntrance : contentEntrance;
-
-  const rotateTopRow = () => {
-    setTopVideos(moveLastVideoToFront);
-  };
-
-  const rotateBottomRow = () => {
-    setBottomVideos(moveFirstVideoToEnd);
-  };
 
   return (
     <motion.main
@@ -131,15 +152,21 @@ export function Hero() {
       initial="hidden"
       animate="visible"
     >
-      <div className={styles.fadedBackground} aria-hidden="true" />
+      <div
+        className="landing-hero-fade pointer-events-none absolute inset-0 -z-20"
+        aria-hidden="true"
+      />
+      <div className="pointer-events-none absolute -top-[60px] -left-[110px] z-50 w-[clamp(760px,100vw,1440px)] opacity-[0.36] md:top-[clamp(-120px,-14vw,-120px)] md:left-[clamp(-30px,-4vw,-24px)] md:opacity-[0.52]">
+        <CurvedWires />
+      </div>
 
       <motion.section
-        className={styles.heroContent}
+        className="absolute top-[61%] left-1/2 z-10 w-[min(calc(100%_-_40px_-_env(safe-area-inset-left)_-_env(safe-area-inset-right)),680px)] -translate-x-1/2 -translate-y-1/2 lg:top-[45%] lg:w-[min(47vw,860px)] lg:max-w-[calc(50%_-_max(20px,env(safe-area-inset-right)))] lg:translate-x-0 [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:top-[58%] [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:w-[min(calc(100%_-_64px_-_env(safe-area-inset-left)_-_env(safe-area-inset-right)),720px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:top-[45%] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:w-[min(47vw,860px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:max-w-[calc(50%_-_max(20px,env(safe-area-inset-right)))] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:translate-x-0"
         aria-labelledby="hero-title"
         variants={shouldReduceMotion ? reducedContentSequence : contentSequence}
       >
         <motion.div
-          className={`flex items-center justify-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] ${styles.heroHeadingRow}`}
+          className="flex items-center justify-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] lg:justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
           variants={headingSequence}
         >
           <BrandMark variants={entrance} />
@@ -152,14 +179,14 @@ export function Hero() {
           </motion.h1>
         </motion.div>
         <motion.p
-          className={`mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] ${styles.heroSubtitle}`}
+          className="mx-auto mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] lg:mx-0 lg:max-w-[min(42vw,797px)] lg:text-left [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:mx-0 [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:max-w-[min(42vw,797px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:text-left"
           variants={entrance}
         >
           Components that contains life.
         </motion.p>
 
         <motion.div
-          className={`mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 ${styles.heroActions}`}
+          className="mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 lg:justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
           variants={entrance}
         >
           <Button asChild variant="default" className="min-h-11 cursor-pointer px-5 lg:min-h-10">
@@ -189,29 +216,33 @@ export function Hero() {
         variants={shouldReduceMotion ? reducedEntrance : railEntrance}
         aria-hidden="true"
       >
-        <div className={styles.rail}>
+        <div className="absolute -top-[4vh] -left-[485px] flex w-max origin-center -rotate-[29deg] transform-gpu flex-col gap-[max(4px,0.3vw)] opacity-[0.72] will-change-transform md:top-[6.7vh] md:-left-[17vw] md:opacity-100 [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:-top-[2vh] [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:-left-[22vw] [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:opacity-[0.66]">
           <div
-            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeUp} ${isPaused ? styles.marqueePaused : ""}`}
-            onAnimationIteration={rotateTopRow}
+            className={cn(
+              "flex w-max animate-[landing-marquee-up_72s_linear_infinite] backface-hidden will-change-transform motion-reduce:animate-none",
+              isPaused && "[animation-play-state:paused]",
+            )}
           >
-            {topVideos.map((video) => (
-              <VideoCard key={video.id} index={video.index} paused={isPaused} />
-            ))}
+            <VideoSet copy="primary" videos={TOP_ROW_VIDEOS} paused={isPaused} />
+            <VideoSet copy="duplicate" videos={TOP_ROW_VIDEOS} paused={isPaused} />
           </div>
 
-          <div
-            className={`flex w-max gap-[var(--rail-gap)] ${styles.marqueeRow} ${styles.marqueeDown} ${isPaused ? styles.marqueePaused : ""}`}
-            onAnimationIteration={rotateBottomRow}
-          >
-            {bottomVideos.map((video) => (
-              <VideoCard key={video.id} index={video.index} paused={isPaused} />
-            ))}
+          <div className="-translate-x-[114.4px] md:translate-x-[calc(min(21.25vw,408px)*-0.52)] [@media(min-width:768px)_and_(max-width:1023px)_and_(min-height:700px)]:translate-x-[calc(min(28vw,240px)*-0.52)]">
+            <div
+              className={cn(
+                "flex w-max animate-[landing-marquee-down_72s_linear_infinite] backface-hidden will-change-transform motion-reduce:animate-none",
+                isPaused && "[animation-play-state:paused]",
+              )}
+            >
+              <VideoSet copy="primary" videos={BOTTOM_ROW_VIDEOS} paused={isPaused} />
+              <VideoSet copy="duplicate" videos={BOTTOM_ROW_VIDEOS} paused={isPaused} />
+            </div>
           </div>
         </div>
       </motion.div>
 
       <div
-        className={`pointer-events-none absolute hidden opacity-10 mix-blend-difference lg:block ${styles.edgeTextureTop}`}
+        className="pointer-events-none absolute top-[10.185%] right-0 hidden h-[44.722%] w-[22.292%] overflow-hidden opacity-10 mix-blend-difference lg:block"
         aria-hidden="true"
       >
         <Image
@@ -219,12 +250,12 @@ export function Hero() {
           alt=""
           width={866}
           height={984}
-          className="max-w-none"
+          className="absolute top-[-0.62%] left-0 h-[100.69%] w-full max-w-none"
         />
       </div>
 
       <div
-        className={`pointer-events-none absolute hidden opacity-10 mix-blend-difference lg:block ${styles.edgeTextureBottom}`}
+        className="pointer-events-none absolute top-[54.907%] right-0 hidden h-[30.278%] w-[17.188%] overflow-hidden opacity-10 mix-blend-difference lg:block"
         aria-hidden="true"
       >
         <Image
@@ -232,7 +263,7 @@ export function Hero() {
           alt=""
           width={866}
           height={984}
-          className="max-w-none"
+          className="absolute top-[-0.92%] left-0 h-[148.72%] w-[129.7%] max-w-none"
         />
       </div>
     </motion.main>
