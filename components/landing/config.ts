@@ -1,6 +1,8 @@
 import type { Variants } from "motion/react";
 
-const HERO_VIDEO_BASE_URL = "https://assets.skecher-ui.com/skecher-components/edit-video-projects";
+import { publicEnv } from "@/lib/public-env";
+
+const HERO_VIDEO_BASE_URL = `${publicEnv.assetUrl}/skecher-components/edit-video-projects`;
 const EASE_OUT = [0.23, 1, 0.32, 1] as const;
 
 export type HeroVideo = {

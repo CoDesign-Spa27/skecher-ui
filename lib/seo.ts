@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
-const fallbackUrl = "https://skecher-ui.vercel.app";
+import { publicEnv } from "@/lib/public-env";
 
 export const siteConfig = {
   name: "Skecher UI",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? fallbackUrl,
+  url: publicEnv.siteUrl,
   title: "Skecher UI - Motion Components for React",
   description:
     "Copy polished React motion components into your app with shadcn-compatible registry commands, source code, dependencies, and live previews.",

@@ -7,7 +7,13 @@ const docsContentDir = path.join(root, "components/docs/content");
 const registryComponentsPath = path.join(__dirname, "registry-components.ts");
 const docsContentPath = path.join(root, "lib/docs-content.ts");
 const generatedRenderersPath = path.join(docsContentDir, "generated-doc-renderers.ts");
-const deployedRegistryUrl = "https://skecher-ui.vercel.app/r";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+if (!siteUrl) {
+  throw new Error("NEXT_PUBLIC_SITE_URL is required. Add it to .env.");
+}
+
+const deployedRegistryUrl = `${siteUrl.replace(/\/+$/, "")}/r`;
 
 type ComponentInfo = {
   slug: string;

@@ -4,16 +4,17 @@ import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
+const assetUrl = process.env.NEXT_PUBLIC_ASSET_URL;
+
+if (!assetUrl) {
+  throw new Error(
+    "NEXT_PUBLIC_ASSET_URL is required. Add it to .env and the deployment environment.",
+  );
+}
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "assets.skecher-ui.com",
-        pathname: "/skecher-components/covers/**",
-      },
-    ],
+    remotePatterns: [new URL("/skecher-components/covers/**", assetUrl)],
   },
   turbopack: {
     root: projectRoot,

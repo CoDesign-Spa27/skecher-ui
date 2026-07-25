@@ -7,9 +7,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { usePrefersFineHover } from "@/hooks/use-prefers-fine-hovers";
 import { COMPONENT_DOCS } from "@/lib/docs-content";
+import { publicEnv } from "@/lib/public-env";
 
-const COVER_BASE_URL = "https://assets.skecher-ui.com/skecher-components/covers";
-const VIDEO_BASE_URL = "https://assets.skecher-ui.com/skecher-components/edit-video-projects";
+const COVER_BASE_URL = `${publicEnv.assetUrl}/skecher-components/covers`;
+const VIDEO_BASE_URL = `${publicEnv.assetUrl}/skecher-components/edit-video-projects`;
 
 const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component, index) => ({
   ...component,
@@ -121,7 +122,7 @@ function VideoCard({ component }: { component: ComponentVideo }) {
           <Image
             src={component.coverUrl}
             alt={`${component.title} component preview`}
-            fill 
+            fill
             unoptimized
             sizes="(min-width: 1280px) 360px, (min-width: 640px) calc(50vw - 48px), calc(100vw - 48px)"
             className={[

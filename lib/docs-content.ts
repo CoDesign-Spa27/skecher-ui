@@ -1,3 +1,5 @@
+import { publicEnv } from "@/lib/public-env";
+
 export type ComponentDoc = {
   id: string;
   title: string;
@@ -19,6 +21,10 @@ export type ComponentDoc = {
   }[];
 };
 
+function registryUrl(slug: string) {
+  return `${publicEnv.siteUrl}/r/${slug}.json`;
+}
+
 export const COMPONENT_DOCS: ComponentDoc[] = [
   {
     id: "streaming-text",
@@ -30,7 +36,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/streaming-text.json",
+    cliCommand: registryUrl("streaming-text"),
     importName: "BlurredText",
     usage: `import { BlurredText } from "@/components/ui/streaming-text";
 
@@ -64,7 +70,7 @@ export default function StreamingTextExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/text-morphing.json",
+    cliCommand: registryUrl("text-morphing"),
     importName: "MorphingText",
     usage: `import { MorphingText } from "@/components/ui/text-morphing";
 
@@ -99,7 +105,7 @@ export default function MorphingTextExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/liquid-glass-social.json",
+    cliCommand: registryUrl("liquid-glass-social"),
     importName: "Social",
     usage: `import { Social } from "@/components/ui/liquid-glass-social";
 
@@ -140,7 +146,7 @@ export default function SocialLinksExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/image-glide.json",
+    cliCommand: registryUrl("image-glide"),
     importName: "ImageGlide",
     usage: `"use client";
 
@@ -200,7 +206,7 @@ export default function ImageGlideExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/image-density-grid.json",
+    cliCommand: registryUrl("image-density-grid"),
     importName: "ImageDensityGrid",
     usage: `import { ImageDensityGrid } from "@/components/ui/image-density-grid";
 
@@ -242,7 +248,7 @@ export default function ImageDensityGridExample() {
     details: [],
     dependencies: ["react", "motion", "lucide-react"],
     installDependencies: ["motion", "lucide-react"],
-    cliCommand: "https://skecher-ui.vercel.app/r/morphing-action-dock.json",
+    cliCommand: registryUrl("morphing-action-dock"),
     importName: "MorphingActionDock",
     usage: `"use client";
 
@@ -305,7 +311,7 @@ export default function MorphingActionDockExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
-    cliCommand: "https://skecher-ui.vercel.app/r/gooey-toolbar.json",
+    cliCommand: registryUrl("gooey-toolbar"),
     importName: "GooeyToolbar",
     usage: `import { GooeyToolbar } from "@/components/ui/gooey-toolbar";
 
@@ -350,7 +356,7 @@ export default function GooeyToolbarExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/dock.json",
+    cliCommand: registryUrl("dock"),
     importName: "Dock",
     usage: `"use client";
 
@@ -410,7 +416,7 @@ export default function DockExample() {
       },
     ],
     dependencies: ["react"],
-    cliCommand: "https://skecher-ui.vercel.app/r/liquid-morphology-slideshow.json",
+    cliCommand: registryUrl("liquid-morphology-slideshow"),
     importName: "LiquidMorphologySlideshow",
     usage: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";
 
@@ -472,7 +478,7 @@ export default function LiquidMorphologyExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: [],
-    cliCommand: "https://skecher-ui.vercel.app/r/magazine-scroller.json",
+    cliCommand: registryUrl("magazine-scroller"),
     importName: "MagazineScroller",
     usage: `import { MagazineScroller } from "@/components/ui/magazine-scroller";
 
@@ -531,7 +537,7 @@ export default function MagazineScrollerExample() {
     ],
     dependencies: ["react", "lucide-react", "motion"],
     installDependencies: ["lucide-react", "motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/ai-chat-box.json",
+    cliCommand: registryUrl("ai-chat-box"),
     importName: "AiChatBox",
     usage: `"use client";
 
@@ -625,7 +631,7 @@ export default function AiChatBoxExample() {
     ],
     dependencies: ["react", "three"],
     installDependencies: ["three"],
-    cliCommand: "https://skecher-ui.vercel.app/r/ai-orb.json",
+    cliCommand: registryUrl("ai-orb"),
     importName: "AiOrb",
     usage: `import { AiOrb } from "@/components/ui/ai-orb";
 
@@ -682,7 +688,7 @@ export default function AiOrbExample() {
     ],
     dependencies: ["react", "@paper-design/shaders-react", "motion"],
     installDependencies: ["@paper-design/shaders-react", "motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/dither-credit-card.json",
+    cliCommand: registryUrl("dither-credit-card"),
     importName: "DitherCreditCard",
     usage: `import { DitherCreditCard } from "@/components/ui/dither-credit-card";
 
@@ -723,7 +729,7 @@ export default function DitherCreditCardExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: "https://skecher-ui.vercel.app/r/snap-text.json",
+    cliCommand: registryUrl("snap-text"),
     importName: "SnapText",
     usage: `"use client";
 
