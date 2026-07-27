@@ -3,7 +3,14 @@ import * as path from "node:path";
 import type { Schema } from "./registry-schema";
 
 type ComponentProps = Partial<
-  Pick<Schema, "dependencies" | "devDependencies" | "registryDependencies" | "cssVars" | "tailwind">
+  Pick<
+    Schema,
+    | "dependencies"
+    | "devDependencies"
+    | "registryDependencies"
+    | "cssVars"
+    | "tailwind"
+  >
 > & {
   name: string;
   path: string;
@@ -13,7 +20,7 @@ export const components: ComponentProps[] = [
   {
     name: "ai-chat-box",
     path: path.join(__dirname, "../components/ui-components/ai-chat-box"),
-    dependencies: ["lucide-react", "motion", "nucleo-ui-essential-fill-duo-18"],
+    dependencies: ["lucide-react","motion","nucleo-ui-essential-fill-duo-18"],
     devDependencies: [],
     registryDependencies: [],
   },
@@ -27,7 +34,7 @@ export const components: ComponentProps[] = [
   {
     name: "dither-credit-card",
     path: path.join(__dirname, "../components/ui-components/dither-credit-card"),
-    dependencies: ["@paper-design/shaders-react", "motion"],
+    dependencies: ["@paper-design/shaders-react","motion"],
     devDependencies: [],
     registryDependencies: [],
   },
@@ -41,7 +48,7 @@ export const components: ComponentProps[] = [
   {
     name: "gooey-toolbar",
     path: path.join(__dirname, "../components/ui-components/gooey-toolbar"),
-    dependencies: ["clsx", "motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge"],
+    dependencies: ["clsx","motion","nucleo-ui-essential-fill-duo-18","tailwind-merge"],
     devDependencies: [],
     registryDependencies: [],
   },
@@ -62,7 +69,7 @@ export const components: ComponentProps[] = [
   {
     name: "liquid-glass-social",
     path: path.join(__dirname, "../components/ui-components/liquid-glass-social"),
-    dependencies: ["motion", "nucleo-social-media", "nucleo-ui-essential-fill-18"],
+    dependencies: ["motion","nucleo-social-media","nucleo-ui-essential-fill-18"],
     devDependencies: [],
     registryDependencies: [],
   },
@@ -83,7 +90,7 @@ export const components: ComponentProps[] = [
   {
     name: "morphing-action-dock",
     path: path.join(__dirname, "../components/ui-components/morphing-action-dock"),
-    dependencies: ["lucide-react", "motion"],
+    dependencies: ["lucide-react","motion"],
     devDependencies: [],
     registryDependencies: [],
   },
@@ -114,5 +121,5 @@ export const components: ComponentProps[] = [
     dependencies: ["motion"],
     devDependencies: [],
     registryDependencies: [],
-  },
+  }
 ];

@@ -23,7 +23,7 @@ export const DOC_RENDERERS = {
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "dither-credit-card": DitherCreditCardDoc,
-  dock: DockDoc,
+  "dock": DockDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
@@ -34,5 +34,5 @@ export const DOC_RENDERERS = {
   "scroll-reveal-text": ScrollRevealTextDoc,
   "snap-text": SnapTextDoc,
   "streaming-text": StreamingTextDoc,
-  "text-morphing": TextMorphingDoc,
+  "text-morphing": TextMorphingDoc
 } satisfies Record<string, ComponentDocPage>;

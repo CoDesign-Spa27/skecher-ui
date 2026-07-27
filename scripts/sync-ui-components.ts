@@ -1,7 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
+import { loadEnvFile } from "node:process";
 
 const root = path.join(__dirname, "..");
+const envPath = path.join(root, ".env");
+
+if (fs.existsSync(envPath)) {
+  loadEnvFile(envPath);
+}
+
 const uiComponentsDir = path.join(root, "components/ui-components");
 const docsContentDir = path.join(root, "components/docs/content");
 const registryComponentsPath = path.join(__dirname, "registry-components.ts");

@@ -99,29 +99,12 @@ function CodeDrawer({
           <CodeIcon className="size-4" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-background p-0">
-        <div className="flex items-center justify-between gap-3 border-b px-4 py-1 sm:px-5">
-          <div className="min-w-0">
-            <DrawerTitle className="truncate font-raleway text-sm font-medium bg-highlight px-2 rounded-sm py-0.5 ">
-              {title}
-            </DrawerTitle>
-          </div>
-          <div className="flex shrink-0 items-center gap-1">
-            {codeString ? <CopyButton code={codeString} className="size-8 rounded-md" /> : null}
-            <DrawerClose asChild>
-              <Button
-                aria-label="Close source drawer"
-                className="size-8 rounded-md text-muted-foreground transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:text-foreground active:scale-[0.97]"
-                size="icon"
-                tooltip="Close"
-                variant="ghost"
-              >
-                <IconSquareMinusFillDuo18 className="size-5" />
-              </Button>
-            </DrawerClose>
-          </div>
-        </div>
+      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-neutral-100 dark:bg-accent p-0">
         <div className="min-h-0 flex-1 overflow-hidden bg-muted/20 scroll-fade-y ">
+          <div className="flex shrink-0 items-center gap-1 absolute right-5 top-10">
+            {codeString ? <CopyButton code={codeString} className="size-8 rounded-md" /> : null}
+
+          </div>
           {code ? code : <EmptyPanel label="No source added for this example." />}
         </div>
       </DrawerContent>

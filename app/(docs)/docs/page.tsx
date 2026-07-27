@@ -215,15 +215,12 @@ export default function Page() {
       <section id="components" aria-labelledby="components-title" className="py-10">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-              Skechers
-            </p>
 
             <h1
               id="components-title"
               className="mt-3 font-raleway text-2xl font-light tracking-normal text-foreground"
             >
-              React motion components for shadcn projects
+              Skecher made with love for the game in the game.
             </h1>
           </div>
         </div>

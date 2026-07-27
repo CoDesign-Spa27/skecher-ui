@@ -24,14 +24,14 @@ export async function CodeBlock({ className, filePath, source }: CodeBlockProps)
   });
   const nodes = toJsxRuntime(hast, { Fragment, jsx, jsxs });
 
-  // Prevent horizontal scrollbar by allowing code/pre to wrap lines and removing overflow-x
-  // Style allows code/pre to visually wrap; Tailwind "break-words" and "whitespace-pre-wrap" may be used.
+  // Keep horizontal overflow clipped while letting long source files scroll vertically.
   return (
     <div
       className={cn(
-        "no-scrollbar h-full w-full min-w-0 max-w-full overflow-hidden text-sm [&_code]:font-mono [&_pre]:max-w-full [&_pre]:min-h-full [&_pre]:overflow-hidden [&_pre]:bg-transparent! [&_pre]:p-4 sm:[&_pre]:p-5 ",
+        " no-scrollbar h-full w-full min-w-0 max-w-full touch-pan-y overflow-x-hidden overflow-y-auto overscroll-y-contain text-sm [&_code]:font-mono [&_pre]:max-w-full [&_pre]:min-h-full [&_pre]:overflow-hidden [&_pre]:bg-transparent! [&_pre]:p-4 sm:[&_pre]:p-5",
         className,
       )}
+      data-vaul-no-drag
     >
       {nodes}
     </div>

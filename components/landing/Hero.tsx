@@ -212,13 +212,13 @@ export function Hero() {
             tooltip="soon"
             className="min-h-11 cursor-pointer px-5 lg:min-h-10"
           >
-            <Link
+            {/* <Link
               href="https://github.com/sketch-the-art/sketch-the-art"
               target="_blank"
               rel="noreferrer"
             >
               GitHub
-            </Link>
+            </Link> */}
           </Button>
         </motion.div>
       </motion.section>
