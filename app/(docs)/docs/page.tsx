@@ -32,6 +32,35 @@ const TITLE_TRANSITION = {
   ease: "easeOut",
 } as const;
 
+const CARD_REVEAL_EASE = [0.23, 1, 0.32, 1] as const;
+
+function RevealingVideoCard({ component, index }: { component: ComponentVideo; index: number }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: shouldReduceMotion ? 0 : 16,
+        filter: shouldReduceMotion ? "blur(0px)" : "blur(8px)",
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+      }}
+      viewport={{ once: true, margin: "0px 0px -100px" }}
+      transition={{
+        duration: shouldReduceMotion ? 0.2 : 0.42,
+        delay: shouldReduceMotion ? 0 : (index % 3) * 0.055,
+        ease: CARD_REVEAL_EASE,
+      }}
+    >
+      <VideoCard component={component} />
+    </motion.div>
+  );
+}
+
 function VideoCard({ component }: { component: ComponentVideo }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -123,10 +152,12 @@ function VideoCard({ component }: { component: ComponentVideo }) {
             src={component.coverUrl}
             alt={`${component.title} component preview`}
             fill
+            loading="lazy"
+            decoding="async"
             unoptimized
             sizes="(min-width: 1280px) 360px, (min-width: 640px) calc(50vw - 48px), calc(100vw - 48px)"
             className={[
-              "object-cover transition-opacity duration-200 rounded-xl",
+              "rounded-xl object-cover transition-opacity duration-200",
               isPlaying ? "opacity-0" : "opacity-100",
             ].join(" ")}
           />
@@ -215,7 +246,6 @@ export default function Page() {
       <section id="components" aria-labelledby="components-title" className="py-10">
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
-
             <h1
               id="components-title"
               className="mt-3 font-raleway text-2xl font-light tracking-normal text-foreground"
@@ -225,9 +255,9 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="mt-7 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-          {COMPONENT_VIDEOS.map((component) => (
-            <VideoCard key={component.slug} component={component} />
+        <div className="mt-7 grid gap-6 sm:grid-cols-2 xl:grid-cols-2">
+          {COMPONENT_VIDEOS.map((component, index) => (
+            <RevealingVideoCard key={component.slug} component={component} index={index} />
           ))}
         </div>
       </section>
