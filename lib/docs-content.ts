@@ -629,8 +629,8 @@ export default function AiChatBoxExample() {
         body: "Rendering pauses off-screen and in background tabs, while reduced-motion users receive the same material as a still composition.",
       },
     ],
-    dependencies: ["react", "three"],
-    installDependencies: ["three"],
+    dependencies: ["react"],
+    installDependencies: [],
     cliCommand: registryUrl("ai-orb"),
     importName: "AiOrb",
     usage: `import { AiOrb } from "@/components/ui/ai-orb";
