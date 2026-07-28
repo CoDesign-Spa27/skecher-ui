@@ -360,6 +360,7 @@ function ManualPanelContent({
         className="no-scrollbar relative min-h-0 flex-1 overflow-hidden px-5"
         blurHeight="160px"
         blurLevels={[0.5, 1, 2, 4, 8, 16, 32, 64]}
+        viewportClassName="touch-pan-y"
       >
         <div className="flex items-center justify-between space-y-8 pt-[50%]">
           <div className="min-w-0 space-y-1.5">
