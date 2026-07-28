@@ -4,7 +4,6 @@ import { Maximize, Minimize } from "lucide-react";
 import { AnimatePresence, motion, type TargetAndTransition, useReducedMotion } from "motion/react";
 import {
   IconRefresh2FillDuo18,
-  IconSquareMinusFillDuo18,
   IconWindowPointerFillDuo18,
 } from "nucleo-ui-essential-fill-duo-18";
 import * as React from "react";
@@ -26,13 +25,12 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "./sidebar";
 
 interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "children"> {
   action?: "replay" | "toggle" | string;
@@ -133,6 +131,8 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
   const superIslandLayout = useSuperIslandLayout();
   const detailsOpen = Boolean(doc && superIslandLayout?.manualOpen);
   const resolvedBreadcrumbTitle = breadcrumbTitle ?? formatBreadcrumbTitle(title);
+  const {state}  = useSidebar();
+   
   const layoutTransition =
     shouldReduceMotion || !superIslandLayout?.animated
       ? { duration: 0 }
@@ -245,24 +245,38 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
           )}
         >
           <header className="relative z-30 flex h-14 shrink-0 items-center justify-between gap-3 rounded-xl bg-none px-3 sm:px-4">
-            <Breadcrumb className="min-w-0">
-              <BreadcrumbList className="flex-nowrap gap-2 text-sm sm:gap-3 sm:text-base">
-                <BreadcrumbItem className="shrink-0">
-                  <BreadcrumbLink className="font-normal text-muted-foreground" href="/docs">
-                    Components
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="shrink-0 text-muted-foreground/70">
-                  /
-                </BreadcrumbSeparator>
-                <BreadcrumbItem className="min-w-0">
-                  <BreadcrumbPage className="truncate font-medium">
-                    {resolvedBreadcrumbTitle}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-
+            <motion.div
+              animate={state === "collapsed" ? { x: 50, opacity: 0.6 } : { x: 0, opacity: 1 }}
+              initial={false}
+              transition={{
+                type: "spring",
+                stiffness: 420,
+                damping: 38,
+                mass: 0.95,
+                duration: 0.36,
+                ease: [0.23, 1, 0.32, 1],
+              }}
+            >
+              <Breadcrumb className="min-w-0">
+                <BreadcrumbList className="flex-nowrap gap-2 text-sm sm:gap-3 sm:text-base">
+                  <BreadcrumbItem className="shrink-0">
+                    <BreadcrumbLink className="font-normal text-muted-foreground" href="/docs">
+                      Components
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="shrink-0 text-muted-foreground/70">
+                    /
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem className="min-w-0">
+                    <BreadcrumbPage className="truncate font-medium">
+                      {resolvedBreadcrumbTitle}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </motion.div>
+      
+      
             <div
               aria-label="Component actions"
               className="flex h-10 w-fit shrink-0 items-center rounded-xl bg-sidebar px-1 header-shadow"
