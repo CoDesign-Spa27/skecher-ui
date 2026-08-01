@@ -33,8 +33,8 @@ export async function CodeBlock({
   const hast = await codeToHast(code, {
     lang: language,
     themes: {
-      dark: "github-dark",
-      light: "github-light",
+      dark: "vesper",
+      light: "night-owl-light",
     },
     defaultColor: false,
     transformers: [
@@ -55,7 +55,7 @@ export async function CodeBlock({
     <section
       aria-label={ariaLabel ?? `${language} code`}
       className={cn(
-        "w-full min-w-0 max-w-full text-sm outline-none selection:bg-highlight/20 focus-within:ring-2 focus-within:ring-inset focus-within:ring-ring/50 [scrollbar-color:var(--border)_transparent] [scrollbar-width:thin]",
+        "w-full min-w-0 max-w-full text-sm outline-none selection:bg-highlight/20 focus-within:ring-0 focus-within:ring-inset focus-within:ring-ring/50 [scrollbar-color:var(--border)_transparent] [scrollbar-width:thin]",
         scrollMode === "both"
           ? "h-full min-h-0 overflow-auto overscroll-contain"
           : "h-auto overflow-x-auto overflow-y-visible overscroll-x-contain overscroll-y-auto",
