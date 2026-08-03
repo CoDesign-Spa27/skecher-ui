@@ -1,11 +1,12 @@
-import Link from "next/link";
 
 import { Hero } from "./Hero";
+import { fetchStarCount } from "@/lib/github";
 
-export default function Page() {
+export default async function Page() {
+  const starCount = await fetchStarCount();
   return (
     <main className="min-h-svh bg-[#171717] text-white">
-      <Hero />
+      <Hero starCount={starCount || 0} />
 
       {/* <section
         aria-labelledby="landing-library-title"

@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowUpRightIcon, GithubIcon, StarIcon } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
+import { IconGithub } from 'nucleo-social-media';
 import { CurvedWires } from "./assets/curved-wires";
 import {
   BOTTOM_ROW_VIDEOS,
@@ -22,8 +23,10 @@ import {
   reducedHeroSequence,
   reducedWireEntrance,
   TOP_ROW_VIDEOS,
-  wireEntrance,
+  wireEntrance
 } from "./config";
+
+
 
 function BrandMark({ variants }: { variants: Variants }) {
   return (
@@ -142,7 +145,56 @@ function VideoSet({
   );
 }
 
-export function Hero() {
+function GitHubButton({ starCount }: { starCount: number }) {
+  return (
+    <Link
+      href="https://github.com/CoDesign-Spa27/skecher-ui"
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`View Skecher UI on GitHub, ${starCount} stars`}
+      className={cn(
+        "group relative isolate inline-flex min-h-11 cursor-pointer items-stretch overflow-hidden rounded-lg bg-gradient-to-t from-[#0f0f0f] to-[#404040] p-px font-urbanist text-sm font-medium text-white shadow-[0_0_0_1px_#383838] outline-none lg:min-h-10",
+        "transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] active:duration-100",
+        "focus-visible:ring-[3px] focus-visible:ring-white/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#171717]",
+        "motion-reduce:transition-none motion-reduce:active:scale-100",
+      )}
+    >
+      <span className="flex items-center gap-2 rounded-l-[7px] bg-[#171717] px-3.5">
+        <IconGithub
+          aria-hidden="true"
+          className={cn(
+            "size-[18px] transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "[@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-115",
+            "motion-reduce:transform-none motion-reduce:transition-none",
+          )}
+        />
+        <span>GitHub</span>
+      </span>
+
+      <span className="flex min-w-[3.75rem] items-center justify-center gap-1.5 rounded-r-[7px] bg-[#242424] px-3 tabular-nums">
+        <span className="relative size-4" aria-hidden="true">
+          <StarIcon
+            className={cn(
+              "absolute inset-0 size-4 text-white/65 transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:-rotate-12 [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-75 [@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-0",
+              "motion-reduce:transform-none motion-reduce:transition-opacity",
+            )}
+          />
+          <StarIcon
+            className={cn(
+              "absolute inset-0 size-4 fill-[#f7d774] text-[#f7d774] opacity-0 [transform:rotate(12deg)_scale(0.75)] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+              "[@media(hover:hover)_and_(pointer:fine)]:group-hover:opacity-100 [@media(hover:hover)_and_(pointer:fine)]:group-hover:[transform:rotate(0)_scale(1)]",
+              "motion-reduce:transform-none motion-reduce:transition-opacity",
+            )}
+          />
+        </span>
+        <span>{starCount}</span>
+      </span>
+    </Link>
+  );
+}
+
+export function Hero({ starCount }: { starCount: number }) {
   const shouldReduceMotion = useReducedMotion();
   const isPaused = Boolean(shouldReduceMotion);
   const entrance = shouldReduceMotion ? reducedEntrance : contentEntrance;
@@ -205,21 +257,7 @@ export function Hero() {
             <Link href="/docs">Browse Components</Link>
           </Button>
 
-          <Button
-            asChild
-            variant="secondary"
-            disabled
-            tooltip="soon"
-            className="min-h-11 cursor-pointer px-5 lg:min-h-10"
-          >
-            {/* <Link
-              href="https://github.com/sketch-the-art/sketch-the-art"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </Link> */}
-          </Button>
+          <GitHubButton starCount={starCount} />
         </motion.div>
       </motion.section>
 
