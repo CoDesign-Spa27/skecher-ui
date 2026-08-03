@@ -11,7 +11,6 @@ if (fs.existsSync(envPath)) {
 
 const uiComponentsDir = path.join(root, "components/ui-components");
 const docsContentDir = path.join(root, "components/docs/content");
-const registryComponentsPath = path.join(__dirname, "registry-components.ts");
 const docsContentPath = path.join(root, "lib/docs-content.ts");
 const generatedRenderersPath = path.join(docsContentDir, "generated-doc-renderers.ts");
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -31,7 +30,6 @@ type ComponentInfo = {
   importName: string;
   dependencies: string[];
   devDependencies: string[];
-  registryDependencies: string[];
   installDependencies: string[];
 };
 
@@ -190,8 +188,7 @@ function getComponents() {
       }
 
       const docContent = readText(docPath);
-      const { dependencies, devDependencies, registryDependencies } =
-        detectDependencies(componentContent);
+      const { dependencies, devDependencies } = detectDependencies(componentContent);
 
       return {
         slug,
@@ -202,49 +199,9 @@ function getComponents() {
         importName,
         dependencies,
         devDependencies,
-        registryDependencies,
         installDependencies: dependencies,
       };
     });
-}
-
-function syncRegistryComponents(components: ComponentInfo[]) {
-  const entries = components
-    .map(
-      (component) => `  {
-    name: "${component.slug}",
-    path: path.join(__dirname, "../components/ui-components/${component.slug}"),
-    dependencies: ${JSON.stringify(component.dependencies)},
-    devDependencies: ${JSON.stringify(component.devDependencies)},
-    registryDependencies: ${JSON.stringify(component.registryDependencies)},
-  }`,
-    )
-    .join(",\n");
-
-  const content = `import * as path from "node:path";
-
-import type { Schema } from "./registry-schema";
-
-type ComponentProps = Partial<
-  Pick<
-    Schema,
-    | "dependencies"
-    | "devDependencies"
-    | "registryDependencies"
-    | "cssVars"
-    | "tailwind"
-  >
-> & {
-  name: string;
-  path: string;
-};
-
-export const components: ComponentProps[] = [
-${entries}
-];
-`;
-
-  fs.writeFileSync(registryComponentsPath, content);
 }
 
 function createDocEntry(component: ComponentInfo) {
@@ -322,7 +279,6 @@ ${entries}
 
 const components = getComponents();
 
-syncRegistryComponents(components);
 syncDocsContent(components);
 syncDocRenderers(components);
 

@@ -1,5 +1,3 @@
-import { publicEnv } from "@/lib/public-env";
-
 export type ComponentDoc = {
   id: string;
   title: string;
@@ -21,8 +19,8 @@ export type ComponentDoc = {
   }[];
 };
 
-function registryUrl(slug: string) {
-  return `${publicEnv.siteUrl}/r/${slug}.json`;
+function githubRegistryItem(slug: string) {
+  return `CoDesign-Spa27/skecher-ui/${slug}`;
 }
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
@@ -36,7 +34,7 @@ export const COMPONENT_DOCS: ComponentDoc[] = [
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("streaming-text"),
+    cliCommand: githubRegistryItem("streaming-text"),
     importName: "BlurredText",
     usage: `import { BlurredText } from "@/components/ui/streaming-text";
 
@@ -70,7 +68,7 @@ export default function StreamingTextExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("text-morphing"),
+    cliCommand: githubRegistryItem("text-morphing"),
     importName: "MorphingText",
     usage: `import { MorphingText } from "@/components/ui/text-morphing";
 
@@ -105,7 +103,7 @@ export default function MorphingTextExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("liquid-glass-social"),
+    cliCommand: githubRegistryItem("liquid-glass-social"),
     importName: "Social",
     usage: `import { Social } from "@/components/ui/liquid-glass-social";
 
@@ -146,7 +144,7 @@ export default function SocialLinksExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("image-glide"),
+    cliCommand: githubRegistryItem("image-glide"),
     importName: "ImageGlide",
     usage: `"use client";
 
@@ -206,7 +204,7 @@ export default function ImageGlideExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("image-density-grid"),
+    cliCommand: githubRegistryItem("image-density-grid"),
     importName: "ImageDensityGrid",
     usage: `import { ImageDensityGrid } from "@/components/ui/image-density-grid";
 
@@ -248,7 +246,7 @@ export default function ImageDensityGridExample() {
     details: [],
     dependencies: ["react", "motion", "lucide-react"],
     installDependencies: ["motion", "lucide-react"],
-    cliCommand: registryUrl("morphing-action-dock"),
+    cliCommand: githubRegistryItem("morphing-action-dock"),
     importName: "MorphingActionDock",
     usage: `"use client";
 
@@ -311,7 +309,7 @@ export default function MorphingActionDockExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge", "clsx"],
-    cliCommand: registryUrl("gooey-toolbar"),
+    cliCommand: githubRegistryItem("gooey-toolbar"),
     importName: "GooeyToolbar",
     usage: `import { GooeyToolbar } from "@/components/ui/gooey-toolbar";
 
@@ -356,7 +354,7 @@ export default function GooeyToolbarExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("dock"),
+    cliCommand: githubRegistryItem("dock"),
     importName: "Dock",
     usage: `"use client";
 
@@ -416,7 +414,7 @@ export default function DockExample() {
       },
     ],
     dependencies: ["react"],
-    cliCommand: registryUrl("liquid-morphology-slideshow"),
+    cliCommand: githubRegistryItem("liquid-morphology-slideshow"),
     importName: "LiquidMorphologySlideshow",
     usage: `import { LiquidMorphologySlideshow } from "@/components/ui/liquid-morphology-slideshow";
 
@@ -478,7 +476,7 @@ export default function LiquidMorphologyExample() {
     details: [],
     dependencies: ["react", "motion"],
     installDependencies: [],
-    cliCommand: registryUrl("magazine-scroller"),
+    cliCommand: githubRegistryItem("magazine-scroller"),
     importName: "MagazineScroller",
     usage: `import { MagazineScroller } from "@/components/ui/magazine-scroller";
 
@@ -537,7 +535,7 @@ export default function MagazineScrollerExample() {
     ],
     dependencies: ["react", "lucide-react", "motion"],
     installDependencies: ["lucide-react", "motion"],
-    cliCommand: registryUrl("ai-chat-box"),
+    cliCommand: githubRegistryItem("ai-chat-box"),
     importName: "AiChatBox",
     usage: `"use client";
 
@@ -631,7 +629,7 @@ export default function AiChatBoxExample() {
     ],
     dependencies: ["react"],
     installDependencies: [],
-    cliCommand: registryUrl("ai-orb"),
+    cliCommand: githubRegistryItem("ai-orb"),
     importName: "AiOrb",
     usage: `import { AiOrb } from "@/components/ui/ai-orb";
 
@@ -688,7 +686,7 @@ export default function AiOrbExample() {
     ],
     dependencies: ["react", "@paper-design/shaders-react", "motion"],
     installDependencies: ["@paper-design/shaders-react", "motion"],
-    cliCommand: registryUrl("dither-credit-card"),
+    cliCommand: githubRegistryItem("dither-credit-card"),
     importName: "DitherCreditCard",
     usage: `import { DitherCreditCard } from "@/components/ui/dither-credit-card";
 
@@ -729,7 +727,7 @@ export default function DitherCreditCardExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("snap-text"),
+    cliCommand: githubRegistryItem("snap-text"),
     importName: "SnapText",
     usage: `"use client";
 
@@ -806,7 +804,7 @@ export default function SnapTextExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("scroll-reveal-text"),
+    cliCommand: githubRegistryItem("scroll-reveal-text"),
     importName: "ScrollRevealText",
     usage: `import { ScrollRevealText } from "@/components/ui/scroll-reveal-text";
 
@@ -858,7 +856,7 @@ export default function ScrollRevealTextExample() {
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
-    cliCommand: registryUrl("sliding-panel"),
+    cliCommand: githubRegistryItem("sliding-panel"),
     importName: "SlidingPanel",
     usage: `"use client";
 

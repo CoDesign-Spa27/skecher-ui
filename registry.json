@@ -1,80 +1,253 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "acme",
-  "homepage": "https://acme.com",
+  "name": "skecher-ui",
+  "homepage": "https://github.com/CoDesign-Spa27/skecher-ui",
   "items": [
     {
-      "name": "hello-world",
-      "type": "registry:component",
-      "title": "Hello World",
-      "description": "A simple hello world component",
-      "registryDependencies": ["button"],
+      "name": "ai-chat-box",
+      "type": "registry:ui",
+      "title": "AI Chat Box",
+      "description": "A polished AI prompt composer with model controls, attachments, and animated interaction states.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["lucide-react", "motion", "nucleo-ui-essential-fill-duo-18"],
       "files": [
         {
-          "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
-          "type": "registry:component"
+          "path": "components/ui-components/ai-chat-box.tsx",
+          "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": ["ai", "input"]
     },
     {
-      "name": "example-form",
-      "type": "registry:component",
-      "title": "Example Form",
-      "description": "A contact form with Zod validation.",
-      "dependencies": ["zod"],
-      "registryDependencies": ["button", "input", "label", "textarea", "card"],
+      "name": "ai-orb",
+      "type": "registry:ui",
+      "title": "AI Orb",
+      "description": "An interactive Three.js orb for AI assistants, voice interfaces, and ambient status surfaces.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["three"],
+      "devDependencies": ["@types/three"],
       "files": [
         {
-          "path": "registry/new-york/blocks/example-form/example-form.tsx",
-          "type": "registry:component"
+          "path": "components/ui-components/ai-orb.tsx",
+          "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": ["ai", "visualization"]
     },
     {
-      "name": "complex-component",
-      "type": "registry:component",
-      "title": "Complex Component",
-      "description": "A complex component showing hooks, libs and components.",
-      "registryDependencies": ["card"],
+      "name": "dither-credit-card",
+      "type": "registry:ui",
+      "title": "Dither Credit Card",
+      "description": "A pointer-responsive payment card with a restrained dithering shader and spring-smoothed depth.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["@paper-design/shaders-react", "motion"],
       "files": [
         {
-          "path": "registry/new-york/blocks/complex-component/page.tsx",
-          "type": "registry:page",
-          "target": "app/pokemon/page.tsx"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/components/pokemon-card.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/components/pokemon-image.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/lib/pokemon.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/hooks/use-pokemon.ts",
-          "type": "registry:hook"
+          "path": "components/ui-components/dither-credit-card.tsx",
+          "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": ["card", "shader"]
     },
     {
-      "name": "example-with-css",
-      "type": "registry:component",
-      "title": "Example with CSS",
-      "description": "A login form with a CSS file.",
+      "name": "dock",
+      "type": "registry:ui",
+      "title": "Dock",
+      "description": "A macOS-style magnifying dock powered by shared motion values and spring-smoothed icon sizing.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
       "files": [
         {
-          "path": "registry/new-york/blocks/example-with-css/example-card.tsx",
-          "type": "registry:component"
+          "path": "components/ui-components/dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["navigation", "dock"]
+    },
+    {
+      "name": "gooey-toolbar",
+      "type": "registry:ui",
+      "title": "Gooey Toolbar",
+      "description": "A compact action toolbar with configurable liquid merging effects and accessible controls.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["clsx", "motion", "nucleo-ui-essential-fill-duo-18", "tailwind-merge"],
+      "files": [
+        {
+          "path": "components/ui-components/gooey-toolbar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["toolbar", "navigation"]
+    },
+    {
+      "name": "image-density-grid",
+      "type": "registry:ui",
+      "title": "Image Density Grid",
+      "description": "A percentage-controlled image grid with animated density changes, soft focus, and optional controls.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/image-density-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["gallery", "layout"]
+    },
+    {
+      "name": "image-glide",
+      "type": "registry:ui",
+      "title": "Image Glide",
+      "description": "An image viewer with pointer depth, soft image transitions, and a compact thumbnail rail.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/image-glide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["gallery", "carousel"]
+    },
+    {
+      "name": "liquid-glass-social",
+      "type": "registry:ui",
+      "title": "Liquid Glass Social",
+      "description": "A responsive social-link cluster with focused liquid-glass motion and clear interaction feedback.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion", "nucleo-social-media", "nucleo-ui-essential-fill-18"],
+      "files": [
+        {
+          "path": "components/ui-components/liquid-glass-social.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["social", "navigation"]
+    },
+    {
+      "name": "liquid-morphology-slideshow",
+      "type": "registry:ui",
+      "title": "Liquid Morphology Slideshow",
+      "description": "A WebGL image slideshow with liquid, frost, ripple, plasma, and timeshift transitions.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["three"],
+      "devDependencies": ["@types/three"],
+      "files": [
+        {
+          "path": "components/ui-components/liquid-morphology-slideshow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["slideshow", "shader"]
+    },
+    {
+      "name": "magazine-scroller",
+      "type": "registry:ui",
+      "title": "Magazine Scroller",
+      "description": "A velocity-aware poster scroller with drag, wheel, spring, and progressive-blur treatments.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/magazine-scroller.tsx",
+          "type": "registry:ui"
         },
         {
-          "path": "registry/new-york/blocks/example-with-css/example-card.css",
-          "type": "registry:component"
+          "path": "components/ui/progressive-blur.tsx",
+          "type": "registry:ui"
         }
-      ]
+      ],
+      "categories": ["scroller", "gallery"]
+    },
+    {
+      "name": "morphing-action-dock",
+      "type": "registry:ui",
+      "title": "Morphing Action Dock",
+      "description": "A floating action dock that merges into one surface and expands into contextual actions.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["lucide-react", "motion"],
+      "files": [
+        {
+          "path": "components/ui-components/morphing-action-dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["dock", "actions"]
+    },
+    {
+      "name": "scroll-reveal-text",
+      "type": "registry:ui",
+      "title": "Scroll Reveal Text",
+      "description": "A scroll-linked text reveal with spring-smoothed progress and reduced-motion support.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/scroll-reveal-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["text", "scroll"]
+    },
+    {
+      "name": "sliding-panel",
+      "type": "registry:ui",
+      "title": "Sliding Panel",
+      "description": "A direction-aware panel transition with interruptible motion and reduced-motion fallbacks.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/sliding-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["panel", "transition"]
+    },
+    {
+      "name": "snap-text",
+      "type": "registry:ui",
+      "title": "Snap Text",
+      "description": "A spring-driven text interaction that reacts to pointer movement and settles cleanly.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/snap-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["text", "interaction"]
+    },
+    {
+      "name": "streaming-text",
+      "type": "registry:ui",
+      "title": "Streaming Text",
+      "description": "A soft word-by-word text reveal for hero copy, onboarding, and editorial interfaces.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/streaming-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["text", "reveal"]
+    },
+    {
+      "name": "text-morphing",
+      "type": "registry:ui",
+      "title": "Text Morphing",
+      "description": "An animated text replacement primitive for status messages, hero copy, and compact state changes.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/text-morphing.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["text", "transition"]
     }
   ]
 }

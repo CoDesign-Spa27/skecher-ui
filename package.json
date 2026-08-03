@@ -9,9 +9,9 @@
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write",
-    "registry:build": "shadcn build",
-    "gen-cli": "tsx scripts/sync-ui-components.ts && tsx scripts/registry-builds.ts",
-    "sync-components": "tsx scripts/sync-ui-components.ts && tsx scripts/registry-builds.ts"
+    "registry:validate": "bun scripts/validate-registry.ts",
+    "gen-cli": "bun run sync-components",
+    "sync-components": "tsx scripts/sync-ui-components.ts && bun run registry:validate"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -47,7 +47,7 @@
     "react-hook-form": "^7.72.1",
     "react-resizable-panels": "^4.9.0",
     "recharts": "3.8.0",
-    "shadcn": "^3.0.0",
+    "shadcn": "^4.16.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "three": "^0.185.0",
