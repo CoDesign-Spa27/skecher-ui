@@ -10,6 +10,7 @@ import { LiquidMorphologySlideshowDoc } from "@/components/docs/content/liquid-m
 import { MagazineScrollerDoc } from "@/components/docs/content/magazine-scroller-doc";
 import { MorphingActionDockDoc } from "@/components/docs/content/morphing-action-dock-doc";
 import { ScrollRevealTextDoc } from "@/components/docs/content/scroll-reveal-text-doc";
+import { SlidingPanelDoc } from "@/components/docs/content/sliding-panel-doc";
 import { SnapTextDoc } from "@/components/docs/content/snap-text-doc";
 import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
 import { TextMorphingDoc } from "@/components/docs/content/text-morphing-doc";
@@ -23,7 +24,7 @@ export const DOC_RENDERERS = {
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "dither-credit-card": DitherCreditCardDoc,
-  "dock": DockDoc,
+  dock: DockDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
@@ -32,7 +33,8 @@ export const DOC_RENDERERS = {
   "magazine-scroller": MagazineScrollerDoc,
   "morphing-action-dock": MorphingActionDockDoc,
   "scroll-reveal-text": ScrollRevealTextDoc,
+  "sliding-panel": SlidingPanelDoc,
   "snap-text": SnapTextDoc,
   "streaming-text": StreamingTextDoc,
-  "text-morphing": TextMorphingDoc
+  "text-morphing": TextMorphingDoc,
 } satisfies Record<string, ComponentDocPage>;

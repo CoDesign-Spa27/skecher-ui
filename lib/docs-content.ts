@@ -835,6 +835,247 @@ export default function ScrollRevealTextExample() {
       },
     ],
   },
+  {
+    id: "sliding-panel",
+    title: "Sliding Panel",
+    slug: "sliding-panel",
+    eyebrow: "Components",
+    description:
+      "A generic keyed-content viewport for direction-aware transitions between tabs, steps, filters, or any ordered React view.",
+    details: [
+      {
+        title: "Consumer-owned content",
+        body: "The component only handles presence and motion; state, controls, layout, and panel content stay in the consuming feature.",
+      },
+      {
+        title: "Explicit direction",
+        body: "Pass 1 for forward navigation and -1 for backward navigation so entering and exiting content follows a spatially consistent path.",
+      },
+      {
+        title: "Reduced-motion ready",
+        body: "Movement becomes a short opacity crossfade automatically, while motionEnabled can disable transitions entirely for keyboard-driven changes.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: registryUrl("sliding-panel"),
+    importName: "SlidingPanel",
+    usage: `"use client";
+
+import { type ComponentProps, useState } from "react";
+
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SlidingPanel,
+  type SlidingPanelDirection,
+} from "@/components/ui/sliding-panel";
+import { cn } from "@/lib/utils";
+
+type PanelIndex = 0 | 1;
+
+const OVERVIEW_BARS = [34, 58, 45, 76, 62, 88, 70, 96] as const;
+const ACTIVITY_ROWS = [82, 68, 76, 58] as const;
+
+function LoadingBar({ className, ...props }: ComponentProps<typeof Skeleton>) {
+  return (
+    <Skeleton
+      aria-hidden="true"
+      className={cn("motion-reduce:animate-none", className)}
+      {...props}
+    />
+  );
+}
+
+function OverviewSkeleton() {
+  return (
+    <div
+      aria-busy="true"
+      className="grid h-full grid-cols-[5rem_minmax(0,1fr)] bg-background sm:grid-cols-[9rem_minmax(0,1fr)]"
+    >
+      <span className="sr-only">Loading overview</span>
+
+      <aside className="flex flex-col border-r border-border/70 bg-muted/35 p-3 sm:p-4">
+        <div className="flex items-center gap-2">
+          <LoadingBar className="size-7 shrink-0 rounded-lg bg-foreground/12" />
+          <LoadingBar className="hidden h-3 w-16 bg-foreground/10 sm:block" />
+        </div>
+
+        <div className="mt-7 space-y-3">
+          {["w-full", "w-4/5", "w-11/12", "w-3/4"].map((width) => (
+            <div className="flex items-center gap-2.5" key={width}>
+              <LoadingBar className="size-4 shrink-0 rounded bg-foreground/8" />
+              <LoadingBar
+                className={cn("hidden h-2.5 bg-foreground/8 sm:block", width)}
+              />
+            </div>
+          ))}
+        </div>
+
+        <LoadingBar className="mt-auto size-7 rounded-full bg-foreground/10" />
+      </aside>
+
+      <main className="min-w-0 overflow-hidden p-4 sm:p-5">
+        <div className="flex items-center justify-between gap-4">
+          <div className="space-y-2">
+            <LoadingBar className="h-4 w-28 bg-foreground/12" />
+            <LoadingBar className="h-2.5 w-40 bg-foreground/7" />
+          </div>
+          <LoadingBar className="size-8 rounded-full bg-foreground/8" />
+        </div>
+
+        <div className="mt-7 flex h-32 items-end gap-2 border-b border-border/70 pb-px sm:h-40 sm:gap-3">
+          {OVERVIEW_BARS.map((height) => (
+            <LoadingBar
+              className="min-w-0 flex-1 rounded-b-none bg-foreground/9"
+              key={height}
+              style={{ height: height + "%" }}
+            />
+          ))}
+        </div>
+
+        <div className="mt-6 grid grid-cols-2 gap-5 sm:grid-cols-3">
+          {[72, 54, 80].map((width) => (
+            <div className="space-y-2" key={width}>
+              <LoadingBar className="h-2.5 w-14 bg-foreground/7" />
+              <LoadingBar
+                className="h-5 bg-foreground/11"
+                style={{ width: width + "%" }}
+              />
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function ActivitySkeleton() {
+  return (
+    <div
+      aria-busy="true"
+      className="grid h-full bg-background sm:grid-cols-[minmax(0,1fr)_10rem]"
+    >
+      <span className="sr-only">Loading activity</span>
+
+      <main className="min-w-0 p-4 sm:p-5">
+        <div className="space-y-2">
+          <LoadingBar className="h-4 w-28 bg-foreground/12" />
+          <LoadingBar className="h-2.5 w-40 bg-foreground/7" />
+        </div>
+
+        <div className="mt-7 space-y-5">
+          {ACTIVITY_ROWS.map((width, index) => (
+            <div className="relative flex gap-3" key={width}>
+              {index < ACTIVITY_ROWS.length - 1 ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[0.9375rem] top-8 h-[calc(100%+0.5rem)] w-px bg-border/80"
+                />
+              ) : null}
+              <LoadingBar className="relative z-10 size-8 shrink-0 rounded-full bg-foreground/10" />
+              <div className="min-w-0 flex-1 space-y-2 pt-0.5">
+                <div className="flex items-center gap-2">
+                  <LoadingBar className="h-2.5 w-20 bg-foreground/11" />
+                  <LoadingBar className="h-2 w-10 bg-foreground/6" />
+                </div>
+                <LoadingBar
+                  className="h-2.5 bg-foreground/8"
+                  style={{ width: width + "%" }}
+                />
+                <LoadingBar className="h-2.5 w-3/5 bg-foreground/6" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <aside className="hidden border-l border-border/70 bg-muted/25 p-4 sm:block">
+        <LoadingBar className="h-3 w-20 bg-foreground/11" />
+        <div className="mt-5 flex -space-x-2">
+          {["ava", "ben", "cy", "dia"].map((avatar) => (
+            <LoadingBar
+              className="size-8 rounded-full border-2 border-background bg-foreground/10"
+              key={avatar}
+            />
+          ))}
+        </div>
+        <div className="mt-8 space-y-3">
+          {[72, 92, 64, 80].map((width) => (
+            <div className="space-y-1.5" key={width}>
+              <LoadingBar
+                className="h-2 bg-foreground/6"
+                style={{ width: width + "%" }}
+              />
+              <LoadingBar className="h-2.5 w-2/5 bg-foreground/10" />
+            </div>
+          ))}
+        </div>
+        <LoadingBar className="mt-8 h-16 w-full bg-foreground/7" />
+      </aside>
+    </div>
+  );
+}
+
+const PANELS = [
+  { label: "Overview", Content: OverviewSkeleton },
+  { label: "Activity", Content: ActivitySkeleton },
+] as const;
+
+export default function SlidingPanelExample() {
+  const [{ active, direction }, setNavigation] = useState<{
+    active: PanelIndex;
+    direction: SlidingPanelDirection;
+  }>({
+    active: 0,
+    direction: 1,
+  });
+
+  function selectPanel(next: PanelIndex) {
+    setNavigation((current) => {
+      if (next === current.active) return current;
+
+      return {
+        active: next,
+        direction: next > current.active ? 1 : -1,
+      };
+    });
+  }
+
+  const ActivePanel = PANELS[active].Content;
+
+  return (
+    <div className="w-full max-w-2xl space-y-2">
+      <div aria-label="Preview layout" className="flex gap-1" role="group">
+        {PANELS.map((panel, index) => (
+          <button
+            aria-pressed={active === index}
+            className="rounded-md px-3 py-1.5 text-sm aria-pressed:bg-muted"
+            key={panel.label}
+            onClick={() => selectPanel(index as PanelIndex)}
+            type="button"
+          >
+            {panel.label}
+          </button>
+        ))}
+      </div>
+
+      <SlidingPanel
+        activeKey={active}
+        className="h-[24rem] rounded-xl border"
+        direction={direction}
+      >
+        <ActivePanel />
+      </SlidingPanel>
+    </div>
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/sliding-panel.tsx",
+        description: "Sliding Panel component",
+      },
+    ],
+  },
 ];
 
 export function getComponentDoc(slug: string) {

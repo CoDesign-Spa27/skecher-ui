@@ -8,6 +8,7 @@ import {
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
+import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
@@ -29,6 +30,7 @@ export const COMPONENT_PREVIEWS = {
   "magazine-scroller": <DialedMagazineScrollerPreview />,
   "morphing-action-dock": <MorphingActionDock />,
   "scroll-reveal-text": <DialedScrollRevealTextPreview />,
+  "sliding-panel": <SlidingPanelPreview />,
   "snap-text": <DialedSnapTextPreview />,
   "streaming-text": (
     <BlurredText
