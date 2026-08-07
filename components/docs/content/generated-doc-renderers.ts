@@ -5,6 +5,7 @@ import { DockDoc } from "@/components/docs/content/dock-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
 import { ImageGlideDoc } from "@/components/docs/content/image-glide-doc";
+import { InteractiveGridHeroDoc } from "@/components/docs/content/interactive-grid-hero-doc";
 import { LiquidGlassSocialDoc } from "@/components/docs/content/liquid-glass-social-doc";
 import { LiquidMorphologySlideshowDoc } from "@/components/docs/content/liquid-morphology-slideshow-doc";
 import { MagazineScrollerDoc } from "@/components/docs/content/magazine-scroller-doc";
@@ -28,6 +29,7 @@ export const DOC_RENDERERS = {
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
+  "interactive-grid-hero": InteractiveGridHeroDoc,
   "liquid-glass-social": LiquidGlassSocialDoc,
   "liquid-morphology-slideshow": LiquidMorphologySlideshowDoc,
   "magazine-scroller": MagazineScrollerDoc,

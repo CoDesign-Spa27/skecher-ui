@@ -110,6 +110,21 @@
       "categories": ["gallery", "carousel"]
     },
     {
+      "name": "interactive-grid-hero",
+      "type": "registry:ui",
+      "title": "Interactive Grid Hero",
+      "description": "A full-page field of square cells that locally soften and round around a fine pointer.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/interactive-grid-hero.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["hero", "interaction", "grid"]
+    },
+    {
       "name": "liquid-glass-social",
       "type": "registry:ui",
       "title": "Liquid Glass Social",

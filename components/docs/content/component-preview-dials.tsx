@@ -19,6 +19,11 @@ import {
   type DitherCreditCardPhysics,
 } from "@/components/ui-components/dither-credit-card";
 import { Dock, type DockItem } from "@/components/ui-components/dock";
+import {
+  InteractiveGridHero,
+  type InteractiveGridHeroEffects,
+  type InteractiveGridHeroSpring,
+} from "@/components/ui-components/interactive-grid-hero";
 import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
 import {
   type ScrollRevealPhysics,
@@ -306,6 +311,31 @@ const MAGAZINE_SCROLLER_DIALS = {
   },
 } satisfies DialConfig;
 
+const INTERACTIVE_GRID_HERO_DIALS = {
+  interaction: {
+    enabled: true,
+    proximity: [4.35, 1, 10, 0.05],
+  },
+  layout: {
+    cellSize: [72, 32, 160, 2],
+    gap: [4, 0, 20, 1],
+  },
+  response: {
+    activeOpacity: [1, 0, 1, 0.01],
+    cornerRadius: [20, 0, 64, 1],
+    inset: [5.5, 0, 20, 0.5],
+    restingOpacity: [0.72, 0.1, 1, 0.01],
+  },
+  physics: {
+    spring: {
+      type: "spring",
+      stiffness: 520,
+      damping: 38,
+      mass: 1,
+    },
+  },
+} satisfies DialConfig;
+
 type SpringCodeConfig = {
   bounce?: number;
   damping?: number;
@@ -358,6 +388,31 @@ function formatSpringCode(config: SpringCodeConfig) {
   return `{
         ${properties.map(([name, value]) => `${name}: ${value}`).join(",\n        ")},
       }`;
+}
+
+function createInteractiveGridHeroCode(
+  dials: ReturnType<typeof useInteractiveGridHeroDials>,
+  spring: SpringCodeConfig,
+) {
+  return `import { InteractiveGridHero } from "@/components/ui/interactive-grid-hero";
+
+export function InteractiveGridHeroDemo() {
+  return (
+    <InteractiveGridHero
+      cellSize={${dials.layout.cellSize}}
+      gap={${dials.layout.gap}}
+      proximity={${dials.interaction.proximity}}
+      interactive={${dials.interaction.enabled}}
+      effects={{
+        activeOpacity: ${dials.response.activeOpacity},
+        cornerRadius: ${dials.response.cornerRadius},
+        inset: ${dials.response.inset},
+        restingOpacity: ${dials.response.restingOpacity},
+      }}
+      spring={${formatSpringCode(spring)}}
+    />
+  );
+}`;
 }
 
 function createDitherCreditCardCode(
@@ -594,6 +649,12 @@ function useMagazineScrollerDials() {
   });
 }
 
+function useInteractiveGridHeroDials() {
+  return useDialKit("Interactive Grid Hero", INTERACTIVE_GRID_HERO_DIALS, {
+    id: "preview-interactive-grid-hero",
+  });
+}
+
 /**
  * DialKit 1.4.2 does not expose a toolbar copy formatter. While this preview is
  * mounted, replace only its identifiable clipboard payload with component code.
@@ -756,6 +817,39 @@ export function DialedDockPreview() {
         tapScale: dials.interaction.tapScale,
         visibilitySpring,
       }}
+    />
+  );
+}
+
+export function DialedInteractiveGridHeroPreview() {
+  const dials = useInteractiveGridHeroDials();
+  const spring = dials.physics.spring.type === "spring" ? dials.physics.spring : undefined;
+  const effects = {
+    activeOpacity: dials.response.activeOpacity,
+    cornerRadius: dials.response.cornerRadius,
+    inset: dials.response.inset,
+    restingOpacity: dials.response.restingOpacity,
+  } satisfies InteractiveGridHeroEffects;
+  const responseSpring = {
+    bounce: spring?.bounce,
+    damping: spring?.damping,
+    mass: spring?.mass,
+    stiffness: spring?.stiffness,
+    visualDuration: spring?.visualDuration,
+  } satisfies InteractiveGridHeroSpring;
+  const componentCode = createInteractiveGridHeroCode(dials, spring ?? {});
+
+  useDialKitCopyOutput("Interactive Grid Hero", componentCode);
+
+  return (
+    <InteractiveGridHero
+      cellSize={dials.layout.cellSize}
+      className="h-full min-h-0 w-full"
+      effects={effects}
+      gap={dials.layout.gap}
+      interactive={dials.interaction.enabled}
+      proximity={dials.interaction.proximity}
+      spring={responseSpring}
     />
   );
 }

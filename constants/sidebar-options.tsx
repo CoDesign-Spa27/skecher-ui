@@ -11,6 +11,7 @@ export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
     type: "section",
   },
   ...COMPONENT_DOCS.map((page) => ({
+    badge: page.sidebarBadge,
     title: page.title,
     url: `/docs/${page.slug}`,
   })),

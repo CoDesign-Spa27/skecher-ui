@@ -1,3 +1,5 @@
+import type { SidebarBadgeProps } from "@/types/docs/sidebar-types";
+
 export type ComponentDoc = {
   id: string;
   title: string;
@@ -17,6 +19,7 @@ export type ComponentDoc = {
     path: string;
     description?: string;
   }[];
+  sidebarBadge?: SidebarBadgeProps;
 };
 
 function githubRegistryItem(slug: string) {
@@ -1071,6 +1074,59 @@ export default function SlidingPanelExample() {
       {
         path: "components/ui-components/sliding-panel.tsx",
         description: "Sliding Panel component",
+      },
+    ],
+  },
+  {
+    id: "interactive-grid-hero",
+    title: "Interactive Grid Hero",
+    slug: "interactive-grid-hero",
+    eyebrow: "Components",
+    description:
+      "A full-page field of responsive square cells that softly round and brighten within a focused radius around the cursor.",
+    details: [
+      {
+        title: "True square coverage",
+        body: "The component measures its container and derives an exact cell size so the grid fills the viewport without stretching its boxes.",
+      },
+      {
+        title: "Motion-value proximity",
+        body: "Shared pointer motion values drive a lightweight distance calculation in each cell without re-rendering React during pointer movement.",
+      },
+      {
+        title: "Input aware",
+        body: "The interaction only responds to fine mouse pointers and removes spring interpolation when reduced motion is preferred.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("interactive-grid-hero"),
+    importName: "InteractiveGridHero",
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    usage: `import { InteractiveGridHero } from "@/components/ui/interactive-grid-hero";
+
+export default function InteractiveGridHeroExample() {
+  return (
+    <InteractiveGridHero
+      cellSize={72}
+      gap={4}
+      proximity={4.35}
+      effects={{
+        cornerRadius: 20,
+        inset: 5.5,
+        restingOpacity: 0.72,
+      }}
+      spring={{ stiffness: 520, damping: 38, mass: 1 }}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/interactive-grid-hero.tsx",
+        description: "Interactive Grid Hero component",
       },
     ],
   },
