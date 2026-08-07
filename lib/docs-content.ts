@@ -1130,6 +1130,61 @@ export default function InteractiveGridHeroExample() {
       },
     ],
   },
+  {
+    id: "morph-stack",
+    title: "Morph Stack",
+    slug: "morph-stack",
+    eyebrow: "Components",
+    description:
+      "A composable three-plate stack that fans into a spring-driven perspective view on hover.",
+    details: [
+      {
+        title: "Bring your own plates",
+        body: "The front, middle, and back slots accept any React node, including images, inline SVG, and custom components.",
+      },
+      {
+        title: "Layered spring motion",
+        body: "Each plate has its own depth, timing, and spring response while the complete stack tilts as one surface.",
+      },
+      {
+        title: "Input aware",
+        body: "The stack responds only to fine hover pointers and automatically softens its movement when reduced motion is preferred.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("morph-stack"),
+    importName: "MorphStack",
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    usage: `import { MorphStack } from "@/components/ui/morph-stack";
+import { BackPlate, FrontPlate, MiddlePlate } from "./plates";
+
+export default function MorphStackExample() {
+  return (
+    <MorphStack
+      backPlate={<BackPlate />}
+      middlePlate={<MiddlePlate />}
+      frontPlate={<FrontPlate />}
+      motion={{
+        perspective: 900,
+        stack: { rotateX: 58, rotateZ: -42, scale: 1.06 },
+        front: { active: { x: -14, y: 20, z: 72 } },
+        back: { active: { x: 0, y: 0, z: -76 } },
+        delays: { front: 0.1, back: 0.2 },
+      }}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/morph-stack.tsx",
+        description: "Morph Stack component",
+      },
+    ],
+  },
 ];
 
 export function getComponentDoc(slug: string) {

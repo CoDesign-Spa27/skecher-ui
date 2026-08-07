@@ -11,6 +11,7 @@ import {
 } from "nucleo-glass";
 import { useEffect, useRef } from "react";
 
+import { MorphStackPreview } from "@/components/docs/content/morph-stack-preview";
 import { AiChatBox } from "@/components/ui-components/ai-chat-box";
 import { AiOrb } from "@/components/ui-components/ai-orb";
 import {
@@ -25,6 +26,7 @@ import {
   type InteractiveGridHeroSpring,
 } from "@/components/ui-components/interactive-grid-hero";
 import { MagazineScroller } from "@/components/ui-components/magazine-scroller";
+import type { MorphStackMotion } from "@/components/ui-components/morph-stack";
 import {
   type ScrollRevealPhysics,
   ScrollRevealText,
@@ -336,6 +338,74 @@ const INTERACTIVE_GRID_HERO_DIALS = {
   },
 } satisfies DialConfig;
 
+const MORPH_STACK_DIALS = {
+  preview: {
+    holdExpanded: false,
+    interactive: true,
+  },
+  scene: {
+    perspective: [900, 400, 1800, 25],
+    reducedMotionStrength: [0.25, 0, 1, 0.05],
+  },
+  stack: {
+    rotateX: [58, -80, 80, 1],
+    rotateZ: [-42, -90, 90, 1],
+    scale: [1.06, 0.9, 1.25, 0.01],
+  },
+  layers: {
+    front: {
+      x: [-14, -120, 120, 2],
+      y: [20, -120, 120, 2],
+      z: [72, -160, 180, 2],
+    },
+    middle: {
+      _collapsed: true,
+      x: [0, -120, 120, 2],
+      y: [0, -120, 120, 2],
+      z: [0, -160, 180, 2],
+    },
+    back: {
+      x: [0, -120, 120, 2],
+      y: [0, -120, 120, 2],
+      z: [-76, -180, 160, 2],
+      activeOpacity: [1, 0, 1, 0.05],
+      restingOpacity: [0, 0, 1, 0.05],
+    },
+  },
+  timing: {
+    frontDelay: [0.1, 0, 0.5, 0.01],
+    middleDelay: [0, 0, 0.5, 0.01],
+    backDelay: [0.2, 0, 0.5, 0.01],
+  },
+  physics: {
+    _collapsed: true,
+    stack: {
+      type: "spring",
+      stiffness: 320,
+      damping: 20,
+      mass: 0.65,
+    },
+    front: {
+      type: "spring",
+      stiffness: 420,
+      damping: 24,
+      mass: 0.6,
+    },
+    middle: {
+      type: "spring",
+      stiffness: 360,
+      damping: 30,
+      mass: 0.65,
+    },
+    back: {
+      type: "spring",
+      stiffness: 300,
+      damping: 27,
+      mass: 0.7,
+    },
+  },
+} satisfies DialConfig;
+
 type SpringCodeConfig = {
   bounce?: number;
   damping?: number;
@@ -410,6 +480,75 @@ export function InteractiveGridHeroDemo() {
         restingOpacity: ${dials.response.restingOpacity},
       }}
       spring={${formatSpringCode(spring)}}
+    />
+  );
+}`;
+}
+
+function createMorphStackCode(
+  dials: ReturnType<typeof useMorphStackDials>,
+  springs: {
+    back: SpringCodeConfig;
+    front: SpringCodeConfig;
+    middle: SpringCodeConfig;
+    stack: SpringCodeConfig;
+  },
+) {
+  const expandedProp = dials.preview.holdExpanded ? "\n      expanded" : "";
+
+  return `import { MorphStack } from "@/components/ui/morph-stack";
+import { BackPlate, FrontPlate, MiddlePlate } from "./plates";
+
+export function MorphStackDemo() {
+  return (
+    <MorphStack
+      backPlate={<BackPlate />}
+      middlePlate={<MiddlePlate />}
+      frontPlate={<FrontPlate />}${expandedProp}
+      interactive={${dials.preview.interactive}}
+      motion={{
+        perspective: ${dials.scene.perspective},
+        reducedMotionStrength: ${dials.scene.reducedMotionStrength},
+        stack: {
+          rotateX: ${dials.stack.rotateX},
+          rotateZ: ${dials.stack.rotateZ},
+          scale: ${dials.stack.scale},
+        },
+        front: {
+          active: {
+            x: ${dials.layers.front.x},
+            y: ${dials.layers.front.y},
+            z: ${dials.layers.front.z},
+          },
+        },
+        middle: {
+          active: {
+            x: ${dials.layers.middle.x},
+            y: ${dials.layers.middle.y},
+            z: ${dials.layers.middle.z},
+          },
+        },
+        back: {
+          active: {
+            x: ${dials.layers.back.x},
+            y: ${dials.layers.back.y},
+            z: ${dials.layers.back.z},
+          },
+          activeOpacity: ${dials.layers.back.activeOpacity},
+          restingOpacity: ${dials.layers.back.restingOpacity},
+        },
+        delays: {
+          back: ${dials.timing.backDelay},
+          front: ${dials.timing.frontDelay},
+          middle: ${dials.timing.middleDelay},
+        },
+        springs: {
+          back: ${formatSpringCode(springs.back)},
+          front: ${formatSpringCode(springs.front)},
+          middle: ${formatSpringCode(springs.middle)},
+          stack: ${formatSpringCode(springs.stack)},
+        },
+      }}
     />
   );
 }`;
@@ -655,6 +794,12 @@ function useInteractiveGridHeroDials() {
   });
 }
 
+function useMorphStackDials() {
+  return useDialKit("Morph Stack", MORPH_STACK_DIALS, {
+    id: "preview-morph-stack",
+  });
+}
+
 /**
  * DialKit 1.4.2 does not expose a toolbar copy formatter. While this preview is
  * mounted, replace only its identifiable clipboard payload with component code.
@@ -850,6 +995,73 @@ export function DialedInteractiveGridHeroPreview() {
       interactive={dials.interaction.enabled}
       proximity={dials.interaction.proximity}
       spring={responseSpring}
+    />
+  );
+}
+
+export function DialedMorphStackPreview() {
+  const dials = useMorphStackDials();
+  const backSpring = dials.physics.back.type === "spring" ? dials.physics.back : undefined;
+  const frontSpring = dials.physics.front.type === "spring" ? dials.physics.front : undefined;
+  const middleSpring = dials.physics.middle.type === "spring" ? dials.physics.middle : undefined;
+  const stackSpring = dials.physics.stack.type === "spring" ? dials.physics.stack : undefined;
+  const motion = {
+    back: {
+      active: {
+        x: dials.layers.back.x,
+        y: dials.layers.back.y,
+        z: dials.layers.back.z,
+      },
+      activeOpacity: dials.layers.back.activeOpacity,
+      restingOpacity: dials.layers.back.restingOpacity,
+    },
+    delays: {
+      back: dials.timing.backDelay,
+      front: dials.timing.frontDelay,
+      middle: dials.timing.middleDelay,
+    },
+    front: {
+      active: {
+        x: dials.layers.front.x,
+        y: dials.layers.front.y,
+        z: dials.layers.front.z,
+      },
+    },
+    middle: {
+      active: {
+        x: dials.layers.middle.x,
+        y: dials.layers.middle.y,
+        z: dials.layers.middle.z,
+      },
+    },
+    perspective: dials.scene.perspective,
+    reducedMotionStrength: dials.scene.reducedMotionStrength,
+    springs: {
+      back: backSpring,
+      front: frontSpring,
+      middle: middleSpring,
+      stack: stackSpring,
+    },
+    stack: {
+      rotateX: dials.stack.rotateX,
+      rotateZ: dials.stack.rotateZ,
+      scale: dials.stack.scale,
+    },
+  } satisfies MorphStackMotion;
+  const componentCode = createMorphStackCode(dials, {
+    back: backSpring ?? {},
+    front: frontSpring ?? {},
+    middle: middleSpring ?? {},
+    stack: stackSpring ?? {},
+  });
+
+  useDialKitCopyOutput("Morph Stack", componentCode);
+
+  return (
+    <MorphStackPreview
+      expanded={dials.preview.holdExpanded ? true : undefined}
+      interactive={dials.preview.interactive}
+      motion={motion}
     />
   );
 }

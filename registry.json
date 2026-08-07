@@ -190,6 +190,21 @@
       "categories": ["dock", "actions"]
     },
     {
+      "name": "morph-stack",
+      "type": "registry:ui",
+      "title": "Morph Stack",
+      "description": "A composable three-plate stack with spring-driven perspective and layered hover motion.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/morph-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["interaction", "animation"]
+    },
+    {
       "name": "scroll-reveal-text",
       "type": "registry:ui",
       "title": "Scroll Reveal Text",

@@ -5,6 +5,7 @@ import {
   DialedDockPreview,
   DialedInteractiveGridHeroPreview,
   DialedMagazineScrollerPreview,
+  DialedMorphStackPreview,
   DialedScrollRevealTextPreview,
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
@@ -30,6 +31,7 @@ export const COMPONENT_PREVIEWS = {
   "liquid-glass-social": <Social />,
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
   "magazine-scroller": <DialedMagazineScrollerPreview />,
+  "morph-stack": <DialedMorphStackPreview />,
   "morphing-action-dock": <MorphingActionDock />,
   "scroll-reveal-text": <DialedScrollRevealTextPreview />,
   "sliding-panel": <SlidingPanelPreview />,
