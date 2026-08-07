@@ -1,25 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
-import { loadEnvFile } from "node:process";
 
 const root = path.join(__dirname, "..");
-const envPath = path.join(root, ".env");
-
-if (fs.existsSync(envPath)) {
-  loadEnvFile(envPath);
-}
-
 const uiComponentsDir = path.join(root, "components/ui-components");
 const docsContentDir = path.join(root, "components/docs/content");
 const docsContentPath = path.join(root, "lib/docs-content.ts");
 const generatedRenderersPath = path.join(docsContentDir, "generated-doc-renderers.ts");
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-if (!siteUrl) {
-  throw new Error("NEXT_PUBLIC_SITE_URL is required. Add it to .env.");
-}
-
-const deployedRegistryUrl = `${siteUrl.replace(/\/+$/, "")}/r`;
+const githubRegistryRepository = "CoDesign-Spa27/skecher-ui";
 
 type ComponentInfo = {
   slug: string;
@@ -128,6 +115,10 @@ function toPascalCase(slug: string) {
     .join("");
 }
 
+function toObjectKey(value: string) {
+  return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(value) ? value : JSON.stringify(value);
+}
+
 function readText(filePath: string) {
   return fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "";
 }
@@ -137,9 +128,9 @@ function getExportedDocName(content: string) {
 }
 
 function getExportedComponentName(content: string, slug: string) {
-  const exports = Array.from(content.matchAll(/export\s+const\s+([A-Za-z0-9_]+)/g)).map(
-    (match) => match[1],
-  );
+  const exports = Array.from(
+    content.matchAll(/export\s+(?:class|const|function)\s+([A-Za-z0-9_]+)/g),
+  ).map((match) => match[1]);
   return exports.at(-1) ?? toPascalCase(slug);
 }
 
@@ -215,12 +206,13 @@ function createDocEntry(component: ComponentInfo) {
     details: [],
     dependencies: ${JSON.stringify(["react", ...component.dependencies])},
     installDependencies: ${JSON.stringify(component.installDependencies)},
-    cliCommand: "${deployedRegistryUrl}/${component.slug}.json",
+    cliCommand: "${githubRegistryRepository}/${component.slug}",
     importName: "${component.importName}",
-    usage: {
-      imports: \`import { ${component.importName} } from "@/components/ui/${component.slug}";\`,
-      code: \`<${component.importName} />\`,
-    },
+    usage: \`import { ${component.importName} } from "@/components/ui/${component.slug}";
+
+export default function ${component.importName}Example() {
+  return <${component.importName} />;
+}\`,
     files: [
       {
         path: "components/ui-components/${component.slug}.tsx",
@@ -259,7 +251,7 @@ function syncDocRenderers(components: ComponentInfo[]) {
     )
     .join("\n");
   const entries = documentedComponents
-    .map((component) => `  "${component.slug}": ${component.docExportName}`)
+    .map((component) => `  ${toObjectKey(component.slug)}: ${component.docExportName}`)
     .join(",\n");
 
   const content = `${imports}
@@ -270,7 +262,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
-${entries}
+${entries},
 } satisfies Record<string, ComponentDocPage>;
 `;
 
