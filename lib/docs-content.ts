@@ -197,6 +197,7 @@ export default function ImageGlideExample() {
       },
     ],
   },
+
   {
     id: "image-density-grid",
     title: "Image Density Grid",

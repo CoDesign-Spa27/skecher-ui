@@ -90,7 +90,7 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 
                     <motion.div
                       animate={{ opacity, x }}
-                      className="flex flex-col items-center pl-10 active:scale-[0.97]"
+                      className="flex items-center gap-2 pl-10 active:scale-[0.97]"
                       initial={false}
                       style={{ transformOrigin: "left center" }}
                       transition={
@@ -99,10 +99,10 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                     >
                       <span className="font-semibold text-center">{item?.title}</span>
                       {item?.badge && (
-                        <Badge variant={item?.badge?.variant}>
-                          <span className={cn(item?.badge?.sparkles && "sparkles-bg")}>
+                        <Badge className="font-bold rounded-md bg-highlight">
+                      
                             {item?.badge?.label}
-                          </span>
+                     
                         </Badge>
                       )}
                     </motion.div>
