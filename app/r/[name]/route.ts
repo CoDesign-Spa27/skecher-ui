@@ -1,5 +1,9 @@
 import { loadRegistryItem, RegistryItemNotFoundError } from "shadcn/registry";
 
+import registry from "@/registry.json";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
 export const runtime = "nodejs";
 
 const CACHE_HEADERS = {
@@ -11,6 +15,12 @@ type RegistryItemRouteContext = {
     name: string;
   }>;
 };
+
+export function generateStaticParams() {
+  return registry.items.map(({ name }) => ({
+    name: `${name}.json`,
+  }));
+}
 
 export async function GET(_request: Request, context: RegistryItemRouteContext) {
   const { name: pathName } = await context.params;

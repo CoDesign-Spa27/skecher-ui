@@ -1,5 +1,6 @@
 import { loadRegistry } from "shadcn/registry";
 
+export const dynamic = "force-static";
 export const runtime = "nodejs";
 
 const CACHE_HEADERS = {

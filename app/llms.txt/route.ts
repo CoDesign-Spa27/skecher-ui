@@ -1,6 +1,8 @@
 import { COMPONENT_DOCS } from "@/lib/docs-content";
 import { siteConfig } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export function GET() {
   const componentLinks = COMPONENT_DOCS.map(
     (component) =>
