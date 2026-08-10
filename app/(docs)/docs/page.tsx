@@ -15,7 +15,7 @@ const VIDEO_BASE_URL = `${publicEnv.assetUrl}/skecher-components/edit-video-proj
 const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component, index) => ({
   ...component,
   coverUrl: `${COVER_BASE_URL}/skecher${index + 1}.png`,
-  videoUrl: `${VIDEO_BASE_URL}/skecher${index + 1}.mp4`,
+  videoUrl: `${VIDEO_BASE_URL}/skecher${index + 1}.webm`,
 }));
 
 type ComponentVideo = (typeof COMPONENT_VIDEOS)[number];
