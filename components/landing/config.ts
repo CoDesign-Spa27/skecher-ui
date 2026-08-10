@@ -21,7 +21,7 @@ export const TOP_ROW_VIDEOS = createVideoRow("top", [8, 7, 6, 3]);
 export const BOTTOM_ROW_VIDEOS = createVideoRow("bottom", [2, 12, 11, 1]);
 
 export function getHeroVideoUrl(index: number) {
-  return `${HERO_VIDEO_BASE_URL}/skecher${index}.mp4`;
+  return `${HERO_VIDEO_BASE_URL}/skecher${index}.webm`;
 }
 
 export const heroSequence: Variants = {
