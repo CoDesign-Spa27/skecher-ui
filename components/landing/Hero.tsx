@@ -1,14 +1,16 @@
 "use client";
 
-import { ArrowUpRightIcon, GithubIcon, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
+import { IconGithub } from "nucleo-social-media";
 import { useEffect, useRef, useState } from "react";
 
+import { MorphStackMark } from "@/components/docs/content/morph-stack-preview";
 import { Button } from "@/components/ui/button";
+import type { MorphStackMotion } from "@/components/ui-components/morph-stack";
 import { cn } from "@/lib/utils";
-import { IconGithub } from 'nucleo-social-media';
+
 import { CurvedWires } from "./assets/curved-wires";
 import {
   BOTTOM_ROW_VIDEOS,
@@ -23,25 +25,27 @@ import {
   reducedHeroSequence,
   reducedWireEntrance,
   TOP_ROW_VIDEOS,
-  wireEntrance
+  wireEntrance,
 } from "./config";
 
-
+const HERO_MARK_MOTION = {
+  back: { active: { z: -22 } },
+  front: { active: { x: -4, y: 6, z: 20 } },
+  stack: { scale: 1.03 },
+} satisfies MorphStackMotion;
 
 function BrandMark({ variants }: { variants: Variants }) {
   return (
     <motion.span
-      className="relative block size-[clamp(40px,12vw,50px)] flex-[0_0_clamp(40px,12vw,50px)] overflow-hidden md:size-[clamp(46px,4.43vw,85px)] md:flex-[0_0_clamp(46px,4.43vw,85px)]"
+      className="relative block size-[clamp(40px,12vw,50px)] flex-[0_0_clamp(40px,12vw,50px)] md:size-[clamp(46px,4.43vw,85px)] md:flex-[0_0_clamp(46px,4.43vw,85px)]"
       variants={variants}
       aria-hidden="true"
     >
-      <Image
-        src="/icon/ligh-full-logo.svg"
-        alt=""
-        width={422}
-        height={91}
-        priority
-        className="absolute -top-[20.9%] -left-[1.5625%] h-[142.1875%] w-[659.375%] max-w-none"
+      <MorphStackMark
+        className="size-[clamp(40px,12vw,50px)] cursor-default md:size-[clamp(46px,4.43vw,85px)]"
+        expanded={true}
+        motion={HERO_MARK_MOTION}
+        plateClassName="size-[clamp(40px,12vw,50px)] md:size-[clamp(46px,4.43vw,85px)]"
       />
     </motion.span>
   );

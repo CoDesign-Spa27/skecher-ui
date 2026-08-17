@@ -1,4 +1,9 @@
+"use client";
+
+import { type ComponentProps, useId } from "react";
+
 import { MorphStack, type MorphStackMotion } from "@/components/ui-components/morph-stack";
+import { cn } from "@/lib/utils";
 
 type MorphStackPreviewProps = {
   expanded?: boolean;
@@ -6,16 +11,27 @@ type MorphStackPreviewProps = {
   motion?: MorphStackMotion;
 };
 
-export function FrontPlate() {
+type MorphStackMarkProps = MorphStackPreviewProps & {
+  className?: string;
+  plateClassName?: string;
+};
+
+type PlateProps = ComponentProps<"svg">;
+
+export function FrontPlate({ className, ...props }: PlateProps) {
+  const filterId = useId();
+
   return (
     <svg
+      {...props}
+      className={cn("shrink-0", className)}
       width="200"
       height="200"
       viewBox="0 0 83 74"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g filter="url(#filter0_ddd_1089_111)">
+      <g filter={`url(#${filterId})`}>
         <path
           d="M17.3328 7.20072C18.7625 6.65021 20.3772 7.26531 21.0783 8.62745L43.675 52.5317C44.3761 53.8938 45.9908 54.5089 47.4205 53.9585L67.5338 46.2136C69.8834 45.3089 70.1406 42.0869 67.9643 40.8209L54.7842 33.1537C53.9979 32.6963 53.0465 32.6203 52.1977 32.9472L17.078 46.4704C15.1096 47.2284 12.9942 45.7719 13 43.6626L13.0656 19.5483L13.0309 10.9288C13.0259 9.68356 13.7907 8.56465 14.9529 8.11716L17.3328 7.20072Z"
           fill="white"
@@ -23,7 +39,7 @@ export function FrontPlate() {
       </g>
       <defs>
         <filter
-          id="filter0_ddd_1089_111"
+          id={filterId}
           x="0"
           y="0"
           width="82.4561"
@@ -106,22 +122,27 @@ export function FrontPlate() {
   );
 }
 
-export function MiddlePlate() {
+export function MiddlePlate({ className, ...props }: PlateProps) {
+  const filterId = useId();
+  const gradientId = useId();
+
   return (
     <svg
+      {...props}
+      className={cn("shrink-0", className)}
       width="200"
       height="200"
       viewBox="0 0 87 85"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g filter="url(#filter0_diiiii_1089_110)">
-        <rect x="2" width="82.162" height="80.8452" rx="24" fill="url(#paint0_linear_1089_110)" />
+      <g filter={`url(#${filterId})`}>
+        <rect x="2" width="82.162" height="80.8452" rx="24" fill={`url(#${gradientId})`} />
         <rect x="2.5" y="0.5" width="81.162" height="79.8452" rx="23.5" stroke="#FF4C00" />
       </g>
       <defs>
         <filter
-          id="filter0_diiiii_1089_110"
+          id={filterId}
           x="-10"
           y="-2"
           width="96.1621"
@@ -220,7 +241,7 @@ export function MiddlePlate() {
           />
         </filter>
         <linearGradient
-          id="paint0_linear_1089_110"
+          id={gradientId}
           x1="43.081"
           y1="13.2945"
           x2="43.081"
@@ -235,22 +256,27 @@ export function MiddlePlate() {
   );
 }
 
-export function BackPlate() {
+export function BackPlate({ className, ...props }: PlateProps) {
+  const filterId = useId();
+  const gradientId = useId();
+
   return (
     <svg
+      {...props}
+      className={cn("shrink-0", className)}
       width="200"
       height="200"
       viewBox="0 0 87 85"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g filter="url(#filter0_diiiii_1089_109)">
-        <rect x="2" width="82.162" height="80.8452" rx="24" fill="url(#paint0_linear_1089_109)" />
+      <g filter={`url(#${filterId})`}>
+        <rect x="2" width="82.162" height="80.8452" rx="24" fill={`url(#${gradientId})`} />
         <rect x="2.5" y="0.5" width="81.162" height="79.8452" rx="23.5" stroke="#131313" />
       </g>
       <defs>
         <filter
-          id="filter0_diiiii_1089_109"
+          id={filterId}
           x="-10"
           y="-2"
           width="96.1621"
@@ -349,7 +375,7 @@ export function BackPlate() {
           />
         </filter>
         <linearGradient
-          id="paint0_linear_1089_109"
+          id={gradientId}
           x1="43.081"
           y1="13.2945"
           x2="43.081"
@@ -363,17 +389,31 @@ export function BackPlate() {
     </svg>
   );
 }
+
+export function MorphStackMark({
+  className,
+  expanded,
+  interactive,
+  motion,
+  plateClassName,
+}: MorphStackMarkProps = {}) {
+  return (
+    <MorphStack
+      backPlate={<BackPlate className={plateClassName} />}
+      className={className}
+      expanded={expanded}
+      frontPlate={<FrontPlate className={plateClassName} />}
+      interactive={interactive}
+      middlePlate={<MiddlePlate className={plateClassName} />}
+      motion={motion}
+    />
+  );
+}
+
 export function MorphStackPreview({ expanded, interactive, motion }: MorphStackPreviewProps = {}) {
   return (
     <div className="flex min-h-[24rem] w-full items-center justify-center">
-      <MorphStack
-        backPlate={<BackPlate />}
-        expanded={expanded}
-        frontPlate={<FrontPlate />}
-        interactive={interactive}
-        middlePlate={<MiddlePlate />}
-        motion={motion}
-      />
+      <MorphStackMark expanded={expanded} interactive={interactive} motion={motion} />
     </div>
   );
 }
