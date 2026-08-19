@@ -75,6 +75,8 @@ const modeOptions = [
 
 const dependencyIcons: Record<string, string> = {
   motion: "/dependecies/motion.webp",
+  "nucleo-ui-essential-fill-18": "/dependecies/nucleo-icons.webp",
+  "nucleo-ui-essential-fill-duo-18": "/dependecies/nucleo-icons.webp",
 };
 
 const packageCommands: Record<CommandKind, Record<PackageManager, string>> = {
@@ -307,12 +309,19 @@ function DetailRow({ label, value }: { label: string; value: React.ReactNode }) 
 }
 
 function DependencyList({ dependencies }: { dependencies: string[] }) {
-  const iconDependencies = dependencies
-    .map((dependency) => ({
-      name: dependency,
-      icon: dependencyIcons[dependency],
-    }))
-    .filter((dependency): dependency is { name: string; icon: string } => Boolean(dependency.icon));
+  const iconDependencies = Array.from(
+    dependencies
+      .reduce((groups, dependency) => {
+        const icon = dependencyIcons[dependency];
+        if (!icon) return groups;
+
+        const group = groups.get(icon) ?? { icon, names: [] };
+        group.names.push(dependency);
+        groups.set(icon, group);
+        return groups;
+      }, new Map<string, { icon: string; names: string[] }>())
+      .values(),
+  );
 
   if (!iconDependencies.length) {
     return <span className="text-muted-foreground">No extra packages</span>;
@@ -323,12 +332,12 @@ function DependencyList({ dependencies }: { dependencies: string[] }) {
       {iconDependencies.map((dependency) => (
         <span
           className="input-shadow flex size-11 items-center justify-center rounded-xl bg-background/80 p-2 dark:bg-input/30"
-          key={dependency.name}
-          title={dependency.name}
+          key={dependency.icon}
+          title={dependency.names.join(", ")}
         >
           <Image
-            alt={dependency.name}
-            className="size-full object-contain"
+            alt={dependency.names.join(" and ")}
+            className="size-full object-contain rounded-lg"
             height={28}
             src={dependency.icon}
             width={28}
@@ -439,23 +448,23 @@ function ManualPanelContent({
             </section>
           ) : null}
 
-          {usageExample ? (
-            <section className="space-y-3">
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium text-foreground">Usage</h3>
-                <p className="text-xs leading-5 text-muted-foreground">
-                  Copy this complete example and adjust the values for your project.
-                </p>
-              </div>
-              {usageExample}
+          {manualSteps ? (
+            <section className="space-y-1">
+              <h3 className="text-sm font-medium text-foreground">Add files</h3>
+
+              <div className="text-sm leading-6 text-muted-foreground">{manualSteps}</div>
             </section>
           ) : null}
 
-          {manualSteps ? (
-            <section className="space-y-1">
-              <h3 className="text-sm font-medium text-foreground">Add component code</h3>
-
-              <div className="text-sm leading-6 text-muted-foreground">{manualSteps}</div>
+          {usageExample ? (
+            <section className="space-y-3">
+              <div className="space-y-1">
+                <h3 className="text-sm font-medium text-foreground">Use the component</h3>
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Copy this complete example, then adjust its content for your project.
+                </p>
+              </div>
+              {usageExample}
             </section>
           ) : null}
         </div>
