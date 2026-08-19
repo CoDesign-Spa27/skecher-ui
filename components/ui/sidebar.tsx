@@ -240,7 +240,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-neutral-100 dark:bg-accent/50"
+          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-transparent"
         >
           <ProgressiveBlur
             className="hidden group-data-[variant=floating]:block"

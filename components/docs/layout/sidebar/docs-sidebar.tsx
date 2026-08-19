@@ -72,7 +72,7 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                   >
                     <motion.hr
                       initial={{ width: 0 }}
-                      animate={{ width: isHovered || isActive ? 45 : 32 }}
+                      animate={{ width: isHovered || isActive ? 20 : 15 }}
                       transition={shouldReduceMotion ? REDUCED_MOTION_TRANSITION : FAST_SPRING}
                       className="absolute left-0 top-1/2 -translate-y-1/2 border-t-2 border-highlight"
                       style={{
@@ -83,14 +83,14 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 
                     <motion.div
                       initial={{ x: 0 }}
-                      animate={{ x: isHovered || isActive ? 13 : 0 }}
+                      animate={{ x: isHovered || isActive ? 12 : 0 }}
                       transition={shouldReduceMotion ? REDUCED_MOTION_TRANSITION : FAST_SPRING}
-                      className="absolute left-0 top-0 w-1.5 h-1.5 bg-highlight ml-8 mt-[12px]"
+                      className="absolute left-0 top-0 w-1.5 h-1.5 bg-highlight ml-4 mt-[12px] rounded-full"
                     />
 
                     <motion.div
                       animate={{ opacity, x }}
-                      className="flex items-center gap-2 pl-10 active:scale-[0.97]"
+                      className="flex items-center gap-2 pl-6 active:scale-[0.97]"
                       initial={false}
                       style={{ transformOrigin: "left center" }}
                       transition={
@@ -99,7 +99,7 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                     >
                       <span className="font-semibold text-center">{item?.title}</span>
                       {item?.badge && (
-                        <Badge className="font-bold rounded-md bg-highlight">
+                        <Badge className="font-bold rounded-sm bg-highlight p-0 text-[10px] px-1">
                       
                             {item?.badge?.label}
                      
