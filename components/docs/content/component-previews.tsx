@@ -9,6 +9,7 @@ import {
   DialedScrollRevealTextPreview,
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
+import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
@@ -24,6 +25,7 @@ export const COMPONENT_PREVIEWS = {
   "ai-orb": <DialedAiOrbPreview />,
   "dither-credit-card": <DialedDitherCreditCardPreview />,
   dock: <DialedDockPreview />,
+  "expandable-mobile-nav": <ExpandableMobileNavPreview />,
   "gooey-toolbar": <GooeyToolbar />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,

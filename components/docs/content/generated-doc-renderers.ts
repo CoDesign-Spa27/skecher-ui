@@ -2,6 +2,7 @@ import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
+import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
 import { ImageGlideDoc } from "@/components/docs/content/image-glide-doc";
@@ -27,6 +28,7 @@ export const DOC_RENDERERS = {
   "ai-orb": AiOrbDoc,
   "dither-credit-card": DitherCreditCardDoc,
   dock: DockDoc,
+  "expandable-mobile-nav": ExpandableMobileNavDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
