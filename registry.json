@@ -65,6 +65,21 @@
       "categories": ["navigation", "dock"]
     },
     {
+      "name": "expandable-mobile-nav",
+      "type": "registry:ui",
+      "title": "Expandable Mobile Nav",
+      "description": "A bottom-anchored navigation shell with expandable labels and composable per-item panels.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/expandable-mobile-nav.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["navigation", "mobile"]
+    },
+    {
       "name": "gooey-toolbar",
       "type": "registry:ui",
       "title": "Gooey Toolbar",
