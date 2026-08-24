@@ -17,6 +17,7 @@ import { SlidingPanelDoc } from "@/components/docs/content/sliding-panel-doc";
 import { SnapTextDoc } from "@/components/docs/content/snap-text-doc";
 import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
 import { TextMorphingDoc } from "@/components/docs/content/text-morphing-doc";
+import { VelocityTabsDoc } from "@/components/docs/content/velocity-tabs-doc";
 import type { getComponentDoc } from "@/lib/docs-content";
 
 type ComponentDocPage = (props: {
@@ -43,4 +44,5 @@ export const DOC_RENDERERS = {
   "snap-text": SnapTextDoc,
   "streaming-text": StreamingTextDoc,
   "text-morphing": TextMorphingDoc,
+  "velocity-tabs": VelocityTabsDoc,
 } satisfies Record<string, ComponentDocPage>;

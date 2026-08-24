@@ -1330,6 +1330,66 @@ export default function ExpandableMobileNavExample() {
       },
     ],
   },
+  {
+    id: "velocity-tabs",
+    title: "Velocity Tabs",
+    slug: "velocity-tabs",
+    eyebrow: "Components",
+    description:
+      "An accessible tab selector with a spring-driven indicator that stretches and softens in response to movement velocity.",
+    details: [
+      {
+        title: "Velocity-shaped feedback",
+        body: "The active indicator stretches and adds a subtle blur while moving, then resolves crisply at the selected tab.",
+      },
+      {
+        title: "Controlled or uncontrolled",
+        body: "Use value and onValueChange when the selected tab belongs to application state, or defaultValue for local state managed by the component.",
+      },
+      {
+        title: "Click-driven and motion aware",
+        body: "Clicking an enabled tab updates the selection. Reduced-motion preferences preserve the original position spring while removing velocity stretch and blur.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("velocity-tabs"),
+    importName: "VelocityTabs",
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    usage: `"use client";
+
+import { useState } from "react";
+
+import { VelocityTabs } from "@/components/ui/velocity-tabs";
+
+const tabs = [
+  { value: "overview", label: "Overview" },
+  { value: "activity", label: "Activity" },
+  { value: "settings", label: "Settings" },
+] as const;
+
+export default function VelocityTabsExample() {
+  const [value, setValue] = useState("overview");
+
+  return (
+    <VelocityTabs
+      aria-label="Workspace sections"
+      tabs={tabs}
+      value={value}
+      onValueChange={setValue}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/velocity-tabs.tsx",
+        description: "Velocity Tabs component",
+      },
+    ],
+  },
 ];
 
 export function getComponentDoc(slug: string) {

@@ -12,6 +12,7 @@ import {
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
+import { VelocityTabsPreview } from "@/components/docs/content/velocity-tabs-preview";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
@@ -56,6 +57,7 @@ export const COMPONENT_PREVIEWS = {
       className="max-w-4xl whitespace-normal text-center font-raleway text-sm font-medium leading-tight sm:text-2xl md:text-3xl lg:text-4xl"
     />
   ),
+  "velocity-tabs": <VelocityTabsPreview />,
 } satisfies Record<string, React.ReactNode>;
 
 export function getComponentPreview(slug: string) {

@@ -293,6 +293,21 @@
         }
       ],
       "categories": ["text", "transition"]
+    },
+    {
+      "name": "velocity-tabs",
+      "type": "registry:ui",
+      "title": "Velocity Tabs",
+      "description": "An accessible tab selector with a spring indicator that stretches in response to movement velocity.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/velocity-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["navigation", "tabs", "animation"]
     }
   ]
 }
