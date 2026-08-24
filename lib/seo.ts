@@ -29,11 +29,13 @@ export function absoluteUrl(path = "/") {
 }
 
 type SeoMetadataInput = {
-  title?: string;
   description?: string;
-  path?: string;
   keywords?: string[];
   noIndex?: boolean;
+  openGraphImage?: string;
+  openGraphImageAlt?: string;
+  path?: string;
+  title?: string;
 };
 
 export function createMetadata({
@@ -42,9 +44,12 @@ export function createMetadata({
   path = "/",
   keywords = [],
   noIndex = false,
+  openGraphImage = siteConfig.ogImage,
+  openGraphImageAlt = `${siteConfig.name} component library preview`,
 }: SeoMetadataInput = {}): Metadata {
   const canonical = absoluteUrl(path);
   const metadataTitle = title === siteConfig.title ? title : `${title} | ${siteConfig.name}`;
+  const resolvedOpenGraphImage = absoluteUrl(openGraphImage);
 
   return {
     metadataBase: siteUrl,
@@ -87,10 +92,10 @@ export function createMetadata({
       description,
       images: [
         {
-          url: siteConfig.ogImage,
+          url: resolvedOpenGraphImage,
           width: 1200,
           height: 630,
-          alt: `${siteConfig.name} component library preview`,
+          alt: openGraphImageAlt,
         },
       ],
     },
@@ -98,7 +103,7 @@ export function createMetadata({
       card: "summary_large_image",
       title: metadataTitle,
       description,
-      images: [siteConfig.ogImage],
+      images: [resolvedOpenGraphImage],
     },
   };
 }

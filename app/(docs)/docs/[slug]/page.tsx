@@ -33,6 +33,7 @@ export async function generateMetadata({
     title: `${page.title} React Component`,
     description: `${page.description} Install it with the shadcn CLI and copy the source into your React app.`,
     path: `/docs/${page.slug}`,
+    openGraphImageAlt: `${page.title} React component preview`,
     keywords: [
       page.title,
       `${page.title} React component`,

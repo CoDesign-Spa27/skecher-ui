@@ -25,6 +25,7 @@ export async function generateMetadata({
       ? `Isolated preview for the ${page.title} React motion component.`
       : "Isolated component preview.",
     path: `/preview/${slug}`,
+    openGraphImageAlt: page ? `${page.title} isolated component preview` : undefined,
     noIndex: true,
   });
 }
