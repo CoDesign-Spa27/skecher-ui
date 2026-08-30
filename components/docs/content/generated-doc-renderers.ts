@@ -1,3 +1,4 @@
+import { AddToCartDoc } from "@/components/docs/content/add-to-cart-doc";
 import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
@@ -25,6 +26,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
+  "add-to-cart": AddToCartDoc,
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "dither-credit-card": DitherCreditCardDoc,

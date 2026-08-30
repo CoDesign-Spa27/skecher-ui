@@ -12,6 +12,13 @@ import {
 import { useEffect, useRef } from "react";
 
 import { MorphStackPreview } from "@/components/docs/content/morph-stack-preview";
+import {
+  ADD_TO_CART_ITEMS,
+  AddToCart,
+  type AddToCartImage,
+  type AddToCartLayout,
+  type AddToCartMotion,
+} from "@/components/ui-components/add-to-cart";
 import { AiChatBox } from "@/components/ui-components/ai-chat-box";
 import { AiOrb } from "@/components/ui-components/ai-orb";
 import {
@@ -59,6 +66,65 @@ const AI_CHAT_BOX_DIALS = {
   },
   disabled: false,
 } satisfies DialConfig;
+
+const ADD_TO_CART_DIALS = {
+  catalog: {
+    items: [8, 2, 8, 1],
+    imageOrder: {
+      type: "select",
+      options: [
+        { value: "original", label: "Original" },
+        { value: "reversed", label: "Reversed" },
+      ],
+      default: "original",
+    },
+  },
+  content: {
+    cartLabel: { type: "text", default: "Cart total" },
+    currency: {
+      type: "select",
+      options: ["USD", "EUR", "GBP", "JPY"],
+      default: "USD",
+    },
+  },
+  layout: {
+    columns: {
+      type: "select",
+      options: [
+        { value: "2", label: "2 columns" },
+        { value: "3", label: "3 columns" },
+        { value: "4", label: "4 columns" },
+      ],
+      default: "4",
+    },
+    gap: {
+      type: "select",
+      options: ["compact", "default", "roomy"],
+      default: "default",
+    },
+    showBorder: true,
+    stackLimit: [5, 1, 8, 1],
+    stackSpread: [20, 0, 36, 1],
+  },
+  motion: {
+    duration: [0.58, 0.2, 1.2, 0.01],
+    strength: [0.32, 0, 1, 0.01],
+    peak: [0.42, 0, 1, 0.01],
+    tapScale: [0.96, 0.8, 1, 0.01],
+  },
+  disabled: false,
+} satisfies DialConfig;
+
+const ADD_TO_CART_PREVIEW_IMAGES = [
+  { src: "/images/add-to-cart/image1.png", alt: "Pink and blue marbled artwork" },
+  { src: "/images/add-to-cart/image2.png", alt: "Pastel orbital artwork" },
+  { src: "/images/add-to-cart/image3.png", alt: "Blue ink cloud artwork" },
+  { src: "/images/add-to-cart/image4.png", alt: "Turquoise and yellow flowing artwork" },
+  { src: "/images/add-to-cart/image5.png", alt: "Mountain landscape at night" },
+  { src: "/images/add-to-cart/image6.png", alt: "Blue and white painted artwork" },
+  { src: "/images/add-to-cart/image7.png", alt: "Purple and cyan wave artwork" },
+  { src: "/images/add-to-cart/image8.png", alt: "Pink and blue light artwork" },
+] as const satisfies readonly AddToCartImage[];
 
 const DITHER_CREDIT_CARD_DIALS = {
   colors: {
@@ -426,6 +492,54 @@ const SCROLL_REVEAL_TEXT_WIDTH_CLASSES: Record<string, string> = {
   wide: "max-w-6xl",
 };
 
+function getAddToCartImages(dials: ReturnType<typeof useAddToCartDials>) {
+  const images =
+    dials.catalog.imageOrder === "reversed"
+      ? [...ADD_TO_CART_PREVIEW_IMAGES].reverse()
+      : [...ADD_TO_CART_PREVIEW_IMAGES];
+
+  return images.slice(0, Math.round(dials.catalog.items));
+}
+
+function createAddToCartCode(dials: ReturnType<typeof useAddToCartDials>) {
+  const images = getAddToCartImages(dials);
+
+  return `"use client";
+
+import {
+  ADD_TO_CART_ITEMS,
+  AddToCart,
+  type AddToCartImage,
+} from "@/components/ui/add-to-cart";
+
+const images = ${JSON.stringify(images, null, 2)} satisfies readonly AddToCartImage[];
+
+export function AddToCartDemo() {
+  return (
+    <AddToCart
+      cartLabel=${JSON.stringify(dials.content.cartLabel)}
+      currency=${JSON.stringify(dials.content.currency)}
+      disabled={${dials.disabled}}
+      images={images}
+      items={ADD_TO_CART_ITEMS.slice(0, ${Math.round(dials.catalog.items)})}
+      layout={{
+        columns: ${Number(dials.layout.columns)},
+        gap: ${JSON.stringify(dials.layout.gap)},
+        showBorder: ${dials.layout.showBorder},
+        stackLimit: ${Math.round(dials.layout.stackLimit)},
+        stackSpread: ${dials.layout.stackSpread},
+      }}
+      motion={{
+        duration: ${dials.motion.duration},
+        peak: ${dials.motion.peak},
+        strength: ${dials.motion.strength},
+        tapScale: ${dials.motion.tapScale},
+      }}
+    />
+  );
+}`;
+}
+
 function createAiOrbCode(dials: ReturnType<typeof useAiOrbDials>) {
   return `import { AiOrb } from "@/components/ui/ai-orb";
 
@@ -762,6 +876,10 @@ function useSnapTextDials() {
   return useDialKit("Snap Text", SNAP_TEXT_DIALS, { id: "preview-snap-text" });
 }
 
+function useAddToCartDials() {
+  return useDialKit("Add to Cart", ADD_TO_CART_DIALS, { id: "preview-add-to-cart" });
+}
+
 function useScrollRevealTextDials() {
   return useDialKit("Scroll Reveal Text", SCROLL_REVEAL_TEXT_DIALS, {
     id: "preview-scroll-reveal-text",
@@ -869,6 +987,40 @@ export function DialedAiOrbPreview() {
       speed={dials.motion.speed}
       strandWidth={dials.appearance.strandWidth}
       twist={dials.appearance.twist}
+    />
+  );
+}
+
+export function DialedAddToCartPreview() {
+  const dials = useAddToCartDials();
+  const images = getAddToCartImages(dials);
+  const layout = {
+    columns: Number(dials.layout.columns) as AddToCartLayout["columns"],
+    gap: dials.layout.gap as AddToCartLayout["gap"],
+    showBorder: dials.layout.showBorder,
+    stackLimit: Math.round(dials.layout.stackLimit),
+    stackSpread: dials.layout.stackSpread,
+  } satisfies AddToCartLayout;
+  const motionOptions = {
+    duration: dials.motion.duration,
+    peak: dials.motion.peak,
+    strength: dials.motion.strength,
+    tapScale: dials.motion.tapScale,
+  } satisfies AddToCartMotion;
+  const componentCode = createAddToCartCode(dials);
+
+  useDialKitCopyOutput("Add to Cart", componentCode);
+
+  return (
+    <AddToCart
+      cartLabel={dials.content.cartLabel}
+      className="bg-background/80 shadow-sm"
+      currency={dials.content.currency}
+      disabled={dials.disabled}
+      images={images}
+      items={ADD_TO_CART_ITEMS.slice(0, Math.round(dials.catalog.items))}
+      layout={layout}
+      motion={motionOptions}
     />
   );
 }

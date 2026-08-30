@@ -1,4 +1,5 @@
 import {
+  DialedAddToCartPreview,
   DialedAiChatBoxPreview,
   DialedAiOrbPreview,
   DialedDitherCreditCardPreview,
@@ -22,6 +23,7 @@ import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
 
 export const COMPONENT_PREVIEWS = {
+  "add-to-cart": <DialedAddToCartPreview />,
   "ai-chat-box": <DialedAiChatBoxPreview />,
   "ai-orb": <DialedAiOrbPreview />,
   "dither-credit-card": <DialedDitherCreditCardPreview />,

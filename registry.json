@@ -4,6 +4,22 @@
   "homepage": "https://github.com/CoDesign-Spa27/skecher-ui",
   "items": [
     {
+      "name": "add-to-cart",
+      "type": "registry:ui",
+      "title": "Add to Cart",
+      "description": "An interactive product grid with curved add-to-cart flights, a responsive cart stack, and an animated currency total.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["@number-flow/react", "motion", "next"],
+      "files": [
+        {
+          "path": "components/ui-components/add-to-cart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "docs": "The default catalog expects product images at public/images/add-to-cart/image1.png through image8.png. Copy the documented assets or pass custom items with your own image paths.",
+      "categories": ["ecommerce", "interaction", "animation"]
+    },
+    {
       "name": "ai-chat-box",
       "type": "registry:ui",
       "title": "AI Chat Box",

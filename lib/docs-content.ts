@@ -31,6 +31,7 @@ function githubRegistryItem(slug: string) {
 }
 
 export const COMPONENT_DOCS: ComponentDoc[] = [
+ 
   {
     id: "streaming-text",
     title: "Streaming Text",
@@ -1107,10 +1108,7 @@ export default function SlidingPanelExample() {
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("interactive-grid-hero"),
     importName: "InteractiveGridHero",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
+
     usage: `import { InteractiveGridHero } from "@/components/ui/interactive-grid-hero";
 
 export default function InteractiveGridHeroExample() {
@@ -1160,10 +1158,7 @@ export default function InteractiveGridHeroExample() {
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("morph-stack"),
     importName: "MorphStack",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
+
     usage: `import { MorphStack } from "@/components/ui/morph-stack";
 import { BackPlate, FrontPlate, MiddlePlate } from "./plates";
 
@@ -1224,10 +1219,7 @@ export default function MorphStackExample() {
     ],
     cliCommand: githubRegistryItem("expandable-mobile-nav"),
     importName: "ExpandableMobileNav",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
+
     usage: `"use client";
 
 import Image from "next/image";
@@ -1387,6 +1379,71 @@ export default function VelocityTabsExample() {
       {
         path: "components/ui-components/velocity-tabs.tsx",
         description: "Velocity Tabs component",
+      },
+    ],
+  },
+   {
+    id: "add-to-cart",
+    title: "Add to Cart",
+    slug: "add-to-cart",
+    eyebrow: "Components",
+    description:
+      "An interactive product grid with curved add-to-cart flights, a responsive cart stack, and an animated currency total.",
+    details: [],
+    dependencies: ["react", "next", "motion", "@number-flow/react"],
+    installDependencies: ["motion", "@number-flow/react"],
+    cliCommand: githubRegistryItem("add-to-cart"),
+    importName: "AddToCart",
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    usage: `"use client";
+
+import {
+  AddToCart,
+  type AddToCartImage,
+  type AddToCartItem,
+} from "@/components/ui/add-to-cart";
+
+const items = [
+  { id: 1, image: "/products/one.jpg", price: 150, alt: "Product one" },
+  { id: 2, image: "/products/two.jpg", price: 360, alt: "Product two" },
+] satisfies readonly AddToCartItem[];
+
+const images = [
+  { src: "/campaign/one.jpg", alt: "Limited edition product one" },
+  "/campaign/two.jpg",
+] satisfies readonly AddToCartImage[];
+
+export default function AddToCartExample() {
+  return (
+    <AddToCart
+      items={items}
+      images={images}
+      currency="USD"
+      locale="en-US"
+      initialItems={[2]}
+      layout={{ columns: 2, gap: "roomy", stackLimit: 4 }}
+      motion={{ duration: 0.58, strength: 0.32, peak: 0.42 }}
+      onCartChange={(cartItems, total) => {
+        console.log({ cartItems, total });
+      }}
+      className="mx-auto"
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/add-to-cart.tsx",
+        description: "Interactive Add to Cart component",
+      },
+    ],
+    assets: [
+      {
+        path: "public/images/add-to-cart/image1.png through image8.png",
+        description:
+          "Default demo artwork; optional when custom images or item image paths are used",
       },
     ],
   },
