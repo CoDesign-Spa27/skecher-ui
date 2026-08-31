@@ -39,7 +39,10 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="z-50 font-raleway" {...props} variant="floating">
       <DocsSidebarHeader />
-      <SidebarContent className="mt-2">
+      <SidebarContent
+        blurHeight={120}
+        containerClassName="mt-2 h-[calc(100svh-4rem)] flex-none md:h-[calc(100svh-5.25rem)]"
+      >
         <SidebarMenu onMouseLeave={() => setHoveredIdx(null)}>
           {SIDEBAR_OPTIONS.map((item, idx) => {
             if (item?.type === "section") {
@@ -100,9 +103,7 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                       <span className="font-semibold text-center">{item?.title}</span>
                       {item?.badge && (
                         <Badge className="font-bold rounded-sm bg-highlight p-0 text-[10px] px-1">
-                      
-                            {item?.badge?.label}
-                     
+                          {item?.badge?.label}
                         </Badge>
                       )}
                     </motion.div>

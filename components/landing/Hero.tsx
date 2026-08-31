@@ -234,7 +234,7 @@ export function Hero({ starCount }: { starCount: number }) {
         variants={shouldReduceMotion ? reducedContentSequence : contentSequence}
       >
         <motion.div
-          className="flex items-center justify-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] lg:justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
+          className="flex items-center gap-2 md:gap-[clamp(10px,0.85vw,16px)] justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
           variants={headingSequence}
         >
           <BrandMark variants={entrance} />
@@ -247,14 +247,14 @@ export function Hero({ starCount }: { starCount: number }) {
           </motion.h1>
         </motion.div>
         <motion.p
-          className="mx-auto mt-1.5 max-w-full text-balance text-center font-urbanist text-[clamp(1.65rem,8vw,2.25rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] lg:mx-0 lg:max-w-[min(42vw,797px)] lg:text-left [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:mx-0 [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:max-w-[min(42vw,797px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:text-left"
+          className="mx-auto mt-3 max-w-full text-balance font-urbanist text-[clamp(1rem,6vw,1.5rem)] leading-[1.02] font-normal tracking-[-0.035em] md:mt-0 md:text-[clamp(2rem,3.34vw,3rem)] md:leading-[0.98] lg:mx-0 lg:max-w-[min(42vw,797px)] lg:text-left [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:mx-0 [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:max-w-[min(42vw,797px)] [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:text-left"
           variants={entrance}
         >
           Components that contain life.
         </motion.p>
 
         <motion.div
-          className="mt-6 flex flex-wrap items-center justify-center gap-2 md:mt-8 lg:justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
+          className="mt-6 flex flex-wrap items-center justify-start gap-2 md:mt-8 lg:justify-start [@media(min-width:768px)_and_(max-width:1023px)_and_(max-height:699px)]:justify-start"
           variants={entrance}
         >
           <Button asChild variant="default" className="min-h-11 cursor-pointer px-5 lg:min-h-10">

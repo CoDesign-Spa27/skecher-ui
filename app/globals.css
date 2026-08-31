@@ -269,124 +269,167 @@ html.dark [data-rehype-pretty-code-figure] code span,
     inset 0px 0px 1px rgba(255, 255, 255, 0.1),
     inset 0px 0.198254px 0.396509px rgba(255, 255, 255, 0.1);
 }
-.progressive-scroll-area {
+.progressive-css-scroll-area {
   position: relative;
   min-height: 0;
   overflow: hidden;
-  isolation: isolate;
-
-  /*
-   * Allows the blur stacks to consume the scroll timeline
-   * created by the viewport inside this component.
-   */
-  timeline-scope: --progressive-scroll-timeline;
 }
 
-.progressive-scroll-viewport {
+.progressive-css-scroll-viewport {
   height: 100%;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-
-  scroll-timeline-name: --progressive-scroll-timeline;
-  scroll-timeline-axis: block;
-}
-
-/* Blur stack */
-
-.progressive-blur-stack {
-  position: absolute;
-  z-index: 20;
-  inset-inline: 0;
-  height: var(--progressive-blur-height);
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.progressive-blur-stack[data-edge="top"] {
-  top: 0;
-  --progressive-fade-direction: to top;
-}
-
-.progressive-blur-stack[data-edge="bottom"] {
-  bottom: 0;
-  --progressive-fade-direction: to bottom;
-}
-
-.progressive-blur-layer {
-  position: absolute;
-  z-index: var(--progressive-blur-index);
-  inset: 0;
-
-  backdrop-filter: blur(var(--progressive-blur-value));
-  -webkit-backdrop-filter: blur(var(--progressive-blur-value));
-
-  mask-image: var(--progressive-blur-mask);
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
-
-  -webkit-mask-image: var(--progressive-blur-mask);
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: 100% 100%;
 }
 
-/*
- * Optional dark edge fade.
- * This sits above the blur layers and produces the look
- * shown in your screenshots.
- */
-.progressive-blur-stack::after {
-  content: "";
-  position: absolute;
-  z-index: 100;
-  inset: 0;
-  pointer-events: none;
+.progressive-css-scroll-area[data-blur-top="true"] .progressive-css-scroll-viewport {
+  mask-image: linear-gradient(to bottom, transparent 0, #000 50px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 50px);
+}
 
-  background: linear-gradient(
-    var(--progressive-fade-direction),
-    transparent 0%,
-    color-mix(in srgb, var(--background) 16%, transparent) 45%,
-    color-mix(in srgb, var(--background) 72%, transparent) 100%
+.progressive-css-scroll-area[data-blur-bottom="true"] .progressive-css-scroll-viewport {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 50px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 50px), transparent 100%);
+}
+
+.progressive-css-scroll-area[data-blur-top="true"][data-blur-bottom="true"]
+  .progressive-css-scroll-viewport {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 50px,
+    #000 calc(100% - 50px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 50px,
+    #000 calc(100% - 50px),
+    transparent 100%
   );
 }
 
-/* Scroll-aware top and bottom visibility */
-
-@supports (animation-timeline: scroll()) {
-  .progressive-blur-stack[data-edge="top"] {
-    opacity: 0;
-
-    animation: progressive-blur-show-top 1s linear both;
-    animation-timeline: --progressive-scroll-timeline;
-    animation-range: 0% 8%;
-  }
-
-  .progressive-blur-stack[data-edge="bottom"] {
-    opacity: 1;
-
-    animation: progressive-blur-hide-bottom 1s linear both;
-    animation-timeline: --progressive-scroll-timeline;
-    animation-range: 92% 100%;
-  }
+.progressive-css-blur {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 20;
+  height: var(--progressive-css-blur-height);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease-out;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
 }
 
-@keyframes progressive-blur-show-top {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+.progressive-css-blur-visible {
+  opacity: 1;
 }
 
-@keyframes progressive-blur-hide-bottom {
-  from {
-    opacity: 1;
-  }
+.progressive-css-blur[data-edge="top"] {
+  top: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 45%,
+    rgb(0 0 0 / 90%) 58%,
+    rgb(0 0 0 / 65%) 72%,
+    rgb(0 0 0 / 30%) 86%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 45%,
+    rgb(0 0 0 / 90%) 58%,
+    rgb(0 0 0 / 65%) 72%,
+    rgb(0 0 0 / 30%) 86%,
+    transparent 100%
+  );
+}
 
-  to {
-    opacity: 0;
+.progressive-css-blur[data-edge="bottom"] {
+  bottom: 0;
+  mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 45%,
+    rgb(0 0 0 / 90%) 58%,
+    rgb(0 0 0 / 65%) 72%,
+    rgb(0 0 0 / 30%) 86%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 45%,
+    rgb(0 0 0 / 90%) 58%,
+    rgb(0 0 0 / 65%) 72%,
+    rgb(0 0 0 / 30%) 86%,
+    transparent 100%
+  );
+}
+
+.progressive-css-blur-strips {
+  display: flex;
+  flex-direction: column;
+}
+
+.progressive-css-blur[data-edge="bottom"] .progressive-css-blur-strips {
+  transform: rotate(180deg);
+}
+
+.progressive-css-blur-strip {
+  height: 20px;
+  flex: none;
+}
+
+.progressive-css-blur-strip-strongest {
+  height: 60px;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, rgb(0 0 0 / 80%) 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 55%,
+    rgb(0 0 0 / 80%) 72%,
+    transparent 100%
+  );
+}
+
+.progressive-css-blur-strip-soft {
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 70%, transparent 100%);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 25%,
+    #000 70%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+}
+
+.progressive-css-blur-strip-overlap {
+  margin-top: -15px;
+}
+
+.progressive-css-blur-visible .progressive-css-blur-strip {
+  will-change: backdrop-filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressive-css-blur {
+    transition: none;
   }
 }
 

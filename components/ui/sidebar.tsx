@@ -7,7 +7,6 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ProgressiveBlur } from "@/components/ui/progressive-blur";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -21,12 +20,18 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
+import { ProgressiveScrollArea } from "./ProgressiveBlurWithCss";
+
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH = "16rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
 const SIDEBAR_KEYBOARD_SHORTCUT = "b";
+const SIDEBAR_BLUR_LEVELS = [
+  8, 4.3, 4.2, 4, 3.7, 3.3, 3, 2.7, 2.3, 2, 1.7, 1.3, 1, 0.7, 0.3, 0,
+] as const;
+const SIDEBAR_BLUR_HEIGHT = 120;
 
 type SidebarContextProps = {
   state: "expanded" | "collapsed";
@@ -240,15 +245,8 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-transparent"
+          className="relative flex h-full w-full flex-col overflow-hidden group-data-[variant=floating]:rounded-br-xl group-data-[variant=floating]:rounded-tr-xl group-data-[variant=floating]:border-[0px] group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-none bg-sidebar"
         >
-          <ProgressiveBlur
-            className="hidden group-data-[variant=floating]:block"
-            position="left"
-            width="100%"
-            blurLevels={[1, 4, 8, 16]}
-          />
-
           <div className="relative z-20 flex min-h-0 flex-1 flex-col">{children}</div>
         </div>
       </div>
@@ -308,7 +306,7 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
     <main
       data-slot="sidebar-inset"
       className={cn(
-        "relative flex w-full flex-1 flex-col bg-background",
+        "relative flex min-w-0 w-full flex-1 flex-col bg-background",
         "transition-[margin] duration-200 ease-sidebar",
         "md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2",
         className,
@@ -362,17 +360,38 @@ function SidebarSeparator({ className, ...props }: React.ComponentProps<typeof S
   );
 }
 
-function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
+function SidebarContent({
+  blurHeight = SIDEBAR_BLUR_HEIGHT,
+  blurLevels = SIDEBAR_BLUR_LEVELS,
+  children,
+  className,
+  containerClassName,
+  ref,
+  ...props
+}: React.ComponentProps<"div"> & {
+  blurHeight?: number | string;
+  blurLevels?: readonly number[];
+  containerClassName?: string;
+}) {
   return (
-    <div
-      data-slot="sidebar-content"
-      data-sidebar="content"
-      className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+    <ProgressiveScrollArea
+      blurClassName="group-data-[collapsible=icon]:hidden"
+      blurHeight={blurHeight}
+      blurLevels={blurLevels}
+      className={cn("relative flex min-h-0 flex-1 overflow-hidden", containerClassName)}
+      viewportClassName={cn(
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-x-hidden overscroll-y-contain group-data-[collapsible=icon]:overflow-hidden",
         className,
       )}
-      {...props}
-    />
+      viewportProps={{
+        ...props,
+        "data-slot": "sidebar-content",
+        "data-sidebar": "content",
+      }}
+      viewportRef={ref}
+    >
+      {children}
+    </ProgressiveScrollArea>
   );
 }
 

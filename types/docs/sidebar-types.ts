@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from "react";
 import type { Badge } from "@/components/ui/badge";
 
 interface SidebarBadgeProps {
-  label: string;
+  label?: string;
   variant: NonNullable<ComponentProps<typeof Badge>["variant"]>;
   sparkles?: boolean;
 }

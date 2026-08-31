@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/use-config";
 import { cn } from "@/lib/utils";
 
-import { ProgressiveScrollArea } from "../ui/ProgressiveBlueWithCss";
+import { ProgressiveScrollArea } from "../ui/ProgressiveBlurWithCss";
 
 type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
 type CommandKind = "cli" | "dependencies";
@@ -117,9 +117,8 @@ function PackageButton({
 
   return (
     <button
-      aria-label={`Switch from ${packageMeta[packageManager].label} to ${
-        packageMeta[nextPackageManager].label
-      }`}
+      aria-label={`Switch from ${packageMeta[packageManager].label} to ${packageMeta[nextPackageManager].label
+        }`}
       className={cn(
         "  flex h-8 w-[50px] shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] dark:bg-input/30",
         "transition-[transform,background-color,color] duration-150 ease-sidebar active:scale-[0.98]",
@@ -611,7 +610,7 @@ function SuperIsland({
     <ConnectedIslandFrame
       className={cn(
         docked &&
-          "pointer-events-auto absolute bottom-5 left-1/2 w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-7",
+        "pointer-events-auto absolute bottom-5 left-1/2 w-[calc(100%-2rem)] -translate-x-1/2 sm:bottom-7",
         className,
       )}
     >
@@ -647,7 +646,7 @@ function SuperIsland({
             className={cn(
               "min-h-0 overflow-hidden rounded-xl border-sidebar-border text-sidebar-foreground",
               docked
-                ? "absolute inset-y-0 right-0 z-50 h-full w-[min(100%,28rem)] md:relative md:col-start-2 md:row-start-1 md:w-[min(27rem,42vw)]"
+                ? "absolute inset-y-0 right-0 z-50 h-full w-[min(100%,32rem)] md:relative md:col-start-2 md:row-start-1 md:w-[min(32rem,48vw)]"
                 : "mt-4 h-[min(70vh,720px)] w-full max-w-[42rem]",
             )}
             custom={motionSettings}
