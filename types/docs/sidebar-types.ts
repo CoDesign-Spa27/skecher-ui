@@ -12,6 +12,7 @@ interface SidebarItemProps {
   title: string;
   url?: string;
   badge?: SidebarBadgeProps;
+  count?: number;
   icon?: ReactNode;
   type?: "link" | "section";
 }

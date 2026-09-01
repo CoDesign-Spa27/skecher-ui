@@ -48,8 +48,16 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
             if (item?.type === "section") {
               return (
                 <SidebarMenuItem key={item?.title} onMouseEnter={() => setHoveredIdx(null)}>
-                  <div className="px-3 pb-2 pt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                    {item.title}
+                  <div
+                    className={cn(
+                      "flex items-baseline gap-2 px-3 pb-2 text-sm font-semibold text-sidebar-foreground/75",
+                      idx === 0 ? "pt-3" : "pt-6",
+                    )}
+                  >
+                    <span>{item.title}</span>
+                    <span className="text-xs font-medium tabular-nums text-muted-foreground/70">
+                      {item.count}
+                    </span>
                   </div>
                 </SidebarMenuItem>
               );
