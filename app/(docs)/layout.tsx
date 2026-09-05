@@ -6,6 +6,7 @@ import {
   DocsSidebarTriggerLayoutGroup,
 } from "@/components/docs/layout/docs-sidebar-trigger";
 import DocsHeader from "@/components/docs/layout/header/docs-header";
+import { MobileDesktopNotice } from "@/components/docs/layout/mobile-desktop-notice";
 import { DocsSidebar } from "@/components/docs/layout/sidebar/docs-sidebar";
 import { PageWrapper } from "@/components/docs/ui/page-wrapper";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -23,6 +24,7 @@ export default function RootLayout({
           <SidebarInset className="bg-background">
             <DocsSidebarTriggerInInset />
             <DocsHeader />
+            <MobileDesktopNotice />
 
             <div className="relative h-svh w-full overflow-hidden bg-background">
               <PageWrapper>{children}</PageWrapper>
