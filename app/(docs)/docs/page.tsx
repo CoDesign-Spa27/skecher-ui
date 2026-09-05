@@ -12,10 +12,10 @@ import { publicEnv } from "@/lib/public-env";
 const COVER_BASE_URL = `${publicEnv.assetUrl}/skecher-components/covers`;
 const VIDEO_BASE_URL = `${publicEnv.assetUrl}/skecher-components/edit-video-projects`;
 
-const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component, index) => ({
+const COMPONENT_VIDEOS = COMPONENT_DOCS.map((component) => ({
   ...component,
-  coverUrl: `${COVER_BASE_URL}/skecher${index + 1}.png`,
-  videoUrl: `${VIDEO_BASE_URL}/skecher${index + 1}.webm`,
+  coverUrl: `${COVER_BASE_URL}/skecher${component.sketchId}.png`,
+  videoUrl: `${VIDEO_BASE_URL}/skecher${component.sketchId}.webm`,
 }));
 
 type ComponentVideo = (typeof COMPONENT_VIDEOS)[number];
@@ -248,9 +248,9 @@ export default function Page() {
           <div>
             <h1
               id="components-title"
-              className="mt-3 font-raleway text-2xl font-light tracking-normal text-foreground"
+              className="mt-3 font-raleway text-2xl font-medium tracking-normal text-foreground"
             >
-              Skecher made with love for the game in the game.
+              Skecher made with love, for the love of the game.
             </h1>
           </div>
         </div>

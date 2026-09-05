@@ -244,7 +244,7 @@ const ComponentWrapperContent: React.FC<ComponentWrapperProps> = ({
             previewClassName,
           )}
         >
-          <header className="relative z-30 flex h-14 shrink-0 items-center justify-between gap-3 rounded-xl bg-none px-3 sm:px-4">
+          <header className="relative z-30 flex h-16 shrink-0 items-center justify-between gap-3 rounded-xl bg-none px-3 sm:px-4">
             <motion.div
               animate={state === "collapsed" ? { x: 50, opacity: 0.6 } : { x: 0, opacity: 1 }}
               initial={false}

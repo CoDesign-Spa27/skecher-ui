@@ -10,6 +10,7 @@ interface SidebarBadgeProps {
 
 interface SidebarItemProps {
   title: string;
+  sketchId?: number;
   url?: string;
   badge?: SidebarBadgeProps;
   count?: number;

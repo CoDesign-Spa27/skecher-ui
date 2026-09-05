@@ -2,6 +2,7 @@ import type { SidebarBadgeProps } from "@/types/docs/sidebar-types";
 
 export type ComponentDoc = {
   id: string;
+  sketchId: number;
   title: string;
   slug: string;
   eyebrow: string;
@@ -30,9 +31,9 @@ function githubRegistryItem(slug: string) {
   return `CoDesign-Spa27/skecher-ui/${slug}`;
 }
 
-// Keep this list in release order (oldest to newest). The intro page uses the
-// position here to match each component with its numbered cover and video asset.
-export const COMPONENT_DOCS: ComponentDoc[] = [
+// Keep this list in release order (oldest to newest). Each component's sketchId
+// is derived from its position and matches the numbered cover and video assets.
+const COMPONENT_DOCS_IN_RELEASE_ORDER: Omit<ComponentDoc, "sketchId">[] = [
   {
     id: "streaming-text",
     title: "Streaming Text",
@@ -1515,6 +1516,13 @@ export default function AppleMailTabsExample() {
     ],
   },
 ];
+
+export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(
+  (component, index) => ({
+    ...component,
+    sketchId: index + 1,
+  }),
+);
 
 export function getComponentDoc(slug: string) {
   return COMPONENT_DOCS.find((page) => page.slug === slug);

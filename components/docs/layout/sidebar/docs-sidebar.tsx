@@ -19,16 +19,26 @@ import { SIDEBAR_OPTIONS } from "@/constants/sidebar-options";
 import { cn } from "@/lib/utils";
 
 import DocsSidebarHeader from "./sidebar-header";
+import { SidebarVideoPreview } from "./sidebar-video-preview";
 
 const FAST_SPRING: Transition = { type: "spring", stiffness: 600, damping: 30 };
 const ITEM_HOVER_SPRING: Transition = { type: "spring", stiffness: 700, damping: 30 };
 const REDUCED_MOTION_TRANSITION: Transition = { duration: 0.12 };
 
+type HoveredSidebarItem = {
+  anchorX: number;
+  anchorY: number;
+  idx: number;
+};
+
 export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
   const { isMobile, setOpenMobile } = useSidebar();
   const shouldReduceMotion = useReducedMotion();
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [hoveredSidebarItem, setHoveredSidebarItem] = useState<HoveredSidebarItem | null>(null);
+  const hoveredIdx = hoveredSidebarItem?.idx ?? null;
+  const hoveredItem = hoveredIdx === null ? null : (SIDEBAR_OPTIONS[hoveredIdx] ?? null);
+  const previewItem = hoveredItem?.sketchId ? hoveredItem : null;
 
   const handleLinkClick = () => {
     if (isMobile) {
@@ -43,11 +53,11 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
         blurHeight={120}
         containerClassName="mt-2 h-[calc(100svh-4rem)] flex-none md:h-[calc(100svh-5.25rem)]"
       >
-        <SidebarMenu onMouseLeave={() => setHoveredIdx(null)}>
+        <SidebarMenu onMouseLeave={() => setHoveredSidebarItem(null)}>
           {SIDEBAR_OPTIONS.map((item, idx) => {
             if (item?.type === "section") {
               return (
-                <SidebarMenuItem key={item?.title} onMouseEnter={() => setHoveredIdx(null)}>
+                <SidebarMenuItem key={item?.title} onMouseEnter={() => setHoveredSidebarItem(null)}>
                   <div
                     className={cn(
                       "flex items-baseline gap-2 px-3 pb-2 text-sm font-semibold text-sidebar-foreground/75",
@@ -72,7 +82,20 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem key={item?.title}>
                 <SidebarMenuButton
                   asChild
-                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onMouseEnter={(event) => {
+                    const bounds = event.currentTarget.getBoundingClientRect();
+                    const itemContent = event.currentTarget.querySelector<HTMLElement>(
+                      "[data-sidebar-item-content]",
+                    );
+                    const contentBounds = itemContent?.getBoundingClientRect() ?? bounds;
+                    const pendingHoverOffset = isActive || shouldReduceMotion ? 0 : 6;
+
+                    setHoveredSidebarItem({
+                      anchorX: contentBounds.right + pendingHoverOffset,
+                      anchorY: bounds.top + bounds.height / 2,
+                      idx,
+                    });
+                  }}
                   isActive={isActive}
                   className={cn("border border-transparent relative")}
                 >
@@ -102,6 +125,7 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                     <motion.div
                       animate={{ opacity, x }}
                       className="flex items-center gap-2 pl-6 active:scale-[0.97]"
+                      data-sidebar-item-content=""
                       initial={false}
                       style={{ transformOrigin: "left center" }}
                       transition={
@@ -122,6 +146,11 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
           })}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarVideoPreview
+        anchorX={hoveredSidebarItem?.anchorX ?? 0}
+        anchorY={hoveredSidebarItem?.anchorY ?? 0}
+        item={previewItem}
+      />
       {/* <SidebarFooter>
                 <SidebarMenuButton
                     variant="outline"

@@ -55,6 +55,7 @@ function createComponentLink(slug: string): SidebarItemProps | null {
 
   return {
     badge: page.sidebarBadge,
+    sketchId: page.sketchId,
     title: page.title,
     url: `/docs/${page.slug}`,
   };
@@ -75,6 +76,7 @@ const categorizedOptions = COMPONENT_GROUPS.flatMap((group) => {
 const uncategorizedOptions = COMPONENT_DOCS.filter((page) => !categorizedSlugs.has(page.slug)).map(
   (page) => ({
     badge: page.sidebarBadge,
+    sketchId: page.sketchId,
     title: page.title,
     url: `/docs/${page.slug}`,
   }),
