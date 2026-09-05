@@ -46,8 +46,8 @@ interface ComponentWrapperProps extends Omit<React.ComponentProps<"section">, "c
   title?: string;
 }
 
-const DETAILS_PANEL_MAX_WIDTH = 36 * 16;
-const DETAILS_PANEL_VIEWPORT_RATIO = 0.48;
+const DETAILS_PANEL_MAX_WIDTH = 40 * 16;
+const DETAILS_PANEL_VIEWPORT_RATIO = 0.78;
 
 function formatBreadcrumbTitle(title: string) {
   return title

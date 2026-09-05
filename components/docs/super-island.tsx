@@ -1,7 +1,9 @@
 "use client";
 
+import { Info } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import { IconXTwitter } from "nucleo-social-media";
 import { IconSquareMinusFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import * as React from "react";
 import { createPortal } from "react-dom";
@@ -347,6 +349,41 @@ function DependencyList({ dependencies }: { dependencies: string[] }) {
   );
 }
 
+function DocumentationFooter() {
+  return (
+    <footer className="space-y-3 pt-4">
+      <aside className="rounded-xl bg-muted p-4 sm:p-5">
+        <div className="flex items-start gap-4">
+          <div className="min-w-0 space-y-1.5">
+
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2"><Info aria-hidden="true" className="size-5" strokeWidth={2} /> Credit where it’s due</h3>
+            <p className="max-w-[65ch] text-sm leading-6 text-muted-foreground">
+              Not every idea here is originally mine. These components draw inspiration from work
+              shared across the web and the open-source community. Credit belongs to the original
+              creators, so please review any relevant licenses before using them in production.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <div className="flex flex-col gap-3 rounded-xl bg-muted p-4 lg:flex-row lg:items-center lg:justify-between">
+        <p className="text-sm font-medium text-muted-foreground">Have any questions?</p>
+        <a
+          aria-label="Contact @roohbuilds on X"
+          className="flex min-h-11 w-fit items-center gap-2 rounded-xl border border-border bg-background/40 px-4 text-sm font-medium text-foreground transition-[background-color,color,transform] duration-150 ease-sidebar hover:bg-muted/60 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none motion-reduce:active:scale-100"
+          href="https://x.com/roohbuilds"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span>Contact on</span>
+          <IconXTwitter aria-hidden="true" className="size-4" />
+          <span>@roohbuilds</span>
+        </a>
+      </div>
+    </footer>
+  );
+}
+
 function ManualPanelContent({
   dependencies,
   manualSteps,
@@ -466,6 +503,8 @@ function ManualPanelContent({
               {usageExample}
             </section>
           ) : null}
+
+          <DocumentationFooter />
         </div>
       </ProgressiveScrollArea>
     </div>
@@ -646,8 +685,8 @@ function SuperIsland({
             className={cn(
               "min-h-0 overflow-hidden rounded-xl border-sidebar-border text-sidebar-foreground",
               docked
-                ? "absolute inset-y-0 right-0 z-50 h-full w-[min(100%,32rem)] md:relative md:col-start-2 md:row-start-1 md:w-[min(32rem,48vw)]"
-                : "mt-4 h-[min(70vh,720px)] w-full max-w-[42rem]",
+                ? "absolute inset-y-0 right-0 z-50 h-full w-full md:relative md:col-start-2 md:row-start-1  "
+                : "mt-4 h-[min(70vh,720px)] w-full",
             )}
             custom={motionSettings}
             data-super-island-panel=""
