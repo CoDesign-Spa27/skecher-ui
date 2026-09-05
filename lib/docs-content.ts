@@ -30,8 +30,9 @@ function githubRegistryItem(slug: string) {
   return `CoDesign-Spa27/skecher-ui/${slug}`;
 }
 
+// Keep this list in release order (oldest to newest). The intro page uses the
+// position here to match each component with its numbered cover and video asset.
 export const COMPONENT_DOCS: ComponentDoc[] = [
- 
   {
     id: "streaming-text",
     title: "Streaming Text",
@@ -1382,7 +1383,7 @@ export default function VelocityTabsExample() {
       },
     ],
   },
-   {
+  {
     id: "add-to-cart",
     title: "Add to Cart",
     slug: "add-to-cart",
@@ -1444,6 +1445,72 @@ export default function AddToCartExample() {
         path: "public/images/add-to-cart/image1.png through image8.png",
         description:
           "Default demo artwork; optional when custom images or item image paths are used",
+      },
+    ],
+  },
+  {
+    id: "apple-mail-tabs",
+    title: "Apple Mail Tabs",
+    slug: "apple-mail-tabs",
+    eyebrow: "Components",
+    description:
+      "A colorful mail category selector inspired by Apple Mail, with compact inactive tabs and an expanded active label.",
+    details: [],
+    dependencies: ["react", "lucide-react", "motion"],
+    installDependencies: ["lucide-react", "motion"],
+    cliCommand: githubRegistryItem("apple-mail-tabs"),
+    importName: "AppleMailTabs",
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    usage: `"use client";
+
+import { Bell, Newspaper, ShoppingBag } from "lucide-react";
+import { useState } from "react";
+
+import { AppleMailTabs } from "@/components/ui/apple-mail-tabs";
+
+const tabs = [
+  {
+    value: "news",
+    label: "News",
+    icon: Newspaper,
+    activeBackgroundClassName: "bg-[#0a84ff]",
+    activeTextClassName: "text-white",
+  },
+  {
+    value: "orders",
+    label: "Orders",
+    icon: ShoppingBag,
+    activeBackgroundClassName: "bg-[#30d158]",
+    activeTextClassName: "text-[#09280f]",
+  },
+  {
+    value: "alerts",
+    label: "Alerts",
+    icon: Bell,
+    activeBackgroundClassName: "bg-[#ff9f0a]",
+    activeTextClassName: "text-[#261700]",
+  },
+] as const;
+
+export default function AppleMailTabsExample() {
+  const [value, setValue] = useState("news");
+
+  return (
+    <AppleMailTabs
+      aria-label="Inbox categories"
+      tabs={tabs}
+      value={value}
+      onValueChange={setValue}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/apple-mail-tabs.tsx",
+        description: "Apple Mail-inspired category tabs component",
       },
     ],
   },

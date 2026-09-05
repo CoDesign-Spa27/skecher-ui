@@ -22,6 +22,7 @@ const COMPONENT_GROUPS = [
       "gooey-toolbar",
       "dock",
       "expandable-mobile-nav",
+      "apple-mail-tabs",
       "velocity-tabs",
       "add-to-cart",
     ],

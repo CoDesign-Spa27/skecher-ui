@@ -4,6 +4,21 @@
   "homepage": "https://github.com/CoDesign-Spa27/skecher-ui",
   "items": [
     {
+      "name": "apple-mail-tabs",
+      "type": "registry:ui",
+      "title": "Apple Mail Tabs",
+      "description": "A colorful, horizontally scrollable mail category selector with compact inactive tabs and an expanded active tab.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["lucide-react", "motion"],
+      "files": [
+        {
+          "path": "components/ui-components/apple-mail-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["navigation", "tabs", "mobile"]
+    },
+    {
       "name": "add-to-cart",
       "type": "registry:ui",
       "title": "Add to Cart",

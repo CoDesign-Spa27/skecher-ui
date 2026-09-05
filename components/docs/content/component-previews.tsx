@@ -1,3 +1,4 @@
+import { AppleMailTabsPreview } from "@/components/docs/content/apple-mail-tabs-preview";
 import {
   DialedAddToCartPreview,
   DialedAiChatBoxPreview,
@@ -24,6 +25,7 @@ import { MorphingText } from "@/components/ui-components/text-morphing";
 
 export const COMPONENT_PREVIEWS = {
   "add-to-cart": <DialedAddToCartPreview />,
+  "apple-mail-tabs": <AppleMailTabsPreview />,
   "ai-chat-box": <DialedAiChatBoxPreview />,
   "ai-orb": <DialedAiOrbPreview />,
   "dither-credit-card": <DialedDitherCreditCardPreview />,

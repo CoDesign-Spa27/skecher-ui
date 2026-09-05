@@ -1,6 +1,7 @@
 import { AddToCartDoc } from "@/components/docs/content/add-to-cart-doc";
 import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
+import { AppleMailTabsDoc } from "@/components/docs/content/apple-mail-tabs-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
 import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
@@ -27,6 +28,7 @@ type ComponentDocPage = (props: {
 
 export const DOC_RENDERERS = {
   "add-to-cart": AddToCartDoc,
+  "apple-mail-tabs": AppleMailTabsDoc,
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "dither-credit-card": DitherCreditCardDoc,
