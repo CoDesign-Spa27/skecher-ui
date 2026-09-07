@@ -136,6 +136,39 @@
 /* Shiki dual-theme: apply light/dark CSS vars based on color mode */
 
 /* Shiki multi-theme support - switch between light/dark themes */
+
+:root {
+  /* Code-block base colors */
+  --code-light-background: transparent;
+  --code-light-foreground: oklch(0.28 0.02 260);
+
+  /* Individual token colors */
+  --code-light-token-comment: oklch(0.55 0.03 260);
+  --code-light-token-keyword: oklch(59.373% 0.19383 140.673);
+  --code-light-token-string: oklch(0.48 0.14 145);
+  --code-light-token-constant: oklch(0.55 0.18 40);
+  --code-light-token-function: oklch(0.5 0.18 250);
+  --code-light-token-parameter: oklch(0.45 0.12 210);
+  --code-light-token-punctuation: oklch(0.45 0.02 260);
+  --code-light-token-string-expression: oklch(0.704 0.191 22.216);
+  --code-light-token-link: oklch(0.5 0.2 250);
+}
+
+.dark {
+  --code-dark-background: transparent;
+  --code-dark-foreground: oklch(0.9 0.02 260);
+
+  --code-dark-token-comment: oklch(0.65 0.03 260);
+  --code-dark-token-keyword: oklch(91.122% 0.19047 138.535);
+  --code-dark-token-string: oklch(0.78 0.14 145);
+  --code-dark-token-constant: oklch(98.695% 0.00632 255.756);
+  --code-dark-token-function: oklch(83.339% 0.15129 77.022);
+  --code-dark-token-parameter: oklch(0.78 0.1 210);
+  --code-dark-token-punctuation: oklch(0.72 0.02 260);
+  --code-dark-token-string-expression: oklch(0.704 0.191 22.216);
+  --code-dark-token-link: oklch(0.76 0.16 250);
+}
+
 html:not(.dark) .shiki,
 html:not(.dark) .shiki span,
 html:not(.dark) [data-rehype-pretty-code-figure] code,
@@ -148,6 +181,7 @@ html:not(.dark) [data-rehype-pretty-code-figure] code span,
   font-style: var(--shiki-light-font-style) !important;
   font-weight: var(--shiki-light-font-weight) !important;
   text-decoration: var(--shiki-light-text-decoration) !important;
+  
 }
 
 html.dark .shiki,

@@ -7,6 +7,7 @@ import { jsx, jsxs } from "react/jsx-runtime";
 import { type BundledLanguage, codeToHast } from "shiki";
 
 import { cn } from "@/lib/utils";
+import { createCssVariablesTheme } from "shiki/core";
 
 export type CodeBlockProps = {
   ariaLabel?: string;
@@ -16,6 +17,18 @@ export type CodeBlockProps = {
   scrollMode?: "both" | "horizontal";
   showLineNumbers?: boolean;
 } & ({ filePath: string; source?: never } | { filePath?: never; source: string });
+
+const lightCodeTheme = createCssVariablesTheme({
+  name: "custom-light",
+  variablePrefix: "--code-light-",
+  fontStyle: true,
+});
+
+const darkCodeTheme = createCssVariablesTheme({
+  name: "custom-dark",
+  variablePrefix: "--code-dark-",
+  fontStyle: true,
+});
 
 export async function CodeBlock({
   ariaLabel,
@@ -33,8 +46,8 @@ export async function CodeBlock({
   const hast = await codeToHast(code, {
     lang: language,
     themes: {
-      dark: "vesper",
-      light: "night-owl-light",
+      light: lightCodeTheme,
+      dark: darkCodeTheme,
     },
     defaultColor: false,
     transformers: [
