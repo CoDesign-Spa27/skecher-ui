@@ -1,0 +1,73 @@
+:root {
+  --drawer-fade: linear-gradient(
+    to top,
+    rgb(255 255 255 / 85%),
+    rgb(255 255 255 / 25%),
+    transparent
+  );
+  --drawer-top-fade: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 85%),
+    rgb(255 255 255 / 25%),
+    transparent
+  );
+}
+
+.dark {
+  --drawer-fade: linear-gradient(to top, rgb(23 23 23 / 85%), rgb(23 23 23 / 35%), transparent);
+  --drawer-top-fade: linear-gradient(
+    to bottom,
+    rgb(23 23 23 / 85%),
+    rgb(23 23 23 / 35%),
+    transparent
+  );
+}
+
+/*
+ * The scroller publishes its timeline to the panel so the two blur overlays,
+ * which are siblings rather than descendants, can follow its scroll progress.
+ */
+@supports (animation-timeline: scroll()) {
+  .drawer-scroll-source {
+    scroll-timeline-name: --drawer-body;
+    scroll-timeline-axis: y;
+  }
+
+  .drawer-scroll-scope {
+    timeline-scope: --drawer-body;
+  }
+
+  @keyframes drawer-bottom-fade-out {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes drawer-top-fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .drawer-top-fade {
+    animation: drawer-top-fade-in 1ms linear;
+    animation-timeline: --drawer-body;
+    animation-range: 0% 6rem;
+    animation-fill-mode: both;
+  }
+
+  .drawer-bottom-fade {
+    animation: drawer-bottom-fade-out 1ms linear;
+    animation-timeline: --drawer-body;
+    animation-range: calc(100% - 6rem) 100%;
+    animation-fill-mode: both;
+  }
+}

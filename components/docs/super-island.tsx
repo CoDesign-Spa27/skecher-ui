@@ -8,15 +8,14 @@ import { IconSquareMinusFillDuo18 } from "nucleo-ui-essential-fill-duo-18";
 import * as React from "react";
 import { createPortal } from "react-dom";
 
+
 import { BunIcon, NpmIcon, PnpmIcon, YarnIcon } from "@/assets/code-block/icons";
 import { useSuperIslandLayout } from "@/components/docs/super-island-layout";
 import CopyButton from "@/components/docs/ui/copy-button";
 import { Button } from "@/components/ui/button";
 import { useConfig } from "@/hooks/use-config";
 import { cn } from "@/lib/utils";
-
-import { ProgressiveScrollArea } from "../ui/ProgressiveBlurWithCss";
-
+import './super-island-scroll-fade.css'
 type PackageManager = "npm" | "yarn" | "pnpm" | "bun";
 type CommandKind = "cli" | "dependencies";
 
@@ -400,13 +399,53 @@ function ManualPanelContent({
   const hasDependencyIcons = dependencies.some((dependency) => dependencyIcons[dependency]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden">
-      <ProgressiveScrollArea
-        className="no-scrollbar relative min-h-0 flex-1 overflow-hidden px-5"
-        blurHeight="160px"
-        blurLevels={[0.5, 1, 2, 4, 8, 16, 32, 64]}
-        viewportClassName="touch-pan-y"
-      >
+    <div className="drawer-scroll-scope relative flex h-full min-h-0 flex-col overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="drawer-top-fade pointer-events-none absolute inset-x-0 top-0 z-50 h-16 backdrop-blur-[2px]"
+        style={{
+          backgroundImage: "var(--drawer-top-fade)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="drawer-top-fade pointer-events-none absolute inset-x-0 top-0 z-50 h-30 backdrop-blur-[3px]"
+        style={{
+          backgroundImage: "var(--drawer-top-fade)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="drawer-bottom-fade pointer-events-none absolute inset-x-0 bottom-0 z-50 h-16 backdrop-blur-[2px]"
+        style={{
+          backgroundImage: "var(--drawer-fade)",
+          WebkitMaskImage:
+            "linear-gradient(to top, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to top, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="drawer-bottom-fade pointer-events-none absolute inset-x-0 bottom-0 z-50 h-30 backdrop-blur-[3px]"
+        style={{
+          backgroundImage: "var(--drawer-fade)",
+          WebkitMaskImage:
+            "linear-gradient(to top, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to top, var(--foreground) 0%, var(--foreground) 40%, transparent 100%)",
+        }}
+      />
+
+      <div className="drawer-scroll-source no-scrollbar relative min-h-0 flex-1 touch-pan-y overflow-x-hidden overflow-y-auto overscroll-y-contain px-5">
         <div className="flex items-center justify-between space-y-8 pt-[50%]">
           <div className="min-w-0 space-y-1.5">
             <h2 className="font-raleway text-base font-semibold text-foreground" id={titleId}>
@@ -506,7 +545,7 @@ function ManualPanelContent({
 
           <DocumentationFooter />
         </div>
-      </ProgressiveScrollArea>
+      </div>
     </div>
   );
 }
