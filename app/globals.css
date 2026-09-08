@@ -133,6 +133,12 @@
   @apply flex flex-col gap-4 max-w-[1200px] mx-auto;
 }
 
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(36, 36, 36) transparent;
+}
+
 /* Shiki dual-theme: apply light/dark CSS vars based on color mode */
 
 /* Shiki multi-theme support - switch between light/dark themes */
@@ -275,10 +281,10 @@ html.dark [data-rehype-pretty-code-figure] code span,
 .button-primary {
   background: linear-gradient(255.97deg, #ff8f5f 1.94%, #ff4c00 79.02%);
   box-shadow:
-    0px 11.3915px 12.3363px rgba(114, 68, 0, 0.137105),
+    0px 1.3915px 1.3363px rgba(114, 68, 0, 0.137105),
     0px 3.39155px 6.6501px rgba(114, 68, 0, 0.0928953),
-    inset 0px -3px 1px #c02600,
-    inset 0px 3px 0px rgba(255, 255, 255, 0.55);
+    inset 0px -1px 1px #c02600,
+    inset 0px 1px 0px rgba(255, 255, 255, 0.55);
   color: #ffffff;
 }
 
