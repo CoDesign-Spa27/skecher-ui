@@ -5,6 +5,7 @@ import { MorphStackMark } from "@/components/docs/content/morph-stack-preview";
 import { DocsSidebarTriggerInSidebar } from "@/components/docs/layout/docs-sidebar-trigger";
 import { SidebarHeader } from "@/components/ui/sidebar";
 import type { MorphStackMotion } from "@/components/ui-components/morph-stack";
+import { Logo, LogoMark } from "@/components/brand/logo";
 
 const SIDEBAR_MARK_MOTION = {
   back: { active: { z: -12 } },
@@ -24,28 +25,10 @@ const DocsSidebarHeader = () => {
           aria-label="Skecher UI home"
           className="flex min-w-0 flex-1 items-center gap-1.5 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
         >
-          <MorphStackMark
-            className="size-9 shrink-0"
-            motion={SIDEBAR_MARK_MOTION}
-            plateClassName="size-9"
-          />
-          <span className="relative block h-8 w-[118px] overflow-hidden" aria-hidden="true">
-            <Image
-              src="/icon/dark-full-logo.svg"
-              alt=""
-              className="absolute top-0 left-[-30px] hidden h-8 w-[148px] max-w-none dark:block"
-              unoptimized
-              width={150}
-              height={32}
-            />
-            <Image
-              src="/icon/ligh-full-logo.svg"
-              alt=""
-              className="absolute top-0 left-[-30px] block h-8 w-[148px] max-w-none dark:hidden"
-              unoptimized
-              width={150}
-              height={32}
-            />
+        
+          <LogoMark className="h-8 w-8" />
+          <span className="font-instrument-serif text-3xl leading-none text-white">
+            Skecher-ui
           </span>
         </Link>
         <DocsSidebarTriggerInSidebar />

@@ -1,12 +1,22 @@
-
-import { Hero } from "./Hero";
 import { fetchStarCount } from "@/lib/github";
+
+import { Footer } from "./footer";
+import { Hero } from "./Hero";
+import { OrbitSection } from "./orbit-section";
+import { Showcase } from "./showcase";
 
 export default async function Page() {
   const starCount = await fetchStarCount();
+
   return (
-    <main className="min-h-svh bg-[#171717] text-white">
+    <main className="min-h-svh bg-black text-white">
       <Hero starCount={starCount || 0} />
+
+      <Showcase />
+
+      <OrbitSection />
+
+      <Footer />
 
       {/* <section
         aria-labelledby="landing-library-title"
