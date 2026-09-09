@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { IconGithub } from "nucleo-social-media";
 import * as React from "react";
@@ -21,16 +22,11 @@ const LIFT_ON = 28;
 const LIFT_OFF = 10;
 
 const spring = { type: "spring", stiffness: 500, damping: 52 } as const;
- 
+
 const BAND_SHIFT = -8;
- 
+
 const ROW_SHIFT = 15;
-const BAR_HEIGHT = "clamp(58px,6.4vw,64px)";
-
-const BAND_HEIGHT = "clamp(112px,14vh,168px)";
-
-const BAR_INSET_X = "calc(clamp(12px,1.48vw,19px) + clamp(12px,1.6vw,22px))";
-const BAR_INSET_TOP = "calc(clamp(12px,2.25vh,18px) + clamp(12px,1.6vw,18px))";
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
 
 const linkClassName = cn(
   "relative inline-flex min-h-8 items-center gap-1.5 rounded-lg px-3 font-urbanist text-[13.5px] leading-none",
@@ -42,6 +38,11 @@ const linkClassName = cn(
 
 export function LandingNav({ className, current = "/" }: { className?: string; current?: string }) {
   const [isLifted, setIsLifted] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null);
+  const closeButtonRef = React.useRef<HTMLButtonElement>(null);
+  const menuPanelRef = React.useRef<HTMLDivElement>(null);
+  const menuWasOpen = React.useRef(false);
   const reduceMotion = useReducedMotion();
   // Lands first, ahead of the hero copy.
   const { item, sequence } = useReveal({ delay: 0.05 });
@@ -77,24 +78,109 @@ export function LandingNav({ className, current = "/" }: { className?: string; c
     };
   }, []);
 
+  React.useEffect(() => {
+    if (!isMenuOpen) {
+      if (menuWasOpen.current) menuButtonRef.current?.focus();
+      menuWasOpen.current = false;
+      return;
+    }
+
+    menuWasOpen.current = true;
+    // iOS Safari scrolls the page behind an `overflow: hidden` body, so the
+    // body is pinned at its current offset and restored on close instead.
+    const scrollOffset = window.scrollY;
+    const previous = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+    };
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollOffset}px`;
+    document.body.style.width = "100%";
+
+    const focusableElements = () =>
+      Array.from(
+        menuPanelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+      const elements = focusableElements();
+      if (elements.length === 0) return;
+
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previous.overflow;
+      document.body.style.position = previous.position;
+      document.body.style.top = previous.top;
+      document.body.style.width = previous.width;
+      // Pinning the body reports scrollY as 0, which would leave the bar merged
+      // behind the closing panel; restoring it re-fires scroll and settles.
+      window.scrollTo(0, scrollOffset);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMenuOpen]);
+
+  React.useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 640px)");
+    const closeMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setIsMenuOpen(false);
+    };
+
+    desktopQuery.addEventListener("change", closeMenuOnDesktop);
+    return () => desktopQuery.removeEventListener("change", closeMenuOnDesktop);
+  }, []);
+
   return (
     <>
-      <div aria-hidden="true" style={{ height: BAR_HEIGHT }} />
+      {/* Header padding plus the 40px row, per breakpoint. The spacer stands in
+          for a bar that is no longer in flow, so an approximation here shifts
+          the hero composition by exactly the amount it is off. */}
+      <div aria-hidden="true" className="h-16 sm:h-[68px] lg:h-[72px]" />
 
       <motion.header
         // `initial={false}` so a reload at a scrolled position snaps to lifted
         // instead of springing in behind the user.
         animate={isLifted ? "lifted" : "merged"}
-        className={cn("group fixed inset-x-0 top-0 z-50", className)}
+        className={cn(
+          "group fixed inset-x-0 top-0 z-50 px-2 pt-6 sm:px-8 sm:pt-7 lg:px-10 lg:pt-8",
+          className,
+        )}
         data-state={isLifted ? "lifted" : "merged"}
         initial={false}
-        style={{ paddingInline: BAR_INSET_X, paddingTop: BAR_INSET_TOP }}
         transition={spring}
+        // Keeps the bar behind the open panel out of the tab order and the
+        // accessibility tree; the key handler only cycles focus, it cannot stop
+        // focus leaving for the page underneath. Spread rather than passed as
+        // `false`, because an `inert` attribute is truthy at any value and a
+        // stray one would silently kill the toggle.
+        {...(isMenuOpen ? { inert: true } : {})}
       >
         <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10"
-          style={{ height: BAND_HEIGHT }}
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 sm:h-36 lg:h-40"
           variants={{
             lifted: { opacity: 1, transform: "translateY(0px)" },
             // Flattened rather than gated at the style layer: the travel is what
@@ -130,14 +216,14 @@ export function LandingNav({ className, current = "/" }: { className?: string; c
                 href="/"
               >
                 <LogoMark className="h-10 w-10" />
-                <span className="font-instrument-serif text-3xl leading-none text-white">
+                <span className="hidden font-instrument-serif text-3xl leading-none text-white sm:inline">
                   Skecher-ui
                 </span>
               </Link>
             </motion.div>
 
             <motion.ul
-              className="flex items-center gap-0.5 rounded-xl bg-[#171717] px-1 py-1"
+              className="hidden items-center gap-0.5 rounded-xl bg-[#171717] px-1 py-1 sm:flex"
               variants={item}
             >
               {NAV_LINKS.map((link) => (
@@ -165,9 +251,139 @@ export function LandingNav({ className, current = "/" }: { className?: string; c
                 </li>
               ))}
             </motion.ul>
+
+            <motion.button
+              aria-controls="landing-mobile-menu"
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              className="inline-flex size-10 items-center justify-center rounded-lg bg-[#171717] text-white outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-white/35 sm:hidden [@media(hover:hover)_and_(pointer:fine)]:hover:bg-[#222]"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              ref={menuButtonRef}
+              type="button"
+              variants={item}
+              // `scale`, not a `transform` string: this element's reveal variant
+              // animates `y`, and the two cannot both drive the transform.
+              whileTap={{ scale: reduceMotion ? 1 : 0.96 }}
+            >
+              <Menu aria-hidden="true" className="size-5" strokeWidth={1.8} />
+            </motion.button>
           </motion.nav>
         </motion.div>
       </motion.header>
+
+      <AnimatePresence>
+        {isMenuOpen ? (
+          <motion.div
+            animate={{ opacity: 1, transform: "translateY(0%)" }}
+            aria-labelledby="landing-mobile-menu-title"
+            aria-modal="true"
+            className="fixed inset-0 z-[60] flex h-svh flex-col overflow-y-auto overscroll-contain bg-[#0a0a0a] px-6 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-white sm:hidden"
+            exit={{
+              opacity: 0,
+              transform: reduceMotion ? "translateY(0%)" : "translateY(-1.5%)",
+            }}
+            id="landing-mobile-menu"
+            initial={{
+              opacity: 0,
+              transform: reduceMotion ? "translateY(0%)" : "translateY(-1.5%)",
+            }}
+            ref={menuPanelRef}
+            role="dialog"
+            transition={{ duration: reduceMotion ? 0.18 : 0.24, ease: EASE_OUT }}
+          >
+            <motion.div
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
+              className="flex items-center justify-between"
+              exit={{
+                opacity: 0,
+                transform: reduceMotion ? "translateY(0px)" : "translateY(-6px)",
+              }}
+              initial={{
+                opacity: 0,
+                transform: reduceMotion ? "translateY(0px)" : "translateY(-6px)",
+              }}
+              transition={{ delay: reduceMotion ? 0 : 0.03, duration: 0.2, ease: EASE_OUT }}
+            >
+              <Link
+                aria-label="Skecher UI home"
+                className="rounded-lg outline-none focus-visible:ring-[3px] focus-visible:ring-white/35"
+                href="/"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <LogoMark className="size-10" />
+              </Link>
+              <motion.button
+                aria-label="Close navigation menu"
+                className="inline-flex size-10 items-center justify-center rounded-lg bg-white/10 text-white outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-white/35 [@media(hover:hover)_and_(pointer:fine)]:hover:bg-white/15"
+                onClick={() => setIsMenuOpen(false)}
+                ref={closeButtonRef}
+                type="button"
+                whileTap={{ scale: reduceMotion ? 1 : 0.94 }}
+              >
+                <X aria-hidden="true" className="size-5" strokeWidth={1.8} />
+              </motion.button>
+            </motion.div>
+
+            <motion.nav
+              animate={{ opacity: 1, transform: "translateY(0px)" }}
+              aria-label="Mobile primary"
+              className="flex flex-1 items-center"
+              exit={{
+                opacity: 0,
+                transform: reduceMotion ? "translateY(0px)" : "translateY(8px)",
+              }}
+              initial={{
+                opacity: 0,
+                transform: reduceMotion ? "translateY(0px)" : "translateY(10px)",
+              }}
+              transition={{ delay: reduceMotion ? 0 : 0.04, duration: 0.22, ease: EASE_OUT }}
+            >
+              <ul className="w-full">
+                {NAV_LINKS.map((link) => (
+                  <li className="" key={link.href}>
+                    {"external" in link ? (
+                      <a
+                        className="flex min-h-16 items-center justify-between rounded-lg px-2 font-urbanist text-2xl font-medium outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-white/35 [@media(hover:hover)_and_(pointer:fine)]:hover:bg-white/5"
+                        href={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {link.label}
+                        <IconGithub aria-hidden="true" className="size-5 text-white/60" />
+                      </a>
+                    ) : (
+                      <Link
+                        aria-current={current === link.href ? "page" : undefined}
+                        className={cn(
+                          "flex min-h-16 items-center rounded-lg px-2 font-urbanist text-2xl font-medium text-white/65 outline-none transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-white/35",
+                          "[@media(hover:hover)_and_(pointer:fine)]:hover:bg-white/5 [@media(hover:hover)_and_(pointer:fine)]:hover:text-white",
+                          current === link.href && "text-white",
+                        )}
+                        href={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>
+
+            <motion.p
+              animate={{ opacity: 1 }}
+              className="font-urbanist text-sm text-white/45"
+              exit={{ opacity: 0 }}
+              id="landing-mobile-menu-title"
+              initial={{ opacity: 0 }}
+              transition={{ delay: reduceMotion ? 0 : 0.04, duration: 0.18, ease: EASE_OUT }}
+            >
+              Skecher UI navigation
+            </motion.p>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </>
   );
 }
