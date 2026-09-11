@@ -1515,6 +1515,62 @@ export default function AppleMailTabsExample() {
       },
     ],
   },
+  {
+    id: "morph-menu",
+    title: "Morph Menu",
+    slug: "morph-menu",
+    eyebrow: "Components",
+    description:
+      "A measured action menu that morphs between compact and expanded states with configurable directional movement.",
+    details: [],
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    dependencies: ["react", "motion", "lucide-react", "react-use-measure"],
+    installDependencies: ["motion", "lucide-react", "react-use-measure"],
+    cliCommand: githubRegistryItem("morph-menu"),
+    importName: "MorphMenu",
+    usage: `"use client";
+
+import { MorphMenu, type MorphMenuItem } from "@/components/ui/morph-menu";
+
+const items: readonly MorphMenuItem[] = [
+  {
+    id: "project",
+    title: "New project",
+    description: "Start something from scratch",
+  },
+  {
+    id: "document",
+    title: "New document",
+    description: "Create a blank document",
+  },
+  {
+    id: "import",
+    title: "Import",
+    description: "Bring something into your workspace",
+  },
+];
+
+export default function MorphMenuExample() {
+  return (
+    <div className="flex min-h-96 items-center justify-center">
+      <MorphMenu
+        direction="top-left"
+        items={items}
+        onItemSelect={(item) => console.log(item.id)}
+      />
+    </div>
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/morph-menu.tsx",
+        description: "Measured direction-aware morph menu component",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

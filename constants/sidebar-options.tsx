@@ -25,6 +25,7 @@ const COMPONENT_GROUPS = [
       "apple-mail-tabs",
       "velocity-tabs",
       "add-to-cart",
+      "morph-menu"
     ],
   },
   {

@@ -236,6 +236,21 @@
       "categories": ["dock", "actions"]
     },
     {
+      "name": "morph-menu",
+      "type": "registry:ui",
+      "title": "Morph Menu",
+      "description": "A measured action menu that morphs between compact and expanded states with configurable directional movement.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["lucide-react", "motion", "react-use-measure"],
+      "files": [
+        {
+          "path": "components/ui-components/morph-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["menu", "interaction", "animation"]
+    },
+    {
       "name": "morph-stack",
       "type": "registry:ui",
       "title": "Morph Stack",

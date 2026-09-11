@@ -13,6 +13,7 @@ import {
 } from "@/components/docs/content/component-preview-dials";
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
+import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
 import { VelocityTabsPreview } from "@/components/docs/content/velocity-tabs-preview";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
@@ -39,6 +40,7 @@ export const COMPONENT_PREVIEWS = {
   "liquid-morphology-slideshow": <LiquidMorphologySlideshowPreview />,
   "magazine-scroller": <DialedMagazineScrollerPreview />,
   "morph-stack": <DialedMorphStackPreview />,
+  "morph-menu": <MorphMenuPreview />,
   "morphing-action-dock": <MorphingActionDock />,
   "scroll-reveal-text": <DialedScrollRevealTextPreview />,
   "sliding-panel": <SlidingPanelPreview />,

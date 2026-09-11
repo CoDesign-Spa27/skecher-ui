@@ -12,6 +12,7 @@ import { InteractiveGridHeroDoc } from "@/components/docs/content/interactive-gr
 import { LiquidGlassSocialDoc } from "@/components/docs/content/liquid-glass-social-doc";
 import { LiquidMorphologySlideshowDoc } from "@/components/docs/content/liquid-morphology-slideshow-doc";
 import { MagazineScrollerDoc } from "@/components/docs/content/magazine-scroller-doc";
+import { MorphMenuDoc } from "@/components/docs/content/morph-menu-doc";
 import { MorphStackDoc } from "@/components/docs/content/morph-stack-doc";
 import { MorphingActionDockDoc } from "@/components/docs/content/morphing-action-dock-doc";
 import { ScrollRevealTextDoc } from "@/components/docs/content/scroll-reveal-text-doc";
@@ -42,6 +43,7 @@ export const DOC_RENDERERS = {
   "liquid-morphology-slideshow": LiquidMorphologySlideshowDoc,
   "magazine-scroller": MagazineScrollerDoc,
   "morph-stack": MorphStackDoc,
+  "morph-menu": MorphMenuDoc,
   "morphing-action-dock": MorphingActionDockDoc,
   "scroll-reveal-text": ScrollRevealTextDoc,
   "sliding-panel": SlidingPanelDoc,
