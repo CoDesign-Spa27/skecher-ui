@@ -1571,6 +1571,53 @@ export default function MorphMenuExample() {
       },
     ],
   },
+  {
+    id: "spring-slider",
+    title: "Spring Slider",
+    slug: "spring-slider",
+    eyebrow: "Components",
+    description:
+      "A pill-track slider with a spring-driven fill and thumb, tick markers for each step, and a tooltip that blurs in and out as you drag.",
+    details: [],
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    dependencies: ["react", "motion", "@number-flow/react"],
+    installDependencies: ["motion", "@number-flow/react"],
+    cliCommand: githubRegistryItem("spring-slider"),
+    importName: "SpringSlider",
+    usage: `"use client";
+
+import { useState } from "react";
+
+import { SpringSlider } from "@/components/ui/spring-slider";
+
+export default function SpringSliderExample() {
+  const [size, setSize] = useState(16);
+
+  return (
+    <SpringSlider
+      aria-label="Text size"
+      min={12}
+      max={28}
+      step={4}
+      value={size}
+      onValueChange={setSize}
+      valueText={(value) => \`\${value} pixels\`}
+      renderTooltip={(value) => (
+        <span style={{ fontSize: \`\${value}px\` }}>Aa</span>
+      )}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/spring-slider.tsx",
+        description: "Spring-driven pill slider with tick markers and a blur-fade tooltip",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

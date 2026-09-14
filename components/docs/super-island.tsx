@@ -71,7 +71,7 @@ const packageMeta: Record<
 
 const modeOptions = [
   { label: "CLI", value: "cli" },
-  { label: "Details", value: "manual" },
+  { label: "More", value: "manual" },
 ] as const;
 
 const dependencyIcons: Record<string, string> = {
@@ -121,7 +121,7 @@ function PackageButton({
       aria-label={`Switch from ${packageMeta[packageManager].label} to ${packageMeta[nextPackageManager].label
         }`}
       className={cn(
-        "  flex h-8 w-[50px] shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] dark:bg-input/30",
+        "  flex h-8 w-[50px] shrink-0 items-center justify-center rounded-md bg-[#F1F1F1] dark:bg-input/30",
         "transition-[transform,background-color,color] duration-150 ease-sidebar active:scale-[0.98]",
         "focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#131313] focus-visible:outline-none",
         packageMeta[packageManager].color ?? "",
@@ -194,7 +194,7 @@ function CommandIsland({
           </motion.p>
         </AnimatePresence>
       </div>
-      <div className="flex h-8 w-14 shrink-0 items-center justify-center rounded-lg bg-[#F1F1F1] text-foreground dark:bg-input/30 input-shadow">
+      <div className="flex h-8 w-14 shrink-0 items-center justify-center rounded-md bg-[#F1F1F1] text-foreground dark:bg-input/30 input-shadow">
         <CopyButton
           className="size-full rounded-lg text-current hover:bg-transparent! dark:hover:bg-transparent!"
           code={command}
@@ -246,7 +246,7 @@ function ModeSwitch({
             aria-pressed={isActive}
             className={cn(
               "relative isolate flex h-[26px] shrink-0 items-center justify-center rounded-[7px] text-sm text-foreground outline-none transition-transform duration-150 ease-sidebar active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-white/70 motion-reduce:transition-none motion-reduce:active:scale-100",
-              connected ? "w-[70px]" : "w-[74px]",
+              connected ? "w-[55px] sm:w-[70px]" : "w-[74px]",
             )}
             key={mode.value}
             onClick={(event) => {
@@ -722,7 +722,7 @@ function SuperIsland({
             animate="open"
             aria-labelledby={panelTitleId}
             className={cn(
-              "min-h-0 overflow-hidden rounded-xl border-sidebar-border text-sidebar-foreground",
+              "min-h-0 overflow-hidden rounded-xl border-sidebar-border text-sidebar-foreground bg-background",
               docked
                 ? "absolute inset-y-0 right-0 z-50 h-full w-full md:relative md:col-start-2 md:row-start-1  "
                 : "mt-4 h-[min(70vh,720px)] w-full",

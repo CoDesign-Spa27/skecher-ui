@@ -15,6 +15,7 @@ import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
+import { SpringSliderPreview } from "@/components/docs/content/spring-slider-preview";
 import { VelocityTabsPreview } from "@/components/docs/content/velocity-tabs-preview";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
@@ -45,6 +46,7 @@ export const COMPONENT_PREVIEWS = {
   "scroll-reveal-text": <DialedScrollRevealTextPreview />,
   "sliding-panel": <SlidingPanelPreview />,
   "snap-text": <DialedSnapTextPreview />,
+  "spring-slider": <SpringSliderPreview />,
   "streaming-text": (
     <BlurredText
       text="Stop acting as if life is a rehearsal."

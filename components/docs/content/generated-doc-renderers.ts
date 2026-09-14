@@ -18,6 +18,7 @@ import { MorphingActionDockDoc } from "@/components/docs/content/morphing-action
 import { ScrollRevealTextDoc } from "@/components/docs/content/scroll-reveal-text-doc";
 import { SlidingPanelDoc } from "@/components/docs/content/sliding-panel-doc";
 import { SnapTextDoc } from "@/components/docs/content/snap-text-doc";
+import { SpringSliderDoc } from "@/components/docs/content/spring-slider-doc";
 import { StreamingTextDoc } from "@/components/docs/content/streaming-text-doc";
 import { TextMorphingDoc } from "@/components/docs/content/text-morphing-doc";
 import { VelocityTabsDoc } from "@/components/docs/content/velocity-tabs-doc";
@@ -29,9 +30,9 @@ type ComponentDocPage = (props: {
 
 export const DOC_RENDERERS = {
   "add-to-cart": AddToCartDoc,
-  "apple-mail-tabs": AppleMailTabsDoc,
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
+  "apple-mail-tabs": AppleMailTabsDoc,
   "dither-credit-card": DitherCreditCardDoc,
   dock: DockDoc,
   "expandable-mobile-nav": ExpandableMobileNavDoc,
@@ -42,12 +43,13 @@ export const DOC_RENDERERS = {
   "liquid-glass-social": LiquidGlassSocialDoc,
   "liquid-morphology-slideshow": LiquidMorphologySlideshowDoc,
   "magazine-scroller": MagazineScrollerDoc,
-  "morph-stack": MorphStackDoc,
   "morph-menu": MorphMenuDoc,
+  "morph-stack": MorphStackDoc,
   "morphing-action-dock": MorphingActionDockDoc,
   "scroll-reveal-text": ScrollRevealTextDoc,
   "sliding-panel": SlidingPanelDoc,
   "snap-text": SnapTextDoc,
+  "spring-slider": SpringSliderDoc,
   "streaming-text": StreamingTextDoc,
   "text-morphing": TextMorphingDoc,
   "velocity-tabs": VelocityTabsDoc,

@@ -25,8 +25,12 @@ const COMPONENT_GROUPS = [
       "apple-mail-tabs",
       "velocity-tabs",
       "add-to-cart",
-      "morph-menu"
+      "morph-menu",
     ],
+  },
+  {
+    title: "Inputs & Controls",
+    slugs: ["spring-slider"],
   },
   {
     title: "AI Interfaces",
