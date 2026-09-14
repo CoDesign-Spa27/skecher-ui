@@ -27,7 +27,7 @@ const DocsSidebarHeader = () => {
         >
         
           <LogoMark className="h-8 w-8" />
-          <span className="font-instrument-serif text-3xl leading-none text-white">
+          <span className="font-instrument-serif text-3xl leading-none">
             Skecher-ui
           </span>
         </Link>
