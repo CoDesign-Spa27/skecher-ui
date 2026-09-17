@@ -59,6 +59,7 @@ export function InstallCommand({ className }: { className?: string }) {
         ariaLabel="Copy install command"
         className="size-8 shrink-0 rounded-lg text-white/70 hover:bg-white/10! hover:text-white"
         code={INSTALL_COMMAND}
+        source="install_command"
       />
     </motion.div>
   );

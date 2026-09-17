@@ -198,6 +198,7 @@ function CommandIsland({
         <CopyButton
           className="size-full rounded-lg text-current hover:bg-transparent! dark:hover:bg-transparent!"
           code={command}
+          source="install_command"
         />
       </div>
     </div>

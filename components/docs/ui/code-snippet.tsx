@@ -58,6 +58,7 @@ export async function CodeSnippet({
           ariaLabel={ariaLabel}
           className="sidebar-shadow absolute top-2 right-2 z-20 size-7 rounded-md bg-accent"
           code={code}
+          source="component_code"
         />
       ) : null}
       {collapsible ? (

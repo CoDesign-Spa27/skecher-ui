@@ -72,7 +72,7 @@ function CommandBlock({ commands }: CommandBlockProps) {
               </TabsTab>
             </TabsList>
           </div>
-          <CopyButton className="-mt-1 shrink-0" code={command} />
+          <CopyButton className="-mt-1 shrink-0" code={command} source="install_command" />
         </div>
         <div className="overflow-x-auto break-all bg-background text-muted-foreground rounded-[5px] border p-3 text-[13px]">
           {(Object.keys(packageCommands) as PackageManager[]).map((manager) => (

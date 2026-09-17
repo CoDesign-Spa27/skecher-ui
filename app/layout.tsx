@@ -12,6 +12,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { TracwellAnalytics } from "@/components/tracwell-analytics";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { createMetadata, createSoftwareSourceCodeJsonLd, createWebsiteJsonLd } from "@/lib/seo";
 
@@ -78,6 +79,7 @@ export default function RootLayout({
           >
             {children}
             <Analytics />
+            <TracwellAnalytics />
           </ThemeProvider>
         </TooltipProvider>
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>

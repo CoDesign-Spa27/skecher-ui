@@ -5,6 +5,7 @@ import { IconFiles2FillDuo18, IconTasks2FillDuo18 } from "nucleo-ui-essential-fi
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
+import { getTracwell } from "@/lib/tracwell";
 import { cn } from "@/lib/utils";
 
 const CheckIcon = <IconTasks2FillDuo18 className="size-5" />;
@@ -32,11 +33,13 @@ function AnimatedIcon({ copied }: { copied: boolean }) {
 const CopyButton = ({
   ariaLabel = "Copy",
   code,
+  source,
   withBlurBg,
   className,
 }: {
   ariaLabel?: string;
   code: string;
+  source: "install_command" | "component_code" | "example_code";
   withBlurBg?: boolean;
   className?: string;
 }) => {
@@ -53,6 +56,7 @@ const CopyButton = ({
 
   const copy = React.useCallback(async () => {
     await navigator.clipboard.writeText(code);
+    getTracwell()?.track("code_copied", { source });
     setCopied(true);
 
     if (timeoutRef.current) {
@@ -62,7 +66,7 @@ const CopyButton = ({
     timeoutRef.current = setTimeout(() => {
       setCopied(false);
     }, 1000);
-  }, [code]);
+  }, [code, source]);
 
   return (
     <Button

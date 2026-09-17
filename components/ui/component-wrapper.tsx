@@ -100,7 +100,9 @@ function CodeDrawer({
       <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-neutral-100 dark:bg-accent p-0">
         <div className="min-h-0 flex-1 overflow-hidden bg-muted/20 scroll-fade-y ">
           <div className="flex shrink-0 items-center gap-1 absolute right-5 top-10">
-            {codeString ? <CopyButton code={codeString} className="size-8 rounded-md" /> : null}
+            {codeString ? (
+              <CopyButton code={codeString} source="example_code" className="size-8 rounded-md" />
+            ) : null}
 
           </div>
           {code ? code : <EmptyPanel label="No source added for this example." />}
