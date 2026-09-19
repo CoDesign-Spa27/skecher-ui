@@ -4,6 +4,7 @@ import { Footer } from "./footer";
 import { Hero } from "./Hero";
 import { OrbitSection } from "./orbit-section";
 import { Showcase } from "./showcase";
+import { Sponsors } from "./sponsors";
 
 export default async function Page() {
   const starCount = await fetchStarCount();
@@ -15,6 +16,8 @@ export default async function Page() {
       <Showcase />
 
       <OrbitSection />
+
+      <Sponsors />
 
       <Footer />
 
