@@ -139,18 +139,7 @@ export default function SocialLinksExample() {
     description:
       "A clean image interaction component with pointer depth, soft image transitions, and a compact thumbnail rail.",
     details: [
-      {
-        title: "Pointer depth",
-        body: "The preview surface tilts and pans the active image with direct transform updates for a responsive, decorative interaction.",
-      },
-      {
-        title: "Soft switching",
-        body: "Image changes use short opacity and blur transitions so the selection feels polished without slowing the user down.",
-      },
-      {
-        title: "Motion aware",
-        body: "The component respects reduced motion by removing pointer movement while keeping a gentle opacity transition.",
-      },
+    
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -350,18 +339,7 @@ export default function GooeyToolbarExample() {
     description:
       "A macOS-style magnifying dock powered by shared motion values and spring-smoothed icon sizing.",
     details: [
-      {
-        title: "Shared cursor signal",
-        body: "A single mouseX motion value is passed to every item so icon sizing is derived without React re-rendering on pointer movement.",
-      },
-      {
-        title: "Spring magnification",
-        body: "Each item maps cursor distance into a target size and smooths the result through a compact spring for continuous, interruptible motion.",
-      },
-      {
-        title: "Motion aware",
-        body: "Reduced-motion users keep the resting item size while preserving focus and tooltip feedback.",
-      },
+   
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -411,18 +389,7 @@ export default function DockExample() {
     description:
       "A WebGL image slideshow for landing-page backgrounds with liquid glass, frost, ripple, plasma, and timeshift shader transitions.",
     details: [
-      {
-        title: "Shader transitions",
-        body: "The component lazy-loads Three.js on the client and drives texture transitions through a scoped WebGL canvas.",
-      },
-      {
-        title: "Background ready",
-        body: "Counters, slide navigation, click advance, keyboard controls, and help text can be toggled for full-bleed hero use or quiet decorative backgrounds.",
-      },
-      {
-        title: "Motion aware",
-        body: "Reduced-motion users get static image changes and autoplay is disabled to avoid continuous background movement.",
-      },
+    
     ],
     dependencies: ["react"],
     cliCommand: githubRegistryItem("liquid-morphology-slideshow"),
@@ -531,18 +498,7 @@ export default function MagazineScrollerExample() {
     description:
       "A morphing AI chat composer with configurable models, actions, messages, labels, and controlled state hooks.",
     details: [
-      {
-        title: "Controlled or standalone",
-        body: "Use the defaults for a self-contained chat, or control the input, selected model, and message collection from application state.",
-      },
-      {
-        title: "Composable content",
-        body: "Customize model metadata, composer actions, the empty state, localized labels, and message rendering without changing the component source.",
-      },
-      {
-        title: "Accessible motion",
-        body: "The model picker supports keyboard navigation and the shared-layout transitions respect the user's reduced-motion preference.",
-      },
+     
     ],
     dependencies: ["react", "lucide-react", "motion"],
     installDependencies: ["lucide-react", "motion"],
@@ -621,22 +577,7 @@ export default function AiChatBoxExample() {
     description:
       "A responsive circular Three.js plasma orb with a configurable surface, strand shape, motion, and pointer-driven depth.",
     details: [
-      {
-        title: "Ray-marched plasma strands",
-        body: "A compact raymarch traces two bending wave fields, while strand width and twist provide meaningful shape control without exposing shader internals.",
-      },
-      {
-        title: "Configurable surface",
-        body: "The orb background accepts any CSS color and derives its subtle radial depth from that value, so the plasma is not limited to a black surface.",
-      },
-      {
-        title: "Responsive plasma depth",
-        body: "Damped fine-pointer input offsets and rotates the field with adjustable strength, without interrupting ambient motion or changing layout.",
-      },
-      {
-        title: "Responsible ambient motion",
-        body: "Rendering pauses off-screen and in background tabs, while reduced-motion users receive the same material as a still composition.",
-      },
+    
     ],
     dependencies: ["react"],
     installDependencies: [],
@@ -678,22 +619,7 @@ export default function AiOrbExample() {
     description:
       "A responsive payment card with an animated two-color dither field, selectable pointer physics, and carefully scaled card details.",
     details: [
-      {
-        title: "Shader background",
-        body: "Paper Design's WebGL dithering shader replaces the static card gradient with a crisp animated wave pattern.",
-      },
-      {
-        title: "Selectable physics",
-        body: "Choose focused tilt, magnetic follow, or zero-gravity response, then tune lift, perspective, glare, and spring behavior without changing the component internals.",
-      },
-      {
-        title: "Responsive proportions",
-        body: "Container-relative sizing preserves the original 605 by 365 composition as the card scales down.",
-      },
-      {
-        title: "Self-contained artwork",
-        body: "The brand and payment marks are inline SVG, so the card does not depend on expiring image assets.",
-      },
+     
     ],
     dependencies: ["react", "@paper-design/shaders-react", "motion"],
     installDependencies: ["@paper-design/shaders-react", "motion"],
@@ -723,18 +649,7 @@ export default function DitherCreditCardExample() {
     description:
       "A spring-driven scroll-snap narrative with a transitioning portrait prefix, curved outlined rows, and a compact sequence counter.",
     details: [
-      {
-        title: "Native snap driver",
-        body: "An invisible full-height scroller uses mandatory snap sections, so the browser handles wheel, trackpad, and touch landing without JavaScript rounding.",
-      },
-      {
-        title: "Directional image continuity",
-        body: "Each portrait crossfades and travels with the same continuous spring value as the text, so forward and reverse scrolling preserve spatial direction without restarting the transition.",
-      },
-      {
-        title: "Curved presentation layer",
-        body: "Outlined inactive rows form a curved stack around the active label, while reduced motion keeps the image change to an opacity-only crossfade.",
-      },
+   
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -800,18 +715,7 @@ export default function SnapTextExample() {
     description:
       "A sticky scroll narrative that progressively fills muted multiline text with a crisp foreground color using clip-path.",
     details: [
-      {
-        title: "Native sticky scroll lock",
-        body: "The statement remains pinned with CSS sticky positioning while the document keeps its native wheel, trackpad, touch, and keyboard scrolling behavior.",
-      },
-      {
-        title: "Reading-order reveal",
-        body: "Each line owns a segment of the section's scroll progress, creating a continuous left-to-right fill that advances through the copy in reading order.",
-      },
-      {
-        title: "Accessible motion fallback",
-        body: "The muted text remains the single semantic copy for assistive technology, while reduced-motion users receive the fully revealed foreground without scroll-linked animation.",
-      },
+      
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -852,18 +756,7 @@ export default function ScrollRevealTextExample() {
     description:
       "A generic keyed-content viewport for direction-aware transitions between tabs, steps, filters, or any ordered React view.",
     details: [
-      {
-        title: "Consumer-owned content",
-        body: "The component only handles presence and motion; state, controls, layout, and panel content stay in the consuming feature.",
-      },
-      {
-        title: "Explicit direction",
-        body: "Pass 1 for forward navigation and -1 for backward navigation so entering and exiting content follows a spatially consistent path.",
-      },
-      {
-        title: "Reduced-motion ready",
-        body: "Movement becomes a short opacity crossfade automatically, while motionEnabled can disable transitions entirely for keyboard-driven changes.",
-      },
+ 
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -1093,18 +986,7 @@ export default function SlidingPanelExample() {
     description:
       "A full-page field of responsive square cells that softly round and brighten within a focused radius around the cursor.",
     details: [
-      {
-        title: "True square coverage",
-        body: "The component measures its container and derives an exact cell size so the grid fills the viewport without stretching its boxes.",
-      },
-      {
-        title: "Motion-value proximity",
-        body: "Shared pointer motion values drive a lightweight distance calculation in each cell without re-rendering React during pointer movement.",
-      },
-      {
-        title: "Input aware",
-        body: "The interaction only responds to fine mouse pointers and removes spring interpolation when reduced motion is preferred.",
-      },
+     
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -1143,18 +1025,7 @@ export default function InteractiveGridHeroExample() {
     description:
       "A composable three-plate stack that fans into a spring-driven perspective view on hover.",
     details: [
-      {
-        title: "Bring your own plates",
-        body: "The front, middle, and back slots accept any React node, including images, inline SVG, and custom components.",
-      },
-      {
-        title: "Layered spring motion",
-        body: "Each plate has its own depth, timing, and spring response while the complete stack tilts as one surface.",
-      },
-      {
-        title: "Input aware",
-        body: "The stack responds only to fine hover pointers and automatically softens its movement when reduced motion is preferred.",
-      },
+     
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -1195,18 +1066,7 @@ export default function MorphStackExample() {
     description:
       "A bottom-anchored navigation shell with expandable labels and composable per-item panels.",
     details: [
-      {
-        title: "Simple panel configuration",
-        body: "Pass navItems once, then connect expandedPanel and nestedExpandedPanel to their trigger IDs. The component owns the disclosure state and spring animations.",
-      },
-      {
-        title: "Progressive disclosure",
-        body: "Use hideExpandedPanel or hideNestedPanel when a layout should temporarily disable either disclosure level without changing its item data.",
-      },
-      {
-        title: "Advanced options stay grouped",
-        body: "Common usage needs only three props. Controlled state, class names, and layout measurements remain available when an application needs them.",
-      },
+    
     ],
     dependencies: [
       "react",
@@ -1332,18 +1192,7 @@ export default function ExpandableMobileNavExample() {
     description:
       "An accessible tab selector with a spring-driven indicator that stretches and softens in response to movement velocity.",
     details: [
-      {
-        title: "Velocity-shaped feedback",
-        body: "The active indicator stretches and adds a subtle blur while moving, then resolves crisply at the selected tab.",
-      },
-      {
-        title: "Controlled or uncontrolled",
-        body: "Use value and onValueChange when the selected tab belongs to application state, or defaultValue for local state managed by the component.",
-      },
-      {
-        title: "Click-driven and motion aware",
-        body: "Clicking an enabled tab updates the selection. Reduced-motion preferences preserve the original position spring while removing velocity stretch and blur.",
-      },
+     
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],

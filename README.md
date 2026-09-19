@@ -34,6 +34,24 @@ bunx --bun shadcn@latest add CoDesign-Spa27/skecher-ui/sliding-panel --dry-run
 - The HTTP endpoints use the official `loadRegistry` and `loadRegistryItem` APIs from
   `shadcn/registry`; generated registry payloads are not committed.
 
+## LLM and coding-agent support
+
+Skecher UI keeps model-provider code outside the component layer. Applications own API keys,
+server-side model calls, persistence, and safety policy; components expose ordinary React props,
+controlled state, and callbacks for connecting those results.
+
+The documentation site publishes the same canonical component metadata in three machine-readable
+forms:
+
+- `/llms.txt` — concise library and component index.
+- `/llms-full.txt` — full install, dependency, guidance, and usage context for every component.
+- `/llms/<component-slug>` — focused Markdown context for one component, with a link to its
+  complete-source registry item.
+
+Each component's documentation panel also offers a copyable AI context block. All four surfaces
+are generated from `lib/docs-content.ts` through `lib/llm-content.ts`, so human docs and agent
+instructions stay aligned.
+
 ## Validate the registry
 
 ```bash

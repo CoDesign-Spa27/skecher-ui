@@ -311,6 +311,21 @@
       "categories": ["text", "interaction"]
     },
     {
+      "name": "spring-slider",
+      "type": "registry:ui",
+      "title": "Spring Slider",
+      "description": "A pill-track slider with a spring-driven fill and thumb, tick markers, and a tooltip that blurs in and out.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["@number-flow/react", "motion"],
+      "files": [
+        {
+          "path": "components/ui-components/spring-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["input", "form", "animation"]
+    },
+    {
       "name": "streaming-text",
       "type": "registry:ui",
       "title": "Streaming Text",

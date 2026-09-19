@@ -39,7 +39,7 @@ const CopyButton = ({
 }: {
   ariaLabel?: string;
   code: string;
-  source: "install_command" | "component_code" | "example_code";
+  source: "install_command" | "component_code" | "example_code" | "llm_context";
   withBlurBg?: boolean;
   className?: string;
 }) => {

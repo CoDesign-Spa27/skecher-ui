@@ -452,7 +452,7 @@ function ManualPanelContent({
             <h2 className="font-raleway text-base font-semibold text-foreground" id={titleId}>
               {componentName}
             </h2>
-            <p className="text-sm leading-5 text-muted-foreground">
+            <p className="text-xl  leading-5 text-muted-foreground">
               Package details, usage, and installation.
             </p>
           </div>
@@ -471,10 +471,10 @@ function ManualPanelContent({
 
         <div className="space-y-8 px-1 pb-8">
           <section className="space-y-1">
-            <h3 className="text-sm font-medium text-foreground">About this component</h3>
+            <h3 className="text-base font-medium text-foreground">About this component</h3>
 
             {componentDescription ? (
-              <p className="max-w-[65ch] text-sm leading-6 text-muted-foreground">
+              <p className="max-w-[75ch] text-xl leading-6 text-muted-foreground">
                 {componentDescription}
               </p>
             ) : null}
@@ -512,9 +512,9 @@ function ManualPanelContent({
           </dl>
 
           {dependencies.length ? (
-            <section className="space-y-3">
+            <section className="space-y-4">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-sm font-medium text-foreground">Install dependencies</h3>
+                <h3 className="text-base font-medium text-foreground">Install dependencies</h3>
               </div>
               <CommandIsland
                 commands={dependencies}
@@ -525,18 +525,18 @@ function ManualPanelContent({
           ) : null}
 
           {manualSteps ? (
-            <section className="space-y-1">
-              <h3 className="text-sm font-medium text-foreground">Add files</h3>
+            <section className="space-y-0">
+              <h3 className="text-base font-medium text-foreground">Add files</h3>
 
-              <div className="text-sm leading-6 text-muted-foreground">{manualSteps}</div>
+              <div className="text-xl leading-6 text-muted-foreground">{manualSteps}</div>
             </section>
           ) : null}
 
           {usageExample ? (
-            <section className="space-y-3">
+            <section className="space-y-4">
               <div className="space-y-1">
-                <h3 className="text-sm font-medium text-foreground">Use the component</h3>
-                <p className="text-xs leading-5 text-muted-foreground">
+                <h3 className="text-base font-medium text-foreground">Use the component</h3>
+                <p className="text-xl leading-5 text-muted-foreground">
                   Copy this complete example, then adjust its content for your project.
                 </p>
               </div>
