@@ -13,6 +13,7 @@ const COMPONENT_GROUPS = [
       "image-density-grid",
       "liquid-morphology-slideshow",
       "magazine-scroller",
+      "3d-wheel-carousel",
     ],
   },
   {

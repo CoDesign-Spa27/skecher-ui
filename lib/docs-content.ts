@@ -756,7 +756,7 @@ export default function ScrollRevealTextExample() {
     description:
       "A generic keyed-content viewport for direction-aware transitions between tabs, steps, filters, or any ordered React view.",
     details: [
- 
+
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -986,7 +986,7 @@ export default function SlidingPanelExample() {
     description:
       "A full-page field of responsive square cells that softly round and brighten within a focused radius around the cursor.",
     details: [
-     
+
     ],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
@@ -1420,6 +1420,7 @@ export default function MorphMenuExample() {
       },
     ],
   },
+
   {
     id: "spring-slider",
     title: "Spring Slider",
@@ -1467,6 +1468,57 @@ export default function SpringSliderExample() {
       },
     ],
   },
+   {
+    id: "3d-wheel-carousel",
+    title: "3D Wheel Carousel",
+    slug: "3d-wheel-carousel",
+    eyebrow: "Components",
+    description:
+      "A reusable, drag-controlled 3D card carousel with auto-rotation, keyboard navigation, blur depth, and reduced-motion support.",
+    details: [],
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("3d-wheel-carousel"),
+    importName: "WheelCarousel",
+    usage: `import Image from "next/image";
+
+import { WheelCarousel } from "@/components/ui/3d-wheel-carousel";
+
+const items = Array.from({ length: 8 }, (_, index) => ({
+  id: \`artwork-\${index + 1}\`,
+  label: \`Abstract artwork \${index + 1}\`,
+  content: (
+    <Image
+      src={\`/images/WheelScrollCarousel/image\${index + 1}.png\`}
+      alt={\`Abstract artwork \${index + 1}\`}
+      width={560}
+      height={760}
+      className="h-full w-full object-cover"
+    />
+  ),
+}));
+
+export default function WheelCarouselExample() {
+  return (
+    <WheelCarousel
+      items={items}
+      radius={560}
+      autoRotateSpeed={10}
+      pauseOnHover
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/3d-wheel-carousel.tsx",
+        description: "Reusable 3D wheel carousel component",
+      },
+    ],
+  }
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

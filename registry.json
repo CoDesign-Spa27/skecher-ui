@@ -4,6 +4,21 @@
   "homepage": "https://github.com/CoDesign-Spa27/skecher-ui",
   "items": [
     {
+      "name": "3d-wheel-carousel",
+      "type": "registry:ui",
+      "title": "3D Wheel Carousel",
+      "description": "A reusable, drag-controlled 3D card carousel with auto-rotation, keyboard navigation, blur depth, and reduced-motion support.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/3d-wheel-carousel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["carousel", "media", "animation"]
+    },
+    {
       "name": "apple-mail-tabs",
       "type": "registry:ui",
       "title": "Apple Mail Tabs",

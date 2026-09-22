@@ -1,3 +1,4 @@
+import { ThreeDWheelCarouselDoc } from "@/components/docs/content/3d-wheel-carousel-doc";
 import { AddToCartDoc } from "@/components/docs/content/add-to-cart-doc";
 import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
@@ -29,6 +30,7 @@ type ComponentDocPage = (props: {
 }) => Promise<React.ReactNode>;
 
 export const DOC_RENDERERS = {
+  "3d-wheel-carousel": ThreeDWheelCarouselDoc,
   "add-to-cart": AddToCartDoc,
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,

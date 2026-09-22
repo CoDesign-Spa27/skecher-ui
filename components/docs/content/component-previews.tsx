@@ -1,3 +1,4 @@
+import { WheelCarouselPreview } from "@/components/docs/content/3d-wheel-carousel-preview";
 import { AppleMailTabsPreview } from "@/components/docs/content/apple-mail-tabs-preview";
 import {
   DialedAddToCartPreview,
@@ -26,6 +27,7 @@ import { BlurredText } from "@/components/ui-components/streaming-text";
 import { MorphingText } from "@/components/ui-components/text-morphing";
 
 export const COMPONENT_PREVIEWS = {
+  "3d-wheel-carousel": <WheelCarouselPreview />,
   "add-to-cart": <DialedAddToCartPreview />,
   "apple-mail-tabs": <AppleMailTabsPreview />,
   "ai-chat-box": <DialedAiChatBoxPreview />,
