@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, type Transition, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -170,10 +171,14 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
       <div className="px-3 py-3">
         <button
           type="button"
-          onClick={() => setCategoryFilter(nextCategoryFilter)}
+          onClick={() => {
+            setHoveredSidebarItem(null);
+            setCategoryFilter(nextCategoryFilter);
+          }}
           aria-label={`Showing ${categoryFilter} categories. Click to show ${nextCategoryFilter}.`}
-          className="inline-flex h-8 items-center rounded-md px-2 text-sm font-semibold text-sidebar-foreground/70 outline-none transition-[background-color,color,box-shadow,transform] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring active:scale-[0.96]"
+          className="cursor-pointer inline-flex h-8 items-center rounded-md px-2 text-sm font-semibold text-sidebar-foreground/70 outline-none transition-[background-color,color,box-shadow,transform] hover:underline hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring active:scale-[0.96]"
         >
+          <ChevronDown className="pr-1" />
           <MorphText reduceMotion={Boolean(shouldReduceMotion)}>{categoryFilter}</MorphText>
         </button>
       </div>
@@ -185,19 +190,32 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
           <div className="px-2 pt-3 pb-1">
             {renderLink({ title: "Introduction", url: "/docs" })}
           </div>
-          {visibleCategories.map((category) => (
-            <div key={category.title}>
-              <SidebarMenuItem onMouseEnter={() => setHoveredSidebarItem(null)}>
-                <div className="flex items-baseline gap-2 px-3 pb-2 pt-5 text-sm font-semibold text-sidebar-foreground/75">
-                  <span>{category.title}</span>
-                  <span className="text-xs font-medium tabular-nums text-muted-foreground/70">
-                    {category.items.length}
-                  </span>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.div
+              key={categoryFilter}
+              initial={{ opacity: 0, filter: shouldReduceMotion ? "blur(0px)" : "blur(6px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: shouldReduceMotion ? "blur(0px)" : "blur(6px)" }}
+              transition={{
+                duration: shouldReduceMotion ? 0.12 : 0.7,
+                ease: [0.23, 1, 0.32, 1],
+              }}
+            >
+              {visibleCategories.map((category) => (
+                <div key={category.title}>
+                  <SidebarMenuItem onMouseEnter={() => setHoveredSidebarItem(null)}>
+                    <div className="flex items-baseline gap-2 px-3 pb-2 pt-5 text-sm font-semibold text-sidebar-foreground/75">
+                      <span>{category.title}</span>
+                      <span className="text-xs font-medium tabular-nums text-muted-foreground/70">
+                        {category.items.length}
+                      </span>
+                    </div>
+                  </SidebarMenuItem>
+                  {category.items.map(renderLink)}
                 </div>
-              </SidebarMenuItem>
-              {category.items.map(renderLink)}
-            </div>
-          ))}
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </SidebarMenu>
       </SidebarContent>
       <SidebarVideoPreview
