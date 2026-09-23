@@ -1,13 +1,13 @@
 import { COMPONENT_DOCS } from "@/lib/docs-content";
-import type { SidebarItemProps } from "@/types/docs/sidebar-types";
+import type { SidebarCategory, SidebarItemProps } from "@/types/docs/sidebar-types";
 
 const COMPONENT_GROUPS = [
   {
-    title: "Text & Typography",
-    slugs: ["streaming-text", "text-morphing", "snap-text", "scroll-reveal-text"],
+    title: "Shaders",
+    slugs: ["ai-orb", "dither-credit-card", "interactive-grid-hero"],
   },
   {
-    title: "Images & Media",
+    title: "Carousels",
     slugs: [
       "image-glide",
       "image-density-grid",
@@ -17,8 +17,9 @@ const COMPONENT_GROUPS = [
     ],
   },
   {
-    title: "Actions & Navigation",
+    title: "Interfaces",
     slugs: [
+      "liquid-glass-social",
       "morphing-action-dock",
       "gooey-toolbar",
       "dock",
@@ -27,27 +28,16 @@ const COMPONENT_GROUPS = [
       "velocity-tabs",
       "add-to-cart",
       "morph-menu",
-    ],
-  },
-  {
-    title: "Inputs & Controls",
-    slugs: ["spring-slider"],
-  },
-  {
-    title: "AI Interfaces",
-    slugs: ["ai-chat-box", "ai-orb"],
-  },
-  {
-    title: "Surfaces & Effects",
-    slugs: [
-      "liquid-glass-social",
-      "dither-credit-card",
+      "ai-chat-box",
       "sliding-panel",
-      "interactive-grid-hero",
-      "morph-stack",
+      "spring-slider",
     ],
   },
-] as const;
+  {
+    title: "Arts",
+    slugs: ["streaming-text", "text-morphing", "snap-text", "scroll-reveal-text", "morph-stack"],
+  },
+] as const satisfies readonly { title: SidebarCategory; slugs: readonly string[] }[];
 
 const pagesBySlug = new Map(COMPONENT_DOCS.map((page) => [page.slug, page]));
 const categorizedSlugs = new Set<string>(COMPONENT_GROUPS.flatMap((group) => group.slugs));
@@ -67,35 +57,23 @@ function createComponentLink(slug: string): SidebarItemProps | null {
   };
 }
 
-const categorizedOptions = COMPONENT_GROUPS.flatMap((group) => {
-  const links = group.slugs
+export const SIDEBAR_CATEGORIES = COMPONENT_GROUPS.map((group) => ({
+  title: group.title,
+  items: group.slugs
     .map((slug) => createComponentLink(slug))
-    .filter((item): item is SidebarItemProps => item !== null);
+    .filter((item): item is SidebarItemProps => item !== null),
+}));
 
-  if (links.length === 0) {
-    return [];
-  }
+const uncategorizedPages = COMPONENT_DOCS.filter((page) => !categorizedSlugs.has(page.slug));
 
-  return [{ title: group.title, type: "section" as const, count: links.length }, ...links];
-});
+if (uncategorizedPages.length > 0) {
+  throw new Error(
+    `Every component must belong to a sidebar category. Missing: ${uncategorizedPages
+      .map((page) => page.slug)
+      .join(", ")}`,
+  );
+}
 
-const uncategorizedOptions = COMPONENT_DOCS.filter((page) => !categorizedSlugs.has(page.slug)).map(
-  (page) => ({
-    badge: page.sidebarBadge,
-    sketchId: page.sketchId,
-    title: page.title,
-    url: `/docs/${page.slug}`,
-  }),
+export const SIDEBAR_CATEGORIES_OPTIONS: SidebarCategory[] = COMPONENT_GROUPS.map(
+  (group) => group.title,
 );
-
-export const SIDEBAR_OPTIONS: SidebarItemProps[] = [
-  { title: "Getting Started", type: "section", count: 1 },
-  { title: "Introduction", url: "/docs" },
-  ...categorizedOptions,
-  ...(uncategorizedOptions.length > 0
-    ? [
-        { title: "More", type: "section" as const, count: uncategorizedOptions.length },
-        ...uncategorizedOptions,
-      ]
-    : []),
-];

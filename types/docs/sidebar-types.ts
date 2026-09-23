@@ -18,4 +18,6 @@ interface SidebarItemProps {
   type?: "link" | "section";
 }
 
-export type { SidebarBadgeProps, SidebarItemProps };
+type SidebarCategory = "Shaders" | "Carousels" | "Interfaces" | "Arts";
+
+export type { SidebarBadgeProps, SidebarCategory, SidebarItemProps };
