@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Transition, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, type Transition, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentProps } from "react";
@@ -16,7 +16,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { SIDEBAR_CATEGORIES, SIDEBAR_CATEGORIES_OPTIONS } from "@/constants/sidebar-options";
-import { cn } from "@/lib/utils";
 import type { SidebarCategory, SidebarItemProps } from "@/types/docs/sidebar-types";
 
 import DocsSidebarHeader from "./sidebar-header";
@@ -27,6 +26,51 @@ const ITEM_HOVER_SPRING: Transition = { type: "spring", stiffness: 700, damping:
 const REDUCED_MOTION_TRANSITION: Transition = { duration: 0.12 };
 
 type CategoryFilter = "All" | SidebarCategory;
+
+const CATEGORY_FILTERS: CategoryFilter[] = ["All", ...SIDEBAR_CATEGORIES_OPTIONS];
+
+function generateCharacterKeys(text: string) {
+  const characterCount: Record<string, number> = {};
+
+  return Array.from(text).map((character) => {
+    characterCount[character] = (characterCount[character] ?? 0) + 1;
+
+    return {
+      character,
+      key: `${character}-${characterCount[character]}`,
+    };
+  });
+}
+
+function MorphText({ children, reduceMotion }: { children: string; reduceMotion: boolean }) {
+  return (
+    <AnimatePresence mode="popLayout" initial={false}>
+      {generateCharacterKeys(children).map(({ character, key }) => (
+        <motion.span
+          key={key}
+          layout={!reduceMotion}
+          layoutId={reduceMotion ? undefined : `sidebar-filter-${key}`}
+          className="inline-block text-inherit"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={
+            reduceMotion
+              ? { type: "tween", duration: 0.12 }
+              : {
+                  type: "spring",
+                  duration: 0.25,
+                  bounce: 0,
+                  opacity: { type: "spring", duration: 0.2, bounce: 0 },
+                }
+          }
+        >
+          {character === " " ? "\u00A0" : character}
+        </motion.span>
+      ))}
+    </AnimatePresence>
+  );
+}
 
 type HoveredSidebarItem = {
   anchorX: number;
@@ -44,6 +88,8 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   const visibleCategories = SIDEBAR_CATEGORIES.filter(
     (category) => categoryFilter === "All" || category.title === categoryFilter,
   );
+  const nextCategoryFilter =
+    CATEGORY_FILTERS[(CATEGORY_FILTERS.indexOf(categoryFilter) + 1) % CATEGORY_FILTERS.length];
 
   const handleLinkClick = () => {
     if (isMobile) {
@@ -121,34 +167,19 @@ export function DocsSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="z-50 font-raleway" {...props} variant="floating">
       <DocsSidebarHeader />
-      <fieldset
-        className="flex min-w-0 flex-wrap gap-1.5 border-0 px-3 py-3"
-        aria-label="Filter components by category"
-      >
-        {(["All", ...SIDEBAR_CATEGORIES_OPTIONS] as CategoryFilter[]).map((category) => {
-          const isSelected = categoryFilter === category;
-
-          return (
-            <button
-              key={category}
-              type="button"
-              aria-pressed={isSelected}
-              onClick={() => setCategoryFilter(category)}
-              className={cn(
-                "h-7 rounded-full border px-2.5 text-xs font-semibold outline-none transition-[background-color,color,border-color,box-shadow,transform] focus-visible:ring-2 focus-visible:ring-sidebar-ring active:scale-[0.96]",
-                isSelected
-                  ? "border-sidebar-foreground bg-sidebar-foreground text-sidebar"
-                  : "border-sidebar-border bg-sidebar text-sidebar-foreground/65 hover:border-sidebar-foreground/30 hover:text-sidebar-foreground",
-              )}
-            >
-              {category}
-            </button>
-          );
-        })}
-      </fieldset>
+      <div className="px-3 py-3">
+        <button
+          type="button"
+          onClick={() => setCategoryFilter(nextCategoryFilter)}
+          aria-label={`Showing ${categoryFilter} categories. Click to show ${nextCategoryFilter}.`}
+          className="inline-flex h-8 items-center rounded-md px-2 text-sm font-semibold text-sidebar-foreground/70 outline-none transition-[background-color,color,box-shadow,transform] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring active:scale-[0.96]"
+        >
+          <MorphText reduceMotion={Boolean(shouldReduceMotion)}>{categoryFilter}</MorphText>
+        </button>
+      </div>
       <SidebarContent
         blurHeight={120}
-        containerClassName="h-[calc(100svh-9rem)] flex-none md:h-[calc(100svh-10.25rem)]"
+        containerClassName="h-[calc(100svh-8.25rem)] flex-none md:h-[calc(100svh-9.5rem)]"
       >
         <SidebarMenu onMouseLeave={() => setHoveredSidebarItem(null)}>
           <div className="px-2 pt-3 pb-1">
