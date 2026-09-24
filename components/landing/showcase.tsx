@@ -38,7 +38,7 @@ export function Showcase() {
               className="text-balance font-instrument-serif text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] font-normal tracking-[-0.02em]"
               id="showcase-title"
             >
-              <span className="font-sans text-highlight font-bold">22+</span> Components in motion
+              <span className="font-sans text-highlight font-bold">25+</span> Components in motion
             </h2>
             <p className="mt-3 text-pretty font-urbanist text-[15px] leading-relaxed text-white/50 sm:text-base">
               A look at what ships in the registry. Every interaction has a live preview and its
