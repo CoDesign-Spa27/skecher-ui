@@ -1518,7 +1518,41 @@ export default function WheelCarouselExample() {
         description: "Reusable 3D wheel carousel component",
       },
     ],
-  }
+  },
+  {
+    id: "animated-book",
+    title: "Animated Book",
+    slug: "animated-book",
+    eyebrow: "Components",
+    description:
+      "A reusable 3D book preview with custom cover art, controlled and uncontrolled states, keyboard interaction, and reduced-motion support.",
+    details: [],
+    sidebarBadge: {
+      label: "New",
+      variant: "secondary",
+    },
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("animated-book"),
+    importName: "AnimatedBook",
+    usage: `import { AnimatedBook } from "@/components/ui/animated-book";
+
+export default function AnimatedBookExample() {
+  return (
+    <AnimatedBook
+      coverImage="/images/book-cover.jpg"
+      coverImageAlt="A misty mountain landscape"
+      aria-label="Preview the field notes book"
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/animated-book.tsx",
+        description: "Accessible 3D animated book preview",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

@@ -65,6 +65,21 @@
       "categories": ["ai", "input"]
     },
     {
+      "name": "animated-book",
+      "type": "registry:ui",
+      "title": "Animated Book",
+      "description": "A reusable 3D book preview that opens on hover or focus and supports controlled state, keyboard input, and reduced motion.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/animated-book.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["display", "media", "animation"]
+    },
+    {
       "name": "ai-orb",
       "type": "registry:ui",
       "title": "AI Orb",

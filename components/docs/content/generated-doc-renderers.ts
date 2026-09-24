@@ -2,6 +2,7 @@ import { ThreeDWheelCarouselDoc } from "@/components/docs/content/3d-wheel-carou
 import { AddToCartDoc } from "@/components/docs/content/add-to-cart-doc";
 import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
+import { AnimatedBookDoc } from "@/components/docs/content/animated-book-doc";
 import { AppleMailTabsDoc } from "@/components/docs/content/apple-mail-tabs-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
@@ -32,6 +33,7 @@ type ComponentDocPage = (props: {
 export const DOC_RENDERERS = {
   "3d-wheel-carousel": ThreeDWheelCarouselDoc,
   "add-to-cart": AddToCartDoc,
+  "animated-book": AnimatedBookDoc,
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "apple-mail-tabs": AppleMailTabsDoc,

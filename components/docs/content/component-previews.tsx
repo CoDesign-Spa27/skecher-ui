@@ -18,6 +18,7 @@ import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
 import { SpringSliderPreview } from "@/components/docs/content/spring-slider-preview";
 import { VelocityTabsPreview } from "@/components/docs/content/velocity-tabs-preview";
+import { AnimatedBook } from "@/components/ui-components/animated-book";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
 import { ImageDensityGrid } from "@/components/ui-components/image-density-grid";
 import { ImageGlide } from "@/components/ui-components/image-glide";
@@ -29,6 +30,14 @@ import { MorphingText } from "@/components/ui-components/text-morphing";
 export const COMPONENT_PREVIEWS = {
   "3d-wheel-carousel": <WheelCarouselPreview />,
   "add-to-cart": <DialedAddToCartPreview />,
+  "animated-book": (
+    <AnimatedBook
+      aria-label="Preview the animated book"
+      className="w-48 sm:w-60"
+      coverImage="/pfp.png"
+      coverImageAlt="Profile portrait used as the book cover"
+    />
+  ),
   "apple-mail-tabs": <AppleMailTabsPreview />,
   "ai-chat-box": <DialedAiChatBoxPreview />,
   "ai-orb": <DialedAiOrbPreview />,

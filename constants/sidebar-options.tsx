@@ -31,6 +31,7 @@ const COMPONENT_GROUPS = [
       "ai-chat-box",
       "sliding-panel",
       "spring-slider",
+      "animated-book",
     ],
   },
   {
