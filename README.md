@@ -1,79 +1,64 @@
-# Skecher UI
+<div align="center">
+  <a href="https://github.com/CoDesign-Spa27/skecher-ui">
+    <img src="public/ReadmeBanner.png" alt="Skecher UI" width="100%" />
+  </a>
 
-Skecher UI is an open-source collection of motion-focused React components built for the
-shadcn CLI.
+  <h1>Skecher UI</h1>
 
-## Install from GitHub
+  <p>A collection of motion-focused React components for the shadcn CLI.</p>
 
-The repository root is a shadcn source registry. Install any item directly from the public
-GitHub repository:
+  <p>
+    <a href="https://github.com/CoDesign-Spa27/skecher-ui">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/CoDesign-Spa27/skecher-ui/tree/main/components/ui-components">Components</a>
+  </p>
+</div>
+
+## Install a component
+
+Add a component directly to your project with the shadcn CLI:
 
 ```bash
 bunx --bun shadcn@latest add CoDesign-Spa27/skecher-ui/sliding-panel
 ```
 
-Use a tag or full commit SHA when you need a reproducible install:
-
-```bash
-bunx --bun shadcn@latest add CoDesign-Spa27/skecher-ui/sliding-panel#v1.0.0
-```
-
-Preview the resolved changes before writing files:
+Replace `sliding-panel` with the component you want to install. Use `--dry-run` to preview
+the files before adding them:
 
 ```bash
 bunx --bun shadcn@latest add CoDesign-Spa27/skecher-ui/sliding-panel --dry-run
 ```
 
-## Registry architecture
+Components are copied into your project, so you can edit and style them to fit your needs.
 
-- [`registry.json`](./registry.json) is the single source catalog used by GitHub registry
-  addresses.
-- Component source files live in [`components/ui-components`](./components/ui-components).
-- `/r/registry.json` serves the flattened catalog for list and search commands.
-- `/r/<name>.json` resolves one installable item with its source content.
-- The HTTP endpoints use the official `loadRegistry` and `loadRegistryItem` APIs from
-  `shadcn/registry`; generated registry payloads are not committed.
-
-## LLM and coding-agent support
-
-Skecher UI keeps model-provider code outside the component layer. Applications own API keys,
-server-side model calls, persistence, and safety policy; components expose ordinary React props,
-controlled state, and callbacks for connecting those results.
-
-The documentation site publishes the same canonical component metadata in three machine-readable
-forms:
-
-- `/llms.txt` — concise library and component index.
-- `/llms-full.txt` — full install, dependency, guidance, and usage context for every component.
-- `/llms/<component-slug>` — focused Markdown context for one component, with a link to its
-  complete-source registry item.
-
-Each component's documentation panel also offers a copyable AI context block. All four surfaces
-are generated from `lib/docs-content.ts` through `lib/llm-content.ts`, so human docs and agent
-instructions stay aligned.
-
-## Validate the registry
+## Run locally
 
 ```bash
-bun run registry:validate
+git clone https://github.com/CoDesign-Spa27/skecher-ui.git
+cd skecher-ui
+bun install
+bun run dev
 ```
 
-Validation checks the official schemas, unique item names, source-file existence, source
-catalog coverage, package dependencies, bundled relative imports, and resolved item payloads.
+Component source files are in [`components/ui-components`](./components/ui-components).
 
-To synchronize documentation stubs and then validate:
+## Add a component
+
+1. Add the component source to `components/ui-components/<name>.tsx`.
+2. Add its entry to [`registry.json`](./registry.json).
+3. Include its dependencies and any imported local files.
+4. Validate the registry:
+
+   ```bash
+   bun run registry:validate
+   ```
+
+To sync component documentation and validate the registry, run:
 
 ```bash
 bun run sync-components
 ```
 
-## Add a component
+## License
 
-1. Add the component source to `components/ui-components/<name>.tsx`.
-2. Add a flat item entry to the root `registry.json`.
-3. Declare every directly imported npm package in `dependencies`.
-4. Include every relative source import in the same item's `files` array.
-5. Run `bun run registry:validate`.
-
-The source `files` entries must reference committed files and must not contain an inline
-`content` field.
+Skecher UI is open source. See the repository license for details.
