@@ -42,9 +42,8 @@ function GitHubButton({ starCount }: { starCount: number }) {
       rel="noreferrer"
       aria-label={`View Skecher UI on GitHub, ${starCount} stars`}
       className={cn(
-        "group relative isolate inline-flex min-h-11 cursor-pointer items-stretch overflow-hidden rounded-lg bg-gradient-to-t from-[#0f0f0f] to-[#404040] p-px font-urbanist text-sm font-medium text-white shadow-[0_0_0_1px_#383838] outline-none lg:min-h-10",
+        "group relative isolate border border-neutral-800 inline-flex min-h-11 cursor-pointer items-stretch overflow-hidden rounded-lg bg-gradient-to-t from-[#0f0f0f] to-[#404040] font-urbanist text-sm font-medium text-white  lg:min-h-10",
         "transition-transform duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] active:duration-100",
-        "focus-visible:ring-[3px] focus-visible:ring-white/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[#171717]",
         "motion-reduce:transition-none motion-reduce:active:scale-100",
       )}
     >

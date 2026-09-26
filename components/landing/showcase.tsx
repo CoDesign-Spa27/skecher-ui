@@ -49,27 +49,14 @@ export function Showcase() {
           <motion.div className="shrink-0 self-start sm:self-auto" variants={item}>
             <Link
               className={cn(
-                "group inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-lg px-4 sm:self-auto",
-                "bg-white/[0.04] font-urbanist text-sm font-medium text-white/80",
+                "group inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-xl px-4 sm:self-auto shadow-[inset_0_0.5px_0_rgb(255_255_255/18%)] bg-white/10",
+                "font-urbanist text-sm font-medium text-white/80",
                 "shadow-[inset_0_0.5px_0_rgb(255_255_255/12%)] backdrop-blur-md outline-none",
                 "transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
-                "hover:border-white/20 hover:text-white active:scale-[0.97] active:duration-100",
-                "focus-visible:ring-[3px] focus-visible:ring-white/35",
-                "motion-reduce:transform-none motion-reduce:transition-none",
               )}
               href="/docs"
             >
               Browse all components
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
-                  "[@media(hover:hover)_and_(pointer:fine)]:group-hover:translate-x-0.5",
-                  "motion-reduce:transform-none motion-reduce:transition-none",
-                )}
-              >
-                &rarr;
-              </span>
             </Link>
           </motion.div>
         </motion.div>

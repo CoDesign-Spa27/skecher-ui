@@ -97,7 +97,8 @@ function CodeDrawer({
           <CodeIcon className="size-4" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-neutral-100 dark:bg-accent p-0">
+      <DrawerContent className="mx-auto h-[min(82vh,760px)] max-h-[82vh] w-full max-w-6xl overflow-hidden rounded-t-xl border-x bg-neutral-100 dark:bg-[#171717] p-0">
+        
         <div className="min-h-0 flex-1 overflow-hidden bg-muted/20 scroll-fade-y ">
           <div className="flex shrink-0 items-center gap-1 absolute right-5 top-10">
             {codeString ? (
