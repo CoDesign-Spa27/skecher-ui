@@ -10,7 +10,7 @@ import {
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
-
+import { PlausibleAnalytics } from "@/lib/analytics";
 import { ThemeProvider } from "@/components/provider/theme-provider";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -79,6 +79,7 @@ export default function RootLayout({
           >
             {children}
             <Analytics />
+            <PlausibleAnalytics domain="https://skecher-ui.com" />
             <TracwellAnalytics />
           </ThemeProvider>
         </TooltipProvider>
