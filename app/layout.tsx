@@ -79,7 +79,7 @@ export default function RootLayout({
           >
             {children}
             <Analytics />
-            <PlausibleAnalytics domain="https://skecher-ui.com" />
+            <PlausibleAnalytics domain="skecher-ui.com" />
             <TracwellAnalytics />
           </ThemeProvider>
         </TooltipProvider>
