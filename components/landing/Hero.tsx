@@ -15,24 +15,6 @@ import { InstallCommand } from "./install-command";
 import { LandingNav } from "./navbar";
 import { ON_MOUNT, useReveal } from "./reveal";
 
-// biome-ignore lint/correctness/noUnusedVariables: Kept as the texture fallback while the shader artwork is active.
-function CodeTexture() {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-      <div className="absolute top-[42.05%] left-0 flex h-[66.24%] w-[15.35%] items-center justify-center opacity-5">
-        <div className="h-[90.89%] w-[110.03%] flex-none rotate-90 bg-[url('/assets/images/hero-code-texture.png')] bg-[length:100%_125.02%] bg-[position:left_-0.77%] bg-no-repeat" />
-      </div>
-
-      <div className="absolute top-[41.83%] left-[33%] flex h-[66.24%] w-[15.92%] items-center justify-center  opacity-10">
-        <div className="h-[112.85%] w-[88.61%] flex-none rotate-90 bg-[url('/assets/images/hero-code-texture.png')] bg-[length:100%_100.69%] bg-[position:left_-0.62%] bg-no-repeat" />
-      </div>
-
-      <div className="absolute top-[44.68%] right-[6.5%] flex h-[63.35%] w-[15.73%] items-center justify-center opacity-10">
-        <div className="h-[90.89%] w-[110.03%] flex-none -scale-y-100 rotate-90 bg-[url('/assets/images/hero-code-texture.png')] bg-[length:100%_125.02%] bg-[position:left_-0.77%] bg-no-repeat" />
-      </div>
-    </div>
-  );
-}
 
 function GitHubButton({ starCount }: { starCount: number }) {
   return (

@@ -215,7 +215,7 @@ export function LandingNav({ className, current = "/" }: { className?: string; c
                 className="group/logo flex items-center gap-2.5 rounded-lg pr-1 outline-none"
                 href="/"
               >
-                <LogoMark className="h-10 w-10" />
+                <LogoMark className="h-8 w-8" />
                 <span className="hidden font-instrument-serif text-3xl leading-none text-white sm:inline">
                   Skecher-ui
                 </span>
