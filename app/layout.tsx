@@ -10,10 +10,12 @@ import {
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/next";
-import { PlausibleAnalytics } from "@/lib/analytics";
+
 import { ThemeProvider } from "@/components/provider/theme-provider";
+import { ThemeFavicon } from "@/components/theme-favicon";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { PlausibleAnalytics } from "@/lib/analytics";
 import { createMetadata, createSoftwareSourceCodeJsonLd, createWebsiteJsonLd } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -77,6 +79,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <ThemeFavicon />
             {children}
             <Analytics />
             <PlausibleAnalytics domain="skecher-ui.com" />
