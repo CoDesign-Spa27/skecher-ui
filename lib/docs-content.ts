@@ -138,9 +138,7 @@ export default function SocialLinksExample() {
     eyebrow: "Components",
     description:
       "A clean image interaction component with pointer depth, soft image transitions, and a compact thumbnail rail.",
-    details: [
-    
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("image-glide"),
@@ -338,9 +336,7 @@ export default function GooeyToolbarExample() {
     eyebrow: "Components",
     description:
       "A macOS-style magnifying dock powered by shared motion values and spring-smoothed icon sizing.",
-    details: [
-   
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("dock"),
@@ -388,9 +384,7 @@ export default function DockExample() {
     eyebrow: "Components",
     description:
       "A WebGL image slideshow for landing-page backgrounds with liquid glass, frost, ripple, plasma, and timeshift shader transitions.",
-    details: [
-    
-    ],
+    details: [],
     dependencies: ["react"],
     cliCommand: githubRegistryItem("liquid-morphology-slideshow"),
     importName: "LiquidMorphologySlideshow",
@@ -497,9 +491,7 @@ export default function MagazineScrollerExample() {
     eyebrow: "Components",
     description:
       "A morphing AI chat composer with configurable models, actions, messages, labels, and controlled state hooks.",
-    details: [
-     
-    ],
+    details: [],
     dependencies: ["react", "lucide-react", "motion"],
     installDependencies: ["lucide-react", "motion"],
     cliCommand: githubRegistryItem("ai-chat-box"),
@@ -576,9 +568,7 @@ export default function AiChatBoxExample() {
     eyebrow: "Components",
     description:
       "A responsive circular Three.js plasma orb with a configurable surface, strand shape, motion, and pointer-driven depth.",
-    details: [
-    
-    ],
+    details: [],
     dependencies: ["react"],
     installDependencies: [],
     cliCommand: githubRegistryItem("ai-orb"),
@@ -618,9 +608,7 @@ export default function AiOrbExample() {
     eyebrow: "Components",
     description:
       "A responsive payment card with an animated two-color dither field, selectable pointer physics, and carefully scaled card details.",
-    details: [
-     
-    ],
+    details: [],
     dependencies: ["react", "@paper-design/shaders-react", "motion"],
     installDependencies: ["@paper-design/shaders-react", "motion"],
     cliCommand: githubRegistryItem("dither-credit-card"),
@@ -648,9 +636,7 @@ export default function DitherCreditCardExample() {
     eyebrow: "Components",
     description:
       "A spring-driven scroll-snap narrative with a transitioning portrait prefix, curved outlined rows, and a compact sequence counter.",
-    details: [
-   
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("snap-text"),
@@ -714,9 +700,7 @@ export default function SnapTextExample() {
     eyebrow: "Components",
     description:
       "A sticky scroll narrative that progressively fills muted multiline text with a crisp foreground color using clip-path.",
-    details: [
-      
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("scroll-reveal-text"),
@@ -755,9 +739,7 @@ export default function ScrollRevealTextExample() {
     eyebrow: "Components",
     description:
       "A generic keyed-content viewport for direction-aware transitions between tabs, steps, filters, or any ordered React view.",
-    details: [
-
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("sliding-panel"),
@@ -985,9 +967,7 @@ export default function SlidingPanelExample() {
     eyebrow: "Components",
     description:
       "A full-page field of responsive square cells that softly round and brighten within a focused radius around the cursor.",
-    details: [
-
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("interactive-grid-hero"),
@@ -1024,9 +1004,7 @@ export default function InteractiveGridHeroExample() {
     eyebrow: "Components",
     description:
       "A composable three-plate stack that fans into a spring-driven perspective view on hover.",
-    details: [
-     
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("morph-stack"),
@@ -1065,9 +1043,7 @@ export default function MorphStackExample() {
     eyebrow: "Components",
     description:
       "A bottom-anchored navigation shell with expandable labels and composable per-item panels.",
-    details: [
-    
-    ],
+    details: [],
     dependencies: [
       "react",
       "motion",
@@ -1191,17 +1167,11 @@ export default function ExpandableMobileNavExample() {
     eyebrow: "Components",
     description:
       "An accessible tab selector with a spring-driven indicator that stretches and softens in response to movement velocity.",
-    details: [
-     
-    ],
+    details: [],
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("velocity-tabs"),
     importName: "VelocityTabs",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     usage: `"use client";
 
 import { useState } from "react";
@@ -1245,10 +1215,6 @@ export default function VelocityTabsExample() {
     installDependencies: ["motion", "@number-flow/react"],
     cliCommand: githubRegistryItem("add-to-cart"),
     importName: "AddToCart",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     usage: `"use client";
 
 import {
@@ -1310,10 +1276,6 @@ export default function AddToCartExample() {
     installDependencies: ["lucide-react", "motion"],
     cliCommand: githubRegistryItem("apple-mail-tabs"),
     importName: "AppleMailTabs",
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     usage: `"use client";
 
 import { Bell, Newspaper, ShoppingBag } from "lucide-react";
@@ -1372,10 +1334,6 @@ export default function AppleMailTabsExample() {
     description:
       "A measured action menu that morphs between compact and expanded states with configurable directional movement.",
     details: [],
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     dependencies: ["react", "motion", "lucide-react", "react-use-measure"],
     installDependencies: ["motion", "lucide-react", "react-use-measure"],
     cliCommand: githubRegistryItem("morph-menu"),
@@ -1429,10 +1387,6 @@ export default function MorphMenuExample() {
     description:
       "A pill-track slider with a spring-driven fill and thumb, tick markers for each step, and a tooltip that blurs in and out as you drag.",
     details: [],
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     dependencies: ["react", "motion", "@number-flow/react"],
     installDependencies: ["motion", "@number-flow/react"],
     cliCommand: githubRegistryItem("spring-slider"),
@@ -1468,7 +1422,7 @@ export default function SpringSliderExample() {
       },
     ],
   },
-   {
+  {
     id: "3d-wheel-carousel",
     title: "3D Wheel Carousel",
     slug: "3d-wheel-carousel",
@@ -1476,10 +1430,6 @@ export default function SpringSliderExample() {
     description:
       "A reusable, drag-controlled 3D card carousel with auto-rotation, keyboard navigation, blur depth, and reduced-motion support.",
     details: [],
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("3d-wheel-carousel"),
@@ -1550,6 +1500,83 @@ export default function AnimatedBookExample() {
       {
         path: "components/ui-components/animated-book.tsx",
         description: "Accessible 3D animated book preview",
+      },
+    ],
+  },
+  {
+    id: "revenue-calendar",
+    title: "Revenue Calendar",
+    slug: "revenue-calendar",
+    eyebrow: "Components",
+    description:
+      "A full-page revenue dashboard: a month grid where every day stacks its payment providers, and a tap grows one day in place into a 2 x 2 breakdown while every other day holds its position.",
+    details: [],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("revenue-calendar"),
+    importName: "RevenueCalendar",
+    usage: `"use client";
+
+import { RevenueCalendar } from "@/components/ui/revenue-calendar";
+
+// The dashboard fills the height it is given, so give it a real one.
+export default function RevenueDashboardPage() {
+  return (
+    <main className="h-svh w-full">
+      <RevenueCalendar
+        eyebrow="Revenue"
+        defaultMonth={new Date(2026, 0, 1)}
+        onSelect={(date) => console.log(date)}
+      />
+    </main>
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/revenue-calendar.tsx",
+        description: "Revenue calendar with morphing day breakdown",
+      },
+    ],
+  },
+  {
+    id: "cookie-consent",
+    title: "Cookie Consent",
+    slug: "cookie-consent",
+    eyebrow: "Components",
+    description:
+      "A paper-and-cobalt cookie notice with an isometric illustration that cracks into matching pieces when you accept or reject.",
+    details: [],
+    sidebarBadge: { label: "New", variant: "secondary" },
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("cookie-consent"),
+    importName: "CookieConsent",
+    usage: `"use client";
+
+import { useState } from "react";
+import { CookieConsent } from "@/components/ui/cookie-consent";
+
+export default function CookieConsentExample() {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <CookieConsent
+      open={open}
+      onOpenChange={setOpen}
+      className="fixed bottom-6 right-6 z-50 max-w-[calc(100vw-3rem)]"
+      policyHref="/cookie-policy"
+      onConsent={(choice) => {
+        // Persist choice and update your consent manager here.
+        // onOpenChange closes the popup after confirmation.
+        console.log(choice);
+      }}
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/cookie-consent.tsx",
+        description: "Cookie consent notice with Motion break animation",
       },
     ],
   },

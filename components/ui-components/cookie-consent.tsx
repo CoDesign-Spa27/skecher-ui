@@ -74,7 +74,7 @@ const CRUMBS = [
     landing: "translate(2px, 36px) rotate(45deg)",
   },
 ] as const;
- 
+
 export function CookieConsent({
   open,
   defaultOpen = true,
@@ -198,7 +198,7 @@ function CookieConsentCard({
   }, [ready, choice]);
 
   const buttonClass =
-    "min-h-11 min-w-0 rounded-lg border border-[#243acb] px-3 py-2 text-sm font-semibold leading-5 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#243acb] disabled:cursor-default";
+    "min-h-11 min-w-0 rounded-lg border border-primary px-3 py-2 text-sm font-semibold leading-5 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary disabled:cursor-default";
   const displayFont = 'var(--cookie-font-display, "Space Grotesk"), sans-serif';
   const morphTransition = { duration: reducedMotion ? 0 : 0.22, ease: EASE_OUT };
 
@@ -209,7 +209,7 @@ function CookieConsentCard({
       aria-describedby={choice ? pendingDescriptionId : descriptionId}
       aria-labelledby={choice ? pendingTitleId : titleId}
       className={cn(
-        "relative w-[380px] max-w-full overflow-hidden break-words rounded-2xl border-0 border-[#8591ce] bg-[#f5f4ea] text-[#202b72]   selection:bg-[#d8dcf0] selection:text-[#202b72]",
+        "relative w-[380px] max-w-full overflow-hidden break-words rounded-2xl border bg-background text-foreground selection:bg-accent selection:text-accent-foreground",
         className,
       )}
       style={{
@@ -255,7 +255,7 @@ function CookieConsentCard({
           >
             {title}
           </h2>
-          <p className="mt-2 text-[15px] leading-[22px] text-[#4c5685]" id={descriptionId}>
+          <p className="mt-2 text-[15px] leading-[22px] text-muted-foreground" id={descriptionId}>
             {description}
           </p>
         </motion.div>
@@ -276,7 +276,10 @@ function CookieConsentCard({
           >
             {choice === "reject" ? "Reject cookies?" : "Accept cookies?"}
           </h2>
-          <p className="mt-2 text-[15px] leading-[22px] text-[#4c5685]" id={pendingDescriptionId}>
+          <p
+            className="mt-2 text-[15px] leading-[22px] text-muted-foreground"
+            id={pendingDescriptionId}
+          >
             Confirm to save your preference.
           </p>
         </motion.div>
@@ -303,8 +306,8 @@ function CookieConsentCard({
                 buttonClass,
                 "flex items-center justify-center",
                 isPrimary
-                  ? "bg-[#243acb] text-[#f5f4ea] [@media(hover:hover)]:enabled:hover:bg-[#1d2fa6]"
-                  : "bg-[#f5f4ea] text-[#243acb] [@media(hover:hover)]:enabled:hover:bg-[#e7e8ef]",
+                  ? "bg-primary text-primary-foreground [@media(hover:hover)]:enabled:hover:bg-primary/90"
+                  : "bg-background text-primary [@media(hover:hover)]:enabled:hover:bg-muted",
               )}
               style={{ flex: isUndo ? "0 0 44px" : "1 1 0%", borderRadius: 8 }}
               disabled={!isPresent || completed.current || (isConfirm && !ready)}
@@ -353,7 +356,7 @@ function CookieConsentCard({
       {policyHref ? (
         <div className="relative -mt-2 px-6 pb-5 text-center">
           <a
-            className="inline-flex min-h-6 items-center rounded-sm text-[13px] leading-[18px] text-[#4c5685] underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#243acb]"
+            className="inline-flex min-h-6 items-center rounded-sm text-[13px] leading-[18px] text-muted-foreground underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
             href={policyHref}
           >
             {policyLabel}
@@ -374,109 +377,145 @@ function CookieArtwork({
   onBreakComplete: () => void;
 }) {
   return (
-    <div
-      aria-hidden="true"
-      className="relative aspect-[380/202] w-full overflow-hidden bg-[#efeee5]"
-    >
+    <div aria-hidden="true" className="relative aspect-[380/202] w-full overflow-hidden bg-muted">
       <svg
         className="absolute inset-0 size-full"
         viewBox="0 0 380 202"
         fill="none"
         focusable="false"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
+        }}
       >
-        <path d={GRID} stroke="#D8DCF0" strokeWidth="0.8" />
-        <path
-          d="M85 134L185 80L292 136L190 191Z"
-          fill="#D8DCF0"
-          stroke="#7885C8"
-          strokeWidth="1.3"
-        />
-        <path d="M85 134V143L190 200V191Z" fill="#A5AFE4" stroke="#7885C8" strokeWidth="1.3" />
-        <path d="M190 191L292 136V145L190 200Z" fill="#BFC6E9" stroke="#7885C8" strokeWidth="1.3" />
-        <ellipse cx="190" cy="143" rx="62" ry="22" fill="#8997D8" opacity="0.35" />
-        <path
-          d="M73 60V77M65 68H81M295 95V106M290 101H301"
-          stroke="#243ACB"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path d="M278 42L284 47L279 53L273 48Z" fill="#A5AFE4" stroke="#243ACB" strokeWidth="1.3" />
+        <path d={GRID} stroke="var(--border)" strokeOpacity="0.45" strokeWidth="0.8" />
       </svg>
-      <motion.div
-        className="absolute inset-0"
-        initial={false}
-        animate={{ opacity: breaking ? 0 : 1 }}
-        transition={{ duration: 0.08, delay: breaking || reducedMotion ? 0 : SPLIT_DURATION }}
-      >
-        <CookieShape
-          outline={WHOLE}
-          chips={`${LEFT_CHIPS} ${RIGHT_CHIPS}`}
-          marks={`${LEFT_MARKS}${RIGHT_MARKS}`}
-        />
-      </motion.div>
-      {/* HTML wrappers keep transforms accelerated and scale with the SVG's viewBox. */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ transformOrigin: "40.79% 39.6%" }}
-        initial={false}
-        animate={{
-          opacity: breaking ? 1 : 0,
-          transform: breaking ? "translate(-4.47%, -3.96%) rotate(-8deg)" : IDENTITY,
-        }}
-        transition={{
-          duration: reducedMotion ? 0 : SPLIT_DURATION,
-          delay: breaking && !reducedMotion ? SPLIT_DELAY : 0,
-          ease: EASE_OUT,
-          opacity: { duration: 0, delay: breaking || reducedMotion ? 0 : SPLIT_DURATION },
-        }}
-        onAnimationComplete={() => {
-          if (breaking) onBreakComplete();
-        }}
-      >
-        <CookieShape outline={LEFT} chips={LEFT_CHIPS} marks={LEFT_MARKS} />
-      </motion.div>
-      <motion.div
-        className="absolute inset-0"
-        style={{ transformOrigin: "58.68% 41.09%" }}
-        initial={false}
-        animate={{
-          opacity: breaking ? 1 : 0,
-          transform: breaking ? "translate(5%, -2.48%) rotate(9deg)" : IDENTITY,
-        }}
-        transition={{
-          duration: reducedMotion ? 0 : SPLIT_DURATION,
-          delay: breaking && !reducedMotion ? SPLIT_DELAY : 0,
-          ease: EASE_OUT,
-          opacity: { duration: 0, delay: breaking || reducedMotion ? 0 : SPLIT_DURATION },
-        }}
-      >
-        <CookieShape outline={RIGHT} chips={RIGHT_CHIPS} marks={RIGHT_MARKS} />
-      </motion.div>
-      {CRUMBS.map((crumb) => (
+      <div className="absolute inset-0 -translate-y-5">
+        <svg
+          className="absolute inset-0 size-full"
+          viewBox="0 0 380 202"
+          fill="none"
+          focusable="false"
+        >
+          <path
+            d="M85 134L185 80L292 136L190 191Z"
+            fill="#D8DCF0"
+            stroke="#7885C8"
+            strokeWidth="1.3"
+          />
+          <path d="M85 134V143L190 200V191Z" fill="#A5AFE4" stroke="#7885C8" strokeWidth="1.3" />
+          <path
+            d="M190 191L292 136V145L190 200Z"
+            fill="#BFC6E9"
+            stroke="#7885C8"
+            strokeWidth="1.3"
+          />
+          <ellipse cx="190" cy="143" rx="62" ry="22" fill="#8997D8" opacity="0.35" />
+          <path
+            d="M73 60V77M65 68H81M295 95V106M290 101H301"
+            stroke="#243ACB"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <path
+            d="M278 42L284 47L279 53L273 48Z"
+            fill="#A5AFE4"
+            stroke="#243ACB"
+            strokeWidth="1.3"
+          />
+        </svg>
         <motion.div
-          className="absolute size-2 border border-[#243acb] bg-[#a5afe4]"
-          key={crumb.id}
-          style={{
-            left: crumb.left,
-            top: crumb.top,
-            visibility: breaking && !reducedMotion ? "visible" : "hidden",
+          className="absolute inset-0"
+          initial={false}
+          animate={{ opacity: breaking ? 0 : 1 }}
+          transition={{
+            duration: 0.08,
+            delay: breaking || reducedMotion ? 0 : SPLIT_DURATION,
+            ease: EASE_OUT,
           }}
+        >
+          <CookieShape
+            outline={WHOLE}
+            chips={`${LEFT_CHIPS} ${RIGHT_CHIPS}`}
+            marks={`${LEFT_MARKS}${RIGHT_MARKS}`}
+          />
+        </motion.div>
+        {/* HTML wrappers keep transforms accelerated and scale with the SVG's viewBox. */}
+        <motion.div
+          className="absolute inset-0"
+          style={{ transformOrigin: "40.79% 39.6%" }}
           initial={false}
           animate={{
-            opacity: breaking ? [0, 1, 0] : 0,
-            transform: breaking
-              ? ["translate(0px, 0px) rotate(0deg)", crumb.apex, crumb.landing]
-              : "translate(0px, 0px) rotate(0deg)",
+            opacity: breaking ? 1 : 0,
+            transform: breaking ? "translate(-4.47%, -3.96%) rotate(-8deg)" : IDENTITY,
           }}
           transition={{
-            duration: 0.26,
-            delay: SPLIT_DELAY,
+            duration: reducedMotion ? 0 : SPLIT_DURATION,
+            delay: breaking && !reducedMotion ? SPLIT_DELAY : 0,
             ease: EASE_OUT,
-            transform: { times: [0, 0.55, 1] },
-            opacity: { times: [0, 0.15, 1] },
+            // Match the whole-cookie fade so undo never exposes the tile between layers.
+            opacity: {
+              duration: breaking ? 0 : 0.08,
+              delay: breaking || reducedMotion ? 0 : SPLIT_DURATION,
+              ease: EASE_OUT,
+            },
           }}
-        />
-      ))}
+          onAnimationComplete={() => {
+            if (breaking) onBreakComplete();
+          }}
+        >
+          <CookieShape outline={LEFT} chips={LEFT_CHIPS} marks={LEFT_MARKS} />
+        </motion.div>
+        <motion.div
+          className="absolute inset-0"
+          style={{ transformOrigin: "58.68% 41.09%" }}
+          initial={false}
+          animate={{
+            opacity: breaking ? 1 : 0,
+            transform: breaking ? "translate(5%, -2.48%) rotate(9deg)" : IDENTITY,
+          }}
+          transition={{
+            duration: reducedMotion ? 0 : SPLIT_DURATION,
+            delay: breaking && !reducedMotion ? SPLIT_DELAY : 0,
+            ease: EASE_OUT,
+            // Match the whole-cookie fade so undo never exposes the tile between layers.
+            opacity: {
+              duration: breaking ? 0 : 0.08,
+              delay: breaking || reducedMotion ? 0 : SPLIT_DURATION,
+              ease: EASE_OUT,
+            },
+          }}
+        >
+          <CookieShape outline={RIGHT} chips={RIGHT_CHIPS} marks={RIGHT_MARKS} />
+        </motion.div>
+        {CRUMBS.map((crumb) => (
+          <motion.div
+            className="absolute size-2 border border-[#243acb] bg-[#a5afe4]"
+            key={crumb.id}
+            style={{
+              left: crumb.left,
+              top: crumb.top,
+              visibility: breaking && !reducedMotion ? "visible" : "hidden",
+            }}
+            initial={false}
+            animate={{
+              opacity: breaking ? [0, 1, 0] : 0,
+              transform: breaking
+                ? ["translate(0px, 0px) rotate(0deg)", crumb.apex, crumb.landing]
+                : "translate(0px, 0px) rotate(0deg)",
+            }}
+            transition={{
+              duration: 0.26,
+              delay: SPLIT_DELAY,
+              ease: EASE_OUT,
+              transform: { times: [0, 0.55, 1] },
+              opacity: { times: [0, 0.15, 1] },
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
