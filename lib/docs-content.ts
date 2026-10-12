@@ -1504,41 +1504,6 @@ export default function AnimatedBookExample() {
     ],
   },
   {
-    id: "revenue-calendar",
-    title: "Revenue Calendar",
-    slug: "revenue-calendar",
-    eyebrow: "Components",
-    description:
-      "A full-page revenue dashboard: a month grid where every day stacks its payment providers, and a tap grows one day in place into a 2 x 2 breakdown while every other day holds its position.",
-    details: [],
-    dependencies: ["react", "motion"],
-    installDependencies: ["motion"],
-    cliCommand: githubRegistryItem("revenue-calendar"),
-    importName: "RevenueCalendar",
-    usage: `"use client";
-
-import { RevenueCalendar } from "@/components/ui/revenue-calendar";
-
-// The dashboard fills the height it is given, so give it a real one.
-export default function RevenueDashboardPage() {
-  return (
-    <main className="h-svh w-full">
-      <RevenueCalendar
-        eyebrow="Revenue"
-        defaultMonth={new Date(2026, 0, 1)}
-        onSelect={(date) => console.log(date)}
-      />
-    </main>
-  );
-}`,
-    files: [
-      {
-        path: "components/ui-components/revenue-calendar.tsx",
-        description: "Revenue calendar with morphing day breakdown",
-      },
-    ],
-  },
-  {
     id: "cookie-consent",
     title: "Cookie Consent",
     slug: "cookie-consent",
