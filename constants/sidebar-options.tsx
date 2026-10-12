@@ -32,6 +32,8 @@ const COMPONENT_GROUPS = [
       "sliding-panel",
       "spring-slider",
       "animated-book",
+      "revenue-calendar",
+      "cookie-consent",
     ],
   },
   {
