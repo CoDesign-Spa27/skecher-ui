@@ -4,6 +4,7 @@ import { AiChatBoxDoc } from "@/components/docs/content/ai-chat-box-doc";
 import { AiOrbDoc } from "@/components/docs/content/ai-orb-doc";
 import { AnimatedBookDoc } from "@/components/docs/content/animated-book-doc";
 import { AppleMailTabsDoc } from "@/components/docs/content/apple-mail-tabs-doc";
+import { CookieConsentDoc } from "@/components/docs/content/cookie-consent-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
 import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
@@ -37,6 +38,7 @@ export const DOC_RENDERERS = {
   "ai-chat-box": AiChatBoxDoc,
   "ai-orb": AiOrbDoc,
   "apple-mail-tabs": AppleMailTabsDoc,
+  "cookie-consent": CookieConsentDoc,
   "dither-credit-card": DitherCreditCardDoc,
   dock: DockDoc,
   "expandable-mobile-nav": ExpandableMobileNavDoc,

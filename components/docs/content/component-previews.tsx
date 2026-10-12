@@ -12,6 +12,7 @@ import {
   DialedScrollRevealTextPreview,
   DialedSnapTextPreview,
 } from "@/components/docs/content/component-preview-dials";
+import { CookieConsentPreview } from "@/components/docs/content/cookie-consent-preview";
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
@@ -41,6 +42,7 @@ export const COMPONENT_PREVIEWS = {
   "apple-mail-tabs": <AppleMailTabsPreview />,
   "ai-chat-box": <DialedAiChatBoxPreview />,
   "ai-orb": <DialedAiOrbPreview />,
+  "cookie-consent": <CookieConsentPreview />,
   "dither-credit-card": <DialedDitherCreditCardPreview />,
   dock: <DialedDockPreview />,
   "expandable-mobile-nav": <ExpandableMobileNavPreview />,

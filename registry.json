@@ -4,6 +4,21 @@
   "homepage": "https://github.com/CoDesign-Spa27/skecher-ui",
   "items": [
     {
+      "name": "cookie-consent",
+      "type": "registry:ui",
+      "title": "Cookie Consent",
+      "description": "A paper-and-cobalt cookie notice with an isometric cookie break animation, confirm-and-undo controls, and reduced-motion support.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/cookie-consent.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["consent", "interface", "animation"]
+    },
+    {
       "name": "3d-wheel-carousel",
       "type": "registry:ui",
       "title": "3D Wheel Carousel",
