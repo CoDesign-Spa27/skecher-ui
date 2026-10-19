@@ -33,6 +33,7 @@ const COMPONENT_GROUPS = [
       "spring-slider",
       "animated-book",
       "cookie-consent",
+      "table-of-content",
     ],
   },
   {

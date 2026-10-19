@@ -1545,6 +1545,46 @@ export default function CookieConsentExample() {
       },
     ],
   },
+  {
+    id: "table-of-content",
+    title: "Table of Content",
+    slug: "table-of-content",
+    eyebrow: "Components",
+    description:
+      "A reading-aware page outline with an animated active marker, expandable subsections, and a progress rail.",
+    details: [],
+    sidebarBadge: { label: "New", variant: "secondary" },
+    dependencies: ["react", "motion", "next"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("table-of-content"),
+    importName: "DocsToc",
+    usage: `"use client";
+
+import { DocsToc } from "@/components/ui/table-of-content";
+
+export default function ArticlePage() {
+  return (
+    <div className="grid grid-cols-[minmax(0,1fr)_12rem] gap-8">
+      <article>
+        <h1>Getting started</h1>
+        <h2 id="overview" data-toc>Overview</h2>
+        <p>Introduce the topic here.</p>
+        <h3 id="installation" data-toc="3">Installation</h3>
+        <p>Explain the first step here.</p>
+        <h2 id="api" data-toc>API</h2>
+        <p>Document the API here.</p>
+      </article>
+      <DocsToc className="sticky top-24 self-start" />
+    </div>
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/table-of-content.tsx",
+        description: "Animated table of content with reading progress",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

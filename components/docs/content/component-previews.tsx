@@ -18,6 +18,7 @@ import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liqu
 import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
 import { SpringSliderPreview } from "@/components/docs/content/spring-slider-preview";
+import { TableOfContentPreview } from "@/components/docs/content/table-of-content-preview";
 import { VelocityTabsPreview } from "@/components/docs/content/velocity-tabs-preview";
 import { AnimatedBook } from "@/components/ui-components/animated-book";
 import GooeyToolbar from "@/components/ui-components/gooey-toolbar";
@@ -66,6 +67,7 @@ export const COMPONENT_PREVIEWS = {
       className="max-w-4xl text-center font-raleway text-2xl font-medium sm:text-3xl lg:text-4xl"
     />
   ),
+  "table-of-content": <TableOfContentPreview />,
   "text-morphing": (
     <MorphingText
       texts={[

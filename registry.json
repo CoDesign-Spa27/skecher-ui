@@ -414,6 +414,21 @@
         }
       ],
       "categories": ["navigation", "tabs", "animation"]
+    },
+    {
+      "name": "table-of-content",
+      "type": "registry:ui",
+      "title": "Table of Content",
+      "description": "A reading-aware page outline with an animated active marker, expandable subsections, and a progress rail.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion", "next"],
+      "files": [
+        {
+          "path": "components/ui-components/table-of-content.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["navigation", "documentation", "animation"]
     }
   ]
 }
