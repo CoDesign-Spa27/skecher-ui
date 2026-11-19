@@ -8,6 +8,7 @@ import { CookieConsentDoc } from "@/components/docs/content/cookie-consent-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
 import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
+import { GooeyChipFilterDoc } from "@/components/docs/content/gooey-chip-filter-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
 import { ImageGlideDoc } from "@/components/docs/content/image-glide-doc";
@@ -43,6 +44,7 @@ export const DOC_RENDERERS = {
   "dither-credit-card": DitherCreditCardDoc,
   dock: DockDoc,
   "expandable-mobile-nav": ExpandableMobileNavDoc,
+  "gooey-chip-filter": GooeyChipFilterDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,

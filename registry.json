@@ -156,6 +156,21 @@
       "categories": ["navigation", "mobile"]
     },
     {
+      "name": "gooey-chip-filter",
+      "type": "registry:ui",
+      "title": "Gooey Chip Filter",
+      "description": "Multi-select filter chips that fuse into one liquid blob when selected and pinch apart when deselected, using an SVG goo filter and Motion springs.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/gooey-chip-filter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["input", "filter", "animation"]
+    },
+    {
       "name": "gooey-toolbar",
       "type": "registry:ui",
       "title": "Gooey Toolbar",

@@ -1585,6 +1585,63 @@ export default function ArticlePage() {
       },
     ],
   },
+  {
+    id: "gooey-chip-filter",
+    title: "Gooey Chip Filter",
+    slug: "gooey-chip-filter",
+    eyebrow: "Components",
+    description:
+      "Multi-select filter chips that fuse into one liquid blob when selected and pinch apart when deselected.",
+    details: [
+      {
+        title: "Two-layer goo",
+        body: "Blobs and bridges render in a layer behind an SVG goo filter, while labels sit in a crisp layer on top, so text never blurs.",
+      },
+      {
+        title: "Merges in place",
+        body: "Chips stay where they are. Selected neighbours fuse side by side, and across wrapped rows when they sit above one another.",
+      },
+      {
+        title: "Accessible toggles",
+        body: "Each chip is a native button with aria-pressed inside a labelled group. Motion is removed when reduced motion is preferred.",
+      },
+    ],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("gooey-chip-filter"),
+    importName: "GooeyChipFilter",
+    usage: `"use client";
+
+import { useState } from "react";
+
+import { GooeyChipFilter } from "@/components/ui/gooey-chip-filter";
+
+const items = [
+  { id: "design", label: "Design", count: 24 },
+  { id: "engineering", label: "Engineering", count: 41 },
+  { id: "remote", label: "Remote", count: 33 },
+  { id: "contract", label: "Contract", count: 7 },
+];
+
+export default function RoleFilters() {
+  const [filters, setFilters] = useState<string[]>(["engineering"]);
+
+  return (
+    <GooeyChipFilter
+      items={items}
+      value={filters}
+      onValueChange={setFilters}
+      label="Filter open roles"
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/gooey-chip-filter.tsx",
+        description: "Gooey multi-select filter chips",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

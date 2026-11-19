@@ -22,6 +22,7 @@ const COMPONENT_GROUPS = [
       "liquid-glass-social",
       "morphing-action-dock",
       "gooey-toolbar",
+      "gooey-chip-filter",
       "dock",
       "expandable-mobile-nav",
       "apple-mail-tabs",

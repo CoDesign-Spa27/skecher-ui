@@ -14,6 +14,7 @@ import {
 } from "@/components/docs/content/component-preview-dials";
 import { CookieConsentPreview } from "@/components/docs/content/cookie-consent-preview";
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
+import { GooeyChipFilterPreview } from "@/components/docs/content/gooey-chip-filter-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
 import { SlidingPanelPreview } from "@/components/docs/content/sliding-panel-preview";
@@ -47,6 +48,7 @@ export const COMPONENT_PREVIEWS = {
   "dither-credit-card": <DialedDitherCreditCardPreview />,
   dock: <DialedDockPreview />,
   "expandable-mobile-nav": <ExpandableMobileNavPreview />,
+  "gooey-chip-filter": <GooeyChipFilterPreview />,
   "gooey-toolbar": <GooeyToolbar />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,
