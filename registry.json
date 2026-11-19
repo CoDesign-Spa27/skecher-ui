@@ -171,6 +171,21 @@
       "categories": ["input", "filter", "animation"]
     },
     {
+      "name": "halftone-area-chart",
+      "type": "registry:ui",
+      "title": "Halftone Area Chart",
+      "description": "An area chart drawn as a halftone, with a rolling NumberFlow headline, a lit dot column as the scrub guide, keyboard reading, and dots that stir into ASCII strokes under the cursor.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["@number-flow/react", "motion"],
+      "files": [
+        {
+          "path": "components/ui-components/halftone-area-chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["chart", "data", "animation"]
+    },
+    {
       "name": "gooey-toolbar",
       "type": "registry:ui",
       "title": "Gooey Toolbar",

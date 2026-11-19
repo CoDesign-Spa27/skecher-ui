@@ -1642,6 +1642,54 @@ export default function RoleFilters() {
       },
     ],
   },
+  {
+    id: "halftone-area-chart",
+    title: "Halftone Area Chart",
+    slug: "halftone-area-chart",
+    eyebrow: "Components",
+    description:
+      "An area chart drawn as a halftone, where scrubbing lights a column of dots and stirs the area into ASCII strokes.",
+    details: [],
+    dependencies: ["react", "motion", "@number-flow/react"],
+    installDependencies: ["motion", "@number-flow/react"],
+    cliCommand: githubRegistryItem("halftone-area-chart"),
+    importName: "HalftoneAreaChart",
+    usage: `import type { Format } from "@number-flow/react";
+
+import { HalftoneAreaChart } from "@/components/ui/halftone-area-chart";
+
+const revenue = [
+  { label: "Jan", value: 32400 },
+  { label: "Feb", value: 21700 },
+  { label: "Mar", value: 38900 },
+  { label: "Apr", value: 27300 },
+  { label: "May", value: 44800 },
+  { label: "Jun", value: 19600 },
+];
+
+const currency: Format = {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+};
+
+export default function RevenueChart() {
+  return (
+    <HalftoneAreaChart
+      data={revenue}
+      format={currency}
+      label="Monthly revenue"
+      seriesName="Revenue"
+    />
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/halftone-area-chart.tsx",
+        description: "Halftone area chart with scrubbing and an ASCII flow wake",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

@@ -35,6 +35,7 @@ const COMPONENT_GROUPS = [
       "animated-book",
       "cookie-consent",
       "table-of-content",
+      "halftone-area-chart",
     ],
   },
   {
