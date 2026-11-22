@@ -171,6 +171,21 @@
       "categories": ["input", "filter", "animation"]
     },
     {
+      "name": "gooey-tooltip",
+      "type": "registry:ui",
+      "title": "Gooey Tooltip",
+      "description": "A tooltip that drips out of its trigger: a droplet rises, stretches, and spreads into the tooltip through an SVG goo filter, then drains back in on close.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/gooey-tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["overlay", "tooltip", "animation"]
+    },
+    {
       "name": "halftone-area-chart",
       "type": "registry:ui",
       "title": "Halftone Area Chart",

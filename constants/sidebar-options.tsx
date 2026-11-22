@@ -23,6 +23,7 @@ const COMPONENT_GROUPS = [
       "morphing-action-dock",
       "gooey-toolbar",
       "gooey-chip-filter",
+      "gooey-tooltip",
       "dock",
       "expandable-mobile-nav",
       "apple-mail-tabs",

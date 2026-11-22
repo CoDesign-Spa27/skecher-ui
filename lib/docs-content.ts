@@ -1690,6 +1690,36 @@ export default function RevenueChart() {
       },
     ],
   },
+  {
+    id: "gooey-tooltip",
+    title: "Gooey Tooltip",
+    slug: "gooey-tooltip",
+    eyebrow: "Components",
+    description:
+      "A tooltip that drips out of its trigger, stretching and spreading into shape through an SVG goo filter.",
+    details: [],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("gooey-tooltip"),
+    importName: "GooeyTooltip",
+    usage: `import { Copy } from "lucide-react";
+
+import { GooeyTooltip } from "@/components/ui/gooey-tooltip";
+
+export default function CopyAction() {
+  return (
+    <GooeyTooltip aria-label="Copy" content="Copy link" side="top">
+      <Copy aria-hidden="true" />
+    </GooeyTooltip>
+  );
+}`,
+    files: [
+      {
+        path: "components/ui-components/gooey-tooltip.tsx",
+        description: "Tooltip that drips out of its trigger with a goo effect",
+      },
+    ],
+  },
 ];
 
 export const COMPONENT_DOCS: ComponentDoc[] = COMPONENT_DOCS_IN_RELEASE_ORDER.map(

@@ -10,6 +10,7 @@ import { DockDoc } from "@/components/docs/content/dock-doc";
 import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
 import { GooeyChipFilterDoc } from "@/components/docs/content/gooey-chip-filter-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
+import { GooeyTooltipDoc } from "@/components/docs/content/gooey-tooltip-doc";
 import { HalftoneAreaChartDoc } from "@/components/docs/content/halftone-area-chart-doc";
 import { ImageDensityGridDoc } from "@/components/docs/content/image-density-grid-doc";
 import { ImageGlideDoc } from "@/components/docs/content/image-glide-doc";
@@ -47,6 +48,7 @@ export const DOC_RENDERERS = {
   "expandable-mobile-nav": ExpandableMobileNavDoc,
   "gooey-chip-filter": GooeyChipFilterDoc,
   "gooey-toolbar": GooeyToolbarDoc,
+  "gooey-tooltip": GooeyTooltipDoc,
   "halftone-area-chart": HalftoneAreaChartDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,

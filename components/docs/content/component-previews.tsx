@@ -15,6 +15,7 @@ import {
 import { CookieConsentPreview } from "@/components/docs/content/cookie-consent-preview";
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
 import { GooeyChipFilterPreview } from "@/components/docs/content/gooey-chip-filter-preview";
+import { GooeyTooltipPreview } from "@/components/docs/content/gooey-tooltip-preview";
 import { HalftoneAreaChartPreview } from "@/components/docs/content/halftone-area-chart-preview";
 import { LiquidMorphologySlideshowPreview } from "@/components/docs/content/liquid-morphology-slideshow-preview";
 import { MorphMenuPreview } from "@/components/docs/content/morph-menu-preview";
@@ -51,6 +52,7 @@ export const COMPONENT_PREVIEWS = {
   "expandable-mobile-nav": <ExpandableMobileNavPreview />,
   "gooey-chip-filter": <GooeyChipFilterPreview />,
   "gooey-toolbar": <GooeyToolbar />,
+  "gooey-tooltip": <GooeyTooltipPreview />,
   "halftone-area-chart": <HalftoneAreaChartPreview />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,
