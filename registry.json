@@ -201,6 +201,21 @@
       "categories": ["chart", "data", "animation"]
     },
     {
+      "name": "glitch-typewriter",
+      "type": "registry:ui",
+      "title": "Glitch Typewriter",
+      "description": "A typewriter, automatic or typed by hand, where letters blur in light and each finished word glitches into a heavier weight, with RGB-split slices, a glyph scramble, and a blinking caret.",
+      "author": "CoDesign-Spa27",
+      "dependencies": ["motion"],
+      "files": [
+        {
+          "path": "components/ui-components/glitch-typewriter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["text", "animation", "typography"]
+    },
+    {
       "name": "gooey-toolbar",
       "type": "registry:ui",
       "title": "Gooey Toolbar",

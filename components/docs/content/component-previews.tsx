@@ -14,6 +14,7 @@ import {
 } from "@/components/docs/content/component-preview-dials";
 import { CookieConsentPreview } from "@/components/docs/content/cookie-consent-preview";
 import { ExpandableMobileNavPreview } from "@/components/docs/content/expandable-mobile-nav-preview";
+import { GlitchTypewriterPreview } from "@/components/docs/content/glitch-typewriter-preview";
 import { GooeyChipFilterPreview } from "@/components/docs/content/gooey-chip-filter-preview";
 import { GooeyTooltipPreview } from "@/components/docs/content/gooey-tooltip-preview";
 import { HalftoneAreaChartPreview } from "@/components/docs/content/halftone-area-chart-preview";
@@ -53,6 +54,7 @@ export const COMPONENT_PREVIEWS = {
   "gooey-chip-filter": <GooeyChipFilterPreview />,
   "gooey-toolbar": <GooeyToolbar />,
   "gooey-tooltip": <GooeyTooltipPreview />,
+  "glitch-typewriter": <GlitchTypewriterPreview />,
   "halftone-area-chart": <HalftoneAreaChartPreview />,
   "image-density-grid": <ImageDensityGrid />,
   "image-glide": <ImageGlide />,

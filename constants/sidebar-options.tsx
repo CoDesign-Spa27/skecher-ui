@@ -41,7 +41,14 @@ const COMPONENT_GROUPS = [
   },
   {
     title: "Arts",
-    slugs: ["streaming-text", "text-morphing", "snap-text", "scroll-reveal-text", "morph-stack"],
+    slugs: [
+      "streaming-text",
+      "glitch-typewriter",
+      "text-morphing",
+      "snap-text",
+      "scroll-reveal-text",
+      "morph-stack",
+    ],
   },
 ] as const satisfies readonly { title: SidebarCategory; slugs: readonly string[] }[];
 

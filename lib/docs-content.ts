@@ -1477,10 +1477,6 @@ export default function WheelCarouselExample() {
     description:
       "A reusable 3D book preview with custom cover art, controlled and uncontrolled states, keyboard interaction, and reduced-motion support.",
     details: [],
-    sidebarBadge: {
-      label: "New",
-      variant: "secondary",
-    },
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("animated-book"),
@@ -1511,7 +1507,6 @@ export default function AnimatedBookExample() {
     description:
       "A paper-and-cobalt cookie notice with an isometric illustration that cracks into matching pieces when you accept or reject.",
     details: [],
-    sidebarBadge: { label: "New", variant: "secondary" },
     dependencies: ["react", "motion"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("cookie-consent"),
@@ -1553,7 +1548,6 @@ export default function CookieConsentExample() {
     description:
       "A reading-aware page outline with an animated active marker, expandable subsections, and a progress rail.",
     details: [],
-    sidebarBadge: { label: "New", variant: "secondary" },
     dependencies: ["react", "motion", "next"],
     installDependencies: ["motion"],
     cliCommand: githubRegistryItem("table-of-content"),
@@ -1590,6 +1584,7 @@ export default function ArticlePage() {
     title: "Gooey Chip Filter",
     slug: "gooey-chip-filter",
     eyebrow: "Components",
+    sidebarBadge: { label: "New", variant: "secondary" },
     description:
       "Multi-select filter chips that fuse into one liquid blob when selected and pinch apart when deselected.",
     details: [
@@ -1647,6 +1642,7 @@ export default function RoleFilters() {
     title: "Halftone Area Chart",
     slug: "halftone-area-chart",
     eyebrow: "Components",
+    sidebarBadge: { label: "New", variant: "secondary" },
     description:
       "An area chart drawn as a halftone, where scrubbing lights a column of dots and stirs the area into ASCII strokes.",
     details: [],
@@ -1695,6 +1691,7 @@ export default function RevenueChart() {
     title: "Gooey Tooltip",
     slug: "gooey-tooltip",
     eyebrow: "Components",
+    sidebarBadge: { label: "New", variant: "secondary" },
     description:
       "A tooltip that drips out of its trigger, stretching and spreading into shape through an SVG goo filter.",
     details: [],
@@ -1717,6 +1714,39 @@ export default function CopyAction() {
       {
         path: "components/ui-components/gooey-tooltip.tsx",
         description: "Tooltip that drips out of its trigger with a goo effect",
+      },
+    ],
+  },
+  {
+    id: "glitch-typewriter",
+    title: "Glitch Typewriter",
+    slug: "glitch-typewriter",
+    eyebrow: "Components",
+    sidebarBadge: { label: "New", variant: "secondary" },
+    description:
+      "A typewriter, automatic or typed by hand, where letters blur in light and every finished word glitches into a heavier weight.",
+    details: [],
+    dependencies: ["react", "motion"],
+    installDependencies: ["motion"],
+    cliCommand: githubRegistryItem("glitch-typewriter"),
+    importName: "GlitchTypewriter",
+    usage: `import { GlitchTypewriter } from "@/components/ui/glitch-typewriter";
+
+export default function Hero() {
+  return (
+    <GlitchTypewriter
+      className="text-5xl tracking-tight"
+      text={["Every word lands with weight.", "Typed light, settled bold."]}
+    />
+  );
+}
+
+// Or let the reader type:
+// <GlitchTypewriter mode="manual" placeholder="Type something…" />`,
+    files: [
+      {
+        path: "components/ui-components/glitch-typewriter.tsx",
+        description: "Typewriter with per-word weight glitch",
       },
     ],
   },

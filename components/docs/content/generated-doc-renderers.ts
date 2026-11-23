@@ -8,6 +8,7 @@ import { CookieConsentDoc } from "@/components/docs/content/cookie-consent-doc";
 import { DitherCreditCardDoc } from "@/components/docs/content/dither-credit-card-doc";
 import { DockDoc } from "@/components/docs/content/dock-doc";
 import { ExpandableMobileNavDoc } from "@/components/docs/content/expandable-mobile-nav-doc";
+import { GlitchTypewriterDoc } from "@/components/docs/content/glitch-typewriter-doc";
 import { GooeyChipFilterDoc } from "@/components/docs/content/gooey-chip-filter-doc";
 import { GooeyToolbarDoc } from "@/components/docs/content/gooey-toolbar-doc";
 import { GooeyTooltipDoc } from "@/components/docs/content/gooey-tooltip-doc";
@@ -49,6 +50,7 @@ export const DOC_RENDERERS = {
   "gooey-chip-filter": GooeyChipFilterDoc,
   "gooey-toolbar": GooeyToolbarDoc,
   "gooey-tooltip": GooeyTooltipDoc,
+  "glitch-typewriter": GlitchTypewriterDoc,
   "halftone-area-chart": HalftoneAreaChartDoc,
   "image-density-grid": ImageDensityGridDoc,
   "image-glide": ImageGlideDoc,
