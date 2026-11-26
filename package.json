@@ -3,15 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "shadcn build && next dev --turbopack",
+    "build": "shadcn build && next build",
     "start": "next start",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write",
     "registry:validate": "bun scripts/validate-registry.ts",
     "gen-cli": "bun run sync-components",
-    "sync-components": "tsx scripts/sync-ui-components.ts && bun run registry:validate"
+    "sync-components": "tsx scripts/sync-ui-components.ts && bun run registry:validate",
+    "dev:vinext": "shadcn build && vite dev --port 3001",
+    "build:vinext": "shadcn build && vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "shadcn build && vinext-cloudflare deploy"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -24,6 +28,7 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@vercel/analytics": "^2.0.1",
+    "@vinext/cloudflare": "^1.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -43,11 +48,12 @@
     "nucleo-ui-essential-fill-duo-18": "^1.1.6",
     "ogl": "^1.0.11",
     "radix-ui": "^1.4.3",
-    "react": "19.1.0",
+    "react": "^19.3.1",
     "react-day-picker": "^9.14.0",
-    "react-dom": "19.1.0",
+    "react-dom": "^19.3.1",
     "react-hook-form": "^7.72.1",
     "react-resizable-panels": "^4.9.0",
+    "react-server-dom-webpack": "^19.3.1",
     "react-use-measure": "^2.1.7",
     "recharts": "3.8.0",
     "shadcn": "^4.16.1",
@@ -59,23 +65,30 @@
     "tw-animate-css": "^1.3.6",
     "usehooks-ts": "^3.1.1",
     "vaul": "^1.1.2",
+    "vinext": "^1.4.6",
     "zod": "^3.25.76",
     "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.2",
+    "@cloudflare/vite-plugin": "^2.0.0-rc.5",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20.19.9",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
     "@types/three": "^0.185.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "@vitejs/plugin-rsc": "^0.5.39",
+    "cf": "^1.0.0-rc.5",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vite": "8.3.0"
   },
   "pnpm": {
     "overrides": {
       "@types/react": "19.1.2",
       "@types/react-dom": "19.1.2"
     }
-  }
+  },
+  "type": "module"
 }
